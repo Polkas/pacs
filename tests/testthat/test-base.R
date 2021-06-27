@@ -35,22 +35,3 @@ test_that("dir_size", {
   current_dir <- dir_size(".")
   expect_true(current_dir > 0)
 })
-
-test_that("pacs::pac_deps version - online", {
-  if (is_online()) {
-    shiny_deps_version <- pacs::pac_deps("shiny", version = "1.6.0")
-    expect_true(ncol(shiny_deps_version) == 3)
-  } else {
-    expect_false(is_online())
-  }
-})
-
-test_that("pacs::pac_compare_versions", {
-  if (is_online()) {
-    vers <- pacs::pac_compare_versions("shiny", "1.4.0-2", "1.5.0")
-    expect_true(nrow(vers) == 5)
-  } else
-  {
-    expect_false(is_online())
-  }
-})

@@ -5,22 +5,56 @@
 
 R packages utils
 
-Hint: `Version` variable is mainly a minimal required i.e. max(version1, version2 , ...)
+Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-## True package size
+- Checking packages dependencies with their versions. 
+- Validating the library for possible wrong packages versions (what we have vs what we should have). 
+- Exploring complexity of packages.
+
+## True R package size
 
 This function might be crucial before we push our package to R CRAN.
 We could control the weight of our project.
-Size of a package and its dependencies.
+Take into account that the size are appropriate for you system.
+
+### Local
+
+Size of a package:
 
 ```r
-cat(pacs::pac_true_size("stats")/10**6, "Mb")
+cat(pacs::pac_size("stats")/10**6, "Mb", "\n")
+```
+
+True size of a package as taking into account its dependencies:
+
+```r
+cat(pacs::pac_true_size("stats")/10**6, "Mb", "\n")
 ```
 
 Might be useful to check the number of dependencies too:
 
 ```r
 pacs::pac_deps("stats")$Package
+```
+
+### Remote
+
+Size of a package:
+
+```r
+cat(pacs::pac_size("shiny", "1.5.0")/10**6, "Mb", "\n")
+```
+
+True size of a package as taking into account its dependencies:
+
+```r
+cat(pacs::pac_true_size("shiny", "1.5.0")/10**6, "Mb", "\n")
+```
+
+Might be useful to check the number of dependencies too:
+
+```r
+pacs::pac_deps("shiny", "1.5.0")$Package
 ```
 
 ## Package dependencies and diffeneces between versions
@@ -70,40 +104,40 @@ pacs::validate_lib()
 Small guide how to work with packages versions ("package_version" and "numeric_version" classes).
 
 ```r
-# if you do not remember calss names use class(packageVersion("base"))
+# if you do not remember a calss name use class(packageVersion("base"))
 v1 <- `class<-`(list(c(1,1,1)), c("package_version", "numeric_version"))
 v2 <- `class<-`(list(c(1,0,0)), c("package_version", "numeric_version"))
 v1 > v2
 str(v1)
 # comparing with utils::compareVersion
 compareVersion("1.1.1", "1.0.0")
-# comparing vector with with pacs::compareVersionsMax
+# comparing versions vector with pacs::compareVersionsMax
 pacs::compareVersionsMax(c("1.1.1", "1.0.0", "3.3.3"))
 ```
 
-## Bonus
+## Bonus - base solutions
 
-`tools::dependsOnPkgs` function might be useful tool.
-
-## Base solution to anser what we have now
+What we have now:
 
 ```r
 # installed packages might be misleading as the current installation could be unhealthy
 # Installation (utils::installed.packages()) might be easy broken with e.g. devtools::install_version
 install_pacs <- utils::installed.packages()
-install_pacs[install_pacs[, c("Package")] %in% tools::package_dependencies("shiny", db = install_pacs, recursive = T, which = c("Depends", "Imports", "LinkingTo"))[[1]], ][,c("Package", "Version")]
+deps_pacs <- tools::package_dependencies("shiny", db = install_pacs, recursive = T, which = c("Depends", "Imports", "LinkingTo"))[[1]]
+install_pacs[install_pacs[, c("Package")] %in% deps_pacs, ][,c("Package", "Version")]
 
 # Using R CRAN mirror
 avail_pacs <- utils::available.packages()
-avail_pacs[avail_pacs[, c("Package")] %in% tools::package_dependencies("shiny", db = avail_pacs, recursive = T, which = c("Depends", "Imports", "LinkingTo"))[[1]], ][,c("Package", "Version")]
+deps_pacs <- tools::package_dependencies("shiny", db = avail_pacs, recursive = T, which = c("Depends", "Imports", "LinkingTo"))[[1]]
+avail_pacs[avail_pacs[, c("Package")] %in% deps_pacs, ][,c("Package", "Version")]
 ```
  
-## Base solutions for dependencies in both directions
+Dependencies in both directions:
 
 ```r
 # For certain fields (which) please use at least R 4.1.0
 # default on utils::available.packages - remote R mirror
-# ommiting versions
+# unfortunately omitting versions
 all_dependencies <- tools::package_dependencies(recursive = TRUE, db = installed.packages(),
                                                 which = c("Depends", "Imports", "LinkingTo"))
                                                 
