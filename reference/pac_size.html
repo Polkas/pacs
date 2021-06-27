@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="size of the package — pac_size" />
-<meta property="og:description" content="size of package, optionally for remote cran version." />
+<meta property="og:description" content="size of package." />
 
 
 
@@ -119,15 +119,10 @@
     </div>
 
     <div class="ref-description">
-    <p>size of package, optionally for remote cran version.</p>
+    <p>size of package.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_size</span><span class='op'>(</span>
-  <span class='va'>pac</span>,
-  version <span class='op'>=</span> <span class='cn'>NULL</span>,
-  lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  repos <span class='op'>=</span> <span class='st'>"http://cran.rstudio.com/"</span>
-<span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_size</span><span class='op'>(</span><span class='va'>pac</span>, lib.loc <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,16 +132,8 @@
       <td><p>character a package name.</p></td>
     </tr>
     <tr>
-      <th>version</th>
-      <td><p>character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL</p></td>
-    </tr>
-    <tr>
       <th>lib.loc</th>
       <td><p>character vector. Default: NULL</p></td>
-    </tr>
-    <tr>
-      <th>repos</th>
-      <td><p>character cran URL. Default: "http://cran.rstudio.com/"</p></td>
     </tr>
     </table>
 
