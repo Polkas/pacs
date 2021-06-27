@@ -1,0 +1,27 @@
+Package: pacs
+Title: utils for R packages
+Version: 0.1.0
+Authors@R: 
+    person(given = "Maciej",
+           family = "Nasinski",
+           role = c("aut", "cre"),
+           email = "nasinski.maciej@gmail.com")
+Maintainer: Maciej Nasinski <nasinski.maciej@gmail.com>
+Description: 
+  Tools for cran maintainers and R packages developers.
+  Checking packages dependencies with their versions. 
+  Validating the library for possible wrong packages versions. 
+  Exploring complexity of packages.
+License: GPL (>= 3)
+URL: https://github.com/Polkas/pacs
+BugReports: https://github.com/Polkas/pacs/issues
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    withr,
+    devtools
