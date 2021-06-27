@@ -2,19 +2,21 @@
 % Please edit documentation in R/base.R
 \name{validate_lib}
 \alias{validate_lib}
-\title{compare current and expected packages under .libPaths}
+\title{Compare current and expected packages under .libPaths.}
 \usage{
 validate_lib(lib.loc = NULL)
 }
 \arguments{
-\item{lib.loc}{character, Default: NULL}
+\item{lib.loc}{character. Default: NULL}
 }
 \value{
 data.frame
 }
 \description{
-xxx
+Checking the healthy of the libarary.
 }
 \examples{
-
+\dontrun{
+validate_lib
+}
 }

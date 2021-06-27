@@ -2,22 +2,23 @@
 % Please edit documentation in R/base.R
 \name{pacs_size}
 \alias{pacs_size}
-\title{size of packages}
+\title{size of packages.}
 \usage{
-pacs_size(pacs, lib.loc = NULL)
+pacs_size(pacs = NULL, versions = NULL, lib.loc = NULL)
 }
 \arguments{
-\item{pacs}{character vector}
+\item{pacs}{character vector packages.}
 
-\item{lib.loc}{character vector, Default: NULL}
+\item{versions}{character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL}
+
+\item{lib.loc}{character vector. Default: NULL}
 }
 \value{
 data.frame
 }
 \description{
-using remote
+size of packages, optionally for remote cran versions.
 }
 \examples{
-
-
+cat(pacs::pacs_size("stats")/10**6, "Mb")
 }

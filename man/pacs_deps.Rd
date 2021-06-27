@@ -4,19 +4,41 @@
 \alias{pacs_deps}
 \title{compare specific package versions}
 \usage{
-pacs_deps(pacs = NULL, lib.loc = NULL)
+pacs_deps(
+  pacs = NULL,
+  versions = NULL,
+  fields = c("Depends", "Imports", "LinkingTo"),
+  lib.loc = NULL,
+  attr = FALSE,
+  repos = "http://cran.rstudio.com/"
+)
 }
 \arguments{
-\item{pacs}{character vector}
+\item{pacs}{character vector of packages.}
 
-\item{lib.loc}{character, Default: NULL}
+\item{versions}{character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL}
+
+\item{fields}{character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")}
+
+\item{lib.loc}{character vector. Is omitted for non NULL version., Default: NULL}
+
+\item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE}
+
+\item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
 }
 \value{
 data.frame
 }
 \description{
-using remote
+compare specific package versions, optionally for remote cran versions.
+}
+\note{
+will temporarily download packages if version argument is specified.
 }
 \examples{
+pacs_deps(c("stats", "base"))
 
+\dontrun{
+pacs_deps(c("shiny", "cat2cat"), versions = c("1.6.0", "0.2.1"))
+}
 }

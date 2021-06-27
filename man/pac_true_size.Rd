@@ -6,12 +6,15 @@
 \usage{
 pac_true_size(
   pac,
+  version = NULL,
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL
 )
 }
 \arguments{
-\item{pac}{character}
+\item{pac}{character a package name.}
+
+\item{version}{character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL}
 
 \item{fields}{character vector, Default: c("Depends", "Imports", "LinkingTo")}
 
@@ -21,10 +24,9 @@ pac_true_size(
 data.frame
 }
 \description{
-xxx
+Package true size as it takes into account dependencies, optionally for remote cran version.
 }
 \examples{
 # size in Mb
 pacs::pac_true_size("stats")/10**6
-
 }

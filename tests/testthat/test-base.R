@@ -10,11 +10,6 @@ test_that("compareVersionsMin", {
   expect_true(pacs::compareVersionsMin(c("1.1.1", "1.0.0", "3.3.3")) == "1.0.0")
 })
 
-test_that("pacs::pac_true_size", {
-  stats_size <- pacs::pac_true_size("stats")/10**6
-  expect_true(stats_size > 5 && stats_size < 40)
-})
-
 test_that("pacs::pac_deps", {
   stats_deps <- pacs::pac_deps("stats")
   expect_true(ncol(stats_deps) == 3)
@@ -34,4 +29,17 @@ test_that("pacs::pacs_deps", {
 test_that("dir_size", {
   current_dir <- dir_size(".")
   expect_true(current_dir > 0)
+})
+
+test_that("pacs::pac_size", {
+  expect_true(pacs::pac_size("stats") > 0)
+})
+
+test_that("pacs::pacs_size", {
+  expect_true(pacs::pacs_size(c("stats", "methods")) > 0)
+})
+
+test_that("pacs::pac_true_size", {
+  stats_size <- pacs::pac_true_size("stats")/10**6
+  expect_true(stats_size > 5 && stats_size < 40)
 })

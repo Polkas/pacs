@@ -1,21 +1,20 @@
 #' Package dependencies from DESCRIPTIONS files.
-#' @description
+#' @description Package dependencies from DESCRIPTIONS files, optionally for remote cran version.
 #' @param pac character a package name.
 #' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param version character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL
-#' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: NULL
+#' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
 #' @param repos character cran URL. Default: "http://cran.rstudio.com/"
 #' @note will temporarily download two packages if version argument is specified.
 #' @return data.frame
 #' @export
 #' @examples
 #' pac_deps("stats")
-#' \dontrun{
-#' pac_deps("shiny", version = "1.6.0)
-#' }
 #'
-
+#' \dontrun{
+#' pac_deps("shiny", version = "1.6.0")
+#' }
 pac_deps <- function(pac,
                      version = NULL,
                      fields = c("Depends", "Imports", "LinkingTo"),
@@ -120,7 +119,6 @@ pac_deps <- function(pac,
 #' \dontrun{
 #' pac_compare_versions("shiny", "1.4.0-2", "1.6.0")
 #' }
-#'
 pac_compare_versions <- function(pac,
                                  old,
                                  new,
@@ -141,11 +139,12 @@ pac_compare_versions <- function(pac,
 
 
 #' compare specific package versions
-#' @description using remote
+#' @description compare specific package versions, optionally for remote cran versions.
 #' @param pacs character vector of packages.
 #' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param versions character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL
+#' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE
 #' @param repos character cran URL. Default: "http://cran.rstudio.com/"
 #' @note will temporarily download packages if version argument is specified.
 #' @return data.frame
@@ -156,12 +155,11 @@ pac_compare_versions <- function(pac,
 #' \dontrun{
 #' pacs_deps(c("shiny", "cat2cat"), versions = c("1.6.0", "0.2.1"))
 #' }
-#'
 pacs_deps <- function(pacs = NULL,
                       versions = NULL,
                       fields = c("Depends", "Imports", "LinkingTo"),
                       lib.loc = NULL,
-                      attr = TRUE,
+                      attr = FALSE,
                       repos = "http://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(is.null(versions) || length(pacs) == length(versions))
@@ -177,7 +175,7 @@ pacs_deps <- function(pacs = NULL,
                                                              version = versions[x],
                                                              fields = fields,
                                                              lib.loc = lib.loc,
-                                                             attr = FALSE,
+                                                             attr = attr,
                                                              repos = repos)))
 
   # higher version have a priority
@@ -185,8 +183,8 @@ pacs_deps <- function(pacs = NULL,
 }
 
 #' size of the package
-#' @description using remote
-#' @param pacs character vector of local packages.
+#' @description size of package, optionally for remote cran version.
+#' @param pac character a package name.
 #' @param version character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL
 #' @param lib.loc character vector. Default: NULL
 #' @param repos character cran URL. Default: "http://cran.rstudio.com/"
@@ -194,8 +192,6 @@ pacs_deps <- function(pacs = NULL,
 #' @export
 #' @examples
 #' cat(pacs::pacs_size("stats")/10**6, "Mb")
-#'
-
 pac_size <- function(pac, version = NULL, lib.loc = NULL, repos = "http://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
@@ -222,17 +218,15 @@ pac_size <- function(pac, version = NULL, lib.loc = NULL, repos = "http://cran.r
 
 }
 
-#' size of packages
-#' @description using remote
-#' @param pacs character vector of local packages.
+#' size of packages.
+#' @description size of packages, optionally for remote cran versions.
+#' @param pacs character vector packages.
 #' @param versions character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL
 #' @param lib.loc character vector. Default: NULL
 #' @return data.frame
 #' @export
 #' @examples
 #' cat(pacs::pacs_size("stats")/10**6, "Mb")
-#'
-
 pacs_size <- function(pacs = NULL, versions = NULL, lib.loc = NULL) {
   stopifnot(is.null(pacs) || is.character(pacs))
   stopifnot(all(pacs %in% rownames(utils::installed.packages())))
@@ -254,16 +248,16 @@ pacs_size <- function(pacs = NULL, versions = NULL, lib.loc = NULL) {
 }
 
 #' Package true size
-#' @description xxx
-#' @param pac character a local package name.
+#' @description Package true size as it takes into account dependencies, optionally for remote cran version.
+#' @param pac character a package name.
 #' @param fields character vector, Default: c("Depends", "Imports", "LinkingTo")
+#' @param version character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL
 #' @param lib.loc character vector, Default: NULL
 #' @return data.frame
 #' @export
 #' @examples
 #' # size in Mb
 #' pacs::pac_true_size("stats")/10**6
-#'
 pac_true_size <- function(pac, version = NULL, fields = c("Depends", "Imports", "LinkingTo"), lib.loc = NULL) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(pac %in% rownames(utils::installed.packages(lib.loc = lib.loc)))
@@ -273,7 +267,7 @@ pac_true_size <- function(pac, version = NULL, fields = c("Depends", "Imports", 
 }
 
 #' Compare current and expected packages under .libPaths.
-#' @description CHecking the healthy of the libarary.
+#' @description Checking the healthy of the libarary.
 #' @param lib.loc character. Default: NULL
 #' @return data.frame
 #' @export
@@ -281,8 +275,6 @@ pac_true_size <- function(pac, version = NULL, fields = c("Depends", "Imports", 
 #' \dontrun{
 #' validate_lib
 #' }
-#'
-
 validate_lib <- function(lib.loc = NULL) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
 

@@ -2,28 +2,30 @@
 % Please edit documentation in R/base.R
 \name{pac_compare_versions}
 \alias{pac_compare_versions}
-\title{compare specific package versions}
+\title{compare dependencies of specific package versions}
 \usage{
 pac_compare_versions(pac, old, new, repos = "http://cran.rstudio.com/")
 }
 \arguments{
-\item{pac}{character}
+\item{pac}{character a package name.}
 
-\item{old}{character}
+\item{old}{character old version of package.}
 
-\item{new}{character}
+\item{new}{character new version of package.}
 
-\item{repos}{character}
+\item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
 }
 \value{
 data.frame
 }
 \description{
-using remote
+using remote cran to compare specific package versions dependencies.
 }
 \note{
-will temporarily download two packages
+Function will temporarily download two packages.
 }
 \examples{
-
+\dontrun{
+pac_compare_versions("shiny", "1.4.0-2", "1.6.0")
+}
 }

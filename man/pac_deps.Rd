@@ -2,36 +2,43 @@
 % Please edit documentation in R/base.R
 \name{pac_deps}
 \alias{pac_deps}
-\title{specific package dependencies from DESCRIPTIONS files.}
+\title{Package dependencies from DESCRIPTIONS files.}
 \usage{
 pac_deps(
   pac,
+  version = NULL,
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
-  version = NULL,
   attr = TRUE,
   repos = "http://cran.rstudio.com/"
 )
 }
 \arguments{
-\item{pac}{character}
+\item{pac}{character a package name.}
 
-\item{fields}{character vector, Default: c("Depends", "Imports", "LinkingTo")}
+\item{version}{character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL}
 
-\item{lib.loc}{character vector, Default: NULL}
+\item{fields}{character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")}
 
-\item{version}{character, Default: NULL}
+\item{lib.loc}{character vector. Is omitted for non NULL version., Default: NULL}
 
-\item{attr}{logical , Default: NULL}
+\item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
 
-\item{repos}{character, Default: "http://cran.rstudio.com/"}
+\item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
 }
 \value{
 data.frame
 }
 \description{
-xxx
+Package dependencies from DESCRIPTIONS files, optionally for remote cran version.
+}
+\note{
+will temporarily download two packages if version argument is specified.
 }
 \examples{
+pac_deps("stats")
 
+\dontrun{
+pac_deps("shiny", version = "1.6.0")
+}
 }
