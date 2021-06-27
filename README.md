@@ -38,6 +38,29 @@ Might be useful to check the number of dependencies too:
 pacs::pac_deps("stats")$Package
 ```
 
+### Remote version/dependecies
+
+The installation process is not always a smooth one.
+Thus I am recommending such manual usage:
+
+```r
+ package <- "shiny"
+ version <- "1.5.0"
+ withr::with_temp_libpaths({
+    devtools::install_version(
+      package,
+      version,
+      force = TRUE,
+      dependencies = FALSE,
+      quiet = TRUE,
+      upgrade = "always",
+      repos = "http://cran.rstudio.com/"
+    )
+    pac_deps(package)
+    # cat(pacs::pac_true_size(package)/10**6, "Mb", "\n")
+  })
+```
+
 ## Package dependencies and diffeneces between versions
 
 ```r
@@ -63,28 +86,6 @@ comparing dependencies per package versions.
 pacs::pac_compare_versions("shiny", "1.4.0-2", "1.5.0")
 
 pacs::pac_compare_versions("shiny", "1.4.0-2", "1.6.0")
-```
-
-### Remote version
-
-The installation process is not always a smooth one.
-Thus I am recommending such manual usage:
-
-```r
- package <- "shiny"
- version <- "1.5.0"
- withr::with_temp_libpaths({
-    devtools::install_version(
-      package,
-      version,
-      force = TRUE,
-      dependencies = FALSE,
-      quiet = TRUE,
-      upgrade = "always",
-      repos = "http://cran.rstudio.com/"
-    )
-    pac_deps(package)
-  })
 ```
 
 ## Packages dependencies

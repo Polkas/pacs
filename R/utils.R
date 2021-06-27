@@ -15,7 +15,13 @@ compareVersionsMax <- function(vec) {
   if (length(vec) == 1) return(vec)
   Reduce(function(x, y) {
     cc <- utils::compareVersion(x, y)
-    if(cc == 1) x else if(cc == -1) y else x
+    if (cc == 1) {
+      x
+    } else if (cc == -1) {
+      y
+    } else {
+      x
+    }
   },
   vec)
 }
@@ -31,7 +37,13 @@ compareVersionsMin <- function(vec) {
   if (length(vec) == 1) return(vec)
   Reduce(function(x, y) {
     cc <- utils::compareVersion(x, y)
-    if(cc == 1) y else if(cc == -1) x else x
+    if (cc == 1) {
+      y
+    } else if (cc == -1) {
+      x
+    } else {
+      x
+    }
   },
   vec)
 }

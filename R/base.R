@@ -45,7 +45,7 @@ pac_deps <- function(pac,
             ss,
             function(x) {
               rr <- regmatches(x, regexec("([0-9\\.-]+)\\)", x, perl = TRUE))[[1]][2]
-              if(length(rr)) rr else ""
+              if (length(rr)) rr else ""
             },
             character(1)
           )
@@ -129,12 +129,12 @@ pac_compare_versions <- function(pac,
   })
 
   res <- merge(s_remote, s_remote2, by = c("Package"), all = TRUE, suffix = paste0(".", c(old, new)))
-
-  res_df <- suppressWarnings(res[replaceNA(as.character(res[[paste0("Package_raw.", old)]]), "NA") != replaceNA(as.character(res[[paste0("Package_raw.", new)]]), "NA"), ])
+  col_old <- paste0("Package_raw.", old)
+  col_new <- paste0("Package_raw.", new)
+  res_df <- suppressWarnings(res[replaceNA(as.character(res[[col_old]]), "NA") != replaceNA(as.character(res[[col_new]]), "NA"), ])
   res_df <- res_df[order(res_df$Package), ]
   rownames(res_df) <- NULL
   res_df
-
 }
 
 
@@ -185,8 +185,12 @@ pac_size <- function(pac, lib.loc = NULL) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(pac %in% rownames(utils::installed.packages(lib.loc = lib.loc)))
-
-  dir_size(find.package(pac, lib.loc = lib.loc))
+  found <- try(find.package(pac, lib.loc = lib.loc), silent = TRUE)
+  if (inherits(found, "try-error")){
+    0
+  } else {
+    dir_size(found)
+  }
 }
 
 #' size of packages.

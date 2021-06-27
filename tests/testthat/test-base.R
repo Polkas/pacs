@@ -4,10 +4,13 @@ test_that("replaceNA", {
 
 test_that("compareVersionsMax", {
   expect_true(pacs::compareVersionsMax(c("1.1.1", "1.0.0", "3.3.3")) == "3.3.3")
+  expect_true(pacs::compareVersionsMax("3.3.3") == "3.3.3")
+
 })
 
 test_that("compareVersionsMin", {
   expect_true(pacs::compareVersionsMin(c("1.1.1", "1.0.0", "3.3.3")) == "1.0.0")
+  expect_true(pacs::compareVersionsMin("1.1.1") == "1.1.1")
 })
 
 test_that("pacs::pac_deps", {
@@ -47,4 +50,17 @@ test_that("pacs::pacs_size", {
 test_that("pacs::pac_true_size", {
   stats_size <- pacs::pac_true_size("stats")/10**6
   expect_true(stats_size > 5 && stats_size < 40)
+})
+
+
+test_that("pacs::validate_lib", {
+  expect_error(validate_lib(lib.loc = "wrong"))
+})
+
+test_that("pacs::pacs_size", {
+  expect_true(length(pacs_size()) > 1)
+})
+
+test_that("validate_lib", {
+  expect_true(inherits(validate_lib(), "data.frame"))
 })
