@@ -17,6 +17,6 @@ Checking the healthy of the libarary.
 }
 \examples{
 \dontrun{
-validate_lib
+validate_lib()
 }
 }

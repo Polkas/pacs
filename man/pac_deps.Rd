@@ -6,39 +6,26 @@
 \usage{
 pac_deps(
   pac,
-  version = NULL,
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
-  attr = TRUE,
-  repos = "http://cran.rstudio.com/"
+  attr = TRUE
 )
 }
 \arguments{
 \item{pac}{character a package name.}
-
-\item{version}{character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL}
 
 \item{fields}{character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")}
 
 \item{lib.loc}{character vector. Is omitted for non NULL version., Default: NULL}
 
 \item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
-
-\item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
 }
 \value{
 data.frame
 }
 \description{
-Package dependencies from DESCRIPTIONS files, optionally for remote cran version.
-}
-\note{
-will temporarily download two packages if version argument is specified.
+Package dependencies from DESCRIPTIONS files.
 }
 \examples{
 pac_deps("stats")
-
-\dontrun{
-pac_deps("shiny", version = "1.6.0")
-}
 }

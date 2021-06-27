@@ -15,9 +15,10 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 
 This function might be crucial before we push our package to R CRAN.
 We could control the weight of our project.
-Take into account that the size are appropriate for you system.
+Take into account that the size are appropriate for you system `Sys.info()`.
+Installation with `install.packages` and some `devtools` functions might result in different package sizes.
 
-### Local
+### Package
 
 Size of a package:
 
@@ -37,27 +38,11 @@ Might be useful to check the number of dependencies too:
 pacs::pac_deps("stats")$Package
 ```
 
-### Remote
-
-Size of a package:
-
-```r
-cat(pacs::pac_size("shiny", "1.5.0")/10**6, "Mb", "\n")
-```
-
-True size of a package as taking into account its dependencies:
-
-```r
-cat(pacs::pac_true_size("shiny", "1.5.0")/10**6, "Mb", "\n")
-```
-
-Might be useful to check the number of dependencies too:
-
-```r
-pacs::pac_deps("shiny", "1.5.0")$Package
-```
-
 ## Package dependencies and diffeneces between versions
+
+```r
+install.packages("shiny")
+```
 
 ```r
 # Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
@@ -67,16 +52,39 @@ pacs::pac_deps("shiny", "1.5.0")$Package
 res <- pacs::pac_deps("shiny")
 res
 attributes(res)
+```
 
-pacs::pac_deps("shiny", version = "1.6.0")
+Sth new on the R market.
+comparing dependencies per package versions.
 
-# Sth new on the R market
-# comparing dependecies per package versions
+```r
 # It was used withr::with_temp_libpaths and devtools::install_version for this task
 
 pacs::pac_compare_versions("shiny", "1.4.0-2", "1.5.0")
 
 pacs::pac_compare_versions("shiny", "1.4.0-2", "1.6.0")
+```
+
+### Remote version
+
+The installation process is not always a smooth one.
+Thus I am recommending such manual usage:
+
+```r
+ package <- "shiny"
+ version <- "1.5.0"
+ withr::with_temp_libpaths({
+    devtools::install_version(
+      package,
+      version,
+      force = TRUE,
+      dependencies = FALSE,
+      quiet = TRUE,
+      upgrade = "always",
+      repos = "http://cran.rstudio.com/"
+    )
+    pac_deps(package)
+  })
 ```
 
 ## Packages dependencies
@@ -86,7 +94,7 @@ all_deps <- pacs_deps()
 ```
 
 ```r
-pacs_deps(c("stats", "renv", "devtools"))
+pacs_deps(c("stats", "shiny"))
 ```
 
 ## Globally - What we have vs What we should have 

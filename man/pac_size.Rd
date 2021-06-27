@@ -4,27 +4,18 @@
 \alias{pac_size}
 \title{size of the package}
 \usage{
-pac_size(
-  pac,
-  version = NULL,
-  lib.loc = NULL,
-  repos = "http://cran.rstudio.com/"
-)
+pac_size(pac, lib.loc = NULL)
 }
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL}
-
 \item{lib.loc}{character vector. Default: NULL}
-
-\item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
 }
 \value{
 data.frame
 }
 \description{
-size of package, optionally for remote cran version.
+size of package.
 }
 \examples{
 cat(pacs::pacs_size("stats")/10**6, "Mb")

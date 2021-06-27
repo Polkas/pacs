@@ -4,12 +4,10 @@
 \alias{pacs_size}
 \title{size of packages.}
 \usage{
-pacs_size(pacs = NULL, versions = NULL, lib.loc = NULL)
+pacs_size(pacs = NULL, lib.loc = NULL)
 }
 \arguments{
 \item{pacs}{character vector packages.}
-
-\item{versions}{character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL}
 
 \item{lib.loc}{character vector. Default: NULL}
 }
@@ -17,7 +15,7 @@ pacs_size(pacs = NULL, versions = NULL, lib.loc = NULL)
 data.frame
 }
 \description{
-size of packages, optionally for remote cran versions.
+size of packages.
 }
 \examples{
 cat(pacs::pacs_size("stats")/10**6, "Mb")
