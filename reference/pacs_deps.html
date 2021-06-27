@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="compare specific package versions — pacs_deps" />
-<meta property="og:description" content="using remote" />
+<meta property="og:description" content="compare specific package versions, optionally for remote cran versions." />
 
 
 
@@ -119,31 +119,66 @@
     </div>
 
     <div class="ref-description">
-    <p>using remote</p>
+    <p>compare specific package versions, optionally for remote cran versions.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_deps</span><span class='op'>(</span>pacs <span class='op'>=</span> <span class='cn'>NULL</span>, lib.loc <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_deps</span><span class='op'>(</span>
+  pacs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  versions <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
+  lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
+  attr <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  repos <span class='op'>=</span> <span class='st'>"http://cran.rstudio.com/"</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pacs</th>
-      <td><p>character vector</p></td>
+      <td><p>character vector of packages.</p></td>
+    </tr>
+    <tr>
+      <th>versions</th>
+      <td><p>character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL</p></td>
+    </tr>
+    <tr>
+      <th>fields</th>
+      <td><p>character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")</p></td>
     </tr>
     <tr>
       <th>lib.loc</th>
-      <td><p>character, Default: NULL</p></td>
+      <td><p>character vector. Is omitted for non NULL version., Default: NULL</p></td>
+    </tr>
+    <tr>
+      <th>attr</th>
+      <td><p>logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE</p></td>
+    </tr>
+    <tr>
+      <th>repos</th>
+      <td><p>character cran URL. Default: "http://cran.rstudio.com/"</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>data.frame</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>will temporarily download packages if version argument is specified.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs_deps</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"stats"</span>, <span class='st'>"base"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     Package Version</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1      base   4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 grDevices        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  graphics        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4     stats   4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5     utils        </span>
 <span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>pacs_deps</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"shiny"</span>, <span class='st'>"cat2cat"</span><span class='op'>)</span>, versions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1.6.0"</span>, <span class='st'>"0.2.1"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

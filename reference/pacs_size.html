@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>size of packages — pacs_size • pacs</title>
+<title>size of packages. — pacs_size • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="size of packages — pacs_size" />
-<meta property="og:description" content="using remote" />
+<meta property="og:title" content="size of packages. — pacs_size" />
+<meta property="og:description" content="size of packages, optionally for remote cran versions." />
 
 
 
@@ -113,27 +113,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>size of packages</h1>
+    <h1>size of packages.</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/base.R'><code>R/base.R</code></a></small>
     <div class="hidden name"><code>pacs_size.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>using remote</p>
+    <p>size of packages, optionally for remote cran versions.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_size</span><span class='op'>(</span><span class='va'>pacs</span>, lib.loc <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_size</span><span class='op'>(</span>pacs <span class='op'>=</span> <span class='cn'>NULL</span>, versions <span class='op'>=</span> <span class='cn'>NULL</span>, lib.loc <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pacs</th>
-      <td><p>character vector</p></td>
+      <td><p>character vector packages.</p></td>
+    </tr>
+    <tr>
+      <th>versions</th>
+      <td><p>character version of the package. Other than NULL triggers remote mode and omit lib.loc. Default: NULL</p></td>
     </tr>
     <tr>
       <th>lib.loc</th>
-      <td><p>character vector, Default: NULL</p></td>
+      <td><p>character vector. Default: NULL</p></td>
     </tr>
     </table>
 
@@ -142,9 +146,8 @@
     <p>data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
-<span class='r-in'></span>
-<span class='r-in'></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>pacs</span><span class='fu'>::</span><span class='fu'>pacs_size</span><span class='op'>(</span><span class='st'>"stats"</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>10</span><span class='op'>**</span><span class='fl'>6</span>, <span class='st'>"Mb"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4.509832 Mb</span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
