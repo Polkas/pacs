@@ -44,3 +44,11 @@ dir_size <- function(path, recursive = TRUE) {
   size_files <- sum(vect_size)
   size_files
 }
+
+is_online <- function(site = "http://example.com/") {
+  tryCatch({
+    suppressWarnings(readLines(site, n = 1))
+    TRUE
+  },
+  error = function(e) FALSE)
+}
