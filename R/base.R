@@ -9,8 +9,11 @@
 #' @return data.frame with packages and their versions. Versions are taken from `installed.packages`.
 #' @export
 #' @examples
+#' pacs::pac_deps("stats", base = TRUE)$Package
+#' \dontrun{
 #' pacs::pac_deps("shiny")$Package
 #' pacs::pac_deps("shiny", description_v = FALSE)
+#' }
 pac_deps <- function(pac,
                      fields = c("Depends", "Imports", "LinkingTo"),
                      lib.loc = NULL,

@@ -20,6 +20,10 @@ Installation with `install.packages` and some `devtools` functions might result 
 
 ### Package
 
+```r
+install.packages("devtools")
+```
+
 Size of a package:
 
 ```r
@@ -39,29 +43,6 @@ Might be useful to check the number of dependencies too:
 ```r
 pacs::pac_deps("devtools")$Package
 ```
-
-### Case
-
-I am creator of `cat2cat` package too. 
-We could find out that it have a lot of dependencies so the true size is much bigger than expected.
-Hard to assume that major of the dependencies is already installed by users.
-
-```r
-install.packages("cat2cat")
-```
-
-```r
-cat(pacs::pac_true_size("cat2cat")/10**6, "Mb", "\n")
-```
-
-Yes, it is showing enormous number.
-We could check out the number of dependencies too.
-
-```r
-pacs::pac_deps("cat2cat")$Package
-```
-
-I have to think about reducing this sizes.
 
 ### Remote version/dependecies
 
@@ -105,7 +86,7 @@ attributes(res)
 Packages depndencies with versions from description files.
 
 ```r
-pacs::pac_deps("shiny", description_v = FALSE)
+pacs::pac_deps("shiny", description_v = TRUE)
 ```
 
 Sth new on the R market.

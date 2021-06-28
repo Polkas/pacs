@@ -33,6 +33,9 @@ data.frame with packages and their versions. Versions are taken from \code{insta
 Package dependencies from DESCRIPTIONS files.
 }
 \examples{
+pacs::pac_deps("stats", base = TRUE)$Package
+\dontrun{
 pacs::pac_deps("shiny")$Package
 pacs::pac_deps("shiny", description_v = FALSE)
+}
 }
