@@ -126,6 +126,8 @@
   <span class='va'>pac</span>,
   fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
+  base <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  description_v <span class='op'>=</span> <span class='cn'>FALSE</span>,
   attr <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
 
@@ -145,6 +147,14 @@
       <td><p>character vector. Is omitted for non NULL version., Default: NULL</p></td>
     </tr>
     <tr>
+      <th>base</th>
+      <td><p>logical if to add base packages too. Default: FALSE</p></td>
+    </tr>
+    <tr>
+      <th>description_v</th>
+      <td><p>if the dependecies version should be taken from description files, minimal required. Default: FALSE</p></td>
+    </tr>
+    <tr>
       <th>attr</th>
       <td><p>logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE</p></td>
     </tr>
@@ -152,14 +162,13 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>data.frame with packages and their versions. Versions are taken from <code>installed.packages</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pac_deps</span><span class='op'>(</span><span class='st'>"stats"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     Package Version Package_raw</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 grDevices           grDevices</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  graphics            graphics</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3     utils               utils</span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs</span><span class='fu'>::</span><span class='fu'>pac_deps</span><span class='op'>(</span><span class='st'>"shiny"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Package</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in pacs::pac_deps("shiny")</span> pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)),  .... is not TRUE</span>
+<span class='r-in'><span class='fu'>pacs</span><span class='fu'>::</span><span class='fu'>pac_deps</span><span class='op'>(</span><span class='st'>"shiny"</span>, description_v <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in pacs::pac_deps("shiny", description_v = FALSE)</span> pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)),  .... is not TRUE</span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

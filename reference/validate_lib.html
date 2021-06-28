@@ -122,7 +122,7 @@
     <p>Checking the healthy of the libarary.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>validate_lib</span><span class='op'>(</span>lib.loc <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>validate_lib</span><span class='op'>(</span>lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>, fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,16 +131,139 @@
       <th>lib.loc</th>
       <td><p>character. Default: NULL</p></td>
     </tr>
+    <tr>
+      <th>fields</th>
+      <td><p>character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'>validate_lib</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>validate_lib</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Package Version.expected.min Version.have</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    KernSmooth                 &lt;NA&gt;      2.23-20</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2          MASS                            7.3-54</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3        Matrix                             1.3-3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4            NA                              &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5             R                4.0.0         &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6            R6                2.2.0        2.5.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7          Rcpp               0.11.0        1.0.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8       askpass                               1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9          base                 &lt;NA&gt;        4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10    base64enc                             0.1-3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11         boot                 &lt;NA&gt;       1.3-28</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12         brew                             1.0-6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13         brio                             1.1.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14        bslib                           0.2.5.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15       cachem                             1.0.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16        callr                3.6.0        3.7.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17        class                 &lt;NA&gt;       7.3-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18          cli                2.4.0        2.5.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19        clipr                0.3.0        0.7.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20      cluster                 &lt;NA&gt;        2.1.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21    codetools                 &lt;NA&gt;       0.2-18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22   commonmark                               1.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23     compiler                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24        cpp11                0.2.1        0.3.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25       crayon                1.3.4        1.4.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26  credentials                1.2.1        1.3.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27         curl                3.0.0        4.3.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28     datasets                 &lt;NA&gt;        4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29         desc                1.3.0        1.3.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30     devtools                 &lt;NA&gt;        2.4.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31      diffobj                             0.3.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32       digest                            0.6.27</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33      downlit                        0.2.1.9000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34     ellipsis                0.3.2        0.3.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35     evaluate                 0.13         0.14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36        fansi                0.4.0        0.5.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37      fastmap                             1.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38      foreign                 &lt;NA&gt;       0.8-81</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39           fs                1.5.0        1.5.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40         gert                1.0.2        1.3.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41           gh                1.2.0        1.3.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42     gitcreds                             0.1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43         glue                1.3.0        1.4.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44    grDevices                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45     graphics                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46         grid                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47        highr                               0.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48    htmltools                0.5.1      0.5.1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 49         httr                1.4.2        1.4.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50          ini                             0.3.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 51    jquerylib                0.1.3        0.1.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 52     jsonlite                             1.7.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 53        knitr                 1.22         1.33</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 54      lattice                           0.20-44</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55    lifecycle                1.0.0        1.0.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 56     magrittr                  1.5        2.0.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 57     markdown                               1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 58      memoise                2.0.0        2.0.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 59      methods                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60         mgcv                 &lt;NA&gt;       1.8-35</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 61         mime                  0.3         0.11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 62         nlme               3.1-64      3.1-152</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 63         nnet                 &lt;NA&gt;       7.3-16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 64      openssl                1.4.1        1.4.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65         pacs                 &lt;NA&gt;        0.1.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 66     parallel                 &lt;NA&gt;        4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 67       pillar                1.6.0        1.6.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 68     pkgbuild                1.2.0        1.2.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 69    pkgconfig                             2.0.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70      pkgdown                 &lt;NA&gt;   1.6.1.9001</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 71      pkgload                1.2.1        1.2.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 72       praise                             1.0.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 73  prettyunits                             1.1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 74     processx                3.5.0        3.5.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75           ps                1.3.4        1.6.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 76        purrr                0.3.3        0.3.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 77         ragg                             1.1.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 78     rappdirs                             0.3.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 79    rcmdcheck                1.3.3        1.3.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 80     rematch2                             2.1.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 81      remotes                2.3.0        2.4.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 82        rlang               0.4.10       0.4.11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 83    rmarkdown             1.1.9007          2.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 84     roxygen2                7.1.1        7.1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 85        rpart                 &lt;NA&gt;       4.1-15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 86    rprojroot                  1.2        2.0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 87   rstudioapi                 0.13         0.13</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 88    rversions                2.0.2        2.1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 89         sass                0.4.0        0.4.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  sessioninfo                1.1.1        1.1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 91      spatial                 &lt;NA&gt;       7.3-14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 92      splines                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 93        stats                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 94       stats4                 &lt;NA&gt;        4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95      stringi                1.1.7        1.6.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 96      stringr                1.2.0        1.4.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 97     survival                 &lt;NA&gt;       3.2-11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 98          sys                  2.1          3.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 99  systemfonts                1.0.0        1.0.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 100       tcltk                 &lt;NA&gt;        4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 101    testthat                3.0.2        3.0.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 102 textshaping                0.3.0        0.3.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 103      tibble                             3.1.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 104     tinytex                 0.31         0.32</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 105       tools                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 106     usethis                2.0.1        2.0.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 107        utf8                1.1.0        1.2.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 108       utils                             4.1.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 109       vctrs                0.3.8        0.3.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 110       waldo                0.2.4        0.2.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 111     whisker                               0.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 112       withr                2.4.1        2.4.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 113        xfun                 0.23         0.24</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 114        xml2                1.3.1        1.3.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 115       xopen                             1.0.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 116        yaml               2.1.19        2.2.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 117         zip                2.1.0        2.2.0</span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
