@@ -63,17 +63,17 @@ pac_deps <- function(pac,
 
   deps(pac, lib.loc, fields)
   res_df <- data.frame(
-    Package = names(paks_global),
-    Version = unlist(paks_global),
-    Package_raw = vapply(paks_global,
+    Package = as.character(names(paks_global)),
+    Version = as.character(unlist(paks_global)),
+    Package_raw = as.character(vapply(paks_global,
                        function(x) names(x),
-                       character(1)))
+                       character(1))), stringsAsFactors = FALSE)
   res_df$Version[is.na(res_df$Version)] <- ""
   if (attr) {
     attr(res_df, "Package") <- pac
     attr(res_df, "Version") <- pac_v
   } else {
-    base_package <- data.frame(Package = pac, Version = as.character(pac_v), Package_raw = "")
+    base_package <- data.frame(Package = pac, Version = as.character(pac_v), Package_raw = "", stringsAsFactors = FALSE)
     res_df <- rbind(res_df, base_package)
   }
 
@@ -250,7 +250,10 @@ validate_lib <- function(lib.loc = NULL) {
   pp <- pacs_deps(lib.loc = lib.loc)
 
   ii_df <- as.data.frame(utils::installed.packages(lib.loc = lib.loc))
-  ii_res <-  rbind(stats::aggregate(ii_df[, c("Version"), drop = FALSE], list(Package = ii_df$Package), function(x) x[1]),
+  ii_agg <- stats::aggregate(ii_df[, c("Version"), drop = FALSE], list(Package = ii_df$Package), function(x) x[1])
+  ii_agg$Version <- as.character(ii_agg$Version)
+  ii_agg$Package <- as.character(ii_agg$Package)
+  ii_res <-  rbind(ii_agg,
                    c("R", paste(R.Version()[c("major", "minor")], collapse = ".")))
 
   res <- merge(ii_res, pp, by = c("Package"), suffix = c(".have", ".minimal"), all = TRUE)

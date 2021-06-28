@@ -1,6 +1,6 @@
 Package: pacs
 Title: utils for R packages
-Version: 0.1.0
+Version: 0.1.2
 Authors@R: 
     person(given = "Maciej",
            family = "Nasinski",

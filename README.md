@@ -103,7 +103,8 @@ pacs_deps(c("stats", "shiny"))
 ```r
 # Test with adding older cachem than extected
 withr::with_temp_libpaths({
-devtools::install_version("cachem", "1.0.0")
+devtools::install_version("shiny", "1.4.0-2")
+devtools::install_version("rlang", "0.4.6")
 pacs::validate_lib()
 })
 ```
