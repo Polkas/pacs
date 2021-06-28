@@ -14,22 +14,22 @@ test_that("compareVersionsMin", {
 })
 
 test_that("pacs::pac_deps", {
-  stats_deps <- pacs::pac_deps("stats")
+  stats_deps <- pacs::pac_deps("stats", base = TRUE)
   stats_deps_tools <- tools::package_dependencies("stats",
                                                   recursive = TRUE,
                                                   db = installed.packages())[[1]]
-  expect_true(ncol(stats_deps) == 3)
+  expect_true(ncol(stats_deps) == 2)
   expect_true(length(stats_deps$Package) == 3 && length(stats_deps_tools) == 3)
   stats_deps_attr <- attributes(stats_deps)
   expect_true(stats_deps_attr$Package == "stats")
   expect_true(stats_deps_attr$class == "data.frame")
-  stats_deps2 <- pacs::pac_deps("stats", attr = FALSE)
-  expect_true(ncol(stats_deps2) == 3)
+  stats_deps2 <- pacs::pac_deps("stats", attr = FALSE, base = TRUE)
+  expect_true(ncol(stats_deps2) == 2)
   expect_true(length(stats_deps2$Package) == 4)
 })
 
 test_that("pacs::pacs_deps", {
-  expect_true(nrow(pacs_deps(c("stats", "tools", "methods"))) == 6 )
+  expect_true(nrow(pacs_deps(c("stats", "tools", "methods"), base = TRUE)) == 4 )
 })
 
 test_that("dir_size", {
@@ -48,8 +48,8 @@ test_that("pacs::pacs_size", {
 })
 
 test_that("pacs::pac_true_size", {
-  stats_size <- pacs::pac_true_size("stats")/10**6
-  expect_true(stats_size > 5 && stats_size < 40)
+  stats_size <- pacs::pac_true_size("stats", base = TRUE)/10**6
+  expect_true(stats_size > 1)
 })
 
 

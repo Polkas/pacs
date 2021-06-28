@@ -4,49 +4,40 @@
 #' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
-#' @return data.frame
+#' @param base logical if to add base packages too. Default: FALSE
+#' @param description_v if the dependecies version should be taken from description files, minimal required. Default: FALSE
+#' @return data.frame with packages and their versions. Versions are taken from `installed.packages`.
 #' @export
 #' @examples
-#' pac_deps("stats")
+#' pacs::pac_deps("shiny")$Package
+#' pacs::pac_deps("shiny", description_v = FALSE)
 pac_deps <- function(pac,
                      fields = c("Depends", "Imports", "LinkingTo"),
                      lib.loc = NULL,
+                     base = FALSE,
+                     description_v = FALSE,
                      attr = TRUE) {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(all(fields %in% c("Depends", "Imports", "LinkingTo", "Suggests")))
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
-  stopifnot(pac %in% rownames(utils::installed.packages(lib.loc = lib.loc)))
+  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
+  stopifnot(is.logical(base))
+  stopifnot(is.logical(attr))
+  base_r <- c("stats", "graphics", "grDevices", "utils", "datasets", "methods", "base", "tools")
+  stopifnot(pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)), base_r))
 
-  paks_global <- list()
+  paks_global <- NULL
   pac_v <- utils::packageDescription(pac, lib.loc = lib.loc)$Version
 
-  deps <- function(pak, lib.loc = NULL, fileds) {
-    pks <- suppressWarnings(utils::packageDescription(pak, lib.loc = lib.loc))
-    if (length(pks) == 1 && is.na(pks)) {
-      return(NULL)
-    }
+  deps <- function(pak, fileds) {
+    pks <- utils::packageDescription(pak)
     res <- NULL
-    vv <- NULL
     for (f in fileds) {
       ff <- pks[[f]]
       if (!is.null(ff)) {
-        ss <- trimws(strsplit(ff, ",")[[1]])
         res <- c(
           res,
           vapply(
-            strsplit(ss, "[ \n\\(]"),
+            strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]"),
             function(x) x[1],
-            character(1)
-          )
-        )
-        vv <- c(
-          vv,
-          vapply(
-            ss,
-            function(x) {
-              rr <- regmatches(x, regexec("([0-9\\.-]+)\\)", x, perl = TRUE))[[1]][2]
-              if (length(rr)) rr else ""
-            },
             character(1)
           )
         )
@@ -55,30 +46,48 @@ pac_deps <- function(pac,
     if (is.null(res)) {
       return(NULL)
     }
-    for (iter in  seq_along(res)) {
-      paks_global[[res[iter]]] <<- if (vv[iter]  != "" && !is.null(paks_global[[res[iter]]]) && paks_global[[res[iter]]] != "" && !utils::compareVersion(vv[iter], paks_global[[res[iter]]]))  paks_global[[res[iter]]] else vv[iter]
-      deps(res[iter], lib.loc, fileds)
+    for (r in res) {
+      if (r != "R" && !r %in% paks_global) {
+        paks_global <<- c(r, paks_global)
+        deps(r, fields)
+      }
     }
   }
 
-  deps(pac, lib.loc, fields)
-  res_df <- data.frame(
-    Package = as.character(names(paks_global)),
-    Version = as.character(unlist(paks_global)),
-    Package_raw = as.character(vapply(paks_global,
-                       function(x) names(x),
-                       character(1))), stringsAsFactors = FALSE)
-  res_df$Version[is.na(res_df$Version)] <- ""
+  deps(pac, fields)
+
+  res <- unique(c(
+    setdiff(
+      paks_global,
+      c(
+        pac,
+        "R",
+        if (!base) {
+          base_r
+        } else {
+          NULL
+        }
+      )
+    ),
+    if (!attr) {
+      pac
+    } else {
+      NULL
+    }
+  ))
+
+  if (description_v) {
+    res_df <- installed_descriptions(lib.loc, fields)
+    res_df <- res_df[res_df$Package %in% res, ]
+  } else {
+    res_df <- as.data.frame(utils::installed.packages(lib.loc = lib.loc)[res, c("Package", "Version"), drop = FALSE])
+  }
+
   if (attr) {
     attr(res_df, "Package") <- pac
     attr(res_df, "Version") <- pac_v
-  } else {
-    base_package <- data.frame(Package = pac, Version = as.character(pac_v), Package_raw = "", stringsAsFactors = FALSE)
-    res_df <- rbind(res_df, base_package)
   }
 
-  res_df <- res_df[order(res_df$Package), ]
-  rownames(res_df) <- NULL
   res_df
 }
 
@@ -93,7 +102,7 @@ pac_deps <- function(pac,
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_compare_versions("shiny", "1.4.0-2", "1.6.0")
+#' pac_compare_versions("shiny", "1.4.0", "1.6.0")
 #' }
 pac_compare_versions <- function(pac,
                                  old,
@@ -104,7 +113,7 @@ pac_compare_versions <- function(pac,
 
   withr::with_temp_libpaths({
     cat(sprintf("Please wait %s %s is downloaded, TEMPORARLY.\n", pac, old))
-    devtools::install_version(pac,
+    remotes::install_version(pac,
       old,
       force = TRUE,
       dependencies = FALSE,
@@ -112,12 +121,12 @@ pac_compare_versions <- function(pac,
       upgrade = "always",
       repos = repos
     )
-    s_remote <- pac_deps(pac)
+    s_remote <- pac_deps(pac, description_v = TRUE)
   })
 
   withr::with_temp_libpaths({
     cat(sprintf("Please wait %s %s is downloaded, TEMPORARLY.\n", pac, new))
-    devtools::install_version(pac,
+    remotes::install_version(pac,
       new,
       force = TRUE,
       dependencies = FALSE,
@@ -125,14 +134,13 @@ pac_compare_versions <- function(pac,
       upgrade = "always",
       repos = repos
     )
-    s_remote2 <- pac_deps(pac)
+    s_remote2 <- pac_deps(pac, description_v = TRUE)
   })
 
   res <- merge(s_remote, s_remote2, by = c("Package"), all = TRUE, suffix = paste0(".", c(old, new)))
-  col_old <- paste0("Package_raw.", old)
-  col_new <- paste0("Package_raw.", new)
+  col_old <- paste0("Version.", old)
+  col_new <- paste0("Version.", new)
   res_df <- suppressWarnings(res[replaceNA(as.character(res[[col_old]]), "NA") != replaceNA(as.character(res[[col_new]]), "NA"), ])
-  res_df <- res_df[order(res_df$Package), ]
   rownames(res_df) <- NULL
   res_df
 }
@@ -144,18 +152,17 @@ pac_compare_versions <- function(pac,
 #' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE
+#' @param base logical if to add base packages too. Default: FALSE
 #' @return data.frame
 #' @export
 #' @examples
-#' pacs_deps(c("stats", "base"))
+#' pacs_deps(c("stats", "base"), base = TRUE, attr = FALSE)
 #'
-#' \dontrun{
-#' pacs_deps(c("shiny", "cat2cat"), versions = c("1.6.0", "0.2.1"))
-#' }
 pacs_deps <- function(pacs = NULL,
                       fields = c("Depends", "Imports", "LinkingTo"),
                       lib.loc = NULL,
-                      attr = FALSE) {
+                      attr = TRUE,
+                      base = FALSE) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
 
   if(!is.null(pacs)) {
@@ -167,7 +174,8 @@ pacs_deps <- function(pacs = NULL,
   dfs <- do.call(rbind, lapply(seq_along(tocheck), function(x) pac_deps(tocheck[x],
                                                              fields = fields,
                                                              lib.loc = lib.loc,
-                                                             attr = attr)))
+                                                             attr = attr,
+                                                             base = base)))
 
   # higher version have a priority
   stats::aggregate(dfs[, c("Version"), drop = FALSE], list(Package = dfs$Package),  compareVersionsMax)
@@ -223,41 +231,74 @@ pacs_size <- function(pacs = NULL, lib.loc = NULL) {
 #' @param pac character a package name.
 #' @param fields character vector, Default: c("Depends", "Imports", "LinkingTo")
 #' @param lib.loc character vector, Default: NULL
+#' @param base logical if to add base packages too. Default: FALSE
 #' @return data.frame
 #' @export
 #' @examples
 #' # size in Mb
 #' pacs::pac_true_size("stats")/10**6
-pac_true_size <- function(pac, fields = c("Depends", "Imports", "LinkingTo"), lib.loc = NULL) {
+pac_true_size <- function(pac, fields = c("Depends", "Imports", "LinkingTo"), lib.loc = NULL, base = FALSE) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "LinkingTo", "Suggests")))
-  pacs_all <- pac_deps(pac, fields = fields, lib.loc = lib.loc, attr = FALSE)
+  pacs_all <- pac_deps(pac, fields = fields, lib.loc = lib.loc, attr = FALSE, base = base)
   sum(pacs_size(setdiff(pacs_all$Package, "R"), lib.loc = lib.loc))
 }
 
 #' Compare current and expected packages under .libPaths.
 #' @description Checking the healthy of the libarary.
 #' @param lib.loc character. Default: NULL
-#' @return data.frame
+#' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
+#' @return data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.
+#' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' @export
 #' @examples
-#' \dontrun{
 #' validate_lib()
-#' }
-validate_lib <- function(lib.loc = NULL) {
+validate_lib <- function(lib.loc = NULL, fields = c("Depends", "Imports", "LinkingTo")) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
 
-  pp <- pacs_deps(lib.loc = lib.loc)
+  installed_agg <- installed_agg_fun(lib.loc, fields)
 
-  ii_df <- as.data.frame(utils::installed.packages(lib.loc = lib.loc))
-  ii_agg <- stats::aggregate(ii_df[, c("Version"), drop = FALSE], list(Package = ii_df$Package), function(x) x[1])
-  ii_agg$Version <- as.character(ii_agg$Version)
-  ii_agg$Package <- as.character(ii_agg$Package)
-  ii_res <-  rbind(ii_agg,
-                   c("R", paste(R.Version()[c("major", "minor")], collapse = ".")))
+  res_agg <- installed_descriptions(lib.loc, fields)
 
-  res <- merge(ii_res, pp, by = c("Package"), suffix = c(".have", ".minimal"), all = TRUE)
+  result <- merge(res_agg,
+                  installed_agg[, c("Package", "Version")],
+                  by = "Package",
+                  all = TRUE,
+                  suffix = c(".expected.min", ".have"))
+  result
+}
 
-  res2 <- suppressWarnings(res[replaceNA(as.character(res$Version.have), "NA") != replaceNA(as.character(res$Version.minimal), "NA"), ])
-  res2
+installed_descriptions <- function(lib.loc, fields) {
+
+  installed_agg <- installed_agg_fun(lib.loc, fields)
+
+  paks <- installed_agg[, fields]
+  nams <- rownames(paks)
+  rownames(paks) <- nams
+
+  df_split <- lapply(strsplit(apply(paks, 1, function(x) paste(x, sep=",")), ","), trimws)
+  versions <- lapply(df_split, function(x) sapply(regmatches(x, regexec("([0-9\\.-]+)\\)", x, perl= TRUE)), function(x) `[`(x, 2)))
+  packages <- lapply(df_split, function(x) sapply(strsplit(x, "[ \n\\(]"), function (x) `[`(x, 1)))
+
+  joint <- do.call(rbind, lapply(seq_len(length(packages)),
+                                 function(x) data.frame(Version = replaceNA(versions[[x]], ""),
+                                                        Package = replace(packages[[x]], versions[[x]] == "NA", NA),
+                                                        stringsAsFactors = FALSE)))
+  res_agg <- stats::aggregate(joint[, c("Version"), drop = FALSE],
+                              list(Package = joint$Package),
+                              compareVersionsMax)
+
+  res_agg$Version[is.na(res_agg$Version)] <- ""
+
+  res_agg
+}
+
+
+installed_agg_fun <- function(lib.loc = NULL, fields) {
+  installed_df <- as.data.frame(utils::installed.packages(lib.loc = NULL))
+  installed_agg <- stats::aggregate(installed_df[ , c("Version", fields), drop = FALSE],
+                                    list(Package = installed_df$Package),
+                                    function(x) x[1])
+  installed_agg
 }

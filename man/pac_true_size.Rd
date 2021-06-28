@@ -7,7 +7,8 @@
 pac_true_size(
   pac,
   fields = c("Depends", "Imports", "LinkingTo"),
-  lib.loc = NULL
+  lib.loc = NULL,
+  base = FALSE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ pac_true_size(
 \item{fields}{character vector, Default: c("Depends", "Imports", "LinkingTo")}
 
 \item{lib.loc}{character vector, Default: NULL}
+
+\item{base}{logical if to add base packages too. Default: FALSE}
 }
 \value{
 data.frame

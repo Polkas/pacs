@@ -8,6 +8,8 @@ pac_deps(
   pac,
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
+  base = FALSE,
+  description_v = FALSE,
   attr = TRUE
 )
 }
@@ -18,14 +20,19 @@ pac_deps(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version., Default: NULL}
 
+\item{base}{logical if to add base packages too. Default: FALSE}
+
+\item{description_v}{if the dependecies version should be taken from description files, minimal required. Default: FALSE}
+
 \item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
 }
 \value{
-data.frame
+data.frame with packages and their versions. Versions are taken from \code{installed.packages}.
 }
 \description{
 Package dependencies from DESCRIPTIONS files.
 }
 \examples{
-pac_deps("stats")
+pacs::pac_deps("shiny")$Package
+pacs::pac_deps("shiny", description_v = FALSE)
 }

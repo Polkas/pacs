@@ -7,12 +7,15 @@ replaceNA <- function(vec, with) {
 #' Maximum version across vector
 #' @description Reduce function over the utils::compareVersion
 #' @param vec character vector
+#' @param na.rm logical if to remove NA values.
 #' @return character
 #' @export
 #'
 
-compareVersionsMax <- function(vec) {
+compareVersionsMax <- function(vec, na.rm = TRUE) {
+  stopifnot(is.logical(na.rm))
   if (length(vec) == 1) return(vec)
+  if (na.rm) vec <- stats::na.omit(vec)
   Reduce(function(x, y) {
     cc <- utils::compareVersion(x, y)
     if (cc == 1) {
@@ -29,12 +32,15 @@ compareVersionsMax <- function(vec) {
 #' Minimum version across vector
 #' @description Reduce function over the utils::compareVersion
 #' @param vec character vector
+#' @param na.rm logical if to remove NA values.
 #' @return character
 #' @export
 #'
 
-compareVersionsMin <- function(vec) {
+compareVersionsMin <- function(vec, na.rm = TRUE) {
+  stopifnot(is.logical(na.rm))
   if (length(vec) == 1) return(vec)
+  if (na.rm) vec <- stats::na.omit(vec)
   Reduce(function(x, y) {
     cc <- utils::compareVersion(x, y)
     if (cc == 1) {

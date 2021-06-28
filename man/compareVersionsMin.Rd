@@ -4,10 +4,12 @@
 \alias{compareVersionsMin}
 \title{Minimum version across vector}
 \usage{
-compareVersionsMin(vec)
+compareVersionsMin(vec, na.rm = TRUE)
 }
 \arguments{
 \item{vec}{character vector}
+
+\item{na.rm}{logical if to remove NA values.}
 }
 \value{
 character

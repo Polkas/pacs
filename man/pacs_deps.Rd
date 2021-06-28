@@ -8,7 +8,8 @@ pacs_deps(
   pacs = NULL,
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
-  attr = FALSE
+  attr = TRUE,
+  base = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ pacs_deps(
 \item{lib.loc}{character vector. Is omitted for non NULL version., Default: NULL}
 
 \item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE}
+
+\item{base}{logical if to add base packages too. Default: FALSE}
 }
 \value{
 data.frame
@@ -27,9 +30,6 @@ data.frame
 compare specific package versionss.
 }
 \examples{
-pacs_deps(c("stats", "base"))
+pacs_deps(c("stats", "base"), base = TRUE, attr = FALSE)
 
-\dontrun{
-pacs_deps(c("shiny", "cat2cat"), versions = c("1.6.0", "0.2.1"))
-}
 }

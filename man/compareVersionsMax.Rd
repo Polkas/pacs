@@ -4,10 +4,12 @@
 \alias{compareVersionsMax}
 \title{Maximum version across vector}
 \usage{
-compareVersionsMax(vec)
+compareVersionsMax(vec, na.rm = TRUE)
 }
 \arguments{
 \item{vec}{character vector}
+
+\item{na.rm}{logical if to remove NA values.}
 }
 \value{
 character

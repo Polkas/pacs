@@ -26,6 +26,6 @@ Function will temporarily download two packages.
 }
 \examples{
 \dontrun{
-pac_compare_versions("shiny", "1.4.0-2", "1.6.0")
+pac_compare_versions("shiny", "1.4.0", "1.6.0")
 }
 }

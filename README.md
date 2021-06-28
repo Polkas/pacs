@@ -23,31 +23,56 @@ Installation with `install.packages` and some `devtools` functions might result 
 Size of a package:
 
 ```r
-cat(pacs::pac_size("stats")/10**6, "Mb", "\n")
+cat(pacs::pac_size("devtools")/10**6, "Mb", "\n")
 ```
 
-True size of a package as taking into account its dependencies:
+True size of a package as taking into account its dependencies.
+At the time of writing it, it is `113Mb` for `devtools` without base packages.
 
 ```r
-cat(pacs::pac_true_size("stats")/10**6, "Mb", "\n")
+cat(pacs::pac_true_size("devtools")/10**6, "Mb", "\n")
+#cat(pacs::pac_true_size("devtools", base = TRUE)/10**6, "Mb", "\n")
 ```
 
 Might be useful to check the number of dependencies too:
 
 ```r
-pacs::pac_deps("stats")$Package
+pacs::pac_deps("devtools")$Package
 ```
+
+### Case
+
+I am creator of `cat2cat` package too. 
+We could find out that it have a lot of dependencies so the true size is much bigger than expected.
+Hard to assume that major of the dependencies is already installed by users.
+
+```r
+install.packages("cat2cat")
+```
+
+```r
+cat(pacs::pac_true_size("cat2cat")/10**6, "Mb", "\n")
+```
+
+Yes, it is showing enormous number.
+We could check out the number of dependencies too.
+
+```r
+pacs::pac_deps("cat2cat")$Package
+```
+
+I have to think about reducing this sizes.
 
 ### Remote version/dependecies
 
 The installation process is not always a smooth one.
 Thus I am recommending such manual usage:
-
+This solution could give different results across time as some dependencies will be newer.
 ```r
  package <- "shiny"
- version <- "1.5.0"
+ version <- "1.6.0"
  withr::with_temp_libpaths({
-    devtools::install_version(
+    remotes::install_version(
       package,
       version,
       force = TRUE,
@@ -56,8 +81,8 @@ Thus I am recommending such manual usage:
       upgrade = "always",
       repos = "http://cran.rstudio.com/"
     )
-    pac_deps(package)
-    # cat(pacs::pac_true_size(package)/10**6, "Mb", "\n")
+    # pac_deps(package, description_v = TRUE)
+    cat(pacs::pac_true_size(package)/10**6, "Mb", "\n")
   })
 ```
 
@@ -77,15 +102,31 @@ res
 attributes(res)
 ```
 
+Packages depndencies with versions from description files.
+
+```r
+pacs::pac_deps("shiny", description_v = FALSE)
+```
+
 Sth new on the R market.
 comparing dependencies per package versions.
 
 ```r
 # It was used withr::with_temp_libpaths and devtools::install_version for this task
 
-pacs::pac_compare_versions("shiny", "1.4.0-2", "1.5.0")
+pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
 
-pacs::pac_compare_versions("shiny", "1.4.0-2", "1.6.0")
+pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
+```
+
+## Dependencies taking into account newest r cran packages
+
+`pacrat` solution over `available.packages` which access remote repository.
+
+`ranger` is not installed locally.
+
+```r
+packrat:::recursivePackageDependencies("ranger", lib.loc = NULL)
 ```
 
 ## Packages dependencies
