@@ -87,35 +87,24 @@
 <div id="package" class="section level3">
 <h3 class="hasAnchor">
 <a href="#package" class="anchor" aria-hidden="true"></a>Package</h3>
-<p>Size of a package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
+<p>Size of a package:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_size.html">pac_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">/</span><span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"Mb"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
 <p>True size of a package as taking into account its dependencies. At the time of writing it, it is <code>113Mb</code> for <code>devtools</code> without base packages.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">/</span><span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"Mb"</span>, <span class="st">"\n"</span><span class="op">)</span>
 <span class="co">#cat(pacs::pac_true_size("devtools", base = TRUE)/10**6, "Mb", "\n")</span></code></pre></div>
 <p>Might be useful to check the number of dependencies too:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
-</div>
-<div id="case" class="section level3">
-<h3 class="hasAnchor">
-<a href="#case" class="anchor" aria-hidden="true"></a>Case</h3>
-<p>I am creator of <code>cat2cat</code> package too. We could find out that it have a lot of dependencies so the true size is much bigger than expected. Hard to assume that major of the dependencies is already installed by users.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"cat2cat"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"cat2cat"</span><span class="op">)</span><span class="op">/</span><span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"Mb"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
-<p>Yes, it is showing enormous number. We could check out the number of dependencies too.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"cat2cat"</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
-<p>I have to think about reducing this sizes.</p>
+<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
 </div>
 <div id="remote-versiondependecies" class="section level3">
 <h3 class="hasAnchor">
 <a href="#remote-versiondependecies" class="anchor" aria-hidden="true"></a>Remote version/dependecies</h3>
 <p>The installation process is not always a smooth one. Thus I am recommending such manual usage: This solution could give different results across time as some dependencies will be newer.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"> <span class="va">package</span> <span class="op">&lt;-</span> <span class="st">"shiny"</span>
  <span class="va">version</span> <span class="op">&lt;-</span> <span class="st">"1.6.0"</span>
  <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_temp_libpaths.html" class="external-link">with_temp_libpaths</a></span><span class="op">(</span><span class="op">{</span>
@@ -136,9 +125,9 @@
 <div id="package-dependencies-and-diffeneces-between-versions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-dependencies-and-diffeneces-between-versions" class="anchor" aria-hidden="true"></a>Package dependencies and diffeneces between versions</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Providing more than tools::package_dependencies and packrat:::recursivePackageVersion</span>
 <span class="co"># It is closer to packrat:::recursivePackageVersion</span>
 <span class="co"># pacs::package_deps is providing the min required version for each package</span>
@@ -147,10 +136,10 @@
 <span class="va">res</span>
 <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
 <p>Packages depndencies with versions from description files.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"shiny"</span>, description_v <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"shiny"</span>, description_v <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Sth new on the R market. comparing dependencies per package versions.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># It was used withr::with_temp_libpaths and devtools::install_version for this task</span>
 
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.4.0"</span>, <span class="st">"1.5.0"</span><span class="op">)</span>
@@ -162,21 +151,21 @@
 <a href="#dependencies-taking-into-account-newest-r-cran-packages" class="anchor" aria-hidden="true"></a>Dependencies taking into account newest r cran packages</h2>
 <p><code>pacrat</code> solution over <code>available.packages</code> which access remote repository.</p>
 <p><code>ranger</code> is not installed locally.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">packrat</span><span class="fu">:::</span><span class="fu">recursivePackageDependencies</span><span class="op">(</span><span class="st">"ranger"</span>, lib.loc <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="packages-dependencies" class="section level2">
 <h2 class="hasAnchor">
 <a href="#packages-dependencies" class="anchor" aria-hidden="true"></a>Packages dependencies</h2>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_deps</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pacs_deps.html">pacs_deps</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pacs_deps.html">pacs_deps</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"stats"</span>, <span class="st">"shiny"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="globally---what-we-have-vs-what-we-should-have" class="section level2">
 <h2 class="hasAnchor">
 <a href="#globally---what-we-have-vs-what-we-should-have" class="anchor" aria-hidden="true"></a>Globally - What we have vs What we should have</h2>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Test with adding older cachem than extected</span>
 <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_temp_libpaths.html" class="external-link">with_temp_libpaths</a></span><span class="op">(</span><span class="op">{</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html" class="external-link">install_version</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.4.0-2"</span><span class="op">)</span>
@@ -188,7 +177,7 @@
 <h2 class="hasAnchor">
 <a href="#packages-versions" class="anchor" aria-hidden="true"></a>packages versions</h2>
 <p>Small guide how to work with packages versions (“package_version” and “numeric_version” classes).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># if you do not remember a calss name use class(packageVersion("base"))</span>
 <span class="va">v1</span> <span class="op">&lt;-</span> <span class="fu">`class&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"package_version"</span>, <span class="st">"numeric_version"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">v2</span> <span class="op">&lt;-</span> <span class="fu">`class&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"package_version"</span>, <span class="st">"numeric_version"</span><span class="op">)</span><span class="op">)</span>
@@ -203,7 +192,7 @@
 <h2 class="hasAnchor">
 <a href="#bonus---base-solutions" class="anchor" aria-hidden="true"></a>Bonus - base solutions</h2>
 <p>What we have now:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># installed packages might be misleading as the current installation could be unhealthy</span>
 <span class="co"># Installation (utils::installed.packages()) might be easy broken with e.g. devtools::install_version</span>
 <span class="va">install_pacs</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span>
@@ -215,7 +204,7 @@
 <span class="va">deps_pacs</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/package_dependencies.html" class="external-link">package_dependencies</a></span><span class="op">(</span><span class="st">"shiny"</span>, db <span class="op">=</span> <span class="va">avail_pacs</span>, recursive <span class="op">=</span> <span class="cn">T</span>, which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="va">avail_pacs</span><span class="op">[</span><span class="va">avail_pacs</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Package"</span><span class="op">)</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">deps_pacs</span>, <span class="op">]</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Package"</span>, <span class="st">"Version"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>Dependencies in both directions:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For certain fields (which) please use at least R 4.1.0</span>
 <span class="co"># default on utils::available.packages - remote R mirror</span>
 <span class="co"># unfortunately omitting versions</span>
