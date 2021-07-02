@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>compare specific package versions — pacs_deps • pacs</title>
+<title>Compare current and expected packages under .libPaths. — pac_validate • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="compare specific package versions — pacs_deps" />
-<meta property="og:description" content="compare specific package versionss." />
+<meta property="og:title" content="Compare current and expected packages under .libPaths. — pac_validate" />
+<meta property="og:description" content="Checking the healthy of the libarary." />
 
 
 
@@ -113,66 +113,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>compare specific package versions</h1>
+    <h1>Compare current and expected packages under .libPaths.</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/base.R'><code>R/base.R</code></a></small>
-    <div class="hidden name"><code>pacs_deps.Rd</code></div>
+    <div class="hidden name"><code>pac_validate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>compare specific package versionss.</p>
+    <p>Checking the healthy of the libarary.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_deps</span><span class='op'>(</span>
-  pacs <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_validate</span><span class='op'>(</span>
+  <span class='va'>pac</span>,
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  attr <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  base <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  description_v <span class='op'>=</span> <span class='cn'>FALSE</span>
+  fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pacs</th>
-      <td><p>character vector of packages.</p></td>
+      <th>pac</th>
+      <td><p>character a package name.</p></td>
+    </tr>
+    <tr>
+      <th>lib.loc</th>
+      <td><p>character. Default: NULL</p></td>
     </tr>
     <tr>
       <th>fields</th>
       <td><p>character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")</p></td>
     </tr>
-    <tr>
-      <th>lib.loc</th>
-      <td><p>character vector. Is omitted for non NULL version., Default: NULL</p></td>
-    </tr>
-    <tr>
-      <th>attr</th>
-      <td><p>logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE</p></td>
-    </tr>
-    <tr>
-      <th>base</th>
-      <td><p>logical if to add base packages too. Default: FALSE</p></td>
-    </tr>
-    <tr>
-      <th>description_v</th>
-      <td><p>if the dependecies version should be taken from description files, minimal required. Default: FALSE</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs_deps</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"stats"</span>, <span class='st'>"base"</span><span class='op'>)</span>, base <span class='op'>=</span> <span class='cn'>TRUE</span>, attr <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     Package Version</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1      base   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 grDevices   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  graphics   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 4     stats   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5     utils   4.1.0</span>
-<span class='r-in'></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>pac_validate</span><span class='op'>(</span><span class='st'>"devtools"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

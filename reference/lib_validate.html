@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compare current and expected packages under .libPaths. — validate_lib • pacs</title>
+<title>Compare current and expected packages under .libPaths. — lib_validate • pacs</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Compare current and expected packages under .libPaths. — validate_lib" />
+<meta property="og:title" content="Compare current and expected packages under .libPaths. — lib_validate" />
 <meta property="og:description" content="Checking the healthy of the libarary." />
 
 
@@ -115,14 +115,14 @@
     <div class="page-header">
     <h1>Compare current and expected packages under .libPaths.</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/base.R'><code>R/base.R</code></a></small>
-    <div class="hidden name"><code>validate_lib.Rd</code></div>
+    <div class="hidden name"><code>lib_validate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Checking the healthy of the libarary.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>validate_lib</span><span class='op'>(</span>lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>, fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>lib_validate</span><span class='op'>(</span>lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>, fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,7 +145,7 @@
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>validate_lib</span><span class='op'>(</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>lib_validate</span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>         Package Version.expected.min Version.have</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 1    KernSmooth                 &lt;NA&gt;      2.23-20</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 2          MASS                            7.3-54</span>

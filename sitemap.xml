@@ -25,6 +25,9 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/lib_validate.html</loc>
+  </url>
+  <url>
     <loc>/reference/pac_compare_versions.html</loc>
   </url>
   <url>
@@ -37,12 +40,15 @@
     <loc>/reference/pac_true_size.html</loc>
   </url>
   <url>
+    <loc>/reference/pac_validate.html</loc>
+  </url>
+  <url>
     <loc>/reference/pacs_deps.html</loc>
   </url>
   <url>
     <loc>/reference/pacs_size.html</loc>
   </url>
   <url>
-    <loc>/reference/validate_lib.html</loc>
+    <loc>/reference/pacs_validate.html</loc>
   </url>
 </urlset>
