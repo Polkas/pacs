@@ -332,8 +332,8 @@ installed_agg_fun <- function(lib.loc = NULL, fields) {
   installed_agg
 }
 
-#' Compare current and expected packages under .libPaths.
-#' @description Checking the healthy of the libarary.
+#' Compare current and expected package dependencies versions using DESCRIPTION files.
+#' @description Checking the healthy of the specific packages.
 #' @param pac character a package name.
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
@@ -362,8 +362,8 @@ pac_validate <- function(pac, lib.loc = NULL, fields = c("Depends", "Imports", "
 
 }
 
-#' Compare current and expected packages under .libPaths.
-#' @description Checking the healthy of the libarary.
+#' Compare current and expected packages dependencies versions using DESCRIPTION files.
+#' @description Checking the healthy of the specific packages.
 #' @param pacs character vector packages names.
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")

@@ -36,6 +36,8 @@ At the time of writing it, it is `113Mb` for `devtools` without base packages.
 ```r
 cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
 #cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")
+# exclude packages if at least one other package use it too
+# cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")
 ```
 
 Might be useful to check the number of dependencies too:

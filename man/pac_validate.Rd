@@ -2,7 +2,7 @@
 % Please edit documentation in R/base.R
 \name{pac_validate}
 \alias{pac_validate}
-\title{Compare current and expected packages under .libPaths.}
+\title{Compare current and expected package dependencies versions using DESCRIPTION files.}
 \usage{
 pac_validate(
   pac,
@@ -21,7 +21,7 @@ pac_validate(
 data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.
 }
 \description{
-Checking the healthy of the libarary.
+Checking the healthy of the specific packages.
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
