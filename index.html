@@ -95,7 +95,9 @@
 <p>True size of a package as taking into account its dependencies. At the time of writing it, it is <code>113Mb</code> for <code>devtools</code> without base packages.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"Mb"</span>, <span class="st">"\n"</span><span class="op">)</span>
-<span class="co">#cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")</span></code></pre></div>
+<span class="co">#cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")</span>
+<span class="co"># exclude packages if at least one other package use it too</span>
+<span class="co"># cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")</span></code></pre></div>
 <p>Might be useful to check the number of dependencies too:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
