@@ -8,7 +8,8 @@ pac_true_size(
   pac,
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
-  base = FALSE
+  base = FALSE,
+  exclude_joint = 0L
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ pac_true_size(
 \item{lib.loc}{character vector, Default: NULL}
 
 \item{base}{logical if to add base packages too. Default: FALSE}
+
+\item{exclude_joint}{integer exclude packages which are dependencies of at least N other packages. Default: 0}
 }
 \value{
 data.frame
@@ -29,4 +32,8 @@ Package true size as it takes into account dependencies.
 \examples{
 # size in Mb
 pacs::pac_true_size("stats")/10**6
+# exclude packages if at least one other package use it too
+\dontrun{
+pacs::pac_true_size("devtools", exclude_joint = 1L)/10**6
+}
 }
