@@ -9,7 +9,8 @@ pacs_deps(
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
   attr = TRUE,
-  base = FALSE
+  base = FALSE,
+  description_v = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ pacs_deps(
 \item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE}
 
 \item{base}{logical if to add base packages too. Default: FALSE}
+
+\item{description_v}{if the dependecies version should be taken from description files, minimal required. Default: FALSE}
 }
 \value{
 data.frame

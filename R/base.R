@@ -155,6 +155,7 @@ pac_compare_versions <- function(pac,
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE
 #' @param base logical if to add base packages too. Default: FALSE
+#' @param description_v if the dependecies version should be taken from description files, minimal required. Default: FALSE
 #' @return data.frame
 #' @export
 #' @examples
@@ -164,8 +165,11 @@ pacs_deps <- function(pacs = NULL,
                       fields = c("Depends", "Imports", "LinkingTo"),
                       lib.loc = NULL,
                       attr = TRUE,
-                      base = FALSE) {
+                      base = FALSE,
+                      description_v = FALSE
+                      ) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(pacs) || is.character(pacs))
 
   if(!is.null(pacs)) {
     tocheck <- pacs
@@ -177,10 +181,15 @@ pacs_deps <- function(pacs = NULL,
                                                              fields = fields,
                                                              lib.loc = lib.loc,
                                                              attr = attr,
-                                                             base = base)))
+                                                             base = base,
+                                                             description_v)))
 
-  # higher version have a priority
-  stats::aggregate(dfs[, c("Version"), drop = FALSE], list(Package = dfs$Package),  compareVersionsMax)
+  if (nrow(dfs) > 0) {
+    # higher version have a priority
+    stats::aggregate(dfs[, c("Version"), drop = FALSE], list(Package = dfs$Package),  compareVersionsMax)
+  } else {
+    dfs
+  }
 }
 
 #' size of the package
@@ -272,8 +281,8 @@ pac_true_size <- function(pac,
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' @export
 #' @examples
-#' validate_lib()
-validate_lib <- function(lib.loc = NULL, fields = c("Depends", "Imports", "LinkingTo")) {
+#' lib_validate()
+lib_validate <- function(lib.loc = NULL, fields = c("Depends", "Imports", "LinkingTo")) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
 
@@ -322,3 +331,64 @@ installed_agg_fun <- function(lib.loc = NULL, fields) {
                                     function(x) x[1])
   installed_agg
 }
+
+#' Compare current and expected packages under .libPaths.
+#' @description Checking the healthy of the libarary.
+#' @param pac character a package name.
+#' @param lib.loc character. Default: NULL
+#' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
+#' @return data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.
+#' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+#' @export
+#' @examples
+#' \dontrun{
+#' pac_validate("devtools")
+#' }
+pac_validate <- function(pac, lib.loc = NULL, fields = c("Depends", "Imports", "LinkingTo")) {
+  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
+  stopifnot((length(pac) == 1) && is.character(pac))
+
+  descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
+  installed_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields)
+
+  result <- merge(descriptions_pac,
+                  installed_pac,
+                  by = "Package",
+                  all = TRUE,
+                  suffix = c(".expected.min", ".have"))
+
+  result
+
+}
+
+#' Compare current and expected packages under .libPaths.
+#' @description Checking the healthy of the libarary.
+#' @param pacs character vector packages names.
+#' @param lib.loc character. Default: NULL
+#' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
+#' @return data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.
+#' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+#' @export
+#' @examples
+#' \dontrun{
+#' pacs_validate(c("devtools", "renv"))
+#' }
+pacs_validate <- function(pacs, lib.loc = NULL, fields = c("Depends", "Imports", "LinkingTo")) {
+  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
+  stopifnot(is.null(pacs) || is.character(pacs))
+
+  descriptions_pac <- pacs_deps(pacs, lib.loc = lib.loc, fields = fields, description_v = TRUE)
+  installed_pac <- pacs_deps(pacs, lib.loc = lib.loc, fields = fields)
+
+  result <- merge(descriptions_pac,
+                  installed_pac,
+                  by = "Package",
+                  all = TRUE,
+                  suffix = c(".expected.min", ".have"))
+
+  result
+
+}
+

@@ -2,10 +2,12 @@
 
 export(compareVersionsMax)
 export(compareVersionsMin)
+export(lib_validate)
 export(pac_compare_versions)
 export(pac_deps)
 export(pac_size)
 export(pac_true_size)
+export(pac_validate)
 export(pacs_deps)
 export(pacs_size)
-export(validate_lib)
+export(pacs_validate)

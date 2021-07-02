@@ -18,18 +18,20 @@ test_that("pacs::pac_deps", {
   stats_deps_tools <- tools::package_dependencies("stats",
                                                   recursive = TRUE,
                                                   db = installed.packages())[[1]]
-  expect_true(ncol(stats_deps) == 2)
-  expect_true(length(stats_deps$Package) == 3 && length(stats_deps_tools) == 3)
+  expect_true(ncol(stats_deps) > 0)
+  expect_true(length(stats_deps$Package) > 0 && length(stats_deps_tools) > 0)
   stats_deps_attr <- attributes(stats_deps)
   expect_true(stats_deps_attr$Package == "stats")
   expect_true(stats_deps_attr$class == "data.frame")
   stats_deps2 <- pacs::pac_deps("stats", attr = FALSE, base = TRUE)
-  expect_true(ncol(stats_deps2) == 2)
-  expect_true(length(stats_deps2$Package) == 4)
+  expect_true(ncol(stats_deps2) > 0)
+  expect_true(length(stats_deps2$Package) > 0)
 })
 
 test_that("pacs::pacs_deps", {
-  expect_true(nrow(pacs_deps(c("stats", "tools", "methods"), base = TRUE)) == 4 )
+  expect_true(nrow(pacs_deps(c("stats", "tools", "methods"), base = TRUE)) > 0)
+  expect_true(nrow(pacs_deps(c("stats", "tools", "methods"), base = TRUE, description_v = T)) > 0)
+
 })
 
 test_that("dir_size", {
@@ -42,25 +44,31 @@ test_that("pacs::pac_size", {
 })
 
 test_that("pacs::pacs_size", {
-  expect_true(length(pacs::pacs_size(c("stats", "methods"))) == 2)
+  expect_true(length(pacs::pacs_size(c("stats", "methods"))) > 0)
   expect_true(sum(pacs::pacs_size(c("stats", "methods"))) > 0)
 
 })
 
 test_that("pacs::pac_true_size", {
-  stats_size <- pacs::pac_true_size("stats", base = TRUE)/10**6
+  stats_size <- pacs::pac_true_size("stats", base = TRUE) / 10**6
   expect_true(stats_size > 1)
+  stats_size2 <- pacs::pac_true_size("stats", base = TRUE, exclude_joint = 1L)
+  expect_equal(stats_size2, 0)
 })
 
-
-test_that("pacs::validate_lib", {
-  expect_error(validate_lib(lib.loc = "wrong"))
+test_that("pacs::lib_validate", {
+  expect_error(lib_validate(lib.loc = "wrong"))
+  expect_true(inherits(lib_validate(), "data.frame"))
 })
 
 test_that("pacs::pacs_size", {
   expect_true(length(pacs_size()) > 1)
 })
 
-test_that("validate_lib", {
-  expect_true(inherits(validate_lib(), "data.frame"))
+test_that("pac_validate", {
+  expect_true(nrow(pac_validate("stats")) == 0)
+})
+
+test_that("pac_validate", {
+  expect_true(nrow(pacs_validate(c("stats", "graphics"))) == 0)
 })

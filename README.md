@@ -27,15 +27,15 @@ install.packages("devtools")
 Size of a package:
 
 ```r
-cat(pacs::pac_size("devtools")/10**6, "Mb", "\n")
+cat(pacs::pac_size("devtools") / 10**6, "Mb", "\n")
 ```
 
 True size of a package as taking into account its dependencies.
 At the time of writing it, it is `113Mb` for `devtools` without base packages.
 
 ```r
-cat(pacs::pac_true_size("devtools")/10**6, "Mb", "\n")
-#cat(pacs::pac_true_size("devtools", base = TRUE)/10**6, "Mb", "\n")
+cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
+#cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")
 ```
 
 Might be useful to check the number of dependencies too:
@@ -120,14 +120,26 @@ all_deps <- pacs_deps()
 pacs_deps(c("stats", "shiny"))
 ```
 
-## Globally - What we have vs What we should have 
+## What we have vs What we should have 
+
+Using Description files to check what we should have "at least".
+
+Package:
+
+```r
+pac_validate("devtools")
+# Packages
+# pacs_validate(c("devtools", "pacs"))
+```
+
+Whole library:
 
 ```r
 # Test with adding older cachem than extected
 withr::with_temp_libpaths({
 devtools::install_version("shiny", "1.4.0-2")
 devtools::install_version("rlang", "0.4.6")
-pacs::validate_lib()
+pacs::lib_validate()
 })
 ```
 
