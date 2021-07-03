@@ -1,5 +1,5 @@
 Package: pacs
-Title: utils for R packages
+Title: Utils for R Packages
 Version: 0.1.2
 Authors@R: 
     person(given = "Maciej",

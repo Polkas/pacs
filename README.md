@@ -75,6 +75,18 @@ This solution could give different results across time as some dependencies will
 install.packages("shiny")
 ```
 
+Useful functions to get list of base packages. 
+You might want to exclude dem from final results.
+
+```r
+pacs_base()
+# start up loaded, base packages
+pacs_base(only_startup = TRUE)
+```
+
+`pac_deps` to extremely fast retrive package dependencies, packages versions might come from installed ones or from desciption files (required minimum).
+
+
 ```r
 # Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
 # It is closer to packrat:::recursivePackageVersion

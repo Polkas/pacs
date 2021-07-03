@@ -72,3 +72,9 @@ test_that("pac_validate", {
 test_that("pac_validate", {
   expect_true(nrow(pacs_validate(c("stats", "graphics"))) == 0)
 })
+
+
+test_that("pacs_base", {
+  expect_true(all(c("stats", "methods", "base", "utils", "graphics") %in% pacs_base()))
+  expect_true( length(pacs_base()) >= length(pacs_base(only_startup = TRUE)))
+})

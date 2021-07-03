@@ -24,8 +24,7 @@ pac_deps <- function(pac,
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(base))
   stopifnot(is.logical(attr))
-  base_r <- c("stats", "graphics", "grDevices", "utils", "datasets", "methods", "base", "tools")
-  stopifnot(pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)), base_r))
+  stopifnot(pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)), pacs_base()))
 
   paks_global <- NULL
   pac_v <- utils::packageDescription(pac, lib.loc = lib.loc)$Version
@@ -65,7 +64,7 @@ pac_deps <- function(pac,
       c(
         pac,
         if (!base) {
-          c(base_r, "R")
+          c(pacs_base(), "R")
         } else {
           NULL
         }
