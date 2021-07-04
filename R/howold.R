@@ -56,7 +56,7 @@ pac_versions <- function(pac , at = NULL, from = NULL, to = NULL) {
 
   result$Archived <- as.Date(c(result$Released[-1], cran_released), origin = "1970-01-01")
   result <- rbind(result, data.frame(Package = pac, Released = cran_released, Size = NA, Description = NA, Version = cran_v, Archived = NA, stringsAsFactors = FALSE))
-  result$Life_Duration <- c(NA, diff(result$Archived))
+  result$Life_Duration <- result$Archived - result$Released
   result <- result[, c("Package", "Version", "Released", "Archived", "Life_Duration", "Size", "Description")]
 
   if (!is.null(at)) {
