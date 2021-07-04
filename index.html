@@ -124,10 +124,10 @@
   <span class="op">}</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="package-version-at-date-or-specific-date-interval" class="section level2">
+<div id="time-machine---package-version-at-date-or-specific-date-interval" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-version-at-date-or-specific-date-interval" class="anchor" aria-hidden="true"></a>Package version at Date or specific Date interval</h2>
-<p>Using R CRAN website to get packages version/versions used at a specific Date or a Date interval.</p>
+<a href="#time-machine---package-version-at-date-or-specific-date-interval" class="anchor" aria-hidden="true"></a>Time machine - Package version at Date or specific Date interval</h2>
+<p>Using R CRAN website to get packages version/versions used at a specific Date or a Date interval. Please as a courtesy to the R CRAN, don’t overload their server by constantly using these functions.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span>
 <span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2017-02-02"</span><span class="op">)</span><span class="op">)</span>
@@ -149,7 +149,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pacs_base.html">pacs_base</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># start up loaded, base packages</span>
-<span class="fu"><a href="reference/pacs_base.html">pacs_base</a></span><span class="op">(</span>only_startup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="reference/pacs_base.html">pacs_base</a></span><span class="op">(</span>startup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><code>pac_deps</code> to extremely fast retrive package dependencies, packages versions might come from installed ones or from desciption files (required minimum).</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Providing more than tools::package_dependencies and packrat:::recursivePackageVersion</span>
