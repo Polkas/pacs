@@ -69,26 +69,27 @@ This solution could give different results across time as some dependencies will
   })
 ```
 
-## Package version at Date or specific Date interval
+## Time machine - Package version at Date or specific Date interval
 
 Using R CRAN website to get packages version/versions used at a specific Date or a Date interval.
+Please as a courtesy to the R CRAN, don't overload their server by constantly using these functions.
 
 ```r
-pac_versions("dplyr")
-pac_versions("dplyr", at = as.Date("2017-02-02"))
-pac_versions("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
-pac_versions("dplyr", at = Sys.Date())
+pac_timemachine("dplyr")
+pac_timemachine("dplyr", at = as.Date("2017-02-02"))
+pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
+pac_timemachine("dplyr", at = Sys.Date())
 ```
 
 ```r
-pacs_versions(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
-pacs_versions(c("dplyr", "shiny"), at = Sys.Date())
+pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
+pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())
 ```
 
 CRAN packages Date mirror - will take some time (even few minutes):
 
 ```r
-pacs_versions(rownames(installed.packages()), at = as.Date("2020-08-08"))
+pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
 ```
 
 ## Package dependencies and diffeneces between versions
@@ -103,7 +104,7 @@ You might want to exclude them from final results.
 ```r
 pacs_base()
 # start up loaded, base packages
-pacs_base(only_startup = TRUE)
+pacs_base(startup = TRUE)
 ```
 
 `pac_deps` to extremely fast retrive package dependencies, packages versions might come from installed ones or from desciption files (required minimum).

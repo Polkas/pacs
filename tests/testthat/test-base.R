@@ -80,17 +80,17 @@ test_that("pacs_base", {
 })
 
 if (is_online()) {
-test_that("pac_versions", {
-  expect_true(pac_versions("dplyr", at = as.Date("2017-02-02"))$Version == "0.5.0")
-  expect_true(nrow(pac_versions("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 6)
+test_that("pac_timemachine", {
+  expect_true(pac_timemachine("dplyr", at = as.Date("2017-02-02"))$Version == "0.5.0")
+  expect_true(nrow(pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 6)
 })
 
-test_that("pacs_versions", {
-  expect_identical(vapply(pacs_versions(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01")),
+test_that("pacs_timemachine", {
+  expect_identical(vapply(pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01")),
                           function(x) nrow(x),
                           numeric(1)),
                    c(dplyr = 3, shiny = 2))
-  expect_identical(vapply(pacs_versions(c("dplyr", "shiny"), at = Sys.Date()),
+  expect_identical(vapply(pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date()),
                           function(x) nrow(x),
                           numeric(1)),
                    c(dplyr = 1, shiny = 1))
