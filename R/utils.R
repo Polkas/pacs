@@ -73,16 +73,15 @@ is_online <- function(site = "http://example.com/") {
 
 #' List of base R packages
 #' @description using installed.packages and priority equal "base" to retrieve base packages.
-#' @param only_startup logical include only stratup packages. Default: FALSE
+#' @param startup logical include only stratup packages. Default: FALSE
 #' @return character vector
 #' @export
 #'
-pacs_base <- function(only_startup = FALSE) {
-  stopifnot(is.logical(only_startup))
-  if (only_startup) {
-    getOption("defaultPackages")
+pacs_base <- function(startup = FALSE) {
+  stopifnot(is.logical(startup))
+  if (startup) {
+    c(getOption("defaultPackages"), "base")
   } else {
     rownames(utils::installed.packages(priority = "base"))
   }
 }
-

@@ -76,5 +76,23 @@ test_that("pac_validate", {
 
 test_that("pacs_base", {
   expect_true(all(c("stats", "methods", "base", "utils", "graphics") %in% pacs_base()))
-  expect_true( length(pacs_base()) >= length(pacs_base(only_startup = TRUE)))
+  expect_true( length(pacs_base()) >= length(pacs_base(startup = TRUE)))
 })
+
+if (is_online()) {
+test_that("pac_versions", {
+  expect_true(pac_versions("dplyr", at = as.Date("2017-02-02"))$Version == "0.5.0")
+  expect_true(nrow(pac_versions("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 6)
+})
+
+test_that("pacs_versions", {
+  expect_identical(vapply(pacs_versions(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01")),
+                          function(x) nrow(x),
+                          numeric(1)),
+                   c(dplyr = 3, shiny = 2))
+  expect_identical(vapply(pacs_versions(c("dplyr", "shiny"), at = Sys.Date()),
+                          function(x) nrow(x),
+                          numeric(1)),
+                   c(dplyr = 1, shiny = 1))
+})
+}

@@ -4,10 +4,10 @@
 \alias{pacs_base}
 \title{List of base R packages}
 \usage{
-pacs_base(only_startup = FALSE)
+pacs_base(startup = FALSE)
 }
 \arguments{
-\item{only_startup}{logical include only stratup packages. Default: FALSE}
+\item{startup}{logical include only stratup packages. Default: FALSE}
 }
 \value{
 character vector

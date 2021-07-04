@@ -69,6 +69,22 @@ This solution could give different results across time as some dependencies will
   })
 ```
 
+## Package version at Date or specific Date interval
+
+Using R CRAN website to get packages version/versions used at a specific Date or a Date interval.
+
+```r
+pac_versions("dplyr")
+pac_versions("dplyr", at = as.Date("2017-02-02"))
+pac_versions("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
+pac_versions("dplyr", at = Sys.Date())
+```
+
+```r
+pacs_versions(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
+pacs_versions(c("dplyr", "shiny"), at = Sys.Date())
+```
+
 ## Package dependencies and diffeneces between versions
 
 ```r
@@ -76,7 +92,7 @@ install.packages("shiny")
 ```
 
 Useful functions to get list of base packages. 
-You might want to exclude dem from final results.
+You might want to exclude them from final results.
 
 ```r
 pacs_base()
