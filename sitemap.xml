@@ -43,6 +43,9 @@
     <loc>/reference/pac_validate.html</loc>
   </url>
   <url>
+    <loc>/reference/pac_versions.html</loc>
+  </url>
+  <url>
     <loc>/reference/pacs_base.html</loc>
   </url>
   <url>
@@ -53,5 +56,8 @@
   </url>
   <url>
     <loc>/reference/pacs_validate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pacs_versions.html</loc>
   </url>
 </urlset>
