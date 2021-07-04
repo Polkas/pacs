@@ -37,13 +37,13 @@
     <loc>/reference/pac_size.html</loc>
   </url>
   <url>
+    <loc>/reference/pac_timemachine.html</loc>
+  </url>
+  <url>
     <loc>/reference/pac_true_size.html</loc>
   </url>
   <url>
     <loc>/reference/pac_validate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pac_versions.html</loc>
   </url>
   <url>
     <loc>/reference/pacs_base.html</loc>
@@ -55,9 +55,9 @@
     <loc>/reference/pacs_size.html</loc>
   </url>
   <url>
-    <loc>/reference/pacs_validate.html</loc>
+    <loc>/reference/pacs_timemachine.html</loc>
   </url>
   <url>
-    <loc>/reference/pacs_versions.html</loc>
+    <loc>/reference/pacs_validate.html</loc>
   </url>
 </urlset>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Packages versions at a specific Date or a Date interval — pacs_versions • pacs</title>
+<title>Package version at a specific Date or a Date interval — pac_timemachine • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Packages versions at a specific Date or a Date interval — pacs_versions" />
-<meta property="og:description" content="using cran website to get packages version/versions used at a specific Date or a Date interval." />
+<meta property="og:title" content="Package version at a specific Date or a Date interval — pac_timemachine" />
+<meta property="og:description" content="using cran website to get a package version/versions used at a specific Date or a Date interval." />
 
 
 
@@ -113,23 +113,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Packages versions at a specific Date or a Date interval</h1>
+    <h1>Package version at a specific Date or a Date interval</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/howold.R'><code>R/howold.R</code></a></small>
-    <div class="hidden name"><code>pacs_versions.Rd</code></div>
+    <div class="hidden name"><code>pac_timemachine.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>using cran website to get packages version/versions used at a specific Date or a Date interval.</p>
+    <p>using cran website to get a package version/versions used at a specific Date or a Date interval.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_versions</span><span class='op'>(</span><span class='va'>pacs</span>, at <span class='op'>=</span> <span class='cn'>NULL</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_timemachine</span><span class='op'>(</span><span class='va'>pac</span>, at <span class='op'>=</span> <span class='cn'>NULL</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pacs</th>
-      <td><p>character vector packages names.</p></td>
+      <th>pac</th>
+      <td><p>character a package name.</p></td>
     </tr>
     <tr>
       <th>at</th>
@@ -150,12 +150,13 @@
     <p>data.frame</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Function will scrap two CRAN URLS. Works only with CRAN packages. For bigger lists might need a few minutes.</p>
+    <p>Function will scrap two CRAN URLS. Works only with CRAN packages.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'>pacs_versions</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dplyr"</span>, <span class='st'>"shiny"</span><span class='op'>)</span>, from <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2018-06-30"</span><span class='op'>)</span>, to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2019-01-01"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>pacs_versions</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dplyr"</span>, <span class='st'>"shiny"</span><span class='op'>)</span>, at <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_timemachine</span><span class='op'>(</span><span class='st'>"dplyr"</span>, at <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2017-02-02"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_timemachine</span><span class='op'>(</span><span class='st'>"dplyr"</span>, from <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2017-02-02"</span><span class='op'>)</span>, to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2018-04-02"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_timemachine</span><span class='op'>(</span><span class='st'>"dplyr"</span>, at <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
 </code></pre></div>
   </div>
