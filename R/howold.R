@@ -5,7 +5,7 @@
 #' @param from Date new version of package. Default: NULL
 #' @param to Date cran URL. Default: NULL
 #' @return data.frame
-#' @note Function will scrap two CRAN URLS.
+#' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' @export
 #' @examples
 #' \dontrun{
@@ -18,9 +18,8 @@ pac_versions <- function(pac , at = NULL, from = NULL, to = NULL) {
   stopifnot(xor(!is.null(at) && inherits(at, "Date"),
                 !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date")) ||
               all(c(is.null(at), is.null(from), is.null(to))))
-
   rr <- readLines(sprintf("https://cran.r-project.org/src/contrib/Archive/%s/", pac))
-  rr_range <- grep("table", rr)
+  rr_range <- grep("</?table>", rr)
   rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
   # not use rvest as it is too big dependency
   header <- unlist(lapply(xml2::xml_find_all(xml2::read_html(rrr[1]), "//th"), xml2::xml_text))
@@ -83,7 +82,7 @@ pac_versions <- function(pac , at = NULL, from = NULL, to = NULL) {
 #' @param from Date new version of package. Default: NULL
 #' @param to Date cran URL. Default: NULL
 #' @return data.frame
-#' @note Function will scrap two CRAN URLS.
+#' @note Function will scrap two CRAN URLS. Works only with CRAN packages. For bigger lists might need a few minutes.
 #' @export
 #' @examples
 #' \dontrun{
@@ -91,6 +90,8 @@ pac_versions <- function(pac , at = NULL, from = NULL, to = NULL) {
 #' pacs_versions(c("dplyr", "shiny"), at = Sys.Date())
 #' }
 pacs_versions <- function(pacs, at = NULL, from = NULL, to = NULL) {
-  stopifnot(all(pacs %in% rownames(utils::available.packages(repos = "http://cran.rstudio.com/"))))
-  stats::setNames(lapply(pacs, function(pac) pac_versions(pac, at, from, to)), pacs)
+  pacs_cran <- intersect(pacs, rownames(utils::available.packages(repos = "http://cran.rstudio.com/")))
+  pacs_skip <- setdiff(pacs, pacs_cran)
+  if (length(pacs_skip)) cat("Skipping non CRAN packages", pacs_skip, "\n")
+  stats::setNames(lapply(pacs_cran, function(pac) pac_versions(pac, at, from, to)), pacs_cran)
 }

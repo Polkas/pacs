@@ -22,7 +22,7 @@ data.frame
 using cran website to get packages version/versions used at a specific Date or a Date interval.
 }
 \note{
-Function will scrap two CRAN URLS.
+Function will scrap two CRAN URLS. Works only with CRAN packages. For bigger lists might need a few minutes.
 }
 \examples{
 \dontrun{

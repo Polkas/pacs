@@ -35,7 +35,7 @@ At the time of writing it, it is `113Mb` for `devtools` without base packages.
 
 ```r
 cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
-#cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")
+# cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")
 # exclude packages if at least one other package use it too
 # cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")
 ```
@@ -83,6 +83,12 @@ pac_versions("dplyr", at = Sys.Date())
 ```r
 pacs_versions(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
 pacs_versions(c("dplyr", "shiny"), at = Sys.Date())
+```
+
+CRAN packages Date mirror - will take some time (even few minutes):
+
+```r
+pacs_versions(rownames(installed.packages()), at = as.Date("2020-08-08"))
 ```
 
 ## Package dependencies and diffeneces between versions
