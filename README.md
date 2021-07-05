@@ -11,6 +11,17 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 - Validating the library for possible wrong packages versions (what we have vs what we should have). 
 - Exploring complexity of packages.
 
+| Function                            | Description                                                | 
+|:-----------------------------------|:------------------------------------------------------------|
+|`pac_deps`/`pacs_deps`             |  Package/s dependencies with installed or expected versions|
+|`pac_validate`/`pacs_validate`       | Package/s: What we have vs What we should have|
+|`lib_validate`                         | Library: What we have vs What we should have|
+| `pac_compare_versions`| Compare dependencies of specific package versions|
+|`pac_size`/`pacs_size`                   |   Size of the package/s                                     | 
+|`pac_true_size`                        | True size of the package (with dependencies too)| 
+|`pac_timemachine`/`pacs_timemachine` | Package/s version/s at a specific Date or a Date interval|
+|`pacs_base`                          | R base packages|
+
 ## True R package size
 
 This function might be crucial before we push our package to R CRAN.
@@ -46,11 +57,16 @@ Might be useful to check the number of dependencies too:
 pacs::pac_deps("devtools")$Package
 ```
 
+### shiny app true size
+
+
+
 ### Remote version/dependecies
 
 The installation process is not always a smooth one.
 Thus I am recommending such manual usage:
 This solution could give different results across time as some dependencies will be newer.
+
 ```r
  package <- "shiny"
  version <- "1.6.0"

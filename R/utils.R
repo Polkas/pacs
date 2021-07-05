@@ -54,7 +54,6 @@ compareVersionsMin <- function(vec, na.rm = TRUE) {
   vec)
 }
 
-
 dir_size <- function(path, recursive = TRUE) {
   stopifnot(is.character(path))
   files <- list.files(path, full.names = T, recursive = recursive)

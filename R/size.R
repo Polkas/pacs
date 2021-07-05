@@ -2,7 +2,7 @@
 #' @description size of package.
 #' @param pac character a package name.
 #' @param lib.loc character vector. Default: NULL
-#' @return data.frame
+#' @return numeric size in bytes.
 #' @export
 #' @examples
 #' cat(pacs::pacs_size("stats")/10**6, "Mb")
@@ -22,7 +22,7 @@ pac_size <- function(pac, lib.loc = NULL) {
 #' @description size of packages.
 #' @param pacs character vector packages.
 #' @param lib.loc character vector. Default: NULL
-#' @return data.frame
+#' @return named vector of sizes in bytes.
 #' @export
 #' @examples
 #' cat(pacs::pacs_size("stats")/10**6, "Mb")
