@@ -80,6 +80,58 @@
 <li>Validating the library for possible wrong packages versions (what we have vs what we should have).</li>
 <li>Exploring complexity of packages.</li>
 </ul>
+<table class="table">
+<colgroup>
+<col width="37%">
+<col width="62%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Function</th>
+<th align="left">Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">
+<code>pac_deps</code>/<code>pacs_deps</code>
+</td>
+<td align="left">Package/s dependencies with installed or expected versions</td>
+</tr>
+<tr class="even">
+<td align="left">
+<code>pac_validate</code>/<code>pacs_validate</code>
+</td>
+<td align="left">Package/s: What we have vs What we should have</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>lib_validate</code></td>
+<td align="left">Library: What we have vs What we should have</td>
+</tr>
+<tr class="even">
+<td align="left"><code>pac_compare_versions</code></td>
+<td align="left">Compare dependencies of specific package versions</td>
+</tr>
+<tr class="odd">
+<td align="left">
+<code>pac_size</code>/<code>pacs_size</code>
+</td>
+<td align="left">Size of the package/s</td>
+</tr>
+<tr class="even">
+<td align="left"><code>pac_true_size</code></td>
+<td align="left">True size of the package (with dependencies too)</td>
+</tr>
+<tr class="odd">
+<td align="left">
+<code>pac_timemachine</code>/<code>pacs_timemachine</code>
+</td>
+<td align="left">Package/s version/s at a specific Date or a Date interval</td>
+</tr>
+<tr class="even">
+<td align="left"><code>pacs_base</code></td>
+<td align="left">R base packages</td>
+</tr>
+</tbody>
+</table>
 <div id="true-r-package-size" class="section level2">
 <h2 class="hasAnchor">
 <a href="#true-r-package-size" class="anchor" aria-hidden="true"></a>True R package size</h2>
@@ -101,6 +153,10 @@
 <p>Might be useful to check the number of dependencies too:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
+</div>
+<div id="shiny-app-true-size" class="section level3">
+<h3 class="hasAnchor">
+<a href="#shiny-app-true-size" class="anchor" aria-hidden="true"></a>shiny app true size</h3>
 </div>
 <div id="remote-versiondependecies" class="section level3">
 <h3 class="hasAnchor">
