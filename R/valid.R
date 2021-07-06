@@ -23,40 +23,6 @@ lib_validate <- function(lib.loc = NULL, fields = c("Depends", "Imports", "Linki
   result
 }
 
-installed_descriptions <- function(lib.loc, fields) {
-
-  installed_agg <- installed_agg_fun(lib.loc, fields)
-
-  paks <- installed_agg[, fields]
-  nams <- rownames(paks)
-  rownames(paks) <- nams
-
-  df_split <- lapply(strsplit(apply(paks, 1, function(x) paste(x, sep=",")), ","), trimws)
-  versions <- lapply(df_split, function(x) sapply(regmatches(x, regexec("([0-9\\.-]+)\\)", x, perl= TRUE)), function(x) `[`(x, 2)))
-  packages <- lapply(df_split, function(x) sapply(strsplit(x, "[ \n\\(]"), function (x) `[`(x, 1)))
-
-  joint <- do.call(rbind, lapply(seq_len(length(packages)),
-                                 function(x) data.frame(Version = replaceNA(versions[[x]], ""),
-                                                        Package = replace(packages[[x]], versions[[x]] == "NA", NA),
-                                                        stringsAsFactors = FALSE)))
-  res_agg <- stats::aggregate(joint[, c("Version"), drop = FALSE],
-                              list(Package = joint$Package),
-                              compareVersionsMax)
-
-  res_agg$Version[is.na(res_agg$Version)] <- ""
-
-  res_agg
-}
-
-
-installed_agg_fun <- function(lib.loc = NULL, fields) {
-  installed_df <- as.data.frame(utils::installed.packages(lib.loc = NULL))
-  installed_agg <- stats::aggregate(installed_df[ , c("Version", fields), drop = FALSE],
-                                    list(Package = installed_df$Package),
-                                    function(x) x[1])
-  installed_agg
-}
-
 #' Compare current and expected package dependencies versions using DESCRIPTION files.
 #' @description Checking the healthy of the specific packages.
 #' @param pac character a package name.

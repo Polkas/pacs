@@ -25,4 +25,5 @@ Config/testthat/edition: 3
 Imports: 
     withr,
     remotes,
-    xml2
+    xml2,
+    packrat

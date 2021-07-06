@@ -50,11 +50,11 @@ pacs_size <- function(pacs = NULL, lib.loc = NULL) {
 #' @param lib.loc character vector, Default: NULL
 #' @param base logical if to add base packages too. Default: FALSE
 #' @param exclude_joint integer exclude packages which are dependencies of at least N other packages. Default: 0
-#' @return data.frame
+#' @return numeric sizes in bytes.
 #' @export
 #' @examples
 #' # size in Mb
-#' pacs::pac_true_size("stats")/10**6
+#' pacs::pac_true_size("stats") / 10**6
 #' # exclude packages if at least one other package use it too
 #' \dontrun{
 #' pacs::pac_true_size("devtools", exclude_joint = 1L)/10**6
@@ -77,4 +77,15 @@ pac_true_size <- function(pac,
 
   sum(pacs_size(setdiff(pacs_all, "R"), lib.loc = lib.loc))
 
+}
+
+#' Shiny app true size
+#' @description shiny app true size as it takes into account all its dependencies.
+#' @param path character path to shiny app. Default: getwd()
+#' @return numeric sizes in bytes.
+#' @export
+shiny_true_size <- function(path = getwd()) {
+  deps <- packrat:::appDependencies(path)
+  app_size <- dir_size(path)
+  (sum(pacs::pacs_size(deps)) + app_size)
 }

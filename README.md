@@ -11,25 +11,26 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 - Validating the library for possible wrong packages versions (what we have vs what we should have). 
 - Exploring complexity of packages.
 
-| Function                            | Description                                                | 
-|:-----------------------------------|:------------------------------------------------------------|
-|`pac_deps`/`pacs_deps`             |  Package/s dependencies with installed or expected versions|
-|`pac_validate`/`pacs_validate`       | Package/s: What we have vs What we should have|
-|`lib_validate`                         | Library: What we have vs What we should have|
-| `pac_compare_versions`| Compare dependencies of specific package versions|
-|`pac_size`/`pacs_size`                   |   Size of the package/s                                     | 
-|`pac_true_size`                        | True size of the package (with dependencies too)| 
-|`pac_timemachine`/`pacs_timemachine` | Package/s version/s at a specific Date or a Date interval|
-|`pacs_base`                          | R base packages|
+| Function                            | Description                                                 | 
+|:------------------------------------|:------------------------------------------------------------|
+|`pac_deps`/`pacs_deps`               |  Package/s dependencies with installed or expected versions |
+|`pac_validate`/`pacs_validate`       | Package/s: What we have vs What we should have              |
+|`lib_validate`                       | Library: What we have vs What we should have                |
+|`pac_compare_versions`               | Compare dependencies of specific package versions           |
+|`pac_size`/`pacs_size`               | Size of the package/s                                       | 
+|`shiny_true_size`                    | True size of the shiny app (with dependencies too)          |
+|`pac_true_size`                      | True size of the package (with dependencies too)            | 
+|`pac_timemachine`/`pacs_timemachine` | Package/s version/s at a specific Date or a Date interval   |
+|`pacs_base`                          | R base packages                                             |
 
-## True R package size
+## R package size and dependencies
 
-This function might be crucial before we push our package to R CRAN.
-We could control the weight of our project.
-Take into account that the size are appropriate for you system `Sys.info()`.
+This function might be crucial before we realse our package.
+We could control the true weight of our project.
+Take into account that the size is appropriate for you system `Sys.info()`.
 Installation with `install.packages` and some `devtools` functions might result in different package sizes.
 
-### Package
+### Case Study: devtools
 
 ```r
 install.packages("devtools")
@@ -42,13 +43,20 @@ cat(pacs::pac_size("devtools") / 10**6, "Mb", "\n")
 ```
 
 True size of a package as taking into account its dependencies.
-At the time of writing it, it is `113Mb` for `devtools` without base packages.
+At the time of writing it, it is `113Mb` for `devtools` without base packages (Mac OS arm64).
 
 ```r
 cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
 # cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")
+```
+
+A reasonable assumption might be to count only dependencies which are not used by any other package.
+Then we could use `exclude_joint` argument to limit them.
+However hard to assume if your local installation is a reasonable proxy for avarage user.
+
+```
 # exclude packages if at least one other package use it too
-# cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")
+cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")
 ```
 
 Might be useful to check the number of dependencies too:
@@ -57,9 +65,81 @@ Might be useful to check the number of dependencies too:
 pacs::pac_deps("devtools")$Package
 ```
 
-### shiny app true size
+## Time machine - Package version at Date or specific Date interval
 
+Using R CRAN website to get packages version/versions used at a specific Date or a Date interval.  
+Please as a courtesy to the R CRAN, don't overload their server by constantly using these functions.
 
+```r
+pac_timemachine("dplyr")
+pac_timemachine("dplyr", at = as.Date("2017-02-02"))
+pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
+pac_timemachine("dplyr", at = Sys.Date())
+```
+
+```r
+pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
+pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())
+```
+
+CRAN packages Date mirror - will take some time (even few minutes):
+
+```r
+pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
+```
+
+## Package dependencies and diffeneces between versions
+
+The crucial functionality is to get versions for all package dependencies. 
+Versions might come form installed packages or all DESCRIPTION files.
+
+```r
+install.packages("shiny")
+```
+
+Useful functions to get list of base packages. 
+You might want to exclude them from final results.
+
+```r
+pacs_base()
+# start up loaded, base packages
+pacs_base(startup = TRUE)
+```
+
+`pac_deps` for extremely fast retrieve of package dependencies, 
+packages versions might come from installed ones or from desciption files (required minimum).
+
+```r
+# Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
+# pacs::package_deps is providing the min required version for each package
+# Use it to answer what we should have
+res <- pacs::pac_deps("shiny")
+res
+attributes(res)
+```
+
+Packages depndencies with versions from description files.
+
+```r
+pacs::pac_deps("shiny", description_v = TRUE)
+```
+
+Remote (newest CRAN) package depndencies with versions.
+
+```r
+pacs::pac_deps("shiny", remote = TRUE)
+```
+
+Sth new on the R market.
+comparing dependencies per package versions.
+
+```r
+# It was used withr::with_temp_libpaths and devtools::install_version for this task
+
+pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
+
+pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
+```
 
 ### Remote version/dependecies
 
@@ -83,74 +163,6 @@ This solution could give different results across time as some dependencies will
     # pac_deps(package, description_v = TRUE)
     cat(pacs::pac_true_size(package)/10**6, "Mb", "\n")
   })
-```
-
-## Time machine - Package version at Date or specific Date interval
-
-Using R CRAN website to get packages version/versions used at a specific Date or a Date interval.
-Please as a courtesy to the R CRAN, don't overload their server by constantly using these functions.
-
-```r
-pac_timemachine("dplyr")
-pac_timemachine("dplyr", at = as.Date("2017-02-02"))
-pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
-pac_timemachine("dplyr", at = Sys.Date())
-```
-
-```r
-pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
-pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())
-```
-
-CRAN packages Date mirror - will take some time (even few minutes):
-
-```r
-pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
-```
-
-## Package dependencies and diffeneces between versions
-
-```r
-install.packages("shiny")
-```
-
-Useful functions to get list of base packages. 
-You might want to exclude them from final results.
-
-```r
-pacs_base()
-# start up loaded, base packages
-pacs_base(startup = TRUE)
-```
-
-`pac_deps` to extremely fast retrive package dependencies, packages versions might come from installed ones or from desciption files (required minimum).
-
-
-```r
-# Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
-# It is closer to packrat:::recursivePackageVersion
-# pacs::package_deps is providing the min required version for each package
-# Use it to answer what we should have
-res <- pacs::pac_deps("shiny")
-res
-attributes(res)
-```
-
-Packages depndencies with versions from description files.
-
-```r
-pacs::pac_deps("shiny", description_v = TRUE)
-```
-
-Sth new on the R market.
-comparing dependencies per package versions.
-
-```r
-# It was used withr::with_temp_libpaths and devtools::install_version for this task
-
-pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
-
-pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
 ```
 
 ## Dependencies taking into account newest r cran packages

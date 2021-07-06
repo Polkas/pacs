@@ -5,6 +5,8 @@
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
 #' @param base logical if to add base packages too. Default: FALSE
+#' @param remote logical if to use newest CRAN packages, where by default local ones are used. Default: FALSE
+#' @param repos character cran URL. Default: "http://cran.rstudio.com/"
 #' @param description_v if the dependecies version should be taken from description files, minimal required. Default: FALSE
 #' @return data.frame with packages and their versions. Versions are taken from `installed.packages`.
 #' @export
@@ -18,45 +20,55 @@ pac_deps <- function(pac,
                      fields = c("Depends", "Imports", "LinkingTo"),
                      lib.loc = NULL,
                      base = FALSE,
+                     remote = FALSE,
                      description_v = FALSE,
+                     repos = "http://cran.rstudio.com/",
                      attr = TRUE) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(base))
   stopifnot(is.logical(attr))
-  stopifnot(pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)), pacs_base()))
 
-  paks_global <- NULL
-  pac_v <- utils::packageDescription(pac, lib.loc = lib.loc)$Version
+  if (!remote) {
+    stopifnot(pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)), pacs_base()))
 
-  deps <- function(pak, fileds) {
-    pks <- utils::packageDescription(pak)
-    res <- NULL
-    for (f in fileds) {
-      ff <- pks[[f]]
-      if (!is.null(ff)) {
-        res <- c(
-          res,
-          vapply(
-            strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]"),
-            function(x) x[1],
-            character(1)
+    paks_global <- NULL
+    pac_v <- utils::packageDescription(pac, lib.loc = lib.loc)$Version
+
+    deps <- function(pak, fileds) {
+      pks <- utils::packageDescription(pak)
+      res <- NULL
+      for (f in fileds) {
+        ff <- pks[[f]]
+        if (!is.null(ff)) {
+          res <- c(
+            res,
+            vapply(
+              strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]"),
+              function(x) x[1],
+              character(1)
+            )
           )
-        )
+        }
+      }
+      if (is.null(res)) {
+        return(NULL)
+      }
+      for (r in res) {
+        if (r != "R" && !r %in% paks_global) {
+          paks_global <<- c(r, paks_global)
+          deps(r, fields)
+        }
       }
     }
-    if (is.null(res)) {
-      return(NULL)
-    }
-    for (r in res) {
-      if (r != "R" && !r %in% paks_global) {
-        paks_global <<- c(r, paks_global)
-        deps(r, fields)
-      }
-    }
-  }
 
-  deps(pac, fields)
+    deps(pac, fields)
+    v_base <- utils::installed.packages(lib.loc = lib.loc)
+  } else {
+    paks_global <- packrat:::recursivePackageDependencies(pac, lib.loc = lib.loc, fields = fields)
+    v_base <- utils::available.packages(repos = repos)
+    pac_v <- v_base[pac, c("Version")]
+  }
 
   res <- unique(c(
     setdiff(
@@ -77,11 +89,12 @@ pac_deps <- function(pac,
     }
   ))
 
+
   if (description_v) {
     res_df <- installed_descriptions(lib.loc, fields)
     res_df <- res_df[res_df$Package %in% res, ]
   } else {
-    res_df <- as.data.frame(utils::installed.packages(lib.loc = lib.loc)[res, c("Package", "Version"), drop = FALSE])
+    res_df <- as.data.frame(v_base[res, c("Package", "Version"), drop = FALSE])
   }
 
   if (attr) {
@@ -99,6 +112,7 @@ pac_deps <- function(pac,
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE
 #' @param base logical if to add base packages too. Default: FALSE
+#' @param remote logical if to use newest CRAN packages, where by default local ones are used. Default: FALSE
 #' @param description_v if the dependecies version should be taken from description files, minimal required. Default: FALSE
 #' @return data.frame
 #' @export
@@ -110,6 +124,7 @@ pacs_deps <- function(pacs = NULL,
                       lib.loc = NULL,
                       attr = TRUE,
                       base = FALSE,
+                      remote = FALSE,
                       description_v = FALSE
                       ) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
@@ -126,6 +141,7 @@ pacs_deps <- function(pacs = NULL,
                                                              lib.loc = lib.loc,
                                                              attr = attr,
                                                              base = base,
+                                                             remote = remote,
                                                              description_v)))
 
   if (nrow(dfs) > 0) {
