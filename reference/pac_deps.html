@@ -127,7 +127,9 @@
   fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
   base <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  remote <span class='op'>=</span> <span class='cn'>FALSE</span>,
   description_v <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  repos <span class='op'>=</span> <span class='st'>"http://cran.rstudio.com/"</span>,
   attr <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
 
@@ -151,8 +153,16 @@
       <td><p>logical if to add base packages too. Default: FALSE</p></td>
     </tr>
     <tr>
+      <th>remote</th>
+      <td><p>logical if to use newest CRAN packages, where by default local ones are used. Default: FALSE</p></td>
+    </tr>
+    <tr>
       <th>description_v</th>
       <td><p>if the dependecies version should be taken from description files, minimal required. Default: FALSE</p></td>
+    </tr>
+    <tr>
+      <th>repos</th>
+      <td><p>character cran URL. Default: "http://cran.rstudio.com/"</p></td>
     </tr>
     <tr>
       <th>attr</th>
