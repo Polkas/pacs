@@ -85,7 +85,8 @@ pac_true_size <- function(pac,
 #' @return numeric sizes in bytes.
 #' @export
 shiny_true_size <- function(path = getwd()) {
-  deps <- packrat:::appDependencies(path)
+  appDependencies <- utils::getFromNamespace("appDependencies", "packrat")
+  deps <- appDependencies(path)
   app_size <- dir_size(path)
   (sum(pacs::pacs_size(deps)) + app_size)
 }

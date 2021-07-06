@@ -24,14 +24,14 @@ pac_true_size(
 \item{exclude_joint}{integer exclude packages which are dependencies of at least N other packages. Default: 0}
 }
 \value{
-data.frame
+numeric sizes in bytes.
 }
 \description{
 Package true size as it takes into account dependencies.
 }
 \examples{
 # size in Mb
-pacs::pac_true_size("stats")/10**6
+pacs::pac_true_size("stats") / 10**6
 # exclude packages if at least one other package use it too
 \dontrun{
 pacs::pac_true_size("devtools", exclude_joint = 1L)/10**6

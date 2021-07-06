@@ -10,6 +10,7 @@ pacs_deps(
   lib.loc = NULL,
   attr = TRUE,
   base = FALSE,
+  remote = FALSE,
   description_v = FALSE
 )
 }
@@ -23,6 +24,8 @@ pacs_deps(
 \item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE}
 
 \item{base}{logical if to add base packages too. Default: FALSE}
+
+\item{remote}{logical if to use newest CRAN packages, where by default local ones are used. Default: FALSE}
 
 \item{description_v}{if the dependecies version should be taken from description files, minimal required. Default: FALSE}
 }

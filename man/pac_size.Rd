@@ -12,7 +12,7 @@ pac_size(pac, lib.loc = NULL)
 \item{lib.loc}{character vector. Default: NULL}
 }
 \value{
-data.frame
+numeric size in bytes.
 }
 \description{
 size of package.

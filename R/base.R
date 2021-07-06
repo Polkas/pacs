@@ -65,7 +65,8 @@ pac_deps <- function(pac,
     deps(pac, fields)
     v_base <- utils::installed.packages(lib.loc = lib.loc)
   } else {
-    paks_global <- packrat:::recursivePackageDependencies(pac, lib.loc = lib.loc, fields = fields)
+    recursivePackageDependencies <- utils::getFromNamespace("recursivePackageDependencies", "packrat")
+    paks_global <- recursivePackageDependencies(pac, lib.loc = lib.loc, fields = fields)
     v_base <- utils::available.packages(repos = repos)
     pac_v <- v_base[pac, c("Version")]
   }

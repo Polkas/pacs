@@ -9,7 +9,9 @@ pac_deps(
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
   base = FALSE,
+  remote = FALSE,
   description_v = FALSE,
+  repos = "http://cran.rstudio.com/",
   attr = TRUE
 )
 }
@@ -22,7 +24,11 @@ pac_deps(
 
 \item{base}{logical if to add base packages too. Default: FALSE}
 
+\item{remote}{logical if to use newest CRAN packages, where by default local ones are used. Default: FALSE}
+
 \item{description_v}{if the dependecies version should be taken from description files, minimal required. Default: FALSE}
+
+\item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
 
 \item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
 }
