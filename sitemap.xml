@@ -34,7 +34,7 @@
     <loc>/reference/pac_deps.html</loc>
   </url>
   <url>
-    <loc>/reference/pac_healthy.html</loc>
+    <loc>/reference/pac_health.html</loc>
   </url>
   <url>
     <loc>/reference/pac_size.html</loc>
@@ -53,6 +53,9 @@
   </url>
   <url>
     <loc>/reference/pacs_deps.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pacs_health.html</loc>
   </url>
   <url>
     <loc>/reference/pacs_size.html</loc>
