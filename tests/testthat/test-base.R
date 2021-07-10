@@ -103,8 +103,9 @@ test_that("pac_health", {
 test_that("pacs_health", {
   expect_equal(pacs_health(c("dplyr", "devtools"),
                            versions = c("0.8.0", "2.4.0")),
-               list(structure(FALSE, class = "sure"),
-                    structure(TRUE, class = "sure")))
+               stats::setNames(list(structure(FALSE, class = "sure"),
+                    structure(TRUE, class = "sure")),
+               c("dplyr", "devtools")))
 })
 
 }
