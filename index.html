@@ -103,46 +103,47 @@
 <td align="left">Package/s: What we have vs What we should have</td>
 </tr>
 <tr class="odd">
+<td align="left"><code>pac_healthy</code></td>
+<td align="left">Package healthy, if a version was published more than 7 days</td>
+</tr>
+<tr class="even">
 <td align="left"><code>lib_validate</code></td>
 <td align="left">Library: What we have vs What we should have</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>pac_compare_versions</code></td>
 <td align="left">Compare dependencies of specific package versions</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">
 <code>pac_size</code>/<code>pacs_size</code>
 </td>
 <td align="left">Size of the package/s</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>shiny_true_size</code></td>
 <td align="left">True size of the shiny app (with dependencies too)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>pac_true_size</code></td>
 <td align="left">True size of the package (with dependencies too)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">
 <code>pac_timemachine</code>/<code>pacs_timemachine</code>
 </td>
 <td align="left">Package/s version/s at a specific Date or a Date interval</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>pacs_base</code></td>
 <td align="left">R base packages</td>
 </tr>
 </tbody>
 </table>
-<div id="r-package-size-and-dependencies" class="section level2">
-<h2 class="hasAnchor">
-<a href="#r-package-size-and-dependencies" class="anchor" aria-hidden="true"></a>R package size and dependencies</h2>
-<p>This function might be crucial before we realse our package. We could control the true weight of our project. Take into account that the size is appropriate for you system <code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>. Installation with <code>install.packages</code> and some <code>devtools</code> functions might result in different package sizes.</p>
 <div id="case-study-devtools" class="section level3">
 <h3 class="hasAnchor">
 <a href="#case-study-devtools" class="anchor" aria-hidden="true"></a>Case Study: devtools</h3>
+<p>Take into account that the size is appropriate for you system <code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>. Installation with <code>install.packages</code> and some <code>devtools</code> functions might result in different package sizes.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
 <p>Size of a package:</p>
@@ -158,7 +159,6 @@ cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")</co
 <p>Might be useful to check the number of dependencies too:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
-</div>
 </div>
 <div id="time-machine---package-version-at-date-or-specific-date-interval" class="section level2">
 <h2 class="hasAnchor">
