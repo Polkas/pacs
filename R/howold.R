@@ -20,6 +20,10 @@ pac_health <- function(pac , version = NULL, at = NULL) {
   stopifnot(length(pac) == 1)
   stopifnot(!all(c(!is.null(version), !is.null(at))))
 
+  if (!pac %in% rownames(available_packages(repos = "http://cran.rstudio.com/"))) {
+    return(NA)
+  }
+
   if (is.null(version) && is.null(at)) {
     version <- utils::packageVersion(pac)
   }
@@ -66,7 +70,9 @@ pacs_health <- function(pacs , versions = NULL, at = NULL) {
   stopifnot(!all(c(!is.null(versions), !is.null(at))))
   stopifnot(is.null(versions) || length(pacs) == length(versions))
 
-  lapply(seq_along(pacs), function(x) pac_health(pacs[x], version = versions[x], at = at))
+  stats::setNames(lapply(seq_along(pacs),
+         function(x) pac_health(pacs[x], version = versions[x], at = at)),
+         pacs)
 }
 #' Package version at a specific Date or a Date interval
 #' @description using cran website to get a package version/versions used at a specific Date or a Date interval.

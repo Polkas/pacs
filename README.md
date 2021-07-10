@@ -90,10 +90,19 @@ pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
 We could find out if a certain package version was live more than 7 days. 
 If not then we might assume sth wrong was with it, as had to be quickly updated.
 
-e.g. `dplyr` under the "0.8.0" version seems to be a broken release, with `pac_health("dplyr", version = "0.8.0")` we could find out that it was published only for 1 day.
+e.g. `dplyr` under the "0.8.0" version seems to be a broken release, with `pac_timemachine("dplyr")` we could find out that it was published only for 1 day.
 
 ```r
 pac_health("dplyr", version = "0.8.0")
+```
+
+All packages health, skip non CRAN packages - will take some time (even few minutes):
+
+```r
+all_pacs_health <- pacs_health(rownames(installed.packages()))
+#not healthy packages
+Filter(function(x) isFALSE(x) && (class(x) == "sure"), 
+       all_pacs_health)
 ```
 
 ## Package dependencies and diffeneces between versions
