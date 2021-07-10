@@ -183,7 +183,7 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 <h2 class="hasAnchor">
 <a href="#package-health" class="anchor" aria-hidden="true"></a>Package health</h2>
 <p>We could find out if a certain package version was live more than 7 days. If not then we might assume sth wrong was with it, as had to be quickly updated.</p>
-<p>e.g. <code>dplyr</code> under “0.8.0” versions seems to be a broken release.</p>
+<p>e.g. <code>dplyr</code> under the “0.8.0” version seems to be a broken release, with <code>pac_health("dplyr", version = "0.8.0")</code> we could find out that it was published only for 1 day.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pac_health.html">pac_health</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span><span class="op">)</span></code></pre></div>
 </div>
