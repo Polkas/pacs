@@ -24,6 +24,7 @@ using cran website to get a package version/versions used at a specific Date or 
 \note{
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
+To minimize the overload the memoise package was used
 }
 \examples{
 \dontrun{

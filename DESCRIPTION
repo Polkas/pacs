@@ -26,4 +26,5 @@ Imports:
     withr,
     remotes,
     xml2,
+    memoise,
     packrat

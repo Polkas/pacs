@@ -95,4 +95,8 @@ test_that("pacs_timemachine", {
                           numeric(1)),
                    c(dplyr = 1, shiny = 1))
 })
+
+test_that("pac_healthy", {
+  expect_true(isFALSE(pac_healthy("dplyr", version = "0.8.0")))
+})
 }

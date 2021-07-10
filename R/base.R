@@ -28,6 +28,7 @@ pac_deps <- function(pac,
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(base))
   stopifnot(is.logical(attr))
+  stopifnot(!all(c(remote, description_v)))
 
   if (!remote) {
     stopifnot(pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)), pacs_base()))
@@ -67,7 +68,7 @@ pac_deps <- function(pac,
   } else {
     recursivePackageDependencies <- utils::getFromNamespace("recursivePackageDependencies", "packrat")
     paks_global <- recursivePackageDependencies(pac, lib.loc = lib.loc, fields = fields)
-    v_base <- utils::available.packages(repos = repos)
+    v_base <- available_packages(repos = repos)
     pac_v <- v_base[pac, c("Version")]
   }
 

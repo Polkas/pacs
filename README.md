@@ -15,6 +15,7 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 |:------------------------------------|:------------------------------------------------------------|
 |`pac_deps`/`pacs_deps`               |  Package/s dependencies with installed or expected versions |
 |`pac_validate`/`pacs_validate`       | Package/s: What we have vs What we should have              |
+|`pac_healthy`                        | Package healthy, if a version was published more than 7 days|
 |`lib_validate`                       | Library: What we have vs What we should have                |
 |`pac_compare_versions`               | Compare dependencies of specific package versions           |
 |`pac_size`/`pacs_size`               | Size of the package/s                                       | 
@@ -23,14 +24,10 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 |`pac_timemachine`/`pacs_timemachine` | Package/s version/s at a specific Date or a Date interval   |
 |`pacs_base`                          | R base packages                                             |
 
-## R package size and dependencies
+### Case Study: devtools
 
-This function might be crucial before we realse our package.
-We could control the true weight of our project.
 Take into account that the size is appropriate for you system `Sys.info()`.
 Installation with `install.packages` and some `devtools` functions might result in different package sizes.
-
-### Case Study: devtools
 
 ```r
 install.packages("devtools")

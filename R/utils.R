@@ -118,3 +118,6 @@ installed_agg_fun <- function(lib.loc = NULL, fields) {
                                     function(x) x[1])
   installed_agg
 }
+
+
+available_packages <- memoise::memoise(utils::available.packages)
