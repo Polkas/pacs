@@ -1,22 +1,23 @@
-#' Package healty state at a specific Date or for specific version
+#' Package healty state at a specific Date or for a specific version
 #' @description using cran website to get a package version/versions used at a specific Date interval.
 #' A healthy package is a if it was published for more than 7 days.
 #' CRAN team gives around one week to resolved a package which gave errors under the check page.
 #' @param pac character a package name.
 #' @param version character version of package. Default: NULL
 #' @param at Date old version of package. Default: NULL
-#' @return logical if package is healthy, for newest release for current state.
+#' @return logical if package is healthy.
 #' If the newest release is published less than 7 days ago then the class of object is "not-sure".
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' To minimize the overload the memoise package was used.
+#' To minimize the overload the memoise package was used, to cache the data.
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_healthy("dplyr")
-#' pac_healthy("dplyr", version = "0.8.0")
+#' pac_health("dplyr")
+#' pac_health("dplyr", version = "0.8.0")
 #' }
-pac_healthy <- function(pac , version = NULL, at = NULL) {
+pac_health <- function(pac , version = NULL, at = NULL) {
+  stopifnot(length(pac) == 1)
   stopifnot(!all(c(!is.null(version), !is.null(at))))
 
   if (is.null(version) && is.null(at)) {
@@ -36,14 +37,37 @@ pac_healthy <- function(pac , version = NULL, at = NULL) {
   stopifnot(nrow(res) == 1)
 
   if (is.na(pac_tm$Archived) && !is.na(pac_tm$Life_Duration) && !res) {
-    cat("This is a newest release published less than 7 days ago so not sure about score.")
+    cat(sprintf("This is a newest release of %s published less than 7 days ago so not sure about score.", pac))
     structure(res, class = "not-sure")
   } else {
     structure(res, class = "sure")
   }
-
 }
 
+#' Packages health state at a specific Date or for a specific versions
+#' @description using cran website to get a package version/versions used at a specific Date interval.
+#' A healthy package is a if it was published for more than 7 days.
+#' CRAN team gives around one week to resolved a package which gave errors under the check page.
+#' @param pacs character vector packages names.
+#' @param versions character vector versions of packages. Default: NULL
+#' @param at Date old version of package. Default: NULL
+#' @return logical vector, TRUE if a package is healthy.
+#' If the newest release is published less than 7 days ago then the class of object is "not-sure" for newest version.
+#' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
+#' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
+#' To minimize the overload the memoise package was used, to cache the data.
+#' @export
+#' @examples
+#' \dontrun{
+#' pacs_health(c("dplyr", "devtools"))
+#' pacs_health(c("dplyr", "devtools"), versions = c("0.8.0", "2.4.0"))
+#' }
+pacs_health <- function(pacs , versions = NULL, at = NULL) {
+  stopifnot(!all(c(!is.null(versions), !is.null(at))))
+  stopifnot(is.null(versions) || length(pacs) == length(versions))
+
+  lapply(seq_along(pacs), function(x) pac_health(pacs[x], version = versions[x], at = at))
+}
 #' Package version at a specific Date or a Date interval
 #' @description using cran website to get a package version/versions used at a specific Date or a Date interval.
 #' @param pac character a package name.
@@ -53,7 +77,7 @@ pac_healthy <- function(pac , version = NULL, at = NULL) {
 #' @return data.frame
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' To minimize the overload the memoise package was used
+#' To minimize the overload the memoise package was used, to cache the data.
 #' @export
 #' @examples
 #' \dontrun{
@@ -106,7 +130,7 @@ pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL) {
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' For bigger lists might need a few minutes.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' To minimize the overload the memoise package was used.
+#' To minimize the overload the memoise package was used, to cache the data.
 #' @export
 #' @examples
 #' \dontrun{

@@ -15,7 +15,7 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 |:------------------------------------|:------------------------------------------------------------|
 |`pac_deps`/`pacs_deps`               |  Package/s dependencies with installed or expected versions |
 |`pac_validate`/`pacs_validate`       | Package/s: What we have vs What we should have              |
-|`pac_healthy`                        | Package healthy, if a version was published more than 7 days|
+|`pac_health`/`pacs_health`           | Package/s health, if a version was live more than 7 days|
 |`lib_validate`                       | Library: What we have vs What we should have                |
 |`pac_compare_versions`               | Compare dependencies of specific package versions           |
 |`pac_size`/`pacs_size`               | Size of the package/s                                       | 
@@ -83,6 +83,17 @@ CRAN packages Date mirror - will take some time (even few minutes):
 
 ```r
 pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
+```
+
+## Package health
+
+We could find out if a certain package version was live more than 7 days. 
+If not then we might assume sth wrong was with it, as had to be quickly updated.
+
+e.g. `dplyr` under the "0.8.0" version seems to be a broken release, with `pac_health("dplyr", version = "0.8.0")` we could find out that it was published only for 1 day.
+
+```r
+pac_health("dplyr", version = "0.8.0")
 ```
 
 ## Package dependencies and diffeneces between versions
