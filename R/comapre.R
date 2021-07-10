@@ -51,3 +51,14 @@ pac_compare_versions <- function(pac,
   rownames(res_df) <- NULL
   res_df
 }
+
+pac_compare_descriptions <- function(pac, old, new) {
+  stopifnot(utils::compareVersion(new, old) == 1)
+
+  pac_des_o <- pac_description(pac, old)
+
+  pac_des_n <- pac_description(pac, new)
+
+
+
+}

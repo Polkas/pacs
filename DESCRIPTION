@@ -27,4 +27,5 @@ Imports:
     remotes,
     xml2,
     memoise,
-    packrat
+    packrat,
+    yaml

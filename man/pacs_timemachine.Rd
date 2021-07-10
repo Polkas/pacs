@@ -32,6 +32,7 @@ Function will scrap two CRAN URLS. Works only with CRAN packages.
 For bigger lists might need a few minutes.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 To minimize the overload the memoise package was used, to cache the data.
+The base part of URL in the result is "https://cran.r-project.org".
 
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 For bigger lists might need a few minutes.

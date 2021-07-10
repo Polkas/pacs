@@ -84,6 +84,7 @@ pacs_health <- function(pacs , versions = NULL, at = NULL) {
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' To minimize the overload the memoise package was used, to cache the data.
+#' The base part of URL in the result is "https://cran.r-project.org".
 #' @export
 #' @examples
 #' \dontrun{
@@ -106,8 +107,9 @@ pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL) {
 
     result$Archived <- as.Date(c(result$Released[-1], cran_page$Released), origin = "1970-01-01")
     result$Life_Duration <- result$Archived - result$Released
-    result <- rbind(result, cran_page)
-    result <- result[, c("Package", "Version", "Released", "Archived", "Life_Duration", "Size", "Description")]
+    f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size", "Description")
+    result <- rbind(result[, f_cols], cran_page[, f_cols])
+    result <- result[, f_cols]
 
     if (!is.null(at)) {
       if (all(at >= result$Released)) {
@@ -137,6 +139,7 @@ pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL) {
 #' For bigger lists might need a few minutes.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' To minimize the overload the memoise package was used, to cache the data.
+#' The base part of URL in the result is "https://cran.r-project.org".
 #' @export
 #' @examples
 #' \dontrun{
@@ -190,6 +193,7 @@ pac_cran_recent_raw <- function(pac) {
                Version = cran_v,
                Archived = NA,
                Life_Duration = Sys.Date() - as.Date(cran_released),
+               URL = sprintf("/src/contrib/%s_%s.tar.gz", pac, cran_v),
                stringsAsFactors = FALSE)
   } else {
     data.frame(Package = pac,
@@ -199,6 +203,7 @@ pac_cran_recent_raw <- function(pac) {
                Version = NA,
                Archived = NA,
                Life_Duration = NA,
+               URL = NA,
                stringsAsFactors = FALSE)
   }
 }
@@ -206,7 +211,8 @@ pac_cran_recent_raw <- function(pac) {
 pac_cran_recent <- memoise::memoise(pac_cran_recent_raw)
 
 pac_archived_raw <- function(pac) {
-  rr <- try(readLines(sprintf("https://cran.r-project.org/src/contrib/Archive/%s/", pac)), silent = TRUE)
+  base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
+  rr <- try(readLines(paste0("https://cran.r-project.org/", base_archive)), silent = TRUE)
 
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table>", rr)
@@ -232,6 +238,7 @@ pac_archived_raw <- function(pac) {
     pac_raw <- strsplit(gsub(".tar.gz", "", result$Package), "_")
     pac_name <- vapply(pac_raw, function(x) x[1], character(1))
     pac_v <- vapply(pac_raw, function(x) x[2], character(1))
+    result$URL <- paste0(base_archive, result$Package)
     result$Package <- pac_name
     result$Version <- pac_v
     result <- result[order(result$Released), ]
