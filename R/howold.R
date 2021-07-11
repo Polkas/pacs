@@ -25,7 +25,7 @@ pac_health <- function(pac , version = NULL, at = NULL) {
   }
 
   if (is.null(version) && is.null(at)) {
-    version <- utils::packageVersion(pac)
+    version <- utils::packageDescription(pac)$Version
   }
 
   if (is.null(version)) {
@@ -34,6 +34,7 @@ pac_health <- function(pac , version = NULL, at = NULL) {
   }
   else {
     pac_tm <- pac_timemachine(pac)
+    stopifnot(version %in% pac_tm$Version)
     pac_tm <- pac_tm[pac_tm$Version == version, ]
     res <- pac_tm$Life_Duration >= 7
   }
@@ -79,6 +80,7 @@ pacs_health <- function(pacs , versions = NULL, at = NULL) {
 #' @param pac character a package name.
 #' @param at Date old version of package. Default: NULL
 #' @param from Date new version of package. Default: NULL
+#' @param version character version of package. Default: NULL
 #' @param to Date cran URL. Default: NULL
 #' @return data.frame
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
@@ -92,11 +94,11 @@ pacs_health <- function(pacs , versions = NULL, at = NULL) {
 #' pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 #' pac_timemachine("dplyr", at = Sys.Date())
 #' }
-pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL) {
-  stopifnot(pac %in% rownames(available_packages(repos = "http://cran.rstudio.com/")))
-  stopifnot(xor(!is.null(at) && inherits(at, "Date"),
-                !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date")) ||
-              all(c(is.null(at), is.null(from), is.null(to))))
+pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL, version = NULL) {
+  stopifnot(pac %in% c(rownames(available_packages(repos = "http://cran.rstudio.com/")), pacs_base()))
+  stopifnot(xor(!is.null(at) && inherits(at, "Date") && is.null(version),
+                !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)) ||
+              all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1))
 
     result <- pac_archived(pac)
     cran_page <- pac_cran_recent(pac)
@@ -123,7 +125,9 @@ pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL) {
       } else {
         result[to >= result$Released & from <= result$Archived, ]
       }
-    } else {
+    } else if (!is.null(version)) {
+      result[result$Version == version, ]
+    } else{
       result
     }
 }

@@ -5,7 +5,7 @@
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
 #' @param base logical if to add base packages too. Default: FALSE
-#' @param remote logical if to use newest CRAN packages, where by default local ones are used. Default: FALSE
+#' @param local logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE
 #' @param repos character cran URL. Default: "http://cran.rstudio.com/"
 #' @param description_v if the dependecies version should be taken from description files, minimal required. Default: FALSE
 #' @return data.frame with packages and their versions. Versions are taken from `installed.packages`.
@@ -20,7 +20,7 @@ pac_deps <- function(pac,
                      fields = c("Depends", "Imports", "LinkingTo"),
                      lib.loc = NULL,
                      base = FALSE,
-                     remote = FALSE,
+                     local = TRUE,
                      description_v = FALSE,
                      repos = "http://cran.rstudio.com/",
                      attr = TRUE) {
@@ -28,16 +28,16 @@ pac_deps <- function(pac,
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(base))
   stopifnot(is.logical(attr))
-  stopifnot(!all(c(remote, description_v)))
+  stopifnot(!all(c(!local, description_v)))
 
-  if (!remote) {
+  if (local) {
     stopifnot(pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)), pacs_base()))
 
     paks_global <- NULL
-    pac_v <- utils::packageDescription(pac, lib.loc = lib.loc)$Version
+    pac_v <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
 
     deps <- function(pak, fileds) {
-      pks <- utils::packageDescription(pak)
+      pks <- pac_description(pak, local = TRUE, lib.loc = lib.loc)
       res <- NULL
       for (f in fileds) {
         ff <- pks[[f]]
@@ -66,7 +66,6 @@ pac_deps <- function(pac,
     deps(pac, fields)
     v_base <- utils::installed.packages(lib.loc = lib.loc)
   } else {
-    recursivePackageDependencies <- utils::getFromNamespace("recursivePackageDependencies", "packrat")
     paks_global <- recursivePackageDependencies(pac, lib.loc = lib.loc, fields = fields)
     v_base <- available_packages(repos = repos)
     pac_v <- v_base[pac, c("Version")]
@@ -114,7 +113,7 @@ pac_deps <- function(pac,
 #' @param lib.loc character vector. Is omitted for non NULL version., Default: NULL
 #' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE
 #' @param base logical if to add base packages too. Default: FALSE
-#' @param remote logical if to use newest CRAN packages, where by default local ones are used. Default: FALSE
+#' @param local logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE
 #' @param description_v if the dependecies version should be taken from description files, minimal required. Default: FALSE
 #' @return data.frame
 #' @export
@@ -126,13 +125,13 @@ pacs_deps <- function(pacs = NULL,
                       lib.loc = NULL,
                       attr = TRUE,
                       base = FALSE,
-                      remote = FALSE,
+                      local = TRUE,
                       description_v = FALSE
                       ) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(is.null(pacs) || is.character(pacs))
 
-  if(!is.null(pacs)) {
+  if (!is.null(pacs)) {
     tocheck <- pacs
   } else {
     tocheck <- rownames(utils::installed.packages(lib.loc = lib.loc))
@@ -143,7 +142,7 @@ pacs_deps <- function(pacs = NULL,
                                                              lib.loc = lib.loc,
                                                              attr = attr,
                                                              base = base,
-                                                             remote = remote,
+                                                             local = local,
                                                              description_v)))
 
   if (nrow(dfs) > 0) {

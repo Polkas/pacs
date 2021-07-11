@@ -4,7 +4,7 @@
 \alias{pac_timemachine}
 \title{Package version at a specific Date or a Date interval}
 \usage{
-pac_timemachine(pac, at = NULL, from = NULL, to = NULL)
+pac_timemachine(pac, at = NULL, from = NULL, to = NULL, version = NULL)
 }
 \arguments{
 \item{pac}{character a package name.}
@@ -14,6 +14,8 @@ pac_timemachine(pac, at = NULL, from = NULL, to = NULL)
 \item{from}{Date new version of package. Default: NULL}
 
 \item{to}{Date cran URL. Default: NULL}
+
+\item{version}{character version of package. Default: NULL}
 }
 \value{
 data.frame

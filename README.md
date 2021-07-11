@@ -14,17 +14,20 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 | Function                            | Description                                                 | 
 |:------------------------------------|:------------------------------------------------------------|
 |`pac_deps`/`pacs_deps`               |  Package/s dependencies with installed or expected versions |
+|`pac_description`/`pacs_description` | Package/s description at Date or for a certain version      |
 |`pac_validate`/`pacs_validate`       | Package/s: What we have vs What we should have              |
-|`pac_health`/`pacs_health`           | Package/s health, if a version was live more than 7 days|
-|`lib_validate`                       | Library: What we have vs What we should have                |
-|`pac_compare_versions`               | Compare dependencies of specific package versions           |
+|`pac_health`/`pacs_health`           | Package/s health, if a version was live more than 7 days    |
 |`pac_size`/`pacs_size`               | Size of the package/s                                       | 
-|`shiny_true_size`                    | True size of the shiny app (with dependencies too)          |
-|`pac_true_size`                      | True size of the package (with dependencies too)            | 
 |`pac_timemachine`/`pacs_timemachine` | Package/s version/s at a specific Date or a Date interval   |
+|DEV `pac_install_version`                | install package version under true dependencies             |
+|`pac_compare_versions`               | Compare dependencies of specific package versions           |
+|`pac_true_size`                      | True size of the package (with dependencies too)            | 
 |`pacs_base`                          | R base packages                                             |
+|`lib_validate`                       | Library: What we have vs What we should have                |
+|`shiny_true_size`                    | True size of the shiny app (with dependencies too)          |
 
-### Case Study: devtools
+
+### Package Weight Case Study: devtools
 
 Take into account that the size is appropriate for you system `Sys.info()`.
 Installation with `install.packages` and some `devtools` functions might result in different package sizes.
@@ -105,6 +108,36 @@ Filter(function(x) isFALSE(x) && (class(x) == "sure"),
        all_pacs_health)
 ```
 
+## Package DESCRIPTION file
+
+Reading a raw dcf DESCRIPTION files scrapped from CRAN website. 
+
+```r
+pac_description("dplyr", version = "0.8.0")
+pac_description("dplyr", at = as.Date("2019-01-01"))
+```
+
+For many packages:
+
+```r
+pacs_description(c("dplyr", "shiny"), version = c("0.8.0", "1.5.0"))
+pacs_description(c("dplyr", "shiny"), at = as.Date("2019-01-01"))
+```
+
+## Install version
+
+A true installation of certain package version, as the dependencies are taken for its release date.
+
+```r
+# will fail!!!!
+# this version was released for less than 7 days, so it is assumed to be unhealthy (`pac_health`).
+pac_install_version("dplyr", "0.8.0")
+```
+
+```r
+pac_install_version("dplyr", "0.8.1")
+```
+
 ## Package dependencies and diffeneces between versions
 
 The crucial functionality is to get versions for all package dependencies. 
@@ -156,30 +189,6 @@ comparing dependencies per package versions.
 pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
 
 pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
-```
-
-### Remote version/dependecies
-
-The installation process is not always a smooth one.
-Thus I am recommending such manual usage:
-This solution could give different results across time as some dependencies will be newer.
-
-```r
- package <- "shiny"
- version <- "1.6.0"
- withr::with_temp_libpaths({
-    remotes::install_version(
-      package,
-      version,
-      force = TRUE,
-      dependencies = FALSE,
-      quiet = TRUE,
-      upgrade = "always",
-      repos = "http://cran.rstudio.com/"
-    )
-    # pac_deps(package, description_v = TRUE)
-    cat(pacs::pac_true_size(package)/10**6, "Mb", "\n")
-  })
 ```
 
 ## Dependencies taking into account newest r cran packages

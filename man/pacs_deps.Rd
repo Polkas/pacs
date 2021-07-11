@@ -10,7 +10,7 @@ pacs_deps(
   lib.loc = NULL,
   attr = TRUE,
   base = FALSE,
-  remote = FALSE,
+  local = TRUE,
   description_v = FALSE
 )
 }
@@ -25,7 +25,7 @@ pacs_deps(
 
 \item{base}{logical if to add base packages too. Default: FALSE}
 
-\item{remote}{logical if to use newest CRAN packages, where by default local ones are used. Default: FALSE}
+\item{local}{logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE}
 
 \item{description_v}{if the dependecies version should be taken from description files, minimal required. Default: FALSE}
 }

@@ -4,7 +4,13 @@
 \alias{pac_compare_versions}
 \title{compare dependencies of specific package versions}
 \usage{
-pac_compare_versions(pac, old, new, repos = "http://cran.rstudio.com/")
+pac_compare_versions(
+  pac,
+  old,
+  new,
+  fields = c("Imports", "Depends", "LinkingTo"),
+  repos = "http://cran.rstudio.com/"
+)
 }
 \arguments{
 \item{pac}{character a package name.}
@@ -12,6 +18,8 @@ pac_compare_versions(pac, old, new, repos = "http://cran.rstudio.com/")
 \item{old}{character old version of package.}
 
 \item{new}{character new version of package.}
+
+\item{fields}{character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")}
 
 \item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
 }

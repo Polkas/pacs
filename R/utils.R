@@ -93,11 +93,14 @@ installed_descriptions <- function(lib.loc, fields) {
   nams <- rownames(paks)
   rownames(paks) <- nams
 
-  df_split <- lapply(strsplit(apply(paks, 1, function(x) paste(x, sep=",")), ","), trimws)
-  versions <- lapply(df_split, function(x) sapply(regmatches(x, regexec("([0-9\\.-]+)\\)", x, perl= TRUE)), function(x) `[`(x, 2)))
-  packages <- lapply(df_split, function(x) sapply(strsplit(x, "[ \n\\(]"), function (x) `[`(x, 1)))
+  joint_cols <- apply(paks, 1, function(x) paste(x, sep = ","))
 
-  joint <- do.call(rbind, lapply(seq_len(length(packages)),
+  desc_e <- extract_deps(joint_cols)
+
+  packages <- desc_e$packages
+  versions <- desc_e$versions
+
+  joint <- do.call(rbind, lapply(seq_along(packages),
                                  function(x) data.frame(Version = replaceNA(versions[[x]], ""),
                                                         Package = replace(packages[[x]], versions[[x]] == "NA", NA),
                                                         stringsAsFactors = FALSE)))
@@ -110,7 +113,6 @@ installed_descriptions <- function(lib.loc, fields) {
   res_agg
 }
 
-
 installed_agg_fun <- function(lib.loc = NULL, fields) {
   installed_df <- as.data.frame(utils::installed.packages(lib.loc = NULL))
   installed_agg <- stats::aggregate(installed_df[ , c("Version", fields), drop = FALSE],
@@ -121,3 +123,15 @@ installed_agg_fun <- function(lib.loc = NULL, fields) {
 
 
 available_packages <- memoise::memoise(utils::available.packages)
+
+recursivePackageDependencies <- utils::getFromNamespace("recursivePackageDependencies", "packrat")
+
+extract_deps <- function(x) {
+  splited <- strsplit(x, ",")
+  trimed <- lapply(splited, trimws)
+  v_reg <- function(x) sapply(regmatches(x, regexec("([0-9\\.-]+)\\)", x, perl = TRUE)), function(i) `[`(i, 2))
+  versions <- lapply(trimed, v_reg)
+  v_pac <- function(x) sapply(strsplit(x, "[ \n\\(]"), function(x) `[`(x, 1))
+  pacs <- lapply(trimed, v_pac)
+  list(packages = pacs, versions = versions)
+}
