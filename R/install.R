@@ -1,4 +1,4 @@
-#refuse to install not healthy package
+
 pac_install_version <- function(pac, version = NULL, fields = c("Depends", "Imports", "LinkingTo")) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
@@ -7,15 +7,17 @@ pac_install_version <- function(pac, version = NULL, fields = c("Depends", "Impo
   cat("Building dependency tree.\n")
   pp = pac_deps_timemachine(pac, version = version, fields = fields)
   names_pp <- names(pp)
-  lapply(seq_along(pp),
-         function(x) remotes::install_version(pp[x], names_pp[x],
-                                              dependencies = FALSE,
-                                              upgrade = "never",
-                                              force = TRUE))
+  invisible(lapply(seq_along(pp),
+         function(x) {
+           temp_file <- tempfile()
+           utils::download.file(sprintf("https://github.com/cran/%s/archive/refs/tags/%s.tar.gz", pp[x], names_pp[x]), temp_file)
+           utils::install.packages(temp_file, repos = NULL, type="source", quiet = FALSE)
+           pp[x]
+           }))
 }
 
-#' Package dependencies from DESCRIPTIONS files.
-#' @description Package dependencies from DESCRIPTIONS files.
+#' Package dependencies for certain version or time point.
+#' @description Package dependencies from DESCRIPTIONS files retrieved recursively for certain version or time point.
 #' @param pac character a package name.
 #' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
 #' @param version character version of package. Default: NULL

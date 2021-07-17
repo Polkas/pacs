@@ -64,7 +64,10 @@ pac_deps <- function(pac,
     deps(pac, fields)
     v_base <- utils::installed.packages(lib.loc = lib.loc)
   } else {
-    paks_global <- recursivePackageDependencies(pac, lib.loc = lib.loc, fields = fields)
+    paks_global <- tools::package_dependencies(pac,
+                                               db = available_packages,
+                                               which = fields,
+                                               recursive = TRUE)
     v_base <- available_packages
     pac_v <- v_base[pac, c("Version")]
   }

@@ -14,6 +14,7 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 | Function                            | Description                                                 | 
 |:------------------------------------|:------------------------------------------------------------|
 |`pac_deps`/`pacs_deps`               |  Package/s dependencies with installed or expected versions |
+|`pac_deps_timemachine`/`pacs_deps_timemachine`|  Package/s dependencies for certain version or time point|
 |`pac_description`/`pacs_description` | Package/s description at Date or for a certain version      |
 |`pac_validate`/`pacs_validate`       | Package/s: What we have vs What we should have              |
 |`pac_health`/`pacs_health`           | Package/s health, if a version was live more than 7 days    |

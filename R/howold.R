@@ -156,11 +156,8 @@ pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL) {
 pac_cran_recent <- function(pac) {
   cran_page <- try(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac)), silent = TRUE)
   if (!inherits(cran_page, "try-error")) {
-    cran_page_paste <- paste(cran_page, collapse = "\n")
-    cran_list <- unlist(lapply(xml2::xml_find_all(xml2::read_html(cran_page_paste),
-                                                  "/html/body//td"), xml2::xml_text))
-    cran_v <- cran_list[grep("Version:", cran_list) + 1]
-    cran_released <- cran_list[grep("Published:", cran_list) + 1]
+    cran_v <- gsub("</?td>", "", cran_page[grep("Version:", cran_page) + 1])
+    cran_released <- gsub("</?td>", "", cran_page[grep("Published:", cran_page) + 1])
 
     data.frame(Package = pac,
                Released = cran_released,
@@ -192,18 +189,15 @@ pac_archived <- function(pac) {
     rr_range <- grep("</?table>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     # not use rvest as it is too big dependency
-    header <- unlist(lapply(xml2::xml_find_all(xml2::read_html(rrr[1]), "//th"), xml2::xml_text))
+    header <- regmatches(rrr[[1]], gregexec(">([^<>]+)<", rrr[[1]]))[[1]][2, ]
 
     result_raw <- as.data.frame(
-      do.call(
-        rbind,
-        lapply(4:length(rrr), function(x) {
-          unlist(lapply(xml2::xml_find_all(xml2::read_html(rrr[x]), "//td"), xml2::xml_text))
-        })
-      ),
+      do.call(rbind,
+              lapply(4:(length(rrr) - 1),
+                     function(x) regmatches(rrr[x], gregexec(">([^<>]+)<", rrr[x]))[[1]][2, ])),
       stringsAsFactors = FALSE
-    )[, -1]
-    colnames(result_raw) <- header[-1]
+    )
+    colnames(result_raw) <- header
 
     result <- result_raw[result_raw[["Last modified"]] != "", ]
     colnames(result) <- c("Package", "Released", "Size", "Description")

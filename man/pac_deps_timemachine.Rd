@@ -2,7 +2,7 @@
 % Please edit documentation in R/install.R
 \name{pac_deps_timemachine}
 \alias{pac_deps_timemachine}
-\title{Package dependencies from DESCRIPTIONS files.}
+\title{Package dependencies for certain version or time point.}
 \usage{
 pac_deps_timemachine(
   pac,
@@ -24,7 +24,7 @@ pac_deps_timemachine(
 named vector package dependencies and their versions at the release date + 1 of main package.
 }
 \description{
-Package dependencies from DESCRIPTIONS files.
+Package dependencies from DESCRIPTIONS files retrieved recursively for certain version or time point.
 }
 \note{
 Longer lived version is taken if 2 is available at the same date (switch time).
