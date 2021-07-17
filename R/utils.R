@@ -124,8 +124,6 @@ installed_agg_fun <- function(lib.loc = NULL, fields) {
 
 available_packages <- utils::available.packages(repos = "http://cran.rstudio.com/")
 
-recursivePackageDependencies <- utils::getFromNamespace("recursivePackageDependencies", "packrat")
-
 extract_deps <- function(x) {
   splited <- strsplit(x, ",")
   trimed <- lapply(splited, trimws)

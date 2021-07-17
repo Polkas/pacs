@@ -20,12 +20,10 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 |`pac_health`/`pacs_health`           | Package/s health, if a version was live more than 7 days    |
 |`pac_size`/`pacs_size`               | Size of the package/s                                       | 
 |`pac_timemachine`/`pacs_timemachine` | Package/s version/s at a specific Date or a Date interval   |
-|DEV `pac_install_version`                | install package version under true dependencies             |
 |`pac_compare_versions`               | Compare dependencies of specific package versions           |
 |`pac_true_size`                      | True size of the package (with dependencies too)            | 
 |`pacs_base`                          | R base packages                                             |
 |`lib_validate`                       | Library: What we have vs What we should have                |
-|`shiny_true_size`                    | True size of the shiny app (with dependencies too)          |
 
 
 ### Package Weight Case Study: devtools

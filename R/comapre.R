@@ -32,7 +32,7 @@ pac_compare_versions <- function(pac,
   res <- merge(s_remote, s_remote2, by = c("Package"), all = TRUE, suffix = paste0(".", c(old, new)))
   col_old <- paste0("Version.", old)
   col_new <- paste0("Version.", new)
-  res$Same <- replaceNA(as.character(res[[col_old]]), "NA") == replaceNA(as.character(res[[col_new]]), "NA")
+  res$flag <- apply(res, 1, function(x) utils::compareVersion(x[col_new], x[col_old]))
   rownames(res) <- NULL
-  res[order(res$Same), ]
+  res
 }
