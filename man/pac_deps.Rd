@@ -11,7 +11,6 @@ pac_deps(
   base = FALSE,
   local = TRUE,
   description_v = FALSE,
-  repos = "http://cran.rstudio.com/",
   attr = TRUE
 )
 }
@@ -28,12 +27,10 @@ pac_deps(
 
 \item{description_v}{if the dependecies version should be taken from description files, minimal required. Default: FALSE}
 
-\item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
-
 \item{attr}{logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
 }
 \value{
-data.frame with packages and their versions. Versions are taken from \code{installed.packages}.
+data.frame with packages and their versions. Versions are taken from \code{installed.packages} or newest released.
 }
 \description{
 Package dependencies from DESCRIPTIONS files.

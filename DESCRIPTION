@@ -23,9 +23,6 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
-    withr,
     remotes,
     xml2,
-    memoise,
-    packrat,
-    yaml
+    packrat

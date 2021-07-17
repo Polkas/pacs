@@ -20,6 +20,9 @@ lib_validate <- function(lib.loc = NULL, fields = c("Depends", "Imports", "Linki
                   by = "Package",
                   all = TRUE,
                   suffix = c(".expected.min", ".have"))
+
+  result$flag <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
+
   result
 }
 
@@ -48,6 +51,8 @@ pac_validate <- function(pac, lib.loc = NULL, fields = c("Depends", "Imports", "
                   by = "Package",
                   all = TRUE,
                   suffix = c(".expected.min", ".have"))
+
+  result$flag <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
 
   result
 

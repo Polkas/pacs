@@ -1,11 +1,11 @@
-
+#refuse to install not healthy package
 pac_install_version <- function(pac, version = NULL, fields = c("Depends", "Imports", "LinkingTo")) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(!is.null(version))
   #order form bottom to top in dependency hierarchy
   cat("Building dependency tree.\n")
-  pp = pac_deps_for_version(pac, version, fields)
+  pp = pac_deps_timemachine(pac, version = version, fields = fields)
   names_pp <- names(pp)
   lapply(seq_along(pp),
          function(x) remotes::install_version(pp[x], names_pp[x],
@@ -14,12 +14,29 @@ pac_install_version <- function(pac, version = NULL, fields = c("Depends", "Impo
                                               force = TRUE))
 }
 
-# pac version as release date + 1
-# version vs date (take longer lived version if 2 is available at the same date (switch time))
-# refuse to install not healthy package
-pac_deps_for_version <- function(pac,
-                                 version,
-                                 fields = c("Depends", "Imports", "LinkingTo")) {
+#' Package dependencies from DESCRIPTIONS files.
+#' @description Package dependencies from DESCRIPTIONS files.
+#' @param pac character a package name.
+#' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
+#' @param version character version of package. Default: NULL
+#' @param at Date old version of package. Default: NULL
+#' @note Longer lived version is taken if 2 is available at the same date (switch time).
+#' @return named vector package dependencies and their versions at the release date + 1 of main package.
+#' @export
+#' @examples
+#' pacs::pac_deps_timemachine("miceFast", "0.6.2")
+#' pacs::pac_deps_timemachine("miceFast", at = as.Date("2019-01-01"))
+pac_deps_timemachine <- function(pac,
+                             version = NULL,
+                             at = NULL,
+                             fields = c("Depends", "Imports", "LinkingTo")) {
+  stopifnot((length(pac) == 1) && is.character(pac))
+  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
+  stopifnot(xor(!is.null(version), !is.null(at)))
+
+  if (is.null(version)) {
+    version <- pac_description(pac, at = at)$Version
+  }
 
   health <- pac_health(pac, version)
 
@@ -66,4 +83,3 @@ pac_deps_for_version <- function(pac,
 
   paks_global
 }
-

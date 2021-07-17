@@ -9,7 +9,6 @@
 #' If the newest release is published less than 7 days ago then the class of object is "not-sure".
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' To minimize the overload the memoise package was used, to cache the data.
 #' @export
 #' @examples
 #' \dontrun{
@@ -20,7 +19,7 @@ pac_health <- function(pac , version = NULL, at = NULL) {
   stopifnot(length(pac) == 1)
   stopifnot(!all(c(!is.null(version), !is.null(at))))
 
-  if (!pac %in% rownames(available_packages(repos = "http://cran.rstudio.com/"))) {
+  if (!pac %in% rownames(available_packages)) {
     return(NA)
   }
 
@@ -60,7 +59,6 @@ pac_health <- function(pac , version = NULL, at = NULL) {
 #' If the newest release is published less than 7 days ago then the class of object is "not-sure" for newest version.
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' To minimize the overload the memoise package was used, to cache the data.
 #' @export
 #' @examples
 #' \dontrun{
@@ -85,7 +83,6 @@ pacs_health <- function(pacs , versions = NULL, at = NULL) {
 #' @return data.frame
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' To minimize the overload the memoise package was used, to cache the data.
 #' The base part of URL in the result is "https://cran.r-project.org".
 #' @export
 #' @examples
@@ -95,7 +92,7 @@ pacs_health <- function(pacs , versions = NULL, at = NULL) {
 #' pac_timemachine("dplyr", at = Sys.Date())
 #' }
 pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL, version = NULL) {
-  stopifnot(pac %in% c(rownames(available_packages(repos = "http://cran.rstudio.com/")), pacs_base()))
+  stopifnot(pac %in% c(rownames(available_packages), pacs_base()))
   stopifnot(xor(!is.null(at) && inherits(at, "Date") && is.null(version),
                 !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)) ||
               all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1))
@@ -142,7 +139,6 @@ pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL, version = N
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' For bigger lists might need a few minutes.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' To minimize the overload the memoise package was used, to cache the data.
 #' The base part of URL in the result is "https://cran.r-project.org".
 #' @export
 #' @examples
@@ -151,37 +147,13 @@ pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL, version = N
 #' pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())
 #' }
 pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL) {
-  pacs_cran <- intersect(pacs, rownames(available_packages(repos = "http://cran.rstudio.com/")))
+  pacs_cran <- intersect(pacs, rownames(available_packages))
   pacs_skip <- setdiff(pacs, pacs_cran)
   if (length(pacs_skip)) cat("Skipping non CRAN packages", pacs_skip, "\n")
   stats::setNames(lapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to)), pacs_cran)
 }
 
-
-#' Packages versions at a specific Date or a Date interval
-#' @description using cran website to get packages version/versions used at a specific Date or a Date interval.
-#' @param pacs character vector packages names.
-#' @param at Date old version of package. Default: NULL
-#' @param from Date new version of package. Default: NULL
-#' @param to Date cran URL. Default: NULL
-#' @return data.frame
-#' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
-#' For bigger lists might need a few minutes.
-#' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' @export
-#' @examples
-#' \dontrun{
-#' pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
-#' pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())
-#' }
-pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL) {
-  pacs_cran <- intersect(pacs, rownames(available_packages(repos = "http://cran.rstudio.com/")))
-  pacs_skip <- setdiff(pacs, pacs_cran)
-  if (length(pacs_skip)) cat("Skipping non CRAN packages", pacs_skip, "\n")
-  stats::setNames(lapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to)), pacs_cran)
-}
-
-pac_cran_recent_raw <- function(pac) {
+pac_cran_recent <- function(pac) {
   cran_page <- try(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac)), silent = TRUE)
   if (!inherits(cran_page, "try-error")) {
     cran_page_paste <- paste(cran_page, collapse = "\n")
@@ -212,9 +184,7 @@ pac_cran_recent_raw <- function(pac) {
   }
 }
 
-pac_cran_recent <- memoise::memoise(pac_cran_recent_raw)
-
-pac_archived_raw <- function(pac) {
+pac_archived <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
   rr <- try(readLines(paste0("https://cran.r-project.org/", base_archive)), silent = TRUE)
 
@@ -254,6 +224,3 @@ pac_archived_raw <- function(pac) {
   result
 
 }
-
-pac_archived <- memoise::memoise(pac_archived_raw)
-

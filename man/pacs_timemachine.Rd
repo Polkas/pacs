@@ -5,8 +5,6 @@
 \title{Packages versions at a specific Date or a Date interval}
 \usage{
 pacs_timemachine(pacs, at = NULL, from = NULL, to = NULL)
-
-pacs_timemachine(pacs, at = NULL, from = NULL, to = NULL)
 }
 \arguments{
 \item{pacs}{character vector packages names.}
@@ -19,30 +17,17 @@ pacs_timemachine(pacs, at = NULL, from = NULL, to = NULL)
 }
 \value{
 data.frame
-
-data.frame
 }
 \description{
-using cran website to get packages version/versions used at a specific Date or a Date interval.
-
 using cran website to get packages version/versions used at a specific Date or a Date interval.
 }
 \note{
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 For bigger lists might need a few minutes.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-To minimize the overload the memoise package was used, to cache the data.
 The base part of URL in the result is "https://cran.r-project.org".
-
-Function will scrap two CRAN URLS. Works only with CRAN packages.
-For bigger lists might need a few minutes.
-Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{
-\dontrun{
-pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
-pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())
-}
 \dontrun{
 pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
 pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())

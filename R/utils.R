@@ -122,7 +122,7 @@ installed_agg_fun <- function(lib.loc = NULL, fields) {
 }
 
 
-available_packages <- memoise::memoise(utils::available.packages)
+available_packages <- utils::available.packages(repos = "http://cran.rstudio.com/")
 
 recursivePackageDependencies <- utils::getFromNamespace("recursivePackageDependencies", "packrat")
 

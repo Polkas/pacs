@@ -24,45 +24,31 @@ pac_description <- function(pac, version = NULL, at = NULL, local = FALSE, lib.l
   }
 }
 
-pac_description_dcf_raw <- function(pac, version, at) {
+pac_description_dcf <- function(pac, version, at) {
 
   if (!is.null(at)) {
     tt <- pac_timemachine(pac, at = at)
     version <- utils::tail(tt[order(tt$Life_Duration), ], 1)$Version
   }
 
-  last_version <- available_packages()[rownames(available_packages()) == pac, "Version"]
+  ee = tempfile()
 
-  temp_tar <- tempfile(fileext = "tar.gz")
+  last_version <- available_packages[rownames(available_packages) == pac, "Version"]
 
-  if (!is.null(version) && version != last_version) {
-    base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)
-  } else {
-    base_url <- "https://cran.r-project.org/src/contrib"
+  if (is.null(version)) {
     version <- last_version
   }
 
-  d_url <- sprintf(
-    "%s/%s_%s.tar.gz",
-    base_url,
-    pac,
-    version
-  )
+  d_url <- sprintf("https://raw.githubusercontent.com/cran/%s/%s/DESCRIPTION",
+                   pac,
+                   version)
 
   utils::download.file(d_url,
-    destfile = temp_tar,
-    quiet = TRUE
-  )
+                       destfile = ee,
+                       quiet = TRUE)
 
-  temp_dir <- tempdir(check = TRUE)
-
-  utils::untar(temp_tar, exdir = temp_dir)
-  # tabs are not acceptable
-
-  as.list(read.dcf(file.path(temp_dir, pac, "DESCRIPTION"))[1, ])
+  as.list(read.dcf(ee)[1, ])
 }
-
-pac_description_dcf <- memoise::memoise(pac_description_dcf_raw)
 
 #' packages DESCRIPTION files
 #' @description packages DESCRIPTION files taken from CRAN website.

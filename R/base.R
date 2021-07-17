@@ -6,9 +6,8 @@
 #' @param attr logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
 #' @param base logical if to add base packages too. Default: FALSE
 #' @param local logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE
-#' @param repos character cran URL. Default: "http://cran.rstudio.com/"
 #' @param description_v if the dependecies version should be taken from description files, minimal required. Default: FALSE
-#' @return data.frame with packages and their versions. Versions are taken from `installed.packages`.
+#' @return data.frame with packages and their versions. Versions are taken from `installed.packages` or newest released.
 #' @export
 #' @examples
 #' pacs::pac_deps("stats", base = TRUE)$Package
@@ -22,7 +21,6 @@ pac_deps <- function(pac,
                      base = FALSE,
                      local = TRUE,
                      description_v = FALSE,
-                     repos = "http://cran.rstudio.com/",
                      attr = TRUE) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
@@ -67,7 +65,7 @@ pac_deps <- function(pac,
     v_base <- utils::installed.packages(lib.loc = lib.loc)
   } else {
     paks_global <- recursivePackageDependencies(pac, lib.loc = lib.loc, fields = fields)
-    v_base <- available_packages(repos = repos)
+    v_base <- available_packages
     pac_v <- v_base[pac, c("Version")]
   }
 
