@@ -4,15 +4,21 @@
 \alias{lib_validate}
 \title{Compare current and expected packages under .libPaths.}
 \usage{
-lib_validate(lib.loc = NULL, fields = c("Depends", "Imports", "LinkingTo"))
+lib_validate(
+  lib.loc = NULL,
+  fields = c("Depends", "Imports", "LinkingTo"),
+  lifeduration = FALSE
+)
 }
 \arguments{
 \item{lib.loc}{character. Default: NULL}
 
 \item{fields}{character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")}
+
+\item{lifeduration}{logical if to add life duration column. Default: FALSE}
 }
 \value{
-data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.
+data.frame with 5/6 columns Package Version.expected.min Version.have. "" means newest version.
 }
 \description{
 Checking the healthy of the libarary.

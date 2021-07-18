@@ -182,7 +182,7 @@ pacs::pac_deps("shiny", description_v = TRUE)
 Remote (newest CRAN) package depndencies with versions.
 
 ```r
-pacs::pac_deps("shiny", remote = TRUE)
+pacs::pac_deps("shiny", local = FALSE)
 ```
 
 Sth new on the R market.
@@ -194,16 +194,6 @@ comparing dependencies per package versions.
 pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
 
 pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
-```
-
-## Dependencies taking into account newest r cran packages
-
-`pacrat` solution over `available.packages` which access remote repository.
-
-`ranger` is not installed locally.
-
-```r
-packrat:::recursivePackageDependencies("ranger", lib.loc = NULL)
 ```
 
 ## Packages dependencies

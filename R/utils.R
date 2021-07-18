@@ -154,7 +154,7 @@ extract_deps <- function(x) {
 }
 
 is_last_release <- function(pac, version = NULL, at = NULL) {
-  stopifnot(xor(!is.null(version), !is.null(at)))
+  stopifnot(xor(!is.null(version), !is.null(at)) || (is.null(version) && is.null(at)))
 
   if (!pac %in% rownames(available_packages)) {
     return(NA)
@@ -162,7 +162,9 @@ is_last_release <- function(pac, version = NULL, at = NULL) {
 
   last_version <- available_packages[rownames(available_packages) == pac, "Version"]
 
-  if (is.null(version)) {
+  if (is.null(version) && is.null(at)) {
+    version <- pac_description(pac, local = TRUE)$Version
+  } else if (is.null(version) && !is.null(at)) {
     version <- utils::tail(pac_timemachine(pac = pac, at = at), 1)$Version
   }
 

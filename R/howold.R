@@ -76,6 +76,8 @@ pac_health <- function(pac, version = NULL, at = NULL, limit = 7) {
 
   res <- life >= limit
 
+  last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+
   if (is_last_release(pac, version, at) && !res) {
     cat(sprintf("This is a newest release of %s published less than 7 days ago so not sure about score.", pac))
     structure(res, class = "not-sure")
