@@ -34,6 +34,6 @@ Package true size as it takes into account dependencies.
 pacs::pac_true_size("stats") / 10**6
 # exclude packages if at least one other package use it too
 \dontrun{
-pacs::pac_true_size("devtools", exclude_joint = 1L)/10**6
+pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6
 }
 }

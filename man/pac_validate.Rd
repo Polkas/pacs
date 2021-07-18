@@ -27,7 +27,5 @@ Checking the healthy of the specific packages.
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 }
 \examples{
-\dontrun{
-pac_validate("devtools")
-}
+pac_validate("memoise")
 }

@@ -18,5 +18,5 @@ numeric size in bytes.
 size of package.
 }
 \examples{
-cat(pacs::pacs_size("stats")/10**6, "Mb")
+cat(pacs::pacs_size("stats") / 10**6, "Mb")
 }

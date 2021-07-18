@@ -18,5 +18,5 @@ named vector of sizes in bytes.
 size of packages.
 }
 \examples{
-cat(pacs::pacs_size("stats")/10**6, "Mb")
+cat(pacs::pacs_size("stats") / 10**6, "Mb")
 }

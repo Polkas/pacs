@@ -37,5 +37,4 @@ compare specific package versionss.
 }
 \examples{
 pacs_deps(c("stats", "base"), base = TRUE, attr = FALSE)
-
 }

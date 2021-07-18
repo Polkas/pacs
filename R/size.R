@@ -5,13 +5,13 @@
 #' @return numeric size in bytes.
 #' @export
 #' @examples
-#' cat(pacs::pacs_size("stats")/10**6, "Mb")
+#' cat(pacs::pacs_size("stats") / 10**6, "Mb")
 pac_size <- function(pac, lib.loc = NULL) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(pac %in% rownames(utils::installed.packages(lib.loc = lib.loc)))
   found <- try(find.package(pac, lib.loc = lib.loc), silent = TRUE)
-  if (inherits(found, "try-error")){
+  if (inherits(found, "try-error")) {
     0
   } else {
     dir_size(found)
@@ -25,20 +25,22 @@ pac_size <- function(pac, lib.loc = NULL) {
 #' @return named vector of sizes in bytes.
 #' @export
 #' @examples
-#' cat(pacs::pacs_size("stats")/10**6, "Mb")
+#' cat(pacs::pacs_size("stats") / 10**6, "Mb")
 pacs_size <- function(pacs = NULL, lib.loc = NULL) {
   stopifnot(is.null(pacs) || is.character(pacs))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
 
-  if(!is.null(pacs)) {
+  if (!is.null(pacs)) {
     tocheck <- pacs
   } else {
     tocheck <- rownames(utils::installed.packages(lib.loc = lib.loc))
   }
 
-  dirs <- vapply(tocheck,
-                 function(p) pac_size(p, lib.loc = lib.loc),
-                 numeric(1))
+  dirs <- vapply(
+    tocheck,
+    function(p) pac_size(p, lib.loc = lib.loc),
+    numeric(1)
+  )
 
   stats::setNames(dirs, tocheck)
 }
@@ -57,7 +59,7 @@ pacs_size <- function(pacs = NULL, lib.loc = NULL) {
 #' pacs::pac_true_size("stats") / 10**6
 #' # exclude packages if at least one other package use it too
 #' \dontrun{
-#' pacs::pac_true_size("devtools", exclude_joint = 1L)/10**6
+#' pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6
 #' }
 pac_true_size <- function(pac,
                           fields = c("Depends", "Imports", "LinkingTo"),
@@ -76,5 +78,4 @@ pac_true_size <- function(pac,
   }
 
   sum(pacs_size(setdiff(pacs_all, "R"), lib.loc = lib.loc))
-
 }

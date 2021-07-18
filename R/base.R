@@ -36,15 +36,15 @@ pac_deps <- function(pac,
 
     deps <- function(pak, fileds) {
       pks <- pac_description(pak, local = TRUE, lib.loc = lib.loc)
-      res <- NULL
       ff <- paste(unlist(pks[fields]), collapse = ", ")
       fff <- strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]")
+      res <- NULL
       if (length(fff) > 0) {
-          res <- vapply(
-              fff,
-              function(x) x[1],
-              character(1)
-            )
+        res <- vapply(
+          fff,
+          function(x) x[1],
+          character(1)
+        )
       }
       if (is.null(res)) {
         return(NULL)
@@ -61,9 +61,10 @@ pac_deps <- function(pac,
     v_base <- utils::installed.packages(lib.loc = lib.loc)
   } else {
     paks_global <- tools::package_dependencies(pac,
-                                               db = available_packages,
-                                               which = fields,
-                                               recursive = TRUE)[[1]]
+      db = available_packages,
+      which = fields,
+      recursive = TRUE
+    )[[1]]
     v_base <- available_packages
     pac_v <- v_base[pac, c("Version")]
   }
@@ -115,15 +116,13 @@ pac_deps <- function(pac,
 #' @export
 #' @examples
 #' pacs_deps(c("stats", "base"), base = TRUE, attr = FALSE)
-#'
 pacs_deps <- function(pacs = NULL,
                       fields = c("Depends", "Imports", "LinkingTo"),
                       lib.loc = NULL,
                       attr = TRUE,
                       base = FALSE,
                       local = TRUE,
-                      description_v = FALSE
-                      ) {
+                      description_v = FALSE) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(is.null(pacs) || is.character(pacs))
 
@@ -133,17 +132,20 @@ pacs_deps <- function(pacs = NULL,
     tocheck <- rownames(utils::installed.packages(lib.loc = lib.loc))
   }
 
-  dfs <- do.call(rbind, lapply(seq_along(tocheck), function(x) pac_deps(tocheck[x],
-                                                             fields = fields,
-                                                             lib.loc = lib.loc,
-                                                             attr = attr,
-                                                             base = base,
-                                                             local = local,
-                                                             description_v)))
+  dfs <- do.call(rbind, lapply(seq_along(tocheck), function(x) {
+    pac_deps(tocheck[x],
+      fields = fields,
+      lib.loc = lib.loc,
+      attr = attr,
+      base = base,
+      local = local,
+      description_v
+    )
+  }))
 
   if (nrow(dfs) > 0) {
     # higher version have a priority
-    stats::aggregate(dfs[, c("Version"), drop = FALSE], list(Package = dfs$Package),  compareVersionsMax)
+    stats::aggregate(dfs[, c("Version"), drop = FALSE], list(Package = dfs$Package), compareVersionsMax)
   } else {
     dfs
   }

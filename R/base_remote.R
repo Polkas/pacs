@@ -11,9 +11,9 @@
 #' pacs::pac_deps_timemachine("memoise", "0.2.1")
 #' pacs::pac_deps_timemachine("memoise", at = as.Date("2021-01-01"))
 pac_deps_timemachine <- function(pac,
-                             version = NULL,
-                             at = NULL,
-                             fields = c("Depends", "Imports", "LinkingTo")) {
+                                 version = NULL,
+                                 at = NULL,
+                                 fields = c("Depends", "Imports", "LinkingTo")) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(xor(!is.null(version), !is.null(at)))
@@ -32,22 +32,21 @@ pac_deps_timemachine <- function(pac,
   paks_global <- NULL
 
   deps <- function(pak, at, fields) {
-
     pks <- pac_description(pak, at = at, local = FALSE)
-    if (pak != "R" && !pak %in% paks_global && pak != pac) {
+    if (isTRUE(pak != "R" && (!pak %in% paks_global) && pak != pac)) {
       paks_global <<- c(paks_global, stats::setNames(pak, pks$Version))
     }
 
-      ff <- paste(unlist(pks[fields]), collapse = ", ")
-      fff <- strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]")
-      res <- NULL
-      if (length(fff) > 0) {
-        res <- vapply(
-            fff,
-            function(x) x[1],
-            character(1)
-          )
-      }
+    ff <- paste(unlist(pks[fields]), collapse = ", ")
+    fff <- strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]")
+    res <- NULL
+    if (length(fff) > 0) {
+      res <- vapply(
+        fff,
+        function(x) x[1],
+        character(1)
+      )
+    }
     if (is.null(res)) {
       return(NULL)
     }
@@ -55,7 +54,7 @@ pac_deps_timemachine <- function(pac,
     res <- setdiff(res, pacs_base())
 
     for (r in res) {
-      if (r != "R" && !r %in% paks_global) {
+      if (isTRUE(r != "R" && !r %in% paks_global && r != pac)) {
         deps(r, at, fields)
       }
     }

@@ -21,13 +21,22 @@ pac_lifeduration <- function(pac, version = NULL, at = NULL) {
     return(NA)
   }
 
-  if (is.null(version) && is.null(at)) {
-    last_version <- available_packages[rownames(available_packages) == pac, "Version"]
-    descr <- utils::packageDescription(pac)
-    life <- Sys.Date() - as.Date(descr[["Date/Publication"]])
-    life
-  } else if (is.null(version)) {
-    pac_tm <- pac_timemachine(pac, at = at)
+  last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+
+  if ((is.null(version) && is.null(at)) ||
+      (!is.null(version) && isTRUE(utils::compareVersion(version, last_version) == 0))) {
+      descr <- utils::packageDescription(pac)
+    if (isTRUE(utils::compareVersion(last_version, descr[["Version"]]) == 0)) {
+      life <- Sys.Date() - as.Date(descr[["Date/Publication"]])
+      return(life)
+    } else {
+      life <- Sys.Date() - as.Date(pac_description(pac, version = descr[["Version"]])[["Date/Publication"]])
+      return(life)
+    }
+  }
+
+  if (is.null(version)) {
+    pac_tm <- utils::tail(pac_timemachine(pac, at = at), 1)
     pac_tm$Life_Duration
   } else {
     pac_tm <- pac_timemachine(pac)
@@ -92,13 +101,17 @@ pac_health <- function(pac, version = NULL, at = NULL, limit = 7) {
 #' pacs_health(c("dplyr", "devtools"))
 #' pacs_health(c("dplyr", "devtools"), versions = c("0.8.0", "2.4.0"))
 #' }
-pacs_health <- function(pacs , versions = NULL, at = NULL) {
+pacs_health <- function(pacs, versions = NULL, at = NULL) {
   stopifnot(!all(c(!is.null(versions), !is.null(at))))
   stopifnot(is.null(versions) || length(pacs) == length(versions))
 
-  stats::setNames(lapply(seq_along(pacs),
-         function(x) pac_health(pacs[x], version = versions[x], at = at)),
-         pacs)
+  stats::setNames(
+    lapply(
+      seq_along(pacs),
+      function(x) pac_health(pacs[x], version = versions[x], at = at)
+    ),
+    pacs
+  )
 }
 #' Package version at a specific Date or a Date interval
 #' @description using cran website to get a package version/versions used at a specific Date or a Date interval.
@@ -118,42 +131,44 @@ pacs_health <- function(pacs , versions = NULL, at = NULL) {
 #' pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 #' pac_timemachine("dplyr", at = Sys.Date())
 #' }
-pac_timemachine <- function(pac , at = NULL, from = NULL, to = NULL, version = NULL) {
+pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NULL) {
   stopifnot(pac %in% c(rownames(available_packages), pacs_base()))
-  stopifnot(xor(!is.null(at) && inherits(at, "Date") && is.null(version),
-                !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)) ||
-              all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1))
+  stopifnot(xor(
+    !is.null(at) && inherits(at, "Date") && is.null(version),
+    !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)
+  ) ||
+    all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1))
 
-    result <- pac_archived(pac)
-    cran_page <- pac_cran_recent(pac)
+  result <- pac_archived(pac)
+  cran_page <- pac_cran_recent(pac)
 
-    if (is.null(result)) {
-      return(cran_page)
+  if (is.null(result)) {
+    return(cran_page)
+  }
+
+  result$Archived <- as.Date(c(result$Released[-1], cran_page$Released), origin = "1970-01-01")
+  result$Life_Duration <- result$Archived - result$Released
+  f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size", "Description")
+  result <- rbind(result[, f_cols], cran_page[, f_cols])
+  result <- result[, f_cols]
+
+  if (!is.null(at)) {
+    if (all(at >= result$Released)) {
+      utils::tail(result, 1)
+    } else {
+      result[at >= result$Released & at <= result$Archived, ]
     }
-
-    result$Archived <- as.Date(c(result$Released[-1], cran_page$Released), origin = "1970-01-01")
-    result$Life_Duration <- result$Archived - result$Released
-    f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size", "Description")
-    result <- rbind(result[, f_cols], cran_page[, f_cols])
-    result <- result[, f_cols]
-
-    if (!is.null(at)) {
-      if (all(at >= result$Released)) {
-        utils::tail(result, 1)
-      } else {
-        result[at >= result$Released & at <= result$Archived, ]
-      }
-    } else if (!is.null(from) && !is.null(to)) {
-      if (all(from >= result$Released)) {
-        utils::tail(result, 1)
-      } else {
-        result[to >= result$Released & from <= result$Archived, ]
-      }
-    } else if (!is.null(version)) {
-      result[result$Version == version, ]
-    } else{
-      result
+  } else if (!is.null(from) && !is.null(to)) {
+    if (all(from >= result$Released)) {
+      utils::tail(result, 1)
+    } else {
+      result[to >= result$Released & from <= result$Archived, ]
     }
+  } else if (!is.null(version)) {
+    result[result$Version == version, ]
+  } else {
+    result
+  }
 }
 
 #' Packages versions at a specific Date or a Date interval
@@ -186,25 +201,29 @@ pac_cran_recent_raw <- function(pac) {
     cran_v <- gsub("</?td>", "", cran_page[grep("Version:", cran_page) + 1])
     cran_released <- gsub("</?td>", "", cran_page[grep("Published:", cran_page) + 1])
 
-    data.frame(Package = pac,
-               Released = cran_released,
-               Size = NA,
-               Description = NA,
-               Version = cran_v,
-               Archived = NA,
-               Life_Duration = Sys.Date() - as.Date(cran_released),
-               URL = sprintf("/src/contrib/%s_%s.tar.gz", pac, cran_v),
-               stringsAsFactors = FALSE)
+    data.frame(
+      Package = pac,
+      Released = cran_released,
+      Size = NA,
+      Description = NA,
+      Version = cran_v,
+      Archived = NA,
+      Life_Duration = Sys.Date() - as.Date(cran_released),
+      URL = sprintf("/src/contrib/%s_%s.tar.gz", pac, cran_v),
+      stringsAsFactors = FALSE
+    )
   } else {
-    data.frame(Package = pac,
-               Released = NA,
-               Size = NA,
-               Description = NA,
-               Version = NA,
-               Archived = NA,
-               Life_Duration = NA,
-               URL = NA,
-               stringsAsFactors = FALSE)
+    data.frame(
+      Package = pac,
+      Released = NA,
+      Size = NA,
+      Description = NA,
+      Version = NA,
+      Archived = NA,
+      Life_Duration = NA,
+      URL = NA,
+      stringsAsFactors = FALSE
+    )
   }
 }
 
@@ -221,9 +240,13 @@ pac_archived_raw <- function(pac) {
     header <- regmatches(rrr[[1]], gregexec(">([^<>]+)<", rrr[[1]]))[[1]][2, ]
 
     result_raw <- as.data.frame(
-      do.call(rbind,
-              lapply(4:(length(rrr) - 1),
-                     function(x) regmatches(rrr[x], gregexec(">([^<>]+)<", rrr[x]))[[1]][2, ])),
+      do.call(
+        rbind,
+        lapply(
+          4:(length(rrr) - 1),
+          function(x) regmatches(rrr[x], gregexec(">([^<>]+)<", rrr[x]))[[1]][2, ]
+        )
+      ),
       stringsAsFactors = FALSE
     )
     colnames(result_raw) <- header
@@ -239,13 +262,11 @@ pac_archived_raw <- function(pac) {
     result$Package <- pac_name
     result$Version <- pac_v
     result <- result[order(result$Released), ]
-
   } else {
     result <- NULL
   }
 
   result
-
 }
 
 pac_archived <- memoise::memoise(pac_archived_raw)

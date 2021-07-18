@@ -14,19 +14,23 @@ replaceNA <- function(vec, with) {
 
 compareVersionsMax <- function(vec, na.rm = TRUE) {
   stopifnot(is.logical(na.rm))
-  if (length(vec) == 1) return(vec)
+  if (length(vec) == 1) {
+    return(vec)
+  }
   if (na.rm) vec <- stats::na.omit(vec)
-  Reduce(function(x, y) {
-    cc <- utils::compareVersion(x, y)
-    if (cc == 1) {
-      x
-    } else if (cc == -1) {
-      y
-    } else {
-      x
-    }
-  },
-  vec)
+  Reduce(
+    function(x, y) {
+      cc <- utils::compareVersion(x, y)
+      if (cc == 1) {
+        x
+      } else if (cc == -1) {
+        y
+      } else {
+        x
+      }
+    },
+    vec
+  )
 }
 
 #' Minimum version across vector
@@ -39,19 +43,23 @@ compareVersionsMax <- function(vec, na.rm = TRUE) {
 
 compareVersionsMin <- function(vec, na.rm = TRUE) {
   stopifnot(is.logical(na.rm))
-  if (length(vec) == 1) return(vec)
+  if (length(vec) == 1) {
+    return(vec)
+  }
   if (na.rm) vec <- stats::na.omit(vec)
-  Reduce(function(x, y) {
-    cc <- utils::compareVersion(x, y)
-    if (cc == 1) {
-      y
-    } else if (cc == -1) {
-      x
-    } else {
-      x
-    }
-  },
-  vec)
+  Reduce(
+    function(x, y) {
+      cc <- utils::compareVersion(x, y)
+      if (cc == 1) {
+        y
+      } else if (cc == -1) {
+        x
+      } else {
+        x
+      }
+    },
+    vec
+  )
 }
 
 dir_size <- function(path, recursive = TRUE) {
@@ -63,11 +71,13 @@ dir_size <- function(path, recursive = TRUE) {
 }
 
 is_online <- function(site = "http://example.com/") {
-  tryCatch({
-    suppressWarnings(readLines(site, n = 1))
-    TRUE
-  },
-  error = function(e) FALSE)
+  tryCatch(
+    {
+      suppressWarnings(readLines(site, n = 1))
+      TRUE
+    },
+    error = function(e) FALSE
+  )
 }
 
 #' List of base R packages
@@ -86,7 +96,6 @@ pacs_base <- function(startup = FALSE) {
 }
 
 installed_descriptions <- function(lib.loc, fields) {
-
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
   paks <- installed_agg[, fields]
@@ -100,13 +109,21 @@ installed_descriptions <- function(lib.loc, fields) {
   packages <- desc_e$packages
   versions <- desc_e$versions
 
-  joint <- do.call(rbind, lapply(seq_along(packages),
-                                 function(x) data.frame(Version = replaceNA(versions[[x]], ""),
-                                                        Package = replace(packages[[x]], versions[[x]] == "NA", NA),
-                                                        stringsAsFactors = FALSE)))
-  res_agg <- stats::aggregate(joint[, c("Version"), drop = FALSE],
-                              list(Package = joint$Package),
-                              compareVersionsMax)
+  joint <- do.call(rbind, lapply(
+    seq_along(packages),
+    function(x) {
+      data.frame(
+        Version = replaceNA(versions[[x]], ""),
+        Package = replace(packages[[x]], versions[[x]] == "NA", NA),
+        stringsAsFactors = FALSE
+      )
+    }
+  ))
+  res_agg <- stats::aggregate(
+    joint[, c("Version"), drop = FALSE],
+    list(Package = joint$Package),
+    compareVersionsMax
+  )
 
   res_agg$Version[is.na(res_agg$Version)] <- ""
 
@@ -115,9 +132,11 @@ installed_descriptions <- function(lib.loc, fields) {
 
 installed_agg_fun <- function(lib.loc = NULL, fields) {
   installed_df <- as.data.frame(utils::installed.packages(lib.loc = NULL))
-  installed_agg <- stats::aggregate(installed_df[ , c("Version", fields), drop = FALSE],
-                                    list(Package = installed_df$Package),
-                                    function(x) x[1])
+  installed_agg <- stats::aggregate(
+    installed_df[, c("Version", fields), drop = FALSE],
+    list(Package = installed_df$Package),
+    function(x) x[1]
+  )
   installed_agg
 }
 
@@ -133,7 +152,6 @@ extract_deps <- function(x) {
   pacs <- lapply(trimed, v_pac)
   list(packages = pacs, versions = versions)
 }
-
 
 is_last_release <- function(pac, version = NULL, at = NULL) {
   stopifnot(xor(!is.null(version), !is.null(at)))
