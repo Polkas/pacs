@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Package healty state at a specific Date or for a specific version — pac_health • pacs</title>
+<title>Package life duration at specific Date or for a specific version — pac_lifeduration • pacs</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Package healty state at a specific Date or for a specific version — pac_health" />
-<meta property="og:description" content="using cran website to get a package version/versions used at a specific Date interval.
-A healthy package is a if it was published for more than 7 days.
-CRAN team gives around one week to resolved a package which gave errors under the check page." />
+<meta property="og:title" content="Package life duration at specific Date or for a specific version — pac_lifeduration" />
+<meta property="og:description" content="using cran website to get a package version/versions used at a specific Date interval." />
 
 
 
@@ -115,18 +113,16 @@ CRAN team gives around one week to resolved a package which gave errors under th
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Package healty state at a specific Date or for a specific version</h1>
+    <h1>Package life duration at specific Date or for a specific version</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/howold.R'><code>R/howold.R</code></a></small>
-    <div class="hidden name"><code>pac_health.Rd</code></div>
+    <div class="hidden name"><code>pac_lifeduration.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>using cran website to get a package version/versions used at a specific Date interval.
-A healthy package is a if it was published for more than 7 days.
-CRAN team gives around one week to resolved a package which gave errors under the check page.</p>
+    <p>using cran website to get a package version/versions used at a specific Date interval.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_health</span><span class='op'>(</span><span class='va'>pac</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, at <span class='op'>=</span> <span class='cn'>NULL</span>, limit <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_lifeduration</span><span class='op'>(</span><span class='va'>pac</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, at <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,10 +139,6 @@ CRAN team gives around one week to resolved a package which gave errors under th
       <th>at</th>
       <td><p>Date old version of package. Default: NULL</p></td>
     </tr>
-    <tr>
-      <th>limit</th>
-      <td><p>numeric at least dyas to treat as healthy. Default: 7</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -160,8 +152,8 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'>pac_health</span><span class='op'>(</span><span class='st'>"dplyr"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>pac_health</span><span class='op'>(</span><span class='st'>"dplyr"</span>, version <span class='op'>=</span> <span class='st'>"0.8.0"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_lifeduration</span><span class='op'>(</span><span class='st'>"dplyr"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_lifeduration</span><span class='op'>(</span><span class='st'>"dplyr"</span>, version <span class='op'>=</span> <span class='st'>"0.8.0"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
 </code></pre></div>
   </div>
