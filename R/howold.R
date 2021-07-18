@@ -1,7 +1,5 @@
-#' Package healty state at a specific Date or for a specific version
+#' Package life duration at specific Date or for a specific version
 #' @description using cran website to get a package version/versions used at a specific Date interval.
-#' A healthy package is a if it was published for more than 7 days.
-#' CRAN team gives around one week to resolved a package which gave errors under the check page.
 #' @param pac character a package name.
 #' @param version character version of package. Default: NULL
 #' @param at Date old version of package. Default: NULL
@@ -12,10 +10,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_health("dplyr")
-#' pac_health("dplyr", version = "0.8.0")
+#' pac_lifeduration("dplyr")
+#' pac_lifeduration("dplyr", version = "0.8.0")
 #' }
-pac_health <- function(pac , version = NULL, at = NULL) {
+pac_lifeduration <- function(pac, version = NULL, at = NULL) {
   stopifnot(length(pac) == 1)
   stopifnot(!all(c(!is.null(version), !is.null(at))))
 
@@ -24,23 +22,52 @@ pac_health <- function(pac , version = NULL, at = NULL) {
   }
 
   if (is.null(version) && is.null(at)) {
-    version <- utils::packageDescription(pac)$Version
-  }
-
-  if (is.null(version)) {
+    last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+    descr <- utils::packageDescription(pac)
+    life <- Sys.Date() - as.Date(descr[["Date/Publication"]])
+    life
+  } else if (is.null(version)) {
     pac_tm <- pac_timemachine(pac, at = at)
-    res <- pac_tm$Life_Duration >= 7
-  }
-  else {
+    pac_tm$Life_Duration
+  } else {
     pac_tm <- pac_timemachine(pac)
     stopifnot(version %in% pac_tm$Version)
     pac_tm <- pac_tm[pac_tm$Version == version, ]
-    res <- pac_tm$Life_Duration >= 7
+    pac_tm$Life_Duration
+  }
+}
+
+#' Package healty state at a specific Date or for a specific version
+#' @description using cran website to get a package version/versions used at a specific Date interval.
+#' A healthy package is a if it was published for more than 7 days.
+#' CRAN team gives around one week to resolved a package which gave errors under the check page.
+#' @param pac character a package name.
+#' @param version character version of package. Default: NULL
+#' @param at Date old version of package. Default: NULL
+#' @param limit numeric at least dyas to treat as healthy. Default: 7
+#' @return logical if package is healthy.
+#' If the newest release is published less than 7 days ago then the class of object is "not-sure".
+#' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
+#' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
+#' @export
+#' @examples
+#' \dontrun{
+#' pac_health("dplyr")
+#' pac_health("dplyr", version = "0.8.0")
+#' }
+pac_health <- function(pac, version = NULL, at = NULL, limit = 7) {
+  stopifnot(length(pac) == 1)
+  stopifnot(!all(c(!is.null(version), !is.null(at))))
+
+  if (!pac %in% rownames(available_packages)) {
+    return(NA)
   }
 
-  stopifnot(nrow(res) == 1)
+  life <- pac_lifeduration(pac, version = version, at = at)
 
-  if (is.na(pac_tm$Archived) && !is.na(pac_tm$Life_Duration) && !res) {
+  res <- life >= limit
+
+  if (is_last_release(pac, version, at) && !res) {
     cat(sprintf("This is a newest release of %s published less than 7 days ago so not sure about score.", pac))
     structure(res, class = "not-sure")
   } else {
@@ -153,7 +180,7 @@ pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL) {
   stats::setNames(lapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to)), pacs_cran)
 }
 
-pac_cran_recent <- function(pac) {
+pac_cran_recent_raw <- function(pac) {
   cran_page <- try(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac)), silent = TRUE)
   if (!inherits(cran_page, "try-error")) {
     cran_v <- gsub("</?td>", "", cran_page[grep("Version:", cran_page) + 1])
@@ -181,7 +208,9 @@ pac_cran_recent <- function(pac) {
   }
 }
 
-pac_archived <- function(pac) {
+pac_cran_recent <- memoise::memoise(pac_cran_recent_raw)
+
+pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
   rr <- try(readLines(paste0("https://cran.r-project.org/", base_archive)), silent = TRUE)
 
@@ -218,3 +247,5 @@ pac_archived <- function(pac) {
   result
 
 }
+
+pac_archived <- memoise::memoise(pac_archived_raw)

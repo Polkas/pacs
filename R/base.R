@@ -37,18 +37,14 @@ pac_deps <- function(pac,
     deps <- function(pak, fileds) {
       pks <- pac_description(pak, local = TRUE, lib.loc = lib.loc)
       res <- NULL
-      for (f in fileds) {
-        ff <- pks[[f]]
-        if (!is.null(ff)) {
-          res <- c(
-            res,
-            vapply(
-              strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]"),
+      ff <- paste(unlist(pks[fields]), collapse = ", ")
+      fff <- strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]")
+      if (length(fff) > 0) {
+          res <- vapply(
+              fff,
               function(x) x[1],
               character(1)
             )
-          )
-        }
       }
       if (is.null(res)) {
         return(NULL)
@@ -67,7 +63,7 @@ pac_deps <- function(pac,
     paks_global <- tools::package_dependencies(pac,
                                                db = available_packages,
                                                which = fields,
-                                               recursive = TRUE)
+                                               recursive = TRUE)[[1]]
     v_base <- available_packages
     pac_v <- v_base[pac, c("Version")]
   }
@@ -90,7 +86,6 @@ pac_deps <- function(pac,
       NULL
     }
   ))
-
 
   if (description_v) {
     res_df <- installed_descriptions(lib.loc, fields)

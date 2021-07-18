@@ -40,7 +40,8 @@ pac_deps_timemachine <- function(pac,
 
       ff <- paste(unlist(pks[fields]), collapse = ", ")
       fff <- strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]")
-      if (length(ff) > 0) {
+      res <- NULL
+      if (length(fff) > 0) {
         res <- vapply(
             fff,
             function(x) x[1],

@@ -24,7 +24,6 @@ numeric size in bytes.
 package DESCRIPTION file taken from CRAN website.
 }
 \examples{
-# Will fail
-# pac_description("dplyr", version = "0.8.0")
-# pac_description("dplyr", at = as.Date("2019-02-01"))
+pac_description("dplyr", version = "0.8.0")
+pac_description("dplyr", at = as.Date("2019-02-01"))
 }

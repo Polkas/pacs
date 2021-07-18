@@ -133,3 +133,20 @@ extract_deps <- function(x) {
   pacs <- lapply(trimed, v_pac)
   list(packages = pacs, versions = versions)
 }
+
+
+is_last_release <- function(pac, version = NULL, at = NULL) {
+  stopifnot(xor(!is.null(version), !is.null(at)))
+
+  if (!pac %in% rownames(available_packages)) {
+    return(NA)
+  }
+
+  last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+
+  if (is.null(version)) {
+    version <- utils::tail(pac_timemachine(pac = pac, at = at), 1)$Version
+  }
+
+  isTRUE(utils::compareVersion(last_version, version) == 0)
+}

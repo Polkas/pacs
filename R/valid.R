@@ -1,3 +1,4 @@
+
 #' Compare current and expected packages under .libPaths.
 #' @description Checking the healthy of the libarary.
 #' @param lib.loc character. Default: NULL
@@ -16,12 +17,23 @@ lib_validate <- function(lib.loc = NULL, fields = c("Depends", "Imports", "Linki
   res_agg <- installed_descriptions(lib.loc, fields)
 
   result <- merge(res_agg,
-                  installed_agg[, c("Package", "Version")],
+                  rbind(installed_agg[, c("Package", "Version")],
+                        data.frame(Package = "R",
+                                   Version = paste0(R.Version()[c("major", "minor")], collapse = "."), stringsAsFactors = FALSE)
+                        ),
                   by = "Package",
                   all = TRUE,
                   suffix = c(".expected.min", ".have"))
 
-  result$flag <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
+  result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
+
+  result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
+
+  result$life_duration <- vapply(result$Package, pac_lifeduration, numeric(1))
+
+  result$life_duration <- vapply(result$Package, pac_lifeduration, numeric(1))
+
+  result$newest <- apply(result, 1,  function(x) is_last_release(x["Package"], x["Version.have"]))
 
   result
 }
@@ -52,7 +64,13 @@ pac_validate <- function(pac, lib.loc = NULL, fields = c("Depends", "Imports", "
                   all = TRUE,
                   suffix = c(".expected.min", ".have"))
 
-  result$flag <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
+  result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
+
+  result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
+
+  result$life_duration <- vapply(result$Package, pac_lifeduration, numeric(1))
+
+  result$newest <- apply(result, 1,  function(x) is_last_release(x["Package"], x["Version.have"]))
 
   result
 

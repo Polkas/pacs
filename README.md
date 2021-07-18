@@ -64,6 +64,20 @@ Might be useful to check the number of dependencies too:
 pacs::pac_deps("devtools")$Package
 ```
 
+## Dependencies for version and remote one
+
+For newest release.
+
+```r
+pacs::pac_deps("devtools", local = FALSE)$Package
+```
+
+For certain version, might take some time.
+
+```r
+pacs::pac_deps_timemachine("dplyr", version = "0.8.1")
+```
+
 ## Time machine - Package version at Date or specific Date interval
 
 Using R CRAN website to get packages version/versions used at a specific Date or a Date interval.  
@@ -89,13 +103,19 @@ pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
 
 ## Package health
 
-We could find out if a certain package version was live more than 7 days. 
+We could find out if a certain package version was live more than 7 days (or other updated). 
 If not then we might assume sth wrong was with it, as had to be quickly updated.
 
-e.g. `dplyr` under the "0.8.0" version seems to be a broken release, with `pac_timemachine("dplyr")` we could find out that it was published only for 1 day.
+e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could find out that it was published only for 1 day.
 
 ```r
-pac_health("dplyr", version = "0.8.0")
+pac_lifeduration("dplyr", "0.8.0")
+```
+
+With 7 day limit we get a proper health status. We are sure about this state as this is not the newest release.  
+
+```r
+pac_health("dplyr", version = "0.8.0", limit = 7)
 ```
 
 All packages health, skip non CRAN packages - will take some time (even few minutes):
@@ -121,20 +141,6 @@ For many packages:
 ```r
 pacs_description(c("dplyr", "shiny"), version = c("0.8.0", "1.5.0"))
 pacs_description(c("dplyr", "shiny"), at = as.Date("2019-01-01"))
-```
-
-## Install version
-
-A true installation of certain package version, as the dependencies are taken for its release date.
-
-```r
-# will fail!!!!
-# this version was released for less than 7 days, so it is assumed to be unhealthy (`pac_health`).
-pac_install_version("dplyr", "0.8.0")
-```
-
-```r
-pac_install_version("dplyr", "0.8.1")
 ```
 
 ## Package dependencies and diffeneces between versions
