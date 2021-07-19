@@ -17,11 +17,11 @@ pac_lifeduration <- function(pac, version = NULL, at = NULL) {
   stopifnot(length(pac) == 1)
   stopifnot(!all(c(!is.null(version), !is.null(at))))
 
-  if (!pac %in% rownames(available_packages)) {
+  if (!pac %in% rownames(available_packages())) {
     return(NA)
   }
 
-  last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+  last_version <- last_version_fun(pac)
 
   if ((is.null(version) && is.null(at)) ||
       (!is.null(version) && isTRUE(utils::compareVersion(version, last_version) == 0))) {
@@ -68,7 +68,7 @@ pac_health <- function(pac, version = NULL, at = NULL, limit = 7) {
   stopifnot(length(pac) == 1)
   stopifnot(!all(c(!is.null(version), !is.null(at))))
 
-  if (!pac %in% rownames(available_packages)) {
+  if (!pac %in% rownames(available_packages())) {
     return(NA)
   }
 
@@ -76,7 +76,7 @@ pac_health <- function(pac, version = NULL, at = NULL, limit = 7) {
 
   res <- life >= limit
 
-  last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+  last_version <- last_version_fun(pac)
 
   if (is_last_release(pac, version, at) && !res) {
     cat(sprintf("This is a newest release of %s published less than 7 days ago so not sure about score.", pac))
@@ -134,7 +134,7 @@ pacs_health <- function(pacs, versions = NULL, at = NULL) {
 #' pac_timemachine("dplyr", at = Sys.Date())
 #' }
 pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NULL) {
-  stopifnot(pac %in% c(rownames(available_packages), pacs_base()))
+  stopifnot(pac %in% c(rownames(available_packages()), pacs_base()))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),
     !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)
@@ -191,7 +191,7 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
 #' pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())
 #' }
 pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL) {
-  pacs_cran <- intersect(pacs, rownames(available_packages))
+  pacs_cran <- intersect(pacs, rownames(available_packages()))
   pacs_skip <- setdiff(pacs, pacs_cran)
   if (length(pacs_skip)) cat("Skipping non CRAN packages", pacs_skip, "\n")
   stats::setNames(lapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to)), pacs_cran)

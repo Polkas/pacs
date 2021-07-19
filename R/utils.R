@@ -141,7 +141,11 @@ installed_agg_fun <- function(lib.loc = NULL, fields) {
 }
 
 
-available_packages <- utils::available.packages(repos = "http://cran.rstudio.com/")
+available_packages <- function(repos = "http://cran.rstudio.com/") {
+  available_packages_raw(repos = repos)
+}
+
+available_packages_raw <- memoise::memoise(utils::available.packages)
 
 extract_deps <- function(x) {
   splited <- strsplit(x, ",")
@@ -153,14 +157,21 @@ extract_deps <- function(x) {
   list(packages = pacs, versions = versions)
 }
 
+
+last_version_raw <- function(pac) {
+  available_packages()[rownames(available_packages()) == pac, "Version"]
+}
+
+last_version_fun <- memoise::memoise(last_version_raw)
+
 is_last_release <- function(pac, version = NULL, at = NULL) {
   stopifnot(xor(!is.null(version), !is.null(at)) || (is.null(version) && is.null(at)))
 
-  if (!pac %in% rownames(available_packages)) {
+  if (!pac %in% rownames(available_packages())) {
     return(NA)
   }
 
-  last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+  last_version <- available_packages()[rownames(available_packages()) == pac, "Version"]
 
   if (is.null(version) && is.null(at)) {
     version <- pac_description(pac, local = TRUE)$Version

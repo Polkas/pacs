@@ -33,7 +33,7 @@ pac_description_dcf_raw <- function(pac, version, at) {
 
   ee <- tempfile()
 
-  last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+  last_version <- last_version_fun(pac)
 
   if (is.null(version)) {
     version <- last_version
@@ -55,7 +55,7 @@ pac_description_dcf_raw <- function(pac, version, at) {
   )
 
   if (inherits(tt, "try-error")) {
-    last_version <- available_packages[rownames(available_packages) == pac, "Version"]
+    last_version <- last_version_fun(pac)
     temp_tar <- tempfile(fileext = "tar.gz")
 
     if (!is.null(version) && version != last_version) {

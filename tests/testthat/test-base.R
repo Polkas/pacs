@@ -54,23 +54,9 @@ test_that("pacs::pac_true_size", {
   expect_equal(stats_size2, 0)
 })
 
-test_that("pacs::lib_validate", {
-  expect_error(lib_validate(lib.loc = "wrong"))
-  expect_true(inherits(lib_validate(), "data.frame"))
-})
-
 test_that("pacs::pacs_size", {
   expect_true(length(pacs_size()) > 1)
 })
-
-test_that("pac_validate", {
-  expect_true(nrow(pac_validate("stats")) == 0)
-})
-
-test_that("pac_validate", {
-  expect_true(nrow(pacs_validate(c("stats", "graphics"))) == 0)
-})
-
 
 test_that("pacs_base", {
   expect_true(all(c("stats", "methods", "base", "utils", "graphics") %in% pacs_base()))
@@ -78,6 +64,20 @@ test_that("pacs_base", {
 })
 
 if (is_online()) {
+
+  test_that("pacs::lib_validate", {
+    expect_error(lib_validate(lib.loc = "wrong"))
+    expect_true(inherits(lib_validate(), "data.frame"))
+  })
+
+  test_that("pac_validate", {
+    expect_true(nrow(pac_validate("stats")) == 0)
+  })
+
+  test_that("pac_validate", {
+    expect_true(nrow(pacs_validate(c("stats", "graphics"))) == 0)
+  })
+
   test_that("pac_timemachine", {
     expect_true(pac_timemachine("dplyr", at = as.Date("2017-02-02"))$Version == "0.5.0")
     expect_true(nrow(pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 6)

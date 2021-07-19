@@ -33,10 +33,6 @@ pac_deps_timemachine <- function(pac,
 
   deps <- function(pak, at, fields) {
     pks <- pac_description(pak, at = at, local = FALSE)
-    if (isTRUE(pak != "R" && (!pak %in% paks_global) && pak != pac)) {
-      paks_global <<- c(paks_global, stats::setNames(pak, pks$Version))
-    }
-
     ff <- paste(unlist(pks[fields]), collapse = ", ")
     fff <- strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]")
     res <- NULL
@@ -54,8 +50,12 @@ pac_deps_timemachine <- function(pac,
     res <- setdiff(res, pacs_base())
 
     for (r in res) {
-      if (isTRUE(r != "R" && !r %in% paks_global && r != pac)) {
+      if (isTRUE(r != "R" && r != pac)) {
+      pks <- pac_description(r, at = at, local = FALSE)
+      if (isTRUE((!r %in% paks_global || isTRUE(utils::compareVersion(pks$Version, names(paks_global)[paks_global == r]) == 1)))) {
+        paks_global <<- c(stats::setNames(r, pks$Version), paks_global[paks_global != r])
         deps(r, at, fields)
+      }
       }
     }
   }
