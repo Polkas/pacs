@@ -125,7 +125,7 @@ pacs_health <- function(pacs, versions = NULL, at = NULL) {
 #' @return data.frame
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' The base part of URL in the result is "https://cran.r-project.org".
+#' The base part of URL in the result is "https://cran.r-project.org/src/contrib/".
 #' @export
 #' @examples
 #' \dontrun{
@@ -183,7 +183,7 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' For bigger lists might need a few minutes.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' The base part of URL in the result is "https://cran.r-project.org".
+#' The base part of URL in the result is "https://cran.r-project.org/src/contrib/".
 #' @export
 #' @examples
 #' \dontrun{
@@ -211,7 +211,7 @@ pac_cran_recent_raw <- function(pac) {
       Version = cran_v,
       Archived = NA,
       Life_Duration = Sys.Date() - as.Date(cran_released),
-      URL = sprintf("/src/contrib/%s_%s.tar.gz", pac, cran_v),
+      URL = sprintf("%s_%s.tar.gz", pac, cran_v),
       stringsAsFactors = FALSE
     )
   } else {
@@ -260,7 +260,7 @@ pac_archived_raw <- function(pac) {
     pac_raw <- strsplit(gsub(".tar.gz", "", result$Package), "_")
     pac_name <- vapply(pac_raw, function(x) x[1], character(1))
     pac_v <- vapply(pac_raw, function(x) x[2], character(1))
-    result$URL <- paste0(base_archive, result$Package)
+    result$URL <- paste0(sprintf("Archive/%s/", pac),result$Package)
     result$Package <- pac_name
     result$Version <- pac_v
     result <- result[order(result$Released), ]
