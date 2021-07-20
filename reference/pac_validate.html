@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compare current and expected package dependencies versions using DESCRIPTION files. — pac_validate • pacs</title>
+<title>Validate specific package — pac_validate • pacs</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Compare current and expected package dependencies versions using DESCRIPTION files. — pac_validate" />
+<meta property="og:title" content="Validate specific package — pac_validate" />
 <meta property="og:description" content="Checking the healthy of the specific packages." />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compare current and expected package dependencies versions using DESCRIPTION files.</h1>
+    <h1>Validate specific package</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/valid.R'><code>R/valid.R</code></a></small>
     <div class="hidden name"><code>pac_validate.Rd</code></div>
     </div>
@@ -141,13 +141,13 @@
     </tr>
     <tr>
       <th>fields</th>
-      <td><p>character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")</p></td>
+      <td><p>character vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.</p>
+    <p>data.frame with 5 columns Package Version.expected.min Version.have. "" means newest version.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.</p>

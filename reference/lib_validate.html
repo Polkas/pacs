@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compare current and expected packages under .libPaths. — lib_validate • pacs</title>
+<title>Validate the library. — lib_validate • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Compare current and expected packages under .libPaths. — lib_validate" />
-<meta property="og:description" content="Checking the healthy of the libarary." />
+<meta property="og:title" content="Validate the library. — lib_validate" />
+<meta property="og:description" content="Compare current and expected packages under .libPaths.
+Checking the healthy of the library, which packages are newest one.
+Optionally added life duration of each package." />
 
 
 
@@ -80,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -113,13 +115,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compare current and expected packages under .libPaths.</h1>
+    <h1>Validate the library.</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/valid.R'><code>R/valid.R</code></a></small>
     <div class="hidden name"><code>lib_validate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checking the healthy of the libarary.</p>
+    <p>Compare current and expected packages under <code>.libPaths</code>.
+Checking the healthy of the library, which packages are newest one.
+Optionally added life duration of each package.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>lib_validate</span><span class='op'>(</span>
@@ -137,11 +141,11 @@
     </tr>
     <tr>
       <th>fields</th>
-      <td><p>character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")</p></td>
+      <td><p>character vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></td>
     </tr>
     <tr>
       <th>lifeduration</th>
-      <td><p>logical if to add life duration column. Default: FALSE</p></td>
+      <td><p>logical if to add life duration column, might take some time. Default: FALSE</p></td>
     </tr>
     </table>
 
@@ -212,7 +216,7 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 63         nnet                 &lt;NA&gt;       7.3-16              1   TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 64      openssl                1.4.1        1.4.4              1   TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 65      packrat                 &lt;NA&gt;        0.6.0              1   TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 66         pacs                 &lt;NA&gt;        0.1.2              1     NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 66         pacs                 &lt;NA&gt;        0.2.0              1     NA</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 68       pillar                1.6.0        1.6.1              1   TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 69     pkgbuild                1.2.0        1.2.0              0   TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 70    pkgconfig                             2.0.3              1   TRUE</span>

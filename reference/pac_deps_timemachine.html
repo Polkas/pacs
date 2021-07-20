@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Package dependencies for certain version or time point. — pac_deps_timemachine • pacs</title>
+<title>Package dependencies for a certain version or time point. — pac_deps_timemachine • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Package dependencies for certain version or time point. — pac_deps_timemachine" />
-<meta property="og:description" content="Package dependencies from DESCRIPTIONS files retrieved recursively for certain version or time point." />
+<meta property="og:title" content="Package dependencies for a certain version or time point. — pac_deps_timemachine" />
+<meta property="og:description" content="Package dependencies from DESCRIPTION files retrieved recursively for certain version or time point." />
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -113,13 +113,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Package dependencies for certain version or time point.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/base_remote.R'><code>R/base_remote.R</code></a></small>
+    <h1>Package dependencies for a certain version or time point.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/deps_timemachine.R'><code>R/deps_timemachine.R</code></a></small>
     <div class="hidden name"><code>pac_deps_timemachine.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Package dependencies from DESCRIPTIONS files retrieved recursively for certain version or time point.</p>
+    <p>Package dependencies from DESCRIPTION files retrieved recursively for certain version or time point.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_deps_timemachine</span><span class='op'>(</span>
@@ -146,13 +146,13 @@
     </tr>
     <tr>
       <th>fields</th>
-      <td><p>character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")</p></td>
+      <td><p>character vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>named vector package dependencies and their versions at the release date + 1/at arg  of main package.</p>
+    <p>named vector package dependencies and their versions at the release date  of main package plus one day.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Longer lived version is taken if 2 is available at the same date (switch time).</p>

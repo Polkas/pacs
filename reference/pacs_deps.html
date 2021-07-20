@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>compare specific package versions — pacs_deps • pacs</title>
+<title>Packages dependencies — pacs_deps • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="compare specific package versions — pacs_deps" />
-<meta property="og:description" content="compare specific package versionss." />
+<meta property="og:title" content="Packages dependencies — pacs_deps" />
+<meta property="og:description" content="Package dependencies from DESCRIPTION files with installed or expected versions or newest released." />
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -113,13 +113,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>compare specific package versions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/base.R'><code>R/base.R</code></a></small>
+    <h1>Packages dependencies</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/deps.R'><code>R/deps.R</code></a></small>
     <div class="hidden name"><code>pacs_deps.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>compare specific package versionss.</p>
+    <p>Package dependencies from DESCRIPTION files with installed or expected versions or newest released.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_deps</span><span class='op'>(</span>
@@ -141,7 +141,7 @@
     </tr>
     <tr>
       <th>fields</th>
-      <td><p>character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")</p></td>
+      <td><p>character vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></td>
     </tr>
     <tr>
       <th>lib.loc</th>
@@ -149,7 +149,7 @@
     </tr>
     <tr>
       <th>attr</th>
-      <td><p>logical specify if pac and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE</p></td>
+      <td><p>logical specify if package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE</p></td>
     </tr>
     <tr>
       <th>base</th>
@@ -161,7 +161,7 @@
     </tr>
     <tr>
       <th>description_v</th>
-      <td><p>if the dependecies version should be taken from description files, minimal required. Default: FALSE</p></td>
+      <td><p>if the dependencies version should be taken from description files, minimal required. Default: FALSE</p></td>
     </tr>
     </table>
 

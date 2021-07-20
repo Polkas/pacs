@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>compare dependencies of specific package versions — pac_compare_versions • pacs</title>
+<title>Compare dependencies of specific packages versions — pac_compare_versions • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="compare dependencies of specific package versions — pac_compare_versions" />
-<meta property="og:description" content="using remote cran to compare specific package versions dependencies." />
+<meta property="og:title" content="Compare dependencies of specific packages versions — pac_compare_versions" />
+<meta property="og:description" content="using remote CRAN to compare specific packages versions dependencies." />
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -113,21 +113,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>compare dependencies of specific package versions</h1>
+    <h1>Compare dependencies of specific packages versions</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/comapre.R'><code>R/comapre.R</code></a></small>
     <div class="hidden name"><code>pac_compare_versions.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>using remote cran to compare specific package versions dependencies.</p>
+    <p>using remote CRAN to compare specific packages versions dependencies.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_compare_versions</span><span class='op'>(</span>
   <span class='va'>pac</span>,
   <span class='va'>old</span>,
   <span class='va'>new</span>,
-  fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Imports"</span>, <span class='st'>"Depends"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
-  repos <span class='op'>=</span> <span class='st'>"http://cran.rstudio.com/"</span>
+  fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Imports"</span>, <span class='st'>"Depends"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -139,33 +138,29 @@
     </tr>
     <tr>
       <th>old</th>
-      <td><p>character old version of package.</p></td>
+      <td><p>character an old version of package.</p></td>
     </tr>
     <tr>
       <th>new</th>
-      <td><p>character new version of package.</p></td>
+      <td><p>character a new version of package.</p></td>
     </tr>
     <tr>
       <th>fields</th>
-      <td><p>character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")</p></td>
-    </tr>
-    <tr>
-      <th>repos</th>
-      <td><p>character cran URL. Default: "http://cran.rstudio.com/"</p></td>
+      <td><p>character a vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>Function will temporarily download two packages.</p>
+    <p>data.frame with 4 columns.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'>pac_compare_versions</span><span class='op'>(</span><span class='st'>"shiny"</span>, <span class='st'>"1.4.0"</span>, <span class='st'>"1.6.0"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pac_compare_versions</span><span class='op'>(</span><span class='st'>"memoise"</span>, <span class='st'>"0.2.1"</span>, <span class='st'>"2.0.0"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Package Version.0.2.1 Version.2.0.0 version_status</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  cachem          &lt;NA&gt;                            1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  digest                        &lt;NA&gt;             -1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   rlang          &lt;NA&gt;        0.4.10              1</span>
+<span class='r-in'></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

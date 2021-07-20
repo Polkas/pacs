@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Package true size — pac_true_size" />
-<meta property="og:description" content="Package true size as it takes into account dependencies." />
+<meta property="og:description" content="Package true size as it takes into account its dependencies." />
 
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Package true size as it takes into account dependencies.</p>
+    <p>Package true size as it takes into account its dependencies.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_true_size</span><span class='op'>(</span>
@@ -139,7 +139,7 @@
     </tr>
     <tr>
       <th>fields</th>
-      <td><p>character vector, Default: c("Depends", "Imports", "LinkingTo")</p></td>
+      <td><p>character vector, Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></td>
     </tr>
     <tr>
       <th>lib.loc</th>
@@ -157,16 +157,16 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric sizes in bytes.</p>
+    <p>numeric size in bytes, to get MB then divide by <code>10**6</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># size in Mb</span></span>
 <span class='r-in'><span class='fu'>pacs</span><span class='fu'>::</span><span class='fu'>pac_true_size</span><span class='op'>(</span><span class='st'>"stats"</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>10</span><span class='op'>**</span><span class='fl'>6</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4.509832</span>
 <span class='r-in'><span class='co'># exclude packages if at least one other package use it too</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'>pacs</span><span class='fu'>::</span><span class='fu'>pac_true_size</span><span class='op'>(</span><span class='st'>"devtools"</span>, exclude_joint <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>10</span><span class='op'>**</span><span class='fl'>6</span></span>
-<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='fu'>pacs</span><span class='fu'>::</span><span class='fu'>pac_true_size</span><span class='op'>(</span><span class='st'>"memoise"</span>, exclude_joint <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>10</span><span class='op'>**</span><span class='fl'>6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0</span>
+<span class='r-in'></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
