@@ -1,4 +1,12 @@
-# pacs 0.2.0
+# 0.2.2
+
+* Fixed `pac_deps` when `description_v = TRUE`, minimal required versions were taken from all local DESCRIPTION files. This will fix `pac_validate`/`pacs_validate` too, which were to optimistic.
+
+# 0.2.1
+
+* Added `https` for all URL.
+
+# 0.2.0
 
 * Deployment to R CRAN.
 * Added a `NEWS.md` file to track changes to the package.

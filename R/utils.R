@@ -93,14 +93,18 @@ pacs_base <- function(startup = FALSE) {
   }
 }
 
-installed_descriptions <- function(lib.loc, fields) {
+installed_descriptions <- function(lib.loc, fields, deps = NULL) {
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
   paks <- installed_agg[, fields]
-  nams <- rownames(paks)
+  nams <- installed_agg[, c("Package")]
   rownames(paks) <- nams
 
-  joint_cols <- apply(paks, 1, function(x) paste(x, sep = ","))
+  if (!is.null(deps)) {
+    paks <- paks[nams %in% deps,]
+  }
+
+  joint_cols <- apply(paks, 1, function(x) paste(x, collapse = ","))
 
   desc_e <- extract_deps(joint_cols)
 

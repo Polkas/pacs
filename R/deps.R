@@ -89,7 +89,7 @@ pac_deps <- function(pac,
   ))
 
   if (description_v) {
-    res_df <- installed_descriptions(lib.loc, fields)
+    res_df <- installed_descriptions(lib.loc, fields, c(res, pac))
     res_df <- res_df[res_df$Package %in% res, ]
   } else {
     res_df <- as.data.frame(v_base[res, c("Package", "Version"), drop = FALSE])
