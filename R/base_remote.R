@@ -20,20 +20,21 @@ pac_deps_timemachine <- function(pac,
 
   if (is.null(version)) {
     health <- pac_health(pac, at = at)
-    pac_v <- pac_description(pac, at = at, local = FALSE)$Version
+    if (!health && class(health) == "sure") stop("not healthy version, live less than 7 days.")
+    pac_d <- pac_description(pac, at = at, local = FALSE)
+    pac_v <- pac_d$Version
   } else {
     health <- pac_health(pac, version = version)
-    pac_v <- pac_description(pac, version = version, local = FALSE)$Version
+    if (!health && class(health) == "sure") stop("not healthy version, live less than 7 days.")
+    pac_d <- pac_description(pac, version = version, local = FALSE)
+    pac_v <- pac_d$Version
     at <- as.Date(pac_timemachine(pac, version = pac_v)$Released) + 1
   }
 
-  if (!health && class(health) == "sure") stop("not healthy version, live less than 7 days.")
-
   paks_global <- NULL
 
-  deps <- function(pak, at, fields) {
-    pks <- pac_description(pak, at = at, local = FALSE)
-    ff <- paste(unlist(pks[fields]), collapse = ", ")
+  deps <- function(pak, at, fields_real) {
+    ff <- paste(unlist(fields_real), collapse = ", ")
     fff <- strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]")
     res <- NULL
     if (length(fff) > 0) {
@@ -50,17 +51,16 @@ pac_deps_timemachine <- function(pac,
     res <- setdiff(res, pacs_base())
 
     for (r in res) {
-      if (isTRUE(r != "R" && r != pac)) {
-      pks <- pac_description(r, at = at, local = FALSE)
-      if (isTRUE((!r %in% paks_global || isTRUE(utils::compareVersion(pks$Version, names(paks_global)[paks_global == r]) == 1)))) {
+      # not care about many versions for certain apckage as we taking the newset version
+      if (isTRUE(r != "R" && r != pac && (!r %in% paks_global))) {
+        pks <- pac_description(r, at = at, local = FALSE)
         paks_global <<- c(stats::setNames(r, pks$Version), paks_global[paks_global != r])
-        deps(r, at, fields)
-      }
+        deps(r, at, pks[fields])
       }
     }
   }
 
-  deps(pac, at, fields)
+  deps(pac, at, pac_d[fields])
 
   paks_global
 }
