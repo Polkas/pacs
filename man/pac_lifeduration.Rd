@@ -25,7 +25,7 @@ Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{
-pac_lifeduration("dplyr")
+pac_lifeduration("memoise")
 pac_lifeduration("dplyr", version = "0.8.0")
 
 }

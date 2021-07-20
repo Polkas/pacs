@@ -9,7 +9,7 @@
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' @export
 #' @examples
-#' pac_lifeduration("dplyr")
+#' pac_lifeduration("memoise")
 #' pac_lifeduration("dplyr", version = "0.8.0")
 #'
 pac_lifeduration <- function(pac, version = NULL, at = NULL) {
@@ -59,14 +59,18 @@ pac_lifeduration <- function(pac, version = NULL, at = NULL) {
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' @export
 #' @examples
-#' pac_health("dplyr")
+#' pac_health("memoise")
 #' pac_health("dplyr", version = "0.8.0")
 #'
 pac_health <- function(pac, version = NULL, at = NULL, limit = 7) {
   stopifnot(length(pac) == 1)
   stopifnot(!all(c(!is.null(version), !is.null(at))))
 
-  if (!pac %in% rownames(available_packages())) {
+  if (any(c(!is.null(version), !is.null(at))) && !pac %in% rownames(available_packages())) {
+    return(NA)
+  }
+
+  if (all(c(is.null(version), is.null(at))) && !pac %in% rownames(utils::installed.packages())) {
     return(NA)
   }
 
@@ -97,8 +101,8 @@ pac_health <- function(pac, version = NULL, at = NULL, limit = 7) {
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' @export
 #' @examples
-#' pacs_health(c("dplyr", "devtools"))
-#' pacs_health(c("dplyr", "devtools"), versions = c("0.8.0", "2.4.0"))
+#' pacs_health(c("memoise"))
+#' pacs_health(c("memoise", "devtools"), versions = c("1.0.0", "2.4.0"))
 #'
 pacs_health <- function(pacs, versions = NULL, at = NULL) {
   stopifnot(!all(c(!is.null(versions), !is.null(at))))

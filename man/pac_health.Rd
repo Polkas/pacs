@@ -29,7 +29,7 @@ Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{
-pac_health("dplyr")
+pac_health("memoise")
 pac_health("dplyr", version = "0.8.0")
 
 }

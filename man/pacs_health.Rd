@@ -27,7 +27,7 @@ Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{
-pacs_health(c("dplyr", "devtools"))
-pacs_health(c("dplyr", "devtools"), versions = c("0.8.0", "2.4.0"))
+pacs_health(c("memoise"))
+pacs_health(c("memoise", "devtools"), versions = c("1.0.0", "2.4.0"))
 
 }

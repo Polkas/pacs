@@ -3,9 +3,10 @@
 [![CRAN](http://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
 [![codecov](https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg)](https://codecov.io/gh/Polkas/pacs)
 
-R packages utils
+[Utils for R Packages Developers](https://polkas.github.io/pacs/index.html)
 
 Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
+
 Hint2: all time consuming calculations are cached with `memoise` package, second invoke of the same call is instantaneous.
 
 - Checking packages dependencies with their versions, local or remote. 

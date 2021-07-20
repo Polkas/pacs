@@ -87,8 +87,8 @@ if (is_online()) {
   })
 
   test_that("pac_timemachine", {
-    expect_true(pac_timemachine("dplyr", at = as.Date("2017-02-02"))$Version == "0.5.0")
-    expect_true(nrow(pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 6)
+    expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"))$Version == "1.0.0")
+    expect_true(nrow(pac_timemachine("memoise", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 2)
   })
 
   test_that("pacs_timemachine", {
