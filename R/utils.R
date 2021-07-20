@@ -5,13 +5,12 @@ replaceNA <- function(vec, with) {
 }
 
 #' Maximum version across vector
-#' @description Reduce function over the utils::compareVersion
+#' @description Reduce function over the `utils::compareVersion`
 #' @param vec character vector
 #' @param na.rm logical if to remove NA values.
 #' @return character
 #' @export
 #'
-
 compareVersionsMax <- function(vec, na.rm = TRUE) {
   stopifnot(is.logical(na.rm))
   if (length(vec) == 1) {
@@ -34,13 +33,12 @@ compareVersionsMax <- function(vec, na.rm = TRUE) {
 }
 
 #' Minimum version across vector
-#' @description Reduce function over the utils::compareVersion
+#' @description Reduce function over the `utils::compareVersion`
 #' @param vec character vector
 #' @param na.rm logical if to remove NA values.
 #' @return character
 #' @export
 #'
-
 compareVersionsMin <- function(vec, na.rm = TRUE) {
   stopifnot(is.logical(na.rm))
   if (length(vec) == 1) {
@@ -82,7 +80,7 @@ is_online <- function(site = "http://example.com/") {
 
 #' List of base R packages
 #' @description using installed.packages and priority equal "base" to retrieve base packages.
-#' @param startup logical include only stratup packages. Default: FALSE
+#' @param startup logical include only startup packages. Default: FALSE
 #' @return character vector
 #' @export
 #'

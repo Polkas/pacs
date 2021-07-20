@@ -7,7 +7,7 @@
 pacs_base(startup = FALSE)
 }
 \arguments{
-\item{startup}{logical include only stratup packages. Default: FALSE}
+\item{startup}{logical include only startup packages. Default: FALSE}
 }
 \value{
 character vector

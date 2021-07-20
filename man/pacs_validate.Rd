@@ -2,7 +2,7 @@
 % Please edit documentation in R/valid.R
 \name{pacs_validate}
 \alias{pacs_validate}
-\title{Compare current and expected packages dependencies versions using DESCRIPTION files.}
+\title{Validate specific packages}
 \usage{
 pacs_validate(
   pacs,
@@ -15,10 +15,10 @@ pacs_validate(
 
 \item{lib.loc}{character. Default: NULL}
 
-\item{fields}{character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")}
+\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 }
 \value{
-data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.
+data.frame with 5 columns Package Version.expected.min Version.have. "" means newest version.
 }
 \description{
 Checking the healthy of the specific packages.
@@ -28,4 +28,5 @@ Version.expected.min column not count packages which are not a dependency for an
 }
 \examples{
 pacs_validate(c("memoise", "rlang"))
+
 }

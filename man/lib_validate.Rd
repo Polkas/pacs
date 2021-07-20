@@ -2,7 +2,7 @@
 % Please edit documentation in R/valid.R
 \name{lib_validate}
 \alias{lib_validate}
-\title{Compare current and expected packages under .libPaths.}
+\title{Validate the library.}
 \usage{
 lib_validate(
   lib.loc = NULL,
@@ -13,15 +13,17 @@ lib_validate(
 \arguments{
 \item{lib.loc}{character. Default: NULL}
 
-\item{fields}{character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")}
+\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lifeduration}{logical if to add life duration column. Default: FALSE}
+\item{lifeduration}{logical if to add life duration column, might take some time. Default: FALSE}
 }
 \value{
 data.frame with 5/6 columns Package Version.expected.min Version.have. "" means newest version.
 }
 \description{
-Checking the healthy of the libarary.
+Compare current and expected packages under \code{.libPaths}.
+Checking the healthy of the library, which packages are newest one.
+Optionally added life duration of each package.
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.

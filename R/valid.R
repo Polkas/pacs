@@ -1,9 +1,10 @@
-
-#' Compare current and expected packages under .libPaths.
-#' @description Checking the healthy of the libarary.
+#' Validate the library.
+#' @description Compare current and expected packages under `.libPaths`.
+#'Checking the healthy of the library, which packages are newest one.
+#' Optionally added life duration of each package.
 #' @param lib.loc character. Default: NULL
-#' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
-#' @param lifeduration logical if to add life duration column. Default: FALSE
+#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @return data.frame with 5/6 columns Package Version.expected.min Version.have. "" means newest version.
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' @export
@@ -43,12 +44,12 @@ lib_validate <- function(lib.loc = NULL,
   result
 }
 
-#' Compare current and expected package dependencies versions using DESCRIPTION files.
+#' Validate specific package
 #' @description Checking the healthy of the specific packages.
 #' @param pac character a package name.
 #' @param lib.loc character. Default: NULL
-#' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
-#' @return data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.
+#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @return data.frame with 5 columns Package Version.expected.min Version.have. "" means newest version.
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' @export
 #' @examples
@@ -79,16 +80,17 @@ pac_validate <- function(pac, lib.loc = NULL, fields = c("Depends", "Imports", "
   result
 }
 
-#' Compare current and expected packages dependencies versions using DESCRIPTION files.
+#' Validate specific packages
 #' @description Checking the healthy of the specific packages.
 #' @param pacs character vector packages names.
 #' @param lib.loc character. Default: NULL
-#' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
-#' @return data.frame with 3 columns Package Version.expected.min Version.have. "" means newest version.
+#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @return data.frame with 5 columns Package Version.expected.min Version.have. "" means newest version.
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' @export
 #' @examples
 #' pacs_validate(c("memoise", "rlang"))
+#'
 pacs_validate <- function(pacs, lib.loc = NULL, fields = c("Depends", "Imports", "LinkingTo")) {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))

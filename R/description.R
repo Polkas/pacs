@@ -1,11 +1,11 @@
 #' package DESCRIPTION file
-#' @description package DESCRIPTION file taken from CRAN website.
+#' @description package DESCRIPTION file taken locally or if remotely then from GITHUB CRAN mirror or CRAN website.
 #' @param pac character a package name.
 #' @param version character package version. Default: NULL
 #' @param at Date. Default: NULL
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
-#' @return numeric size in bytes.
+#' @return list with names proper for DESCRIPTION file fields.
 #' @export
 #' @examples
 #' pac_description("dplyr", version = "0.8.0")
@@ -89,17 +89,17 @@ pac_description_dcf_raw <- function(pac, version, at) {
 }
 
 #' packages DESCRIPTION files
-#' @description packages DESCRIPTION files taken from CRAN website.
+#' @description packages DESCRIPTION files taken locally or if remotely then from GITHUB CRAN mirror or CRAN website.
 #' @param pacs character vector packages names.
 #' @param versions character vector versions. Default: NULL
 #' @param at Date . Default: NULL
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
-#' @return numeric size in bytes.
+#' @return list of list with names proper for DESCRIPTION file fields.
 #' @export
 #' @examples
-#' # pacs_description(c("dplyr", "shiny"), version = c("0.8.1", "1.5.0"))
-#' # pacs_description(c("dplyr", "shiny"), at = as.Date("2019-02-01"))
+#' pacs_description(c("dplyr", "memoise"), version = c("0.8.1", "1.0.0"))
+#' pacs_description(c("dplyr", "memoise"), at = as.Date("2019-02-01"))
 pacs_description <- function(pacs, versions = NULL, at = NULL, local = FALSE, lib.loc = NULL) {
   stopifnot(is.null(versions) || length(pacs) == length(versions))
   stopifnot(all(c(is.null(versions), is.null(at))) || xor(!is.null(versions), !is.null(at)))
@@ -108,7 +108,11 @@ pacs_description <- function(pacs, versions = NULL, at = NULL, local = FALSE, li
   stats::setNames(
     lapply(
       seq_along(pacs),
-      function(x) pac_description(pacs[x], version = versions[x], at = at, local = local, lib.loc = lib.loc)
+      function(x) pac_description(pacs[x],
+                                  version = versions[x],
+                                  at = at,
+                                  local = local,
+                                  lib.loc = lib.loc)
     ),
     pacs
   )

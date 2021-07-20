@@ -2,7 +2,7 @@
 % Please edit documentation in R/size.R
 \name{pac_size}
 \alias{pac_size}
-\title{size of the package}
+\title{Size of the package}
 \usage{
 pac_size(pac, lib.loc = NULL)
 }
@@ -12,7 +12,7 @@ pac_size(pac, lib.loc = NULL)
 \item{lib.loc}{character vector. Default: NULL}
 }
 \value{
-numeric size in bytes.
+numeric size in bytes, to get MB ten divide by \code{10**6}.
 }
 \description{
 size of package.

@@ -15,5 +15,5 @@ compareVersionsMax(vec, na.rm = TRUE)
 character
 }
 \description{
-Reduce function over the utils::compareVersion
+Reduce function over the \code{utils::compareVersion}
 }

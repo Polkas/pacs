@@ -1,11 +1,11 @@
-#' Package dependencies for certain version or time point.
-#' @description Package dependencies from DESCRIPTIONS files retrieved recursively for certain version or time point.
+#' Package dependencies for a certain version or time point.
+#' @description Package dependencies from DESCRIPTION files retrieved recursively for certain version or time point.
 #' @param pac character a package name.
-#' @param fields character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")
+#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param version character version of package. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @note Longer lived version is taken if 2 is available at the same date (switch time).
-#' @return named vector package dependencies and their versions at the release date + 1/at arg  of main package.
+#' @return named vector package dependencies and their versions at the release date  of main package plus one day.
 #' @export
 #' @examples
 #' pacs::pac_deps_timemachine("memoise", "0.2.1")

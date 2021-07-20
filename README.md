@@ -6,10 +6,13 @@
 R packages utils
 
 Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
+Hint2: all time consuming calculations are cached with `memoise` package, second invoke of the same call is instantaneous.
 
-- Checking packages dependencies with their versions. 
-- Validating the library for possible wrong packages versions (what we have vs what we should have). 
+- Checking packages dependencies with their versions, local or remote. 
+- Validating the library or packages for possible wrong versions (what we have vs what we should have). 
 - Exploring complexity of packages.
+- Healthy of certain package version, precisely its life duration.
+- Compare different package versions dependencies.
 
 | Function                            | Description                                                 | 
 |:------------------------------------|:------------------------------------------------------------|
@@ -26,14 +29,15 @@ Hint: `Version` variable is mostly a minimal required i.e. max(version1, version
 |`pacs_base`                          | R base packages                                             |
 |`lib_validate`                       | Library: What we have vs What we should have                |
 
-
-### Package Weight Case Study: devtools
+### Package Weight Case Study: `devtools`
 
 Take into account that the size is appropriate for you system `Sys.info()`.
 Installation with `install.packages` and some `devtools` functions might result in different package sizes.
 
 ```r
+# if not have
 install.packages("devtools")
+install.packages("shiny")
 ```
 
 Size of a package:
@@ -52,7 +56,7 @@ cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
 
 A reasonable assumption might be to count only dependencies which are not used by any other package.
 Then we could use `exclude_joint` argument to limit them.
-However hard to assume if your local installation is a reasonable proxy for avarage user.
+However hard to assume if your local installation is a reasonable proxy for average user.
 
 ```
 # exclude packages if at least one other package use it too
@@ -62,7 +66,7 @@ cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")
 Might be useful to check the number of dependencies too:
 
 ```r
-pacs::pac_deps("devtools")$Package
+pacs::pac_deps("devtools", local = TRUE)$Package
 ```
 
 ## Dependencies for version and remote one
@@ -105,7 +109,7 @@ pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
 ## Package health
 
 We could find out if a certain package version was live more than 7 days (or other updated). 
-If not then we might assume sth wrong was with it, as had to be quickly updated.
+If not then we might assume something wrong was with it, as had to be quickly updated.
 
 e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could find out that it was published only for 1 day.
 
@@ -130,7 +134,7 @@ Filter(function(x) isFALSE(x) && (class(x) == "sure"),
 
 ## Package DESCRIPTION file
 
-Reading a raw dcf DESCRIPTION files scrapped from CRAN website. 
+Reading a raw `dcf` file DESCRIPTION files scrapped from CRAN website. 
 
 ```r
 pac_description("dplyr", version = "0.8.0")
@@ -144,7 +148,7 @@ pacs_description(c("dplyr", "shiny"), version = c("0.8.0", "1.5.0"))
 pacs_description(c("dplyr", "shiny"), at = as.Date("2019-01-01"))
 ```
 
-## Package dependencies and diffeneces between versions
+## Package dependencies and differences between versions
 
 The crucial functionality is to get versions for all package dependencies. 
 Versions might come form installed packages or all DESCRIPTION files.
@@ -163,7 +167,7 @@ pacs_base(startup = TRUE)
 ```
 
 `pac_deps` for extremely fast retrieve of package dependencies, 
-packages versions might come from installed ones or from desciption files (required minimum).
+packages versions might come from installed ones or from description files (required minimum).
 
 ```r
 # Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
@@ -174,19 +178,19 @@ res
 attributes(res)
 ```
 
-Packages depndencies with versions from description files.
+Packages dependencies with versions from description files.
 
 ```r
 pacs::pac_deps("shiny", description_v = TRUE)
 ```
 
-Remote (newest CRAN) package depndencies with versions.
+Remote (newest CRAN) package dependencies with versions.
 
 ```r
 pacs::pac_deps("shiny", local = FALSE)
 ```
 
-Sth new on the R market.
+This is for sure something new on the R market.
 comparing dependencies per package versions.
 
 ```r
@@ -222,7 +226,7 @@ pac_validate("devtools")
 Whole library:
 
 ```r
-# Test with adding older cachem than extected
+# Test with adding older packages than extected
 withr::with_temp_libpaths({
 devtools::install_version("shiny", "1.4.0-2")
 devtools::install_version("rlang", "0.4.6")

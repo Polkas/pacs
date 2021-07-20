@@ -65,6 +65,14 @@ test_that("pacs_base", {
 
 if (is_online()) {
 
+  test_that("pacs::pac_compare_versions", {
+    expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
+  })
+
+  test_that("pacs::pac_deps_timemachine", {
+    expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
+  })
+
   test_that("pacs::lib_validate", {
     expect_error(lib_validate(lib.loc = "wrong"))
     expect_true(inherits(lib_validate(), "data.frame"))
@@ -86,19 +94,19 @@ if (is_online()) {
   test_that("pacs_timemachine", {
     expect_identical(
       vapply(
-        pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01")),
+        pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01")),
         function(x) nrow(x),
         numeric(1)
       ),
-      c(dplyr = 3, shiny = 2)
+      c(dplyr = 3, memoise = 1)
     )
     expect_identical(
       vapply(
-        pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date()),
+        pacs_timemachine(c("dplyr", "memoise"), at = Sys.Date()),
         function(x) nrow(x),
         numeric(1)
       ),
-      c(dplyr = 1, shiny = 1)
+      c(dplyr = 1, memoise = 1)
     )
   })
 

@@ -2,38 +2,31 @@
 % Please edit documentation in R/comapre.R
 \name{pac_compare_versions}
 \alias{pac_compare_versions}
-\title{compare dependencies of specific package versions}
+\title{Compare dependencies of specific packages versions}
 \usage{
 pac_compare_versions(
   pac,
   old,
   new,
-  fields = c("Imports", "Depends", "LinkingTo"),
-  repos = "http://cran.rstudio.com/"
+  fields = c("Imports", "Depends", "LinkingTo")
 )
 }
 \arguments{
 \item{pac}{character a package name.}
 
-\item{old}{character old version of package.}
+\item{old}{character an old version of package.}
 
-\item{new}{character new version of package.}
+\item{new}{character a new version of package.}
 
-\item{fields}{character vector with possible values c("Depends", "Imports", "LinkingTo", "Suggests"). Default: c("Depends", "Imports", "LinkingTo")}
-
-\item{repos}{character cran URL. Default: "http://cran.rstudio.com/"}
+\item{fields}{character a vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 }
 \value{
-data.frame
+data.frame with 4 columns.
 }
 \description{
-using remote cran to compare specific package versions dependencies.
-}
-\note{
-Function will temporarily download two packages.
+using remote CRAN to compare specific packages versions dependencies.
 }
 \examples{
-\dontrun{
-pac_compare_versions("shiny", "1.4.0", "1.6.0")
-}
+pac_compare_versions("memoise", "0.2.1", "2.0.0")
+
 }
