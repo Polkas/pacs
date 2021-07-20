@@ -1,6 +1,6 @@
 # pacs
 [![R build status](https://github.com/polkas/pacs/workflows/R-CMD-check/badge.svg)](https://github.com/polkas/pacs/actions)
-[![CRAN](http://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
+[![CRAN](https://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
 [![codecov](https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg)](https://codecov.io/gh/Polkas/pacs)
 
 [Utils for R Packages Developers](https://polkas.github.io/pacs/index.html)

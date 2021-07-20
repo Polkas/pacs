@@ -68,7 +68,7 @@ dir_size <- function(path, recursive = TRUE) {
   size_files
 }
 
-is_online <- function(site = "http://example.com/") {
+is_online <- function(site = "https://example.com/") {
   tryCatch(
     {
       suppressWarnings(readLines(site, n = 1))
@@ -139,7 +139,7 @@ installed_agg_fun <- function(lib.loc = NULL, fields) {
 }
 
 
-available_packages <- function(repos = "http://cran.rstudio.com/") {
+available_packages <- function(repos = "https://cran.rstudio.com/") {
   available_packages_raw(repos = repos)
 }
 
