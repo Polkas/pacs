@@ -30,5 +30,4 @@ The base part of URL in the result is \verb{https://cran.r-project.org/src/contr
 \examples{
 pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
 pacs_timemachine(c("dplyr", "memoise"), at = Sys.Date())
-
 }

@@ -4,7 +4,7 @@
 \alias{pac_health}
 \title{Package health state at a specific Date or for a specific version}
 \usage{
-pac_health(pac, version = NULL, at = NULL, limit = 7)
+pac_health(pac, version = NULL, at = NULL, limit = 14)
 }
 \arguments{
 \item{pac}{character a package name.}
@@ -13,23 +13,22 @@ pac_health(pac, version = NULL, at = NULL, limit = 7)
 
 \item{at}{Date old version of package. Default: NULL}
 
-\item{limit}{numeric at least days to treat as healthy. Default: 7}
+\item{limit}{numeric at least days to treat as healthy. Default: 14}
 }
 \value{
 logical if package is healthy.
-If the newest release is published less than 7 days ago then the class of object is "not-sure".
 }
 \description{
 using CRAN website to get a package version/versions used at a specific Date interval.
-A healthy package is a if it was published for more than 7 days.
-CRAN team gives around one week to resolved a package which gave errors under the check page.
+A healthy package is a if it was published for more than x days where default is 14 days.
+CRAN team gives around one/two week to resolved a package which gave errors under the check page.
 }
 \note{
-Function will scrap two CRAN URLS. Works only with CRAN packages.
+Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
+The newest release are checked for warnings/errors on R CRAN check page.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{
 pac_health("memoise")
 pac_health("dplyr", version = "0.8.0")
-
 }

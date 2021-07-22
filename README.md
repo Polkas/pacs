@@ -3,17 +3,15 @@
 [![CRAN](https://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
 [![codecov](https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg)](https://codecov.io/gh/Polkas/pacs)
 
-[Utils for R Packages Developers](https://polkas.github.io/pacs/index.html)
+[Supplementary Tools for R Packages Developers](https://polkas.github.io/pacs/index.html)
 
-Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
-
-Hint2: all time consuming calculations are cached with `memoise` package, second invoke of the same call is instantaneous.
-
-- Checking packages dependencies with their versions, local or remote. 
-- Validating the library or packages for possible wrong versions (what we have vs what we should have). 
-- Exploring complexity of packages.
-- Healthy of certain package version, precisely its life duration.
-- Compare different package versions dependencies.
+- Supplementary Utils for CRAN maintainers and R packages developers.
+- Validating the library or packages health condition.
+- Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.
+- Assessing life duration of a specific package version.
+- Checking a package CRAN check page status for any errors and warnings.
+- Retrieving a DESCRIPTION file for any package version. 
+- Getting a list of all releases for a specific package.
 
 | Function                            | Description                                                 | 
 |:------------------------------------|:------------------------------------------------------------|
@@ -28,7 +26,12 @@ Hint2: all time consuming calculations are cached with `memoise` package, second
 |`pac_compare_versions`               | Compare dependencies of specific package versions           |
 |`pac_true_size`                      | True size of the package (with dependencies too)            | 
 |`pacs_base`                          | R base packages                                             |
-|`lib_validate`                       | Library: What we have vs What we should have                |
+|`pac_checkred`/`pacs_checkred`                          |   Checking a package CRAN check page status for any errors and warnings |
+|`lib_validate`                       | Validating the library, e.g. What we have vs What we should have                |
+
+Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
+
+Hint2: all time consuming calculations are cached with `memoise` package, second invoke of the same call is instantaneous.
 
 ### Package Weight Case Study: `devtools`
 
@@ -52,7 +55,7 @@ At the time of writing it, it is `113Mb` for `devtools` without base packages (M
 
 ```r
 cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
-# cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")
+# cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
 ```
 
 A reasonable assumption might be to count only dependencies which are not used by any other package.
@@ -118,7 +121,7 @@ e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could fi
 pac_lifeduration("dplyr", "0.8.0")
 ```
 
-With 7 day limit we get a proper health status. We are sure about this state as this is not the newest release.  
+With 7 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than x days) we are checking if there are any red messages on CRAN check pages.
 
 ```r
 pac_health("dplyr", version = "0.8.0", limit = 7)
@@ -128,9 +131,6 @@ All packages health, skip non CRAN packages - will take some time (even few minu
 
 ```r
 all_pacs_health <- pacs_health(rownames(installed.packages()))
-#not healthy packages
-Filter(function(x) isFALSE(x) && (class(x) == "sure"), 
-       all_pacs_health)
 ```
 
 ## Package DESCRIPTION file
@@ -189,6 +189,12 @@ Remote (newest CRAN) package dependencies with versions.
 
 ```r
 pacs::pac_deps("shiny", local = FALSE)
+```
+
+Raw dependencies from DESCRIPTION file
+
+```r
+pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
 ```
 
 This is for sure something new on the R market.

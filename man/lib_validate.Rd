@@ -7,7 +7,8 @@
 lib_validate(
   lib.loc = NULL,
   fields = c("Depends", "Imports", "LinkingTo"),
-  lifeduration = FALSE
+  lifeduration = FALSE,
+  checkred = FALSE
 )
 }
 \arguments{
@@ -16,9 +17,11 @@ lib_validate(
 \item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lifeduration}{logical if to add life duration column, might take some time. Default: FALSE}
+
+\item{checkred}{logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE}
 }
 \value{
-data.frame with 5/6 columns Package Version.expected.min Version.have. "" means newest version.
+data.frame with 5/7 columns Package Version.expected.min Version.have. "" means newest version.
 }
 \description{
 Compare current and expected packages under \code{.libPaths}.
@@ -27,6 +30,7 @@ Optionally added life duration of each package.
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+When turn on the \code{lifeduration} and/or \code{is_red} options, calculations might be time consuming.
 }
 \examples{
 lib_validate()

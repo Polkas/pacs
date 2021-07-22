@@ -8,7 +8,6 @@ pac_true_size(
   pac,
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
-  base = FALSE,
   exclude_joint = 0L
 )
 }
@@ -19,9 +18,7 @@ pac_true_size(
 
 \item{lib.loc}{character vector, Default: NULL}
 
-\item{base}{logical if to add base packages too. Default: FALSE}
-
-\item{exclude_joint}{integer exclude packages which are dependencies of at least N other packages. Default: 0}
+\item{exclude_joint}{integer exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0}
 }
 \value{
 numeric size in bytes, to get MB then divide by \code{10**6}.
@@ -29,10 +26,12 @@ numeric size in bytes, to get MB then divide by \code{10**6}.
 \description{
 Package true size as it takes into account its dependencies.
 }
+\note{
+R base packages are not counted.
+}
 \examples{
-# size in Mb
-pacs::pac_true_size("stats") / 10**6
+# size in Mb, with all its dependencies
+pacs::pac_true_size("memoise") / 10**6
 # exclude packages if at least one other package use it too
 pacs::pac_true_size("memoise", exclude_joint = 1L) / 10**6
-
 }

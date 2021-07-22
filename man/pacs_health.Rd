@@ -15,11 +15,10 @@ pacs_health(pacs, versions = NULL, at = NULL)
 }
 \value{
 logical vector, TRUE if a package is healthy.
-If the newest release is published less than 7 days ago then the class of object is "not-sure" for newest version.
 }
 \description{
 using CRAN website to get a package version/versions used at a specific Date interval.
-A healthy package is a if it was published for more than 7 days.
+A healthy package is a if it was published for more than 14 days.
 CRAN team gives around one week to resolved a package which gave errors under the check page.
 }
 \note{
@@ -29,5 +28,4 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 \examples{
 pacs_health(c("memoise"))
 pacs_health(c("memoise", "devtools"), versions = c("1.0.0", "2.4.0"))
-
 }

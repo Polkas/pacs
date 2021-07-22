@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{compareVersionsMax}
 \alias{compareVersionsMax}
-\title{Maximum version across vector}
+\title{Maximum version across the vector}
 \usage{
 compareVersionsMax(vec, na.rm = TRUE)
 }
@@ -12,8 +12,11 @@ compareVersionsMax(vec, na.rm = TRUE)
 \item{na.rm}{logical if to remove NA values.}
 }
 \value{
-character
+character maximum version
 }
 \description{
 Reduce function over the \code{utils::compareVersion}
+}
+\examples{
+compareVersionsMax(c("1.1.1", "0.2.0"))
 }

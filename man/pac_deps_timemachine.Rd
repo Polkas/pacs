@@ -8,7 +8,8 @@ pac_deps_timemachine(
   pac,
   version = NULL,
   at = NULL,
-  fields = c("Depends", "Imports", "LinkingTo")
+  fields = c("Depends", "Imports", "LinkingTo"),
+  recursive = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ pac_deps_timemachine(
 \item{at}{Date old version of package. Default: NULL}
 
 \item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+
+\item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
 }
 \value{
 named vector package dependencies and their versions at the release date  of main package plus one day.

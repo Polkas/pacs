@@ -18,7 +18,7 @@ pacs_validate(
 \item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 }
 \value{
-data.frame with 5 columns Package Version.expected.min Version.have. "" means newest version.
+data.frame with 7 columns Package Version.expected.min Version.have. "" means newest version.
 }
 \description{
 Checking the healthy of the specific packages.
@@ -28,5 +28,4 @@ Version.expected.min column not count packages which are not a dependency for an
 }
 \examples{
 pacs_validate(c("memoise", "rlang"))
-
 }

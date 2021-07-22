@@ -11,7 +11,9 @@ pac_deps(
   base = FALSE,
   local = TRUE,
   description_v = FALSE,
-  attr = TRUE
+  attr = TRUE,
+  recursive = TRUE,
+  repos = "https://cran.rstudio.com/"
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ pac_deps(
 \item{description_v}{if the dependencies version should be taken from description files, minimal required. Default: FALSE}
 
 \item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
+
+\item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
+
+\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 data.frame with packages and their versions. Versions are taken from \code{installed.packages} or newest released.
@@ -39,5 +45,6 @@ Package dependencies from DESCRIPTION files with installed or expected versions 
 pacs::pac_deps("stats", base = TRUE)$Package
 pacs::pac_deps("memoise")$Package
 pacs::pac_deps("memoise", description_v = FALSE)
-
+# raw dependencies from DESCRIPTION file
+pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
 }

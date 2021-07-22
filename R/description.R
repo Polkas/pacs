@@ -25,7 +25,6 @@ pac_description <- function(pac, version = NULL, at = NULL, local = FALSE, lib.l
 }
 
 pac_description_dcf_raw <- function(pac, version, at) {
-
   if (!is.null(at)) {
     tt <- pac_timemachine(pac, at = at)
     version <- utils::tail(tt[order(tt$Life_Duration), ], 1)$Version
@@ -108,11 +107,14 @@ pacs_description <- function(pacs, versions = NULL, at = NULL, local = FALSE, li
   stats::setNames(
     lapply(
       seq_along(pacs),
-      function(x) pac_description(pacs[x],
-                                  version = versions[x],
-                                  at = at,
-                                  local = local,
-                                  lib.loc = lib.loc)
+      function(x) {
+        pac_description(pacs[x],
+          version = versions[x],
+          at = at,
+          local = local,
+          lib.loc = lib.loc
+        )
+      }
     ),
     pacs
   )

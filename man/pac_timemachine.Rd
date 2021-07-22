@@ -32,5 +32,4 @@ The base part of URL in the result is \verb{https://cran.r-project.org/src/contr
 pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 pac_timemachine("dplyr", at = Sys.Date())
-
 }

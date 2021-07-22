@@ -26,6 +26,8 @@ test_that("pacs::pac_deps", {
   stats_deps2 <- pacs::pac_deps("stats", attr = FALSE, base = TRUE)
   expect_true(ncol(stats_deps2) > 0)
   expect_true(length(stats_deps2$Package) > 0)
+
+  expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)) == 2)
 })
 
 test_that("pacs::pacs_deps", {
@@ -48,10 +50,10 @@ test_that("pacs::pacs_size", {
 })
 
 test_that("pacs::pac_true_size", {
-  stats_size <- pacs::pac_true_size("stats", base = TRUE) / 10**6
+  stats_size <- pacs::pac_true_size("stats") / 10**6
   expect_true(stats_size > 1)
-  stats_size2 <- pacs::pac_true_size("stats", base = TRUE, exclude_joint = 1L)
-  expect_equal(stats_size2, 0)
+  stats_size2 <- pacs::pac_true_size("stats", exclude_joint = 1L)
+  expect_equal(stats_size2, pac_size("stats"))
 })
 
 test_that("pacs::pacs_size", {
@@ -64,7 +66,6 @@ test_that("pacs_base", {
 })
 
 if (is_online()) {
-
   test_that("pacs::pac_compare_versions", {
     expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
   })
@@ -110,8 +111,18 @@ if (is_online()) {
     )
   })
 
+  test_that("pac_lifeduration", {
+    expect_true(pac_lifeduration("dplyr", version = "0.8.0") == 1)
+  })
+
+  test_that("pac_lifeduration", {
+    expect_true(length(pacs_lifeduration(c("dplyr", "memoise"))) == 2)
+    expect_identical(names(pacs_lifeduration(c("dplyr", "memoise"))), c("dplyr", "memoise"))
+  })
+
   test_that("pac_health", {
     expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")))
+    expect_true(is.logical(pac_health("dplyr")))
   })
 
   test_that("pacs_health", {
@@ -121,11 +132,24 @@ if (is_online()) {
       ),
       stats::setNames(
         list(
-          structure(FALSE, class = "sure"),
-          structure(TRUE, class = "sure")
+          FALSE,
+          TRUE
         ),
         c("dplyr", "devtools")
       )
     )
+
+    expect_true(is.logical(unlist(pacs_health(c("dplyr", "devtools")))))
+  })
+
+  test_that("pac_description", {
+    expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
+  })
+
+  test_that("pacs_description", {
+    expect_true(length(pacs_description(c("dplyr", "memoise"), version = c("0.8.1", "1.0.0"))) == 2)
   })
 }
+
+
+

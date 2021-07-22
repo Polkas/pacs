@@ -28,5 +28,4 @@ using remote CRAN to compare specific packages versions dependencies.
 }
 \examples{
 pac_compare_versions("memoise", "0.2.1", "2.0.0")
-
 }

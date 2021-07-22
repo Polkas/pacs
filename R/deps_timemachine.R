@@ -4,6 +4,7 @@
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param version character version of package. Default: NULL
 #' @param at Date old version of package. Default: NULL
+#' @param recursive logical if to assess the dependencies recursively. Default: TRUE
 #' @note Longer lived version is taken if 2 is available at the same date (switch time).
 #' @return named vector package dependencies and their versions at the release date  of main package plus one day.
 #' @export
@@ -13,10 +14,12 @@
 pac_deps_timemachine <- function(pac,
                                  version = NULL,
                                  at = NULL,
-                                 fields = c("Depends", "Imports", "LinkingTo")) {
+                                 fields = c("Depends", "Imports", "LinkingTo"),
+                                 recursive = TRUE) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(xor(!is.null(version), !is.null(at)))
+  stopifnot(is.logical(recursive))
 
   if (is.null(version)) {
     health <- pac_health(pac, at = at)
@@ -55,7 +58,7 @@ pac_deps_timemachine <- function(pac,
       if (isTRUE(r != "R" && r != pac && (!r %in% paks_global))) {
         pks <- pac_description(r, at = at, local = FALSE)
         paks_global <<- c(stats::setNames(r, pks$Version), paks_global[paks_global != r])
-        deps(r, at, pks[fields])
+        if (recursive) deps(r, at, pks[fields])
       }
     }
   }

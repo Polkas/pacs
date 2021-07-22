@@ -15,10 +15,9 @@ pac_lifeduration(pac, version = NULL, at = NULL)
 }
 \value{
 logical if package is healthy.
-If the newest release is published less than 7 days ago then the class of object is "not-sure".
 }
 \description{
-using CRAN website to get a package version/versions used at a specific Date interval.
+using CRAN website to get a package life duration for certain version or at a specific Date.
 }
 \note{
 Function will scrap two CRAN URLS. Works only with CRAN packages.
@@ -27,5 +26,4 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 \examples{
 pac_lifeduration("memoise")
 pac_lifeduration("dplyr", version = "0.8.0")
-
 }

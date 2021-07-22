@@ -8,7 +8,6 @@
 #' @export
 #' @examples
 #' pac_compare_versions("memoise", "0.2.1", "2.0.0")
-#'
 pac_compare_versions <- function(pac,
                                  old,
                                  new,
@@ -19,13 +18,17 @@ pac_compare_versions <- function(pac,
 
   one_base <- paste(Filter(function(x) length(x) > 0, pac_description(pac, version = old)[fields]), collapse = ",")
   one_e <- extract_deps(one_base)
-  s_remote <- data.frame(Package = one_e$packages[[1]], Version = replaceNA(one_e$versions[[1]], ""),
-                         stringsAsFactors = FALSE)
+  s_remote <- unique(data.frame(
+    Package = one_e$packages[[1]], Version = replaceNA(one_e$versions[[1]], ""),
+    stringsAsFactors = FALSE
+  ))
 
   two_base <- paste(Filter(function(x) length(x) > 0, pac_description(pac, version = new)[fields]), collapse = ",")
   two_e <- extract_deps(two_base)
-  s_remote2 <- data.frame(Package = two_e$packages[[1]], Version = replaceNA(two_e$versions[[1]], ""),
-                          stringsAsFactors = FALSE)
+  s_remote2 <- unique(data.frame(
+    Package = two_e$packages[[1]], Version = replaceNA(two_e$versions[[1]], ""),
+    stringsAsFactors = FALSE
+  ))
 
   res <- merge(s_remote, s_remote2, by = c("Package"), all = TRUE, suffix = paste0(".", c(old, new)))
   col_old <- paste0("Version.", old)

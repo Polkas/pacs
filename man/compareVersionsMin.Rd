@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{compareVersionsMin}
 \alias{compareVersionsMin}
-\title{Minimum version across vector}
+\title{Minimum version across the vector}
 \usage{
 compareVersionsMin(vec, na.rm = TRUE)
 }
@@ -12,8 +12,11 @@ compareVersionsMin(vec, na.rm = TRUE)
 \item{na.rm}{logical if to remove NA values.}
 }
 \value{
-character
+character minimal version
 }
 \description{
 Reduce function over the \code{utils::compareVersion}
+}
+\examples{
+compareVersionsMin(c("1.1.1", "0.2.0"))
 }

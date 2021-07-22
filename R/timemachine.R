@@ -14,7 +14,6 @@
 #' pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 #' pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 #' pac_timemachine("dplyr", at = Sys.Date())
-#'
 pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NULL) {
   stopifnot(pac %in% c(rownames(available_packages()), pacs_base()))
   stopifnot(xor(
@@ -32,7 +31,7 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
 
   result$Archived <- as.Date(c(result$Released[-1], cran_page$Released), origin = "1970-01-01")
   result$Life_Duration <- result$Archived - result$Released
-  f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size", "Description")
+  f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size")
   result <- rbind(result[, f_cols], cran_page[, f_cols])
   result <- result[, f_cols]
 
@@ -70,7 +69,6 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
 #' @examples
 #' pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
 #' pacs_timemachine(c("dplyr", "memoise"), at = Sys.Date())
-#'
 pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL) {
   pacs_cran <- intersect(pacs, rownames(available_packages()))
   pacs_skip <- setdiff(pacs, pacs_cran)
@@ -141,7 +139,7 @@ pac_archived_raw <- function(pac) {
     pac_raw <- strsplit(gsub(".tar.gz", "", result$Package), "_")
     pac_name <- vapply(pac_raw, function(x) x[1], character(1))
     pac_v <- vapply(pac_raw, function(x) x[2], character(1))
-    result$URL <- paste0(sprintf("Archive/%s/", pac),result$Package)
+    result$URL <- paste0(sprintf("Archive/%s/", pac), result$Package)
     result$Package <- pac_name
     result$Version <- pac_v
     result <- result[order(result$Released), ]
