@@ -126,7 +126,6 @@
   <span class='va'>pac</span>,
   fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  base <span class='op'>=</span> <span class='cn'>FALSE</span>,
   exclude_joint <span class='op'>=</span> <span class='fl'>0L</span>
 <span class='op'>)</span></code></pre></div>
 
@@ -146,10 +145,6 @@
       <td><p>character vector, Default: NULL</p></td>
     </tr>
     <tr>
-      <th>base</th>
-      <td><p>logical if to add base packages too. Default: FALSE</p></td>
-    </tr>
-    <tr>
       <th>exclude_joint</th>
       <td><p>integer exclude packages which are dependencies of at least N other packages. Default: 0</p></td>
     </tr>
@@ -158,6 +153,9 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>numeric size in bytes, to get MB then divide by <code>10**6</code>.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>R base packages are not counted.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># size in Mb, with all its dependencies</span></span>

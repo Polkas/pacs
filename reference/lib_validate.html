@@ -129,7 +129,8 @@ Optionally added life duration of each package.</p>
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>lib_validate</span><span class='op'>(</span>
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
   fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
-  lifeduration <span class='op'>=</span> <span class='cn'>FALSE</span>
+  lifeduration <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  is_red <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -147,11 +148,15 @@ Optionally added life duration of each package.</p>
       <th>lifeduration</th>
       <td><p>logical if to add life duration column, might take some time. Default: FALSE</p></td>
     </tr>
+    <tr>
+      <th>is_red</th>
+      <td><p>logical if to add R CRAN check page status, any WARNING or ERROR will cause TRUE. Default FALSE</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame with 5/6 columns Package Version.expected.min Version.have. "" means newest version.</p>
+    <p>data.frame with 5/7 columns Package Version.expected.min Version.have. "" means newest version.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.</p>

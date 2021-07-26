@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Packages dependencies — pacs_deps • pacs</title>
+<title>Packages life duration at specific Date or for a specific version — pacs_lifeduration • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Packages dependencies — pacs_deps" />
-<meta property="og:description" content="Package dependencies from DESCRIPTION files with installed or expected versions or newest released." />
+<meta property="og:title" content="Packages life duration at specific Date or for a specific version — pacs_lifeduration" />
+<meta property="og:description" content="using CRAN website to get packages life duration for versions or specific Date." />
 
 
 
@@ -113,79 +113,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Packages dependencies</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/deps.R'><code>R/deps.R</code></a></small>
-    <div class="hidden name"><code>pacs_deps.Rd</code></div>
+    <h1>Packages life duration at specific Date or for a specific version</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/lifeduration.R'><code>R/lifeduration.R</code></a></small>
+    <div class="hidden name"><code>pacs_lifeduration.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Package dependencies from DESCRIPTION files with installed or expected versions or newest released.</p>
+    <p>using CRAN website to get packages life duration for versions or specific Date.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_deps</span><span class='op'>(</span>
-  pacs <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
-  lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  attr <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  base <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  local <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  description_v <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_lifeduration</span><span class='op'>(</span><span class='va'>pacs</span>, versions <span class='op'>=</span> <span class='cn'>NULL</span>, at <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pacs</th>
-      <td><p>character vector of packages.</p></td>
+      <td><p>character vector packages names.</p></td>
     </tr>
     <tr>
-      <th>fields</th>
-      <td><p>character vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></td>
+      <th>versions</th>
+      <td><p>character vector versions of packages. Default: NULL</p></td>
     </tr>
     <tr>
-      <th>lib.loc</th>
-      <td><p>character vector. Is omitted for non NULL version., Default: NULL</p></td>
-    </tr>
-    <tr>
-      <th>attr</th>
-      <td><p>logical specify if package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE</p></td>
-    </tr>
-    <tr>
-      <th>base</th>
-      <td><p>logical if to add base packages too. Default: FALSE</p></td>
-    </tr>
-    <tr>
-      <th>local</th>
-      <td><p>logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE</p></td>
-    </tr>
-    <tr>
-      <th>description_v</th>
-      <td><p>if the dependencies version should be taken from description files, minimal required. Default: FALSE</p></td>
+      <th>at</th>
+      <td><p>Date old version of package. Default: NULL</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>logical if package is healthy.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Function will scrap two CRAN URLS. Works only with CRAN packages.
+Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs_deps</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"stats"</span>, <span class='st'>"base"</span><span class='op'>)</span>, base <span class='op'>=</span> <span class='cn'>TRUE</span>, attr <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>      Package Version</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1       base   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   compiler   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   datasets   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 4  grDevices   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   graphics   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 6       grid   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 7    methods   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 8   parallel   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 9    splines   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10     stats   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 11    stats4   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 12     tcltk   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 13     tools   4.1.0</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 14     utils   4.1.0</span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs_lifeduration</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"memoise"</span>, <span class='st'>"rlang"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $memoise</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Time difference of 181 days</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $rlang</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Time difference of 87 days</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>pacs_lifeduration</span><span class='op'>(</span><span class='st'>"dplyr"</span>, version <span class='op'>=</span> <span class='st'>"0.8.0"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $dplyr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Time difference of 1 days</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

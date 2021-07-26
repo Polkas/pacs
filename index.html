@@ -177,7 +177,7 @@
 <p>True size of a package as taking into account its dependencies. At the time of writing it, it is <code>113Mb</code> for <code>devtools</code> without base packages (Mac OS arm64).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"Mb"</span>, <span class="st">"\n"</span><span class="op">)</span>
-<span class="co"># cat(pacs::pac_true_size("devtools", base = TRUE) / 10**6, "Mb", "\n")</span></code></pre></div>
+<span class="co"># cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")</span></code></pre></div>
 <p>A reasonable assumption might be to count only dependencies which are not used by any other package. Then we could use <code>exclude_joint</code> argument to limit them. However hard to assume if your local installation is a reasonable proxy for average user.</p>
 <pre><code># exclude packages if at least one other package use it too
 cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")</code></pre>
@@ -219,14 +219,14 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 <p>e.g. <code>dplyr</code> under the “0.8.0” version seems to be a broken release, we could find out that it was published only for 1 day.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pac_lifeduration.html">pac_lifeduration</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"0.8.0"</span><span class="op">)</span></code></pre></div>
-<p>With 7 day limit we get a proper health status. We are sure about this state as this is not the newest release.</p>
+<p>With 7 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than x days) we are checking if there are any red messages on CRAN check pages.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pac_health.html">pac_health</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span>, limit <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></code></pre></div>
 <p>All packages health, skip non CRAN packages - will take some time (even few minutes):</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_pacs_health</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pacs_health.html">pacs_health</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#not healthy packages</span>
-<span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Filter</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isFALSE</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="st">"sure"</span><span class="op">)</span>, 
+<span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Filter</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isFALSE</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, 
        <span class="va">all_pacs_health</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="package-description-file" class="section level2">
