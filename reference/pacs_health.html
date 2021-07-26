@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Packages health state at a specific Date or for a specific versions — pacs_health" />
 <meta property="og:description" content="using CRAN website to get a package version/versions used at a specific Date interval.
-A healthy package is a if it was published for more than 7 days.
+A healthy package is a if it was published for more than 14 days.
 CRAN team gives around one week to resolved a package which gave errors under the check page." />
 
 
@@ -122,7 +122,7 @@ CRAN team gives around one week to resolved a package which gave errors under th
 
     <div class="ref-description">
     <p>using CRAN website to get a package version/versions used at a specific Date interval.
-A healthy package is a if it was published for more than 7 days.
+A healthy package is a if it was published for more than 14 days.
 CRAN team gives around one week to resolved a package which gave errors under the check page.</p>
     </div>
 
@@ -147,8 +147,7 @@ CRAN team gives around one week to resolved a package which gave errors under th
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logical vector, TRUE if a package is healthy.
-If the newest release is published less than 7 days ago then the class of object is "not-sure" for newest version.</p>
+    <p>logical vector, TRUE if a package is healthy.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Function will scrap two CRAN URLS. Works only with CRAN packages.
