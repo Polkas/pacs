@@ -7,8 +7,9 @@
 #' @param to Date CRAN URL. Default: NULL
 #' @return data.frame
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
-#' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
+#' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 #' The base part of URL in the result is `https://cran.r-project.org/src/contrib/`.
+#' Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pac_timemachine("dplyr", at = as.Date("2017-02-02"))
@@ -63,8 +64,9 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
 #' @return data.frame
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' For bigger lists might need a few minutes.
-#' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
+#' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 #' The base part of URL in the result is `https://cran.r-project.org/src/contrib/`.
+#' Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
@@ -108,7 +110,7 @@ pac_cran_recent_raw <- function(pac) {
   }
 }
 
-pac_cran_recent <- memoise::memoise(pac_cran_recent_raw)
+pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
 pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
@@ -150,4 +152,4 @@ pac_archived_raw <- function(pac) {
   result
 }
 
-pac_archived <- memoise::memoise(pac_archived_raw)
+pac_archived <- memoise::memoise(pac_archived_raw, cache = cachem::cache_mem(max_age = 60 * 60))

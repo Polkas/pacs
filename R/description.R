@@ -6,6 +6,7 @@
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
 #' @return list with names proper for DESCRIPTION file fields.
+#' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pac_description("dplyr", version = "0.8.0")
@@ -95,6 +96,7 @@ pac_description_dcf_raw <- function(pac, version, at) {
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
 #' @return list of list with names proper for DESCRIPTION file fields.
+#' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pacs_description(c("dplyr", "memoise"), version = c("0.8.1", "1.0.0"))
@@ -120,4 +122,4 @@ pacs_description <- function(pacs, versions = NULL, at = NULL, local = FALSE, li
   )
 }
 
-pac_description_dcf <- memoise::memoise(pac_description_dcf_raw)
+pac_description_dcf <- memoise::memoise(pac_description_dcf_raw, cache = cachem::cache_mem(max_age = 60 * 60))

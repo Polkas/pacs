@@ -5,7 +5,7 @@
 
 [Supplementary Tools for R Packages Developers](https://polkas.github.io/pacs/index.html)
 
-- Supplementary Utils for CRAN maintainers and R packages developers.
+- Supplementary utils for CRAN maintainers and R packages developers.
 - Validating the library or packages health condition.
 - Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.
 - Assessing life duration of a specific package version.
@@ -31,7 +31,7 @@
 
 Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-Hint2: all time consuming calculations are cached with `memoise` package, second invoke of the same call is instantaneous.
+Hint2: all time consuming calculations are cached (for 1 hour) with `memoise` package, second invoke of the same call is instantaneous.
 
 ### Package Weight Case Study: `devtools`
 
@@ -112,7 +112,7 @@ pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
 
 ## Package health
 
-We could find out if a certain package version was live more than 7 days (or other updated). 
+We could find out if a certain package version was live more than 14 days (or other updated). 
 If not then we might assume something wrong was with it, as had to be quickly updated.
 
 e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could find out that it was published only for 1 day.
@@ -121,10 +121,10 @@ e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could fi
 pac_lifeduration("dplyr", "0.8.0")
 ```
 
-With 7 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than x days) we are checking if there are any red messages on CRAN check pages.
+With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than x days) we are checking if there are any red messages on CRAN check pages.
 
 ```r
-pac_health("dplyr", version = "0.8.0", limit = 7)
+pac_health("dplyr", version = "0.8.0", limit = 14)
 ```
 
 All packages health, skip non CRAN packages - will take some time (even few minutes):

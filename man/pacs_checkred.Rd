@@ -17,6 +17,9 @@ logical named vector if packages fail under specified criteria.
 \description{
 using R CRAN packages check pages to validate if there are ANY error and/or warning and/or note.
 }
+\note{
+Results are cached for 1 hour with \code{memoise} package.
+}
 \examples{
 pacs_checkred(c("dplyr", "devtools"))
 pacs_checkred("dplyr", scope = c("ERROR"))

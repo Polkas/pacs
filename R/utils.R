@@ -155,13 +155,13 @@ installed_agg_fun_raw <- function(lib.loc = NULL, fields) {
   installed_agg
 }
 
-installed_agg_fun <- memoise::memoise(installed_agg_fun_raw)
+installed_agg_fun <- memoise::memoise(installed_agg_fun_raw, cache = cachem::cache_mem(max_age = 60*60))
 
 available_packages <- function(repos = "https://cran.rstudio.com/") {
   available_packages_raw(repos = repos)
 }
 
-available_packages_raw <- memoise::memoise(utils::available.packages)
+available_packages_raw <- memoise::memoise(utils::available.packages, cache = cachem::cache_mem(max_age = 60*60))
 
 extract_deps <- function(x) {
   splited <- strsplit(x, ",")
@@ -177,7 +177,7 @@ last_version_raw <- function(pac) {
   available_packages()[rownames(available_packages()) == pac, "Version"]
 }
 
-last_version_fun <- memoise::memoise(last_version_raw)
+last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem(max_age = 60*60))
 
 is_last_release <- function(pac, version = NULL, at = NULL) {
   stopifnot(xor(!is.null(version), !is.null(at)) || (is.null(version) && is.null(at)))
@@ -253,7 +253,7 @@ available_agg_fun_raw <- function(repos = "https://cran.rstudio.com/", fields) {
   available_agg
 }
 
-available_agg_fun <- memoise::memoise(available_agg_fun_raw)
+available_agg_fun <- memoise::memoise(available_agg_fun_raw, cache = cachem::cache_mem(max_age = 60*60))
 
 is_red_check_raw <- function(pac, scope = c("ERROR", "WARN")) {
   if (!pac %in% rownames(available_packages())) {
@@ -269,13 +269,14 @@ get_cran_check_page_raw <- function(pac) {
   readLines(sprintf("https://cran.r-project.org/web/checks/check_results_%s.html", pac))
 }
 
-get_cran_check_page <- memoise::memoise(get_cran_check_page_raw)
+get_cran_check_page <- memoise::memoise(get_cran_check_page_raw, cache = cachem::cache_mem(max_age = 60*60))
 
 #' Checking the R CRAN package check page status
 #' @description using R CRAN package check page to validate if there are ANY error and/or warning and/or note.
 #' @param pac character a package name.
 #' @param scope character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")
 #' @return logical if the package fail under specified criteria.
+#' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pac_checkred("dplyr")
@@ -291,6 +292,7 @@ pac_checkred <- function(pac, scope = c("ERROR", "WARN")) {
 #' @param pacs character vector packages names.
 #' @param scope character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")
 #' @return logical named vector if packages fail under specified criteria.
+#' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pacs_checkred(c("dplyr", "devtools"))

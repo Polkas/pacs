@@ -29,6 +29,9 @@ list of list with names proper for DESCRIPTION file fields.
 \description{
 packages DESCRIPTION files taken locally or if remotely then from GITHUB CRAN mirror or CRAN website.
 }
+\note{
+Results are cached for 1 hour with \code{memoise} package.
+}
 \examples{
 pacs_description(c("dplyr", "memoise"), version = c("0.8.1", "1.0.0"))
 pacs_description(c("dplyr", "memoise"), at = as.Date("2019-02-01"))

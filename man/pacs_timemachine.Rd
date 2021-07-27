@@ -24,8 +24,9 @@ using CRAN website to get packages version/versions used at a specific Date or a
 \note{
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 For bigger lists might need a few minutes.
-Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
+Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 The base part of URL in the result is \verb{https://cran.r-project.org/src/contrib/}.
+Results are cached for 1 hour with \code{memoise} package.
 }
 \examples{
 pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
