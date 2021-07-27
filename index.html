@@ -13,7 +13,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Supplementary Tools for R Packages Developers">
 <meta property="og:description" content="
-  Supplementary Utils for CRAN maintainers and R packages developers.
+  Supplementary utils for CRAN maintainers and R packages developers.
   Validating the library or packages health condition.
   Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.
   Assessing life duration of a specific package version.
@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
       </span>
     </div>
 
@@ -78,7 +78,7 @@
 
 <p><a href="https://polkas.github.io/pacs/index.html" class="external-link">Supplementary Tools for R Packages Developers</a></p>
 <ul>
-<li>Supplementary Utils for CRAN maintainers and R packages developers.</li>
+<li>Supplementary utils for CRAN maintainers and R packages developers.</li>
 <li>Validating the library or packages health condition.</li>
 <li>Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.</li>
 <li>Assessing life duration of a specific package version.</li>
@@ -223,13 +223,13 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 <div id="package-health" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-health" class="anchor" aria-hidden="true"></a>Package health</h2>
-<p>We could find out if a certain package version was live more than 7 days (or other updated). If not then we might assume something wrong was with it, as had to be quickly updated.</p>
+<p>We could find out if a certain package version was live more than 14 days (or other updated). If not then we might assume something wrong was with it, as had to be quickly updated.</p>
 <p>e.g. <code>dplyr</code> under the “0.8.0” version seems to be a broken release, we could find out that it was published only for 1 day.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pac_lifeduration.html">pac_lifeduration</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"0.8.0"</span><span class="op">)</span></code></pre></div>
-<p>With 7 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than x days) we are checking if there are any red messages on CRAN check pages.</p>
+<p>With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than x days) we are checking if there are any red messages on CRAN check pages.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/pac_health.html">pac_health</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span>, limit <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/pac_health.html">pac_health</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span>, limit <span class="op">=</span> <span class="fl">14</span><span class="op">)</span></code></pre></div>
 <p>All packages health, skip non CRAN packages - will take some time (even few minutes):</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_pacs_health</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pacs_health.html">pacs_health</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
