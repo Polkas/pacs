@@ -1,5 +1,5 @@
-#' Compare dependencies of specific packages versions
-#' @description using remote CRAN to compare specific packages versions dependencies.
+#' Compare DESCRIPTION files dependencies between specific packages versions
+#' @description using remote CRAN to compare DESCRIPTION files dependencies between specific packages versions.
 #' @param pac character a package name.
 #' @param old character an old version of package.
 #' @param new character a new version of package.

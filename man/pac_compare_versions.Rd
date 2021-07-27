@@ -2,7 +2,7 @@
 % Please edit documentation in R/comapre.R
 \name{pac_compare_versions}
 \alias{pac_compare_versions}
-\title{Compare dependencies of specific packages versions}
+\title{Compare DESCRIPTION files dependencies between specific packages versions}
 \usage{
 pac_compare_versions(
   pac,
@@ -24,7 +24,7 @@ pac_compare_versions(
 data.frame with 4 columns.
 }
 \description{
-using remote CRAN to compare specific packages versions dependencies.
+using remote CRAN to compare DESCRIPTION files dependencies between specific packages versions.
 }
 \examples{
 pac_compare_versions("memoise", "0.2.1", "2.0.0")
