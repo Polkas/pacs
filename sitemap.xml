@@ -28,6 +28,9 @@
     <loc>/reference/lib_validate.html</loc>
   </url>
   <url>
+    <loc>/reference/pac_checkred.html</loc>
+  </url>
+  <url>
     <loc>/reference/pac_compare_versions.html</loc>
   </url>
   <url>
@@ -59,6 +62,9 @@
   </url>
   <url>
     <loc>/reference/pacs_base.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pacs_checkred.html</loc>
   </url>
   <url>
     <loc>/reference/pacs_deps.html</loc>

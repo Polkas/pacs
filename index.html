@@ -14,11 +14,10 @@
 <script src="pkgdown.js"></script><meta property="og:title" content="Supplementary Tools for R Packages Developers">
 <meta property="og:description" content="
   Supplementary Utils for CRAN maintainers and R packages developers.
-  Validating the library or packages for possible wrong installed packages versions, 
-  compared to minimal required by DESCRIPTION files. 
+  Validating the library or packages health condition.
   Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.
-  Checking a specific package version health, precisely its life duration.
-  For the newest package release the health is confirmed with R CRAN check page status.
+  Assessing life duration of a specific package version.
+  Checking a R CRAN check page status for any errors and other problems.
   Retrieving a DESCRIPTION file for any package version. 
   Getting a list of all releases for a specific package.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -79,9 +78,11 @@
 
 <p><a href="https://polkas.github.io/pacs/index.html" class="external-link">Supplementary Tools for R Packages Developers</a></p>
 <ul>
-<li>Validating the library or packages for possible wrong installed packages versions, compared to minimal required by DESCRIPTION files.</li>
+<li>Supplementary Utils for CRAN maintainers and R packages developers.</li>
+<li>Validating the library or packages health condition.</li>
 <li>Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.</li>
-<li>Checking a specific package version health, precisely its life duration. For the newest package release the health is confirmed with R CRAN check page status.</li>
+<li>Assessing life duration of a specific package version.</li>
+<li>Checking a R CRAN check page status for any errors and other problems.</li>
 <li>Retrieving a DESCRIPTION file for any package version.</li>
 <li>Getting a list of all releases for a specific package.</li>
 </ul>
@@ -156,6 +157,12 @@
 <td align="left">R base packages</td>
 </tr>
 <tr class="even">
+<td align="left">
+<code>pac_redcheck</code>/<code>pacs_redcheck</code>
+</td>
+<td align="left">Check package R CRAN check page</td>
+</tr>
+<tr class="odd">
 <td align="left"><code>lib_validate</code></td>
 <td align="left">Library: What we have vs What we should have</td>
 </tr>
