@@ -21,7 +21,7 @@ pac_deps(
 
 \item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version., Default: NULL}
+\item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
 \item{base}{logical if to add base packages too. Default: FALSE}
 

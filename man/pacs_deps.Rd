@@ -8,10 +8,12 @@ pacs_deps(
   pacs = NULL,
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = NULL,
-  attr = TRUE,
   base = FALSE,
   local = TRUE,
-  description_v = FALSE
+  description_v = FALSE,
+  attr = TRUE,
+  recursive = TRUE,
+  repos = "https://cran.rstudio.com/"
 )
 }
 \arguments{
@@ -19,18 +21,23 @@ pacs_deps(
 
 \item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version., Default: NULL}
-
-\item{attr}{logical specify if package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE}
+\item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
 \item{base}{logical if to add base packages too. Default: FALSE}
 
 \item{local}{logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE}
 
-\item{description_v}{if the dependencies version should be taken from description files, minimal required. Default: FALSE}
+\item{description_v}{if the dependencies version should be taken from description files, minimal required. Default: FALSE#'}
+
+\item{attr}{logical specify if package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE}
+
+\item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
+
+\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
-data.frame
+data.frame with packages and their versions. Versions are taken from \code{installed.packages} or newest released.
+Result are aggregated with taking the highest version across duplicated packages.
 }
 \description{
 Package dependencies from DESCRIPTION files with installed or expected versions or newest released.
