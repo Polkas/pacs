@@ -21,7 +21,7 @@
 |`pac_deps_timemachine`/`pacs_deps_timemachine`|  Package/s dependencies for certain version or time point|
 |`pac_description`/`pacs_description` | Package/s description at Date or for a certain version      |
 |`pac_lifeduration`/`pacs_lifeduration` | Package/s version/s life duration  |
-|`pac_health`/`pacs_health`           | Package/s health, if a version was live more than 7 days    |
+|`pac_health`/`pacs_health`           | Package/s health    |
 |`pac_size`/`pacs_size`               | Size of the package/s                                       | 
 |`pac_timemachine`/`pacs_timemachine` | Package/s version/s at a specific Date or a Date interval   |
 |`pac_compare_versions`               | Compare dependencies of specific package versions           |
