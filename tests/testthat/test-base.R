@@ -144,12 +144,19 @@ if (is_online()) {
 
   test_that("pac_description", {
     expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
+    expect_true(utils::compareVersion(pac_description("memoise", local = TRUE)$Version,
+                                      pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
   })
 
   test_that("pacs_description", {
     expect_true(length(pacs_description(c("dplyr", "memoise"), version = c("0.8.1", "1.0.0"))) == 2)
   })
+
+  test_that("pac_checkred", {
+    expect_true(is.logical(pac_checkred("survival")))
+  })
+
+  test_that("pacs_checkred", {
+    expect_true(is.logical(pacs_checkred(c("survival", "MASS"))))
+  })
 }
-
-
-
