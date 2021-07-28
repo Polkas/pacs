@@ -22,7 +22,7 @@ using CRAN website to get packages life duration for versions or specific Date.
 \note{
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 1 hour with \code{memoise} package.
+Results are cached for 1 hour with \code{memoise} package, memory cache.
 }
 \examples{
 pacs_lifeduration(c("memoise", "rlang"))

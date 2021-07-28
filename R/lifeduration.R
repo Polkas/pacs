@@ -6,7 +6,7 @@
 #' @return logical if package is healthy.
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' Results are cached for 1 hour with `memoise` package.
+#' Results are cached for 1 hour with `memoise` package, memory cache.
 #' @export
 #' @examples
 #' pac_lifeduration("memoise")
@@ -60,7 +60,7 @@ pac_lifeduration <- function(pac, version = NULL, at = NULL) {
 #' @return logical if package is healthy.
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' Results are cached for 1 hour with `memoise` package.
+#' Results are cached for 1 hour with `memoise` package, memory cache.
 #' @export
 #' @examples
 #' pacs_lifeduration(c("memoise", "rlang"))
@@ -90,7 +90,7 @@ pacs_lifeduration <- function(pacs, versions = NULL, at = NULL) {
 #' @note Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
 #' The newest release are checked for warnings/errors on R CRAN check page.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' Results are cached for 1 hour with `memoise` package.
+#' Results are cached for 1 hour with `memoise` package, memory cache.
 #' @export
 #' @examples
 #' pac_health("memoise")
@@ -139,7 +139,7 @@ pac_health <- function(pac, version = NULL, at = NULL, limit = 14) {
 #' @return logical vector, TRUE if a package is healthy.
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' Results are cached for 1 hour with `memoise` package.
+#' Results are cached for 1 hour with `memoise` package, memory cache.
 #' @export
 #' @examples
 #' pacs_health(c("memoise"))

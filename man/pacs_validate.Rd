@@ -7,7 +7,9 @@
 pacs_validate(
   pacs,
   lib.loc = NULL,
-  fields = c("Depends", "Imports", "LinkingTo")
+  fields = c("Depends", "Imports", "LinkingTo"),
+  lifeduration = FALSE,
+  checkred = FALSE
 )
 }
 \arguments{
@@ -16,16 +18,34 @@ pacs_validate(
 \item{lib.loc}{character. Default: NULL}
 
 \item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+
+\item{lifeduration}{logical if to add life duration column, might take some time. Default: FALSE}
+
+\item{checkred}{logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE}
 }
 \value{
-data.frame with 7 columns Package Version.expected.min Version.have. "" means newest version.
+data.frame with 5/6/7 columns.
+\describe{
+\item{Package}{character package names.}
+\item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
+\item{Version.have}{character installed package version.}
+\item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
+0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
+\item{life_duration}{(Optional) integer number of days package was released.}
+\item{newest}{ logical if the installed version is the newest one.}
+\item{checkred}{(Optional) logical if the newest package contains any errors or warnings on CRAN check page.}
+}
 }
 \description{
 Checking the healthy of the specific packages.
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+When turn on the \code{lifeduration} and/or \code{checkred} options, calculations might be time consuming.
+Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} or \code{checkred} turned on.
+Results are cached for 1 hour with \code{memoise} package, memory cache.
 }
 \examples{
 pacs_validate(c("memoise", "rlang"))
+
 }

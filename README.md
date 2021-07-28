@@ -15,10 +15,11 @@
 
 | Function                            | Description                                                 | 
 |:------------------------------------|:------------------------------------------------------------|
+|`lib_validate`                       | Validating the library                                      |
+|`pac_validate`/`pacs_validate`       | Package/s: Validation              |
 |`pac_deps`/`pacs_deps`               |  Package/s dependencies with installed or expected versions |
 |`pac_deps_timemachine`/`pacs_deps_timemachine`|  Package/s dependencies for certain version or time point|
 |`pac_description`/`pacs_description` | Package/s description at Date or for a certain version      |
-|`pac_validate`/`pacs_validate`       | Package/s: What we have vs What we should have              |
 |`pac_lifeduration`/`pacs_lifeduration` | Package/s version/s life duration  |
 |`pac_health`/`pacs_health`           | Package/s health, if a version was live more than 7 days    |
 |`pac_size`/`pacs_size`               | Size of the package/s                                       | 
@@ -27,11 +28,26 @@
 |`pac_true_size`                      | True size of the package (with dependencies too)            | 
 |`pacs_base`                          | R base packages                                             |
 |`pac_checkred`/`pacs_checkred`                          |   Checking a package CRAN check page status for any errors and warnings |
-|`lib_validate`                       | Validating the library, e.g. What we have vs What we should have                |
 
 Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
 Hint2: all time consuming calculations are cached (for 1 hour) with `memoise` package, second invoke of the same call is instantaneous.
+
+## Validate the library
+
+This procedure will be crucial for R developers as clearly showing the possible broken packages inside a library. Thus we could assess which packages require versions update. Sometimes we might even 
+
+Default validation of library.
+
+```r
+pacs::lib_validate()
+```
+
+The full library validation require activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, assessment might take even few minutes.
+
+```r
+pacs::lib_validate(lifeduration = TRUE, checkred = TRUE)
+```
 
 ### Package Weight Case Study: `devtools`
 
@@ -71,20 +87,6 @@ Might be useful to check the number of dependencies too:
 
 ```r
 pacs::pac_deps("devtools", local = TRUE)$Package
-```
-
-## Dependencies for version and remote one
-
-For newest release.
-
-```r
-pacs::pac_deps("devtools", local = FALSE)$Package
-```
-
-For certain version, might take some time.
-
-```r
-pacs::pac_deps_timemachine("dplyr", version = "0.8.1")
 ```
 
 ## Time machine - Package version at Date or specific Date interval
@@ -147,6 +149,20 @@ For many packages:
 ```r
 pacs_description(c("dplyr", "shiny"), version = c("0.8.0", "1.5.0"))
 pacs_description(c("dplyr", "shiny"), at = as.Date("2019-01-01"))
+```
+
+## Dependencies for version and remote one
+
+For newest release.
+
+```r
+pacs::pac_deps("devtools", local = FALSE)$Package
+```
+
+For certain version, might take some time.
+
+```r
+pacs::pac_deps_timemachine("dplyr", version = "0.8.1")
 ```
 
 ## Package dependencies and differences between versions
@@ -216,29 +232,6 @@ all_deps <- pacs_deps()
 
 ```r
 pacs_deps(c("stats", "shiny"))
-```
-
-## What we have vs What we should have 
-
-Using Description files to check what we should have "at least".
-
-Package:
-
-```r
-pac_validate("devtools")
-# Packages
-# pacs_validate(c("devtools", "pacs"))
-```
-
-Whole library:
-
-```r
-# Test with adding older packages than extected
-withr::with_temp_libpaths({
-devtools::install_version("shiny", "1.4.0-2")
-devtools::install_version("rlang", "0.4.6")
-pacs::lib_validate()
-})
 ```
 
 ## packages versions

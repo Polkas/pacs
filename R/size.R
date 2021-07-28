@@ -5,7 +5,7 @@
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
-#' cat(pacs::pacs_size("stats") / 10**6, "Mb")
+#' cat(pacs::pacs_size("stats") / 10**6, "MB")
 pac_size <- function(pac, lib.loc = NULL) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
@@ -25,7 +25,7 @@ pac_size <- function(pac, lib.loc = NULL) {
 #' @return numeric vector sizes in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
-#' cat(pacs::pacs_size("stats") / 10**6, "Mb")
+#' cat(pacs::pacs_size("stats") / 10**6, "MB")
 pacs_size <- function(pacs = NULL, lib.loc = NULL) {
   stopifnot(is.null(pacs) || is.character(pacs))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
@@ -55,7 +55,7 @@ pacs_size <- function(pacs = NULL, lib.loc = NULL) {
 #' @return numeric size in bytes, to get MB then divide by `10**6`.
 #' @export
 #' @examples
-#' # size in Mb, with all its dependencies
+#' # size in MB, with all its dependencies
 #' pacs::pac_true_size("memoise") / 10**6
 #' # exclude packages if at least one other package use it too
 #' pacs::pac_true_size("memoise", exclude_joint = 1L) / 10**6

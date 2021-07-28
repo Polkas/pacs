@@ -2,7 +2,9 @@
 
 * Cache results only for 1 hour, could be important when run on servers.
 * Add notice about caching results for 1 hour across all connected functions.
-* 
+* Add additional description for validation function, result structure.
+* Change the order in README file.
+* Optional `lifeduration` and `checkred` for all validation functions.
 
 # 0.2.4
 

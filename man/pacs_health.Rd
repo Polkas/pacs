@@ -24,7 +24,7 @@ CRAN team gives around one week to resolved a package which gave errors under th
 \note{
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 1 hour with \code{memoise} package.
+Results are cached for 1 hour with \code{memoise} package, memory cache.
 }
 \examples{
 pacs_health(c("memoise"))
