@@ -126,10 +126,12 @@
   pacs <span class='op'>=</span> <span class='cn'>NULL</span>,
   fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  attr <span class='op'>=</span> <span class='cn'>TRUE</span>,
   base <span class='op'>=</span> <span class='cn'>FALSE</span>,
   local <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  description_v <span class='op'>=</span> <span class='cn'>FALSE</span>
+  description_v <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  attr <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  recursive <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -145,11 +147,7 @@
     </tr>
     <tr>
       <th>lib.loc</th>
-      <td><p>character vector. Is omitted for non NULL version., Default: NULL</p></td>
-    </tr>
-    <tr>
-      <th>attr</th>
-      <td><p>logical specify if package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE</p></td>
+      <td><p>character vector. Is omitted for non NULL version. Default: NULL</p></td>
     </tr>
     <tr>
       <th>base</th>
@@ -161,13 +159,26 @@
     </tr>
     <tr>
       <th>description_v</th>
-      <td><p>if the dependencies version should be taken from description files, minimal required. Default: FALSE</p></td>
+      <td><p>if the dependencies version should be taken from description files, minimal required. Default: FALSE#'</p></td>
+    </tr>
+    <tr>
+      <th>attr</th>
+      <td><p>logical specify if package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE</p></td>
+    </tr>
+    <tr>
+      <th>recursive</th>
+      <td><p>logical if to assess the dependencies recursively. Default: TRUE</p></td>
+    </tr>
+    <tr>
+      <th>repos</th>
+      <td><p>character the base URL of the repositories to use. Default <code>https://cran.rstudio.com/</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>data.frame with packages and their versions. Versions are taken from <code>installed.packages</code> or newest released.
+Result are aggregated with taking the highest version across duplicated packages.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs_deps</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"stats"</span>, <span class='st'>"base"</span><span class='op'>)</span>, base <span class='op'>=</span> <span class='cn'>TRUE</span>, attr <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
