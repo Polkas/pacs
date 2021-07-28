@@ -156,11 +156,24 @@ Optionally added life duration of each package.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame with 5/7 columns Package Version.expected.min Version.have. "" means newest version.</p>
+    <p>data.frame with 5/6/7 columns.</p><dl>
+<dt>Package</dt><dd><p>character package names.</p></dd>
+<dt>Version.expected.min</dt><dd><p>character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.</p></dd>
+<dt>Version.have</dt><dd><p>character installed package version.</p></dd>
+<dt>version_status</dt><dd><p>numeric -1/0/1 which comes from <code><a href='https://rdrr.io/r/utils/compareVersion.html'>utils::compareVersion</a></code> function.
+0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.</p></dd>
+<dt>life_duration</dt><dd><p>(Optional) integer number of days package was released.</p></dd>
+<dt>newest</dt><dd><p>logical if the installed version is the newest one.</p></dd>
+<dt>checkred</dt><dd><p>(Optional) logical if the newest package contains any errors or warnings on CRAN check page.</p></dd>
+
+</dl>
+
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-When turn on the <code>lifeduration</code> and/or <code>is_red</code> options, calculations might be time consuming.</p>
+When turn on the <code>lifeduration</code> and/or <code>checkred</code> options, calculations might be time consuming.
+Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with <code>lifeduration</code> or <code>checkred</code> turned on.
+Results are cached for 1 hour with <code>memoise</code> package, memory cache.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>lib_validate</span><span class='op'>(</span><span class='op'>)</span></span>
@@ -268,6 +281,7 @@ When turn on the <code>lifeduration</code> and/or <code>is_red</code> options, c
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 116       xopen                             1.0.0              1   TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 117        yaml               2.1.19        2.2.1              1   TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 118         zip                2.1.0        2.2.0              1   TRUE</span>
+<span class='r-in'></span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

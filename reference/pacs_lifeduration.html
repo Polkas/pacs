@@ -148,15 +148,15 @@
 
     <p>Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 1 hour with <code>memoise</code> package.</p>
+Results are cached for 1 hour with <code>memoise</code> package, memory cache.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs_lifeduration</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"memoise"</span>, <span class='st'>"rlang"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $memoise</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Time difference of 182 days</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Time difference of 183 days</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $rlang</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Time difference of 88 days</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Time difference of 89 days</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'><span class='fu'>pacs_lifeduration</span><span class='op'>(</span><span class='st'>"dplyr"</span>, version <span class='op'>=</span> <span class='st'>"0.8.0"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $dplyr</span>
