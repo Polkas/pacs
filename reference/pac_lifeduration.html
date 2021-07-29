@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Package life duration at specific Date or for a specific version — pac_lifeduration • pacs</title>
+<title>Package version life duration at specific Date or for a specific version — pac_lifeduration • pacs</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Package life duration at specific Date or for a specific version — pac_lifeduration" />
+<meta property="og:title" content="Package version life duration at specific Date or for a specific version — pac_lifeduration" />
 <meta property="og:description" content="using CRAN website to get a package life duration for certain version or at a specific Date." />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Package life duration at specific Date or for a specific version</h1>
+    <h1>Package version life duration at specific Date or for a specific version</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/lifeduration.R'><code>R/lifeduration.R</code></a></small>
     <div class="hidden name"><code>pac_lifeduration.Rd</code></div>
     </div>
@@ -157,7 +157,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logical if package is healthy.</p>
+    <p>list named of <code>difftime</code>, number of days package version was the newest one.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Function will scrap two CRAN URLS. Works only with CRAN packages.

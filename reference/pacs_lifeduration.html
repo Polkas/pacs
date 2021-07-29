@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Packages life duration at specific Date or for a specific version — pacs_lifeduration • pacs</title>
+<title>Packages versions life duration at specific Date or for a specific version — pacs_lifeduration • pacs</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Packages life duration at specific Date or for a specific version — pacs_lifeduration" />
+<meta property="og:title" content="Packages versions life duration at specific Date or for a specific version — pacs_lifeduration" />
 <meta property="og:description" content="using CRAN website to get packages life duration for versions or specific Date." />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.6</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Packages life duration at specific Date or for a specific version</h1>
+    <h1>Packages versions life duration at specific Date or for a specific version</h1>
     <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/lifeduration.R'><code>R/lifeduration.R</code></a></small>
     <div class="hidden name"><code>pacs_lifeduration.Rd</code></div>
     </div>
@@ -157,12 +157,15 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logical if package is healthy.</p>
+    <p>list named of <code>difftime</code>, number of days package version was the newest one.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 1 hour with <code>memoise</code> package, memory cache.</p>
+Results are cached for 1 hour with <code>memoise</code> package, memory cache.
+There is used <code><a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply</a></code> function.
+Remember that <code>mclaply</code> under Windows works like the regular <code>lapply</code> function.
+To set higher number of cores use code like <code>options(mc.cores = parallel::detectCores() - 2)</code> at the beginning of the session.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs_lifeduration</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"memoise"</span>, <span class='st'>"rlang"</span><span class='op'>)</span><span class='op'>)</span></span>
