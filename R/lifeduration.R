@@ -46,7 +46,7 @@ pac_lifeduration <- function(pac, version = NULL, at = NULL) {
     pac_tm$Life_Duration
   } else {
     pac_tm <- pac_timemachine(pac)
-    stopifnot(version %in% pac_tm$Version)
+    if (any(vapply(pac_tm$Version, function(v) isTRUE(utils::compareVersion(v, version) == 0), logical(1)))) return(NA)
     pac_tm <- pac_tm[pac_tm$Version == version, ]
     pac_tm$Life_Duration
   }
