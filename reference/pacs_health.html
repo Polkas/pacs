@@ -126,7 +126,14 @@ A healthy package is a if it was published for more than 14 days.
 CRAN team gives around one week to resolved a package which gave errors under the check page.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_health</span><span class='op'>(</span><span class='va'>pacs</span>, versions <span class='op'>=</span> <span class='cn'>NULL</span>, at <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_health</span><span class='op'>(</span>
+  <span class='va'>pacs</span>,
+  versions <span class='op'>=</span> <span class='cn'>NULL</span>,
+  at <span class='op'>=</span> <span class='cn'>NULL</span>,
+  limit <span class='op'>=</span> <span class='fl'>14</span>,
+  lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
+  repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,6 +149,18 @@ CRAN team gives around one week to resolved a package which gave errors under th
     <tr>
       <th>at</th>
       <td><p>Date old version of package. Default: NULL</p></td>
+    </tr>
+    <tr>
+      <th>limit</th>
+      <td><p>numeric at least days to treat as healthy. Default: 14</p></td>
+    </tr>
+    <tr>
+      <th>lib.loc</th>
+      <td><p>character vector. Is omitted for non NULL version. Default: NULL</p></td>
+    </tr>
+    <tr>
+      <th>repos</th>
+      <td><p>character the base URL of the repositories to use. Default <code>https://cran.rstudio.com/</code></p></td>
     </tr>
     </table>
 

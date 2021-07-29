@@ -122,7 +122,13 @@
     <p>using CRAN website to get packages version/versions used at a specific Date or a Date interval.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_timemachine</span><span class='op'>(</span><span class='va'>pacs</span>, at <span class='op'>=</span> <span class='cn'>NULL</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pacs_timemachine</span><span class='op'>(</span>
+  <span class='va'>pacs</span>,
+  at <span class='op'>=</span> <span class='cn'>NULL</span>,
+  from <span class='op'>=</span> <span class='cn'>NULL</span>,
+  to <span class='op'>=</span> <span class='cn'>NULL</span>,
+  repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,6 +148,10 @@
     <tr>
       <th>to</th>
       <td><p>Date CRAN URL. Default: NULL</p></td>
+    </tr>
+    <tr>
+      <th>repos</th>
+      <td><p>character the base URL of the repositories to use. Default <code>https://cran.rstudio.com/</code></p></td>
     </tr>
     </table>
 

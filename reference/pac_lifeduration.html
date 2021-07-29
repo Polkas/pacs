@@ -122,7 +122,13 @@
     <p>using CRAN website to get a package life duration for certain version or at a specific Date.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_lifeduration</span><span class='op'>(</span><span class='va'>pac</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, at <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_lifeduration</span><span class='op'>(</span>
+  <span class='va'>pac</span>,
+  version <span class='op'>=</span> <span class='cn'>NULL</span>,
+  at <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
+  repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,6 +144,14 @@
     <tr>
       <th>at</th>
       <td><p>Date old version of package. Default: NULL</p></td>
+    </tr>
+    <tr>
+      <th>lib.loc</th>
+      <td><p>character vector. Is omitted for non NULL version. Default: NULL</p></td>
+    </tr>
+    <tr>
+      <th>repos</th>
+      <td><p>character the base URL of the repositories to use. Default <code>https://cran.rstudio.com/</code></p></td>
     </tr>
     </table>
 
