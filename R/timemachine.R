@@ -69,6 +69,9 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
 #' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 #' The base part of URL in the result is `https://cran.r-project.org/src/contrib/`.
 #' Results are cached for 1 hour with `memoise` package.
+#' There is used `parallel::mclapply` function.
+#' Remember that `mclaply` under Windows works like the regular `lapply` function.
+#' To set higher number of cores use code like `options(mc.cores = parallel::detectCores() - 2)` at the beginning of the session.
 #' @export
 #' @examples
 #' pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
@@ -77,7 +80,7 @@ pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL,  repos = "
   pacs_cran <- intersect(pacs, rownames(available_packages(repos = repos)))
   pacs_skip <- setdiff(pacs, pacs_cran)
   if (length(pacs_skip)) cat("Skipping non CRAN packages", pacs_skip, "\n")
-  stats::setNames(lapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to, repos)), pacs_cran)
+  stats::setNames(parallel::mclapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to, repos)), pacs_cran)
 }
 
 pac_cran_recent_raw <- function(pac) {

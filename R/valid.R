@@ -23,6 +23,9 @@
 #' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` or `checkred` turned on.
 #' Results are cached for 1 hour with `memoise` package, memory cache.
+#' For `lifeduration` and `checkred` options there is used `parallel::mclapply` function.
+#' Remember that `mclaply` under Windows works like the regular `lapply` function.
+#' To set higher number of cores use code like `options(mc.cores = parallel::detectCores() - 2)` at the beginning of the session.
 #' @export
 #' @examples
 #' lib_validate()
@@ -73,12 +76,12 @@ lib_validate <- function(lib.loc = NULL,
 
   if (checkred) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
-    result$checkred <- vapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x]), logical(1))
+    result$checkred <- unlist(parallel::mclapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x])))
   }
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"], repos = repos))
+    result$life_duration <- unlist(pacs_lifeduration(result[["Package"]], result[["Version.have"]], repos = repos))
   }
 
   result
@@ -87,6 +90,8 @@ lib_validate <- function(lib.loc = NULL,
 #' Validate a specific package
 #' @description
 #' Checking if installed package dependencies have correct versions taking into account their DESCRIPTION files requirements.
+#' Moreover we know which dependencies are newest releases.
+#' Optionally we could add life duration and CRAN check page status for each dependency.
 #' @param pac character a package name.
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
@@ -108,6 +113,9 @@ lib_validate <- function(lib.loc = NULL,
 #' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` or `checkred` turned on.
 #' Results are cached for 1 hour with `memoise` package, memory cache.
+#' For `lifeduration` and `checkred` options there is used `parallel::mclapply` function.
+#' Remember that `mclaply` under Windows works like the regular `lapply` function.
+#' To set higher number of cores use code like `options(mc.cores = parallel::detectCores() - 2)` at the beginning of the session.
 #' @export
 #' @examples
 #' pac_validate("memoise")
@@ -139,12 +147,12 @@ pac_validate <- function(pac, lib.loc = NULL,
 
   if (checkred) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
-    result$checkred <- vapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x]), logical(1))
+    result$checkred <- unlist(parallel::mclapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x])))
   }
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
+    result$life_duration <- unlist(pacs_lifeduration(result[["Package"]], result[["Version.have"]], repos = repos))
   }
 
   result
@@ -174,6 +182,9 @@ pac_validate <- function(pac, lib.loc = NULL,
 #' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` or `checkred` turned on.
 #' Results are cached for 1 hour with `memoise` package, memory cache.
+#' For `lifeduration` and `checkred` options there is used `parallel::mclapply` function.
+#' Remember that `mclaply` under Windows works like the regular `lapply` function.
+#' To set higher number of cores use code like `options(mc.cores = parallel::detectCores() - 2)` at the beginning of the session.
 #' @export
 #' @examples
 #' pacs_validate(c("memoise", "rlang"))
@@ -206,12 +217,12 @@ pacs_validate <- function(pacs,
 
   if (checkred) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
-    result$checkred <- vapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x]), logical(1))
+    result$checkred <- unlist(parallel::mclapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x])))
   }
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
+    result$life_duration <- unlist(pacs_lifeduration(result[["Package"]], result[["Version.have"]], repos = repos))
   }
 
   result

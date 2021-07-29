@@ -1,10 +1,17 @@
 #' Compare DESCRIPTION files dependencies between specific packages versions
-#' @description using remote CRAN to compare DESCRIPTION files dependencies between specific packages versions.
+#' @description using the remote CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions.
 #' @param pac character a package name.
 #' @param old character an old version of package.
 #' @param new character a new version of package.
 #' @param fields character a vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @return data.frame with 4 columns.
+#' \describe{
+#' \item{Package}{character package names.}
+#' \item{Version.OLD}{character versions of dependencies required by an old package version.}
+#' \item{Version.NEW}{character versions of dependencies required by a new package version.}
+#' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
+#' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
+#' }
 #' @export
 #' @examples
 #' pac_compare_versions("memoise", "0.2.1", "2.0.0")

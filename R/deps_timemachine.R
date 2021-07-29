@@ -6,7 +6,7 @@
 #' @param at Date old version of package. Default: NULL
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
 #' @note Longer lived version is taken if 2 is available at the same date (switch time).
-#' @return named vector package dependencies and their versions at the release date  of main package plus one day.
+#' @return named vector package dependencies and their versions at the release date of main package plus one day.
 #' @export
 #' @examples
 #' pacs::pac_deps_timemachine("memoise", "0.2.1")

@@ -53,9 +53,11 @@ pac_deps <- function(pac,
       }
       if (is.null(res)) {
         return(NULL)
+      } else {
+        res <- setdiff(res, "NA")
       }
       for (r in res) {
-        if (r != "R" && !r %in% paks_global) {
+        if (isFALSE(r == "R") && isFALSE(r %in% paks_global)) {
           paks_global <<- c(r, paks_global)
           if (recursive) deps(r, fields)
         }
@@ -96,7 +98,7 @@ pac_deps <- function(pac,
     }
     res_df <- res_df[res_df$Package %in% res, ]
   } else {
-    res_df <- as.data.frame(v_base[res, c("Package", "Version"), drop = FALSE])
+    res_df <- as.data.frame(v_base[v_base[, "Package"] %in% res, c("Package", "Version"), drop = FALSE])
   }
 
   if (attr) {

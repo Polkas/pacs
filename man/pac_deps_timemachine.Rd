@@ -24,7 +24,7 @@ pac_deps_timemachine(
 \item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
 }
 \value{
-named vector package dependencies and their versions at the release date  of main package plus one day.
+named vector package dependencies and their versions at the release date of main package plus one day.
 }
 \description{
 Package dependencies from DESCRIPTION files retrieved recursively for certain version or time point.

@@ -41,12 +41,17 @@ data.frame with 5/6/7 columns.
 }
 \description{
 Checking if installed package dependencies have correct versions taking into account their DESCRIPTION files requirements.
+Moreover we know which dependencies are newest releases.
+Optionally we could add life duration and CRAN check page status for each dependency.
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 When turn on the \code{lifeduration} and/or \code{checkred} options, calculations might be time consuming.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} or \code{checkred} turned on.
 Results are cached for 1 hour with \code{memoise} package, memory cache.
+For \code{lifeduration} and \code{checkred} options there is used \code{parallel::mclapply} function.
+Remember that \code{mclaply} under Windows works like the regular \code{lapply} function.
+To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 2)} at the beginning of the session.
 }
 \examples{
 pac_validate("memoise")

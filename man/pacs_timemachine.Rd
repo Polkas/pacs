@@ -35,6 +35,9 @@ For bigger lists might need a few minutes.
 Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 The base part of URL in the result is \verb{https://cran.r-project.org/src/contrib/}.
 Results are cached for 1 hour with \code{memoise} package.
+There is used \code{parallel::mclapply} function.
+Remember that \code{mclaply} under Windows works like the regular \code{lapply} function.
+To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 2)} at the beginning of the session.
 }
 \examples{
 pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))

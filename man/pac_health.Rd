@@ -31,7 +31,7 @@ logical if package is healthy.
 }
 \description{
 using CRAN website to get a package version/versions used at a specific Date interval.
-A healthy package is a if it was published for more than x days where default is 14 days.
+A healthy package was published for more than x days, where default is 14 days.
 CRAN team gives around one/two week to resolved a package which gave errors under the check page.
 }
 \note{

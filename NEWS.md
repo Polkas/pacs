@@ -2,8 +2,9 @@
 
 * Replace `gregexec` with a `stringi` function, as not supported on older R versions.
 * Improved performance of `lib_validate` function, under default arguments and whole R CRAN library will takes 2 seconds.
-* Update roxygen2 descriptions.
+* Update `roxygen2` descriptions.
 * Added `lib.loc` and `repos` arguments to more functions.
+* `mclapply` under many functions.
 
 # 0.2.5
 
@@ -31,7 +32,7 @@
 * Remove `base` argument in `pac_true_size`, as not see any value added.
 * Add `checkred` variable for validation functions.
 * `pac_health` for newest release younger than x days, checking if package is red labeled on CRAN checks pages.
-* Default 14 days as limit for healthy version, and non red check for the newest version.
+* Default 14 days as limit for valid version, and non red check for the newest version.
 * Added new functions `pac_checkred`/`pacs_checkred`.
 
 # 0.2.2

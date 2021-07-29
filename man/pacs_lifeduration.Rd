@@ -2,7 +2,7 @@
 % Please edit documentation in R/lifeduration.R
 \name{pacs_lifeduration}
 \alias{pacs_lifeduration}
-\title{Packages life duration at specific Date or for a specific version}
+\title{Packages versions life duration at specific Date or for a specific version}
 \usage{
 pacs_lifeduration(
   pacs,
@@ -24,7 +24,7 @@ pacs_lifeduration(
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
-logical if package is healthy.
+list named of \code{difftime}, number of days package version was the newest one.
 }
 \description{
 using CRAN website to get packages life duration for versions or specific Date.
@@ -33,6 +33,9 @@ using CRAN website to get packages life duration for versions or specific Date.
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 Results are cached for 1 hour with \code{memoise} package, memory cache.
+There is used \code{parallel::mclapply} function.
+Remember that \code{mclaply} under Windows works like the regular \code{lapply} function.
+To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 2)} at the beginning of the session.
 }
 \examples{
 pacs_lifeduration(c("memoise", "rlang"))

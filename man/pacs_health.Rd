@@ -27,17 +27,20 @@ pacs_health(
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
-logical vector, TRUE if a package is healthy.
+list named, TRUE if a package was published for more than x days.
 }
 \description{
 using CRAN website to get a package version/versions used at a specific Date interval.
-A healthy package is a if it was published for more than 14 days.
+A healthy package was published for more than x days, where default is 14 days.
 CRAN team gives around one week to resolved a package which gave errors under the check page.
 }
 \note{
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 Results are cached for 1 hour with \code{memoise} package, memory cache.
+There is used \code{parallel::mclapply} function.
+Remember that \code{mclaply} under Windows works like the regular \code{lapply} function.
+To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 2)} at the beginning of the session.
 }
 \examples{
 pacs_health(c("memoise"))

@@ -124,8 +124,8 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
   versions <- desc_e$versions
 
   joint <- data.frame(
-        Version = unlist(sapply(seq_along(packages), function(x) replaceNA(versions[[x]], ""))),
-        Package = unlist(sapply(seq_along(packages), function(x)  replace(packages[[x]], packages[[x]] == "NA", NA))),
+        Version = unlist(lapply(seq_along(packages), function(x) replaceNA(versions[[x]], ""))),
+        Package = unlist(lapply(seq_along(packages), function(x)  replace(packages[[x]], packages[[x]] == "NA", NA))),
         stringsAsFactors = FALSE
       )
 
@@ -137,7 +137,7 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
 
   res_agg$Version[is.na(res_agg$Version)] <- ""
 
-  res_agg
+  res_agg[!is.na(res_agg$Package), ]
 }
 
 installed_agg_fun_raw <- function(lib.loc = NULL, fields) {
@@ -303,11 +303,10 @@ pacs_checkred <- function(pacs, scope = c("ERROR", "WARN", "NOTE"), repos = "htt
   stopifnot(all(scope %in% c("ERROR", "WARN", "NOTE")))
   stopifnot(is.null(pacs) || is.character(pacs))
 
-  checks <- vapply(
+  checks <- unlist(parallel::mclapply(
     pacs,
-    function(p) is_red_check_raw(p, scope, repos),
-    logical(1)
-  )
+    function(p) is_red_check_raw(p, scope, repos)
+  ))
 
   stats::setNames(checks, pacs)
 }
