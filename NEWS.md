@@ -1,3 +1,7 @@
+# 0.2.6
+
+* Replace `gregexec` with a `stringi` function, as not supported on older R versions.
+
 # 0.2.5
 
 * Cache results only for 1 hour, could be important when run on servers.

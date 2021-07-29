@@ -28,4 +28,5 @@ Suggests:
     withr
 Config/testthat/edition: 3
 Imports:
-    memoise
+    memoise,
+    stringi

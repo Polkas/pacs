@@ -1,7 +1,8 @@
 #' Validate the library.
-#' @description Compare current and expected packages under `.libPaths`.
-#' Checking the healthy of the library, which packages are newest one.
-#' Optionally added life duration of each package.
+#' @description
+#' Checking if installed packages have correct versions taking into account all DESCRIPTION files requirements.
+#' Moreover we know which packages are newest releases.
+#' Optionally we could add life duration and CRAN check page status for each package.
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
@@ -69,7 +70,8 @@ lib_validate <- function(lib.loc = NULL,
 }
 
 #' Validate a specific package
-#' @description Checking the healthy of the specific packages.
+#' @description
+#' Checking if installed package dependencies have correct versions taking into account their DESCRIPTION files requirements.
 #' @param pac character a package name.
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
@@ -132,7 +134,8 @@ pac_validate <- function(pac, lib.loc = NULL,
 }
 
 #' Validate specific packages
-#' @description Checking the healthy of the specific packages.
+#' @description
+#' Checking if installed packages have correct versions taking into account their DESCRIPTION files requirements.
 #' @param pacs character vector packages names.
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`

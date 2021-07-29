@@ -37,7 +37,7 @@ data.frame with 5/6/7 columns.
 }
 }
 \description{
-Checking the healthy of the specific packages.
+Checking if installed packages have correct versions taking into account their DESCRIPTION files requirements.
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.

@@ -34,9 +34,9 @@ data.frame with 5/6/7 columns.
 }
 }
 \description{
-Compare current and expected packages under \code{.libPaths}.
-Checking the healthy of the library, which packages are newest one.
-Optionally added life duration of each package.
+Checking if installed packages have correct versions taking into account all DESCRIPTION files requirements.
+Moreover we know which packages are newest releases.
+Optionally we could add life duration and CRAN check page status for each package.
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.

@@ -120,14 +120,14 @@ pac_archived_raw <- function(pac) {
     rr_range <- grep("</?table>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     # not use rvest as it is too big dependency
-    header <- regmatches(rrr[[1]], gregexec(">([^<>]+)<", rrr[[1]]))[[1]][2, ]
+    header <- stringi::stri_match_all(rrr[[1]], regex = ">([^<>]+)<")[[1]][, 2]
 
     result_raw <- as.data.frame(
       do.call(
         rbind,
         lapply(
           4:(length(rrr) - 1),
-          function(x) regmatches(rrr[x], gregexec(">([^<>]+)<", rrr[x]))[[1]][2, ]
+          function(x) stringi::stri_match_all(rrr[x], regex = ">([^<>]+)<")[[1]][, 2]
         )
       ),
       stringsAsFactors = FALSE
