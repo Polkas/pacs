@@ -35,7 +35,7 @@ Hint2: all time consuming calculations are cached (for 1 hour) with `memoise` pa
 
 ## Validate the library
 
-This procedure will be crucial for R developers as clearly showing the possible broken packages inside a library. Thus we could assess which packages require versions update. Sometimes we might even 
+This procedure will be crucial for R developers as clearly showing the possible broken packages inside a library. Thus we could assess which packages require versions update.
 
 Default validation of library.
 
@@ -63,15 +63,14 @@ install.packages("shiny")
 Size of a package:
 
 ```r
-cat(pacs::pac_size("devtools") / 10**6, "Mb", "\n")
+cat(pacs::pac_size("devtools") / 10**6, "MB", "\n")
 ```
 
 True size of a package as taking into account its dependencies.
-At the time of writing it, it is `113Mb` for `devtools` without base packages (Mac OS arm64).
+At the time of writing it, it is `113MB` for `devtools` without base packages (Mac OS arm64).
 
 ```r
-cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
-# cat(pacs::pac_true_size("devtools") / 10**6, "Mb", "\n")
+cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")
 ```
 
 A reasonable assumption might be to count only dependencies which are not used by any other package.
@@ -80,7 +79,7 @@ However hard to assume if your local installation is a reasonable proxy for aver
 
 ```
 # exclude packages if at least one other package use it too
-cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "Mb", "\n")
+cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
 ```
 
 Might be useful to check the number of dependencies too:
@@ -170,10 +169,6 @@ pacs::pac_deps_timemachine("dplyr", version = "0.8.1")
 The crucial functionality is to get versions for all package dependencies. 
 Versions might come form installed packages or all DESCRIPTION files.
 
-```r
-install.packages("shiny")
-```
-
 Useful functions to get list of base packages. 
 You might want to exclude them from final results.
 
@@ -217,8 +212,6 @@ This is for sure something new on the R market.
 comparing dependencies per package versions.
 
 ```r
-# It was used withr::with_temp_libpaths and devtools::install_version for this task
-
 pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
 
 pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")

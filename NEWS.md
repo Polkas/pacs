@@ -1,6 +1,9 @@
 # 0.2.6
 
 * Replace `gregexec` with a `stringi` function, as not supported on older R versions.
+* Improved performance of `lib_validate` function, under default arguments and whole R CRAN library will takes 2 seconds.
+* Update roxygen2 descriptions.
+* Added `lib.loc` and `repos` arguments to more functions.
 
 # 0.2.5
 

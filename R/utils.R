@@ -125,7 +125,7 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
 
   joint <- data.frame(
         Version = unlist(sapply(seq_along(packages), function(x) replaceNA(versions[[x]], ""))),
-        Package = unlist(sapply(seq_along(packages), function(x)  replace(packages[[x]], versions[[x]] == "NA", NA))),
+        Package = unlist(sapply(seq_along(packages), function(x)  replace(packages[[x]], packages[[x]] == "NA", NA))),
         stringsAsFactors = FALSE
       )
 
@@ -165,14 +165,14 @@ installed_packages <- function(lib.loc = NULL, priority = NULL) {
 installed_packages_raw <- memoise::memoise(utils::installed.packages, cache = cachem::cache_mem(max_age = 60*60))
 
 extract_deps <- function(x) {
-  splited <- strsplit(x, ",")
-  trimed <- lapply(splited, trimws)
+  splited <- stri_split_fixed(x, ",")
+  trimed <- lapply(splited, stri_trim)
   v_reg <- function(x) vapply(stringi::stri_match_all(x, regex = "([0-9\\.-]+)\\)"),
                               function(i) `[`(i, 2),
                               character(1))
   versions <- lapply(trimed, v_reg)
-  v_pac <- function(x) vapply(strsplit(x, "[ \n\\(]"),
-                              function(x) `[`(x, 1),
+  v_pac <- function(x) vapply(stri_split_regex(x, "[ \n\\(]"),
+                              function(x) `[[`(x, 1),
                               character(1))
   pacs <- lapply(trimed, v_pac)
   list(packages = pacs, versions = versions)
@@ -213,10 +213,9 @@ available_descriptions <- function(repos, fields, deps = NULL) {
   available_agg <- available_agg_fun(repos, fields)
 
   paks <- available_agg[, fields]
-  nams <- available_agg[, c("Package")]
-  rownames(paks) <- nams
 
   if (!is.null(deps)) {
+    nams <- available_agg[, c("Package")]
     paks <- paks[nams %in% deps, ]
   }
 
@@ -227,16 +226,12 @@ available_descriptions <- function(repos, fields, deps = NULL) {
   packages <- desc_e$packages
   versions <- desc_e$versions
 
-  joint <- do.call(rbind, lapply(
-    seq_along(packages),
-    function(x) {
-      data.frame(
-        Version = replaceNA(versions[[x]], ""),
-        Package = replace(packages[[x]], versions[[x]] == "NA", NA),
-        stringsAsFactors = FALSE
-      )
-    }
-  ))
+  joint <- data.frame(
+    Version = unlist(sapply(seq_along(packages), function(x) replaceNA(versions[[x]], ""))),
+    Package = unlist(sapply(seq_along(packages), function(x)  replace(packages[[x]], packages[[x]] == "NA", NA))),
+    stringsAsFactors = FALSE
+  )
+
   res_agg <- stats::aggregate(
     joint[, c("Version"), drop = FALSE],
     list(Package = joint$Package),

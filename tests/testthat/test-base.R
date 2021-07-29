@@ -76,7 +76,8 @@ if (is_online()) {
 
   test_that("pacs::lib_validate", {
     expect_error(lib_validate(lib.loc = "wrong"))
-    expect_true(inherits(lib_validate(), "data.frame"))
+    lib_res <- lib_validate()
+    expect_true(inherits(lib_res, "data.frame"))
   })
 
   test_that("pac_validate", {
