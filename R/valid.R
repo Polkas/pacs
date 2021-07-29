@@ -14,9 +14,9 @@
 #' \item{Version.have}{character installed package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-#' \item{life_duration}{(Optional) integer number of days package was released.}
 #' \item{newest}{ logical if the installed version is the newest one.}
 #' \item{checkred}{(Optional) logical if the newest package contains any errors or warnings on CRAN check page.}
+#' \item{life_duration}{(Optional) integer number of days package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
@@ -54,16 +54,16 @@ lib_validate <- function(lib.loc = NULL,
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
 
-  if (lifeduration) {
-    cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
-  }
-
   result$newest <- apply(result, 1, function(x) is_last_release(x["Package"], x["Version.have"]))
 
   if (checkred) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
     result$checkred <- vapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x]), logical(1))
+  }
+
+  if (lifeduration) {
+    cat("Please wait, Packages life durations are assessed.\n")
+    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
   }
 
   result
@@ -84,9 +84,9 @@ lib_validate <- function(lib.loc = NULL,
 #' \item{Version.have}{character installed package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-#' \item{life_duration}{(Optional) integer number of days package was released.}
 #' \item{newest}{ logical if the installed version is the newest one.}
 #' \item{checkred}{(Optional) logical if the newest package contains any errors or warnings on CRAN check page.}
+#' \item{life_duration}{(Optional) integer number of days package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
@@ -118,16 +118,16 @@ pac_validate <- function(pac, lib.loc = NULL,
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
 
-  if (lifeduration) {
-    cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
-  }
-
   result$newest <- apply(result, 1, function(x) is_last_release(x["Package"], x["Version.have"]))
 
   if (checkred) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
     result$checkred <- vapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x]), logical(1))
+  }
+
+  if (lifeduration) {
+    cat("Please wait, Packages life durations are assessed.\n")
+    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
   }
 
   result
@@ -148,9 +148,9 @@ pac_validate <- function(pac, lib.loc = NULL,
 #' \item{Version.have}{character installed package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-#' \item{life_duration}{(Optional) integer number of days package was released.}
 #' \item{newest}{ logical if the installed version is the newest one.}
 #' \item{checkred}{(Optional) logical if the newest package contains any errors or warnings on CRAN check page.}
+#' \item{life_duration}{(Optional) integer number of days package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
@@ -183,16 +183,16 @@ pacs_validate <- function(pacs,
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
 
-  if (lifeduration) {
-    cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
-  }
-
   result$newest <- apply(result, 1, function(x) is_last_release(x["Package"], x["Version.have"]))
 
   if (checkred) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
     result$checkred <- vapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x]), logical(1))
+  }
+
+  if (lifeduration) {
+    cat("Please wait, Packages life durations are assessed.\n")
+    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
   }
 
   result
