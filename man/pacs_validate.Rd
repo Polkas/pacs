@@ -31,9 +31,9 @@ data.frame with 5/6/7 columns.
 \item{Version.have}{character installed package version.}
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-\item{life_duration}{(Optional) integer number of days package was released.}
 \item{newest}{ logical if the installed version is the newest one.}
 \item{checkred}{(Optional) logical if the newest package contains any errors or warnings on CRAN check page.}
+\item{life_duration}{(Optional) integer number of days package was released.}
 }
 }
 \description{
