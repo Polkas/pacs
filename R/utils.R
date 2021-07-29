@@ -101,7 +101,7 @@ pacs_base <- function(startup = FALSE) {
 }
 
 pacs_base_all_raw <- function() {
-  rownames(utils::installed.packages(priority = "base"))
+  rownames(installed_packages(priority = "base"))
 }
 
 pacs_base_all <- memoise::memoise(pacs_base_all_raw)
@@ -110,10 +110,9 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
   paks <- installed_agg[, fields]
-  nams <- installed_agg[, c("Package")]
-  rownames(paks) <- nams
 
   if (!is.null(deps)) {
+    nams <- installed_agg[, c("Package")]
     paks <- paks[nams %in% deps, ]
   }
 
@@ -124,16 +123,12 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
   packages <- desc_e$packages
   versions <- desc_e$versions
 
-  joint <- do.call(rbind, lapply(
-    seq_along(packages),
-    function(x) {
-      data.frame(
-        Version = replaceNA(versions[[x]], ""),
-        Package = replace(packages[[x]], versions[[x]] == "NA", NA),
+  joint <- data.frame(
+        Version = unlist(sapply(seq_along(packages), function(x) replaceNA(versions[[x]], ""))),
+        Package = unlist(sapply(seq_along(packages), function(x)  replace(packages[[x]], versions[[x]] == "NA", NA))),
         stringsAsFactors = FALSE
       )
-    }
-  ))
+
   res_agg <- stats::aggregate(
     joint[, c("Version"), drop = FALSE],
     list(Package = joint$Package),
@@ -146,7 +141,7 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
 }
 
 installed_agg_fun_raw <- function(lib.loc = NULL, fields) {
-  installed_df <- as.data.frame(utils::installed.packages(lib.loc = NULL))
+  installed_df <- as.data.frame(installed_packages(lib.loc = NULL))
   installed_agg <- stats::aggregate(
     installed_df[, c("Version", fields), drop = FALSE],
     list(Package = installed_df$Package),
@@ -163,12 +158,22 @@ available_packages <- function(repos = "https://cran.rstudio.com/") {
 
 available_packages_raw <- memoise::memoise(utils::available.packages, cache = cachem::cache_mem(max_age = 60*60))
 
+installed_packages <- function(lib.loc = NULL, priority = NULL) {
+  installed_packages_raw(lib.loc = lib.loc, priority = priority)
+}
+
+installed_packages_raw <- memoise::memoise(utils::installed.packages, cache = cachem::cache_mem(max_age = 60*60))
+
 extract_deps <- function(x) {
   splited <- strsplit(x, ",")
   trimed <- lapply(splited, trimws)
-  v_reg <- function(x) sapply(regmatches(x, regexec("([0-9\\.-]+)\\)", x, perl = TRUE)), function(i) `[`(i, 2))
+  v_reg <- function(x) vapply(stringi::stri_match_all(x, regex = "([0-9\\.-]+)\\)"),
+                              function(i) `[`(i, 2),
+                              character(1))
   versions <- lapply(trimed, v_reg)
-  v_pac <- function(x) sapply(strsplit(x, "[ \n\\(]"), function(x) `[`(x, 1))
+  v_pac <- function(x) vapply(strsplit(x, "[ \n\\(]"),
+                              function(x) `[`(x, 1),
+                              character(1))
   pacs <- lapply(trimed, v_pac)
   list(packages = pacs, versions = versions)
 }
@@ -179,16 +184,16 @@ last_version_raw <- function(pac) {
 
 last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem(max_age = 60*60))
 
-is_last_release <- function(pac, version = NULL, at = NULL) {
+is_last_release <- function(pac, version = NULL, at = NULL, lib.loc = NULL, repos = "https://cran.rstudio.com/") {
   stopifnot(xor(!is.null(version), !is.null(at)) || (is.null(version) && is.null(at)))
 
-  if (!pac %in% rownames(available_packages())) {
+  if (!pac %in% rownames(available_packages(repos = repos))) {
     return(NA)
   }
 
-  last_version <- available_packages()[rownames(available_packages()) == pac, "Version"]
+  last_version <- available_packages()[rownames(available_packages(repos = repos)) == pac, "Version"]
 
-  is_installed <- isTRUE(pac %in% rownames(utils::installed.packages()))
+  is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
 
   if (is.null(version) && is.null(at)) {
     if (is_installed) {
@@ -197,7 +202,7 @@ is_last_release <- function(pac, version = NULL, at = NULL) {
       return(FALSE)
     }
   } else if (is.null(version) && !is.null(at)) {
-    version <- utils::tail(pac_timemachine(pac = pac, at = at), 1)$Version
+    version <- utils::tail(pac_timemachine(pac = pac, at = at, repos = repos), 1)$Version
   }
 
   isTRUE(utils::compareVersion(last_version, version) == 0)
@@ -255,8 +260,8 @@ available_agg_fun_raw <- function(repos = "https://cran.rstudio.com/", fields) {
 
 available_agg_fun <- memoise::memoise(available_agg_fun_raw, cache = cachem::cache_mem(max_age = 60*60))
 
-is_red_check_raw <- function(pac, scope = c("ERROR", "WARN")) {
-  if (!pac %in% rownames(available_packages())) {
+is_red_check_raw <- function(pac, scope = c("ERROR", "WARN"), repos = "https://cran.rstudio.com/") {
+  if (!pac %in% rownames(available_packages(repos = repos))) {
     return(NA)
   }
   any(grepl(sprintf("Result: (?:%s)", paste(scope, collapse = "|")),
@@ -275,35 +280,37 @@ get_cran_check_page <- memoise::memoise(get_cran_check_page_raw, cache = cachem:
 #' @description using R CRAN package check page to validate if there are ANY error and/or warning and/or note.
 #' @param pac character a package name.
 #' @param scope character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return logical if the package fail under specified criteria.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pac_checkred("dplyr")
 #' pac_checkred("dplyr", scope = c("ERROR"))
-pac_checkred <- function(pac, scope = c("ERROR", "WARN")) {
+pac_checkred <- function(pac, scope = c("ERROR", "WARN"), repos = "https://cran.rstudio.com/") {
   stopifnot(all(scope %in% c("ERROR", "WARN", "NOTE")))
 
-  is_red_check_raw(pac, scope)
+  is_red_check_raw(pac, scope, repos = repos)
 }
 
 #' Checking the R CRAN packages check pages statuses
 #' @description using R CRAN packages check pages to validate if there are ANY error and/or warning and/or note.
 #' @param pacs character vector packages names.
 #' @param scope character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return logical named vector if packages fail under specified criteria.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pacs_checkred(c("dplyr", "devtools"))
 #' pacs_checkred("dplyr", scope = c("ERROR"))
-pacs_checkred <- function(pacs, scope = c("ERROR", "WARN", "NOTE")) {
+pacs_checkred <- function(pacs, scope = c("ERROR", "WARN", "NOTE"), repos = "https://cran.rstudio.com/") {
   stopifnot(all(scope %in% c("ERROR", "WARN", "NOTE")))
   stopifnot(is.null(pacs) || is.character(pacs))
 
   checks <- vapply(
     pacs,
-    function(p) is_red_check_raw(p, scope),
+    function(p) is_red_check_raw(p, scope, repos),
     logical(1)
   )
 

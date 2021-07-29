@@ -4,12 +4,18 @@
 \alias{pacs_checkred}
 \title{Checking the R CRAN packages check pages statuses}
 \usage{
-pacs_checkred(pacs, scope = c("ERROR", "WARN", "NOTE"))
+pacs_checkred(
+  pacs,
+  scope = c("ERROR", "WARN", "NOTE"),
+  repos = "https://cran.rstudio.com/"
+)
 }
 \arguments{
 \item{pacs}{character vector packages names.}
 
 \item{scope}{character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")}
+
+\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 logical named vector if packages fail under specified criteria.

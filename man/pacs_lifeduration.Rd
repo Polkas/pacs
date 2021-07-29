@@ -4,7 +4,13 @@
 \alias{pacs_lifeduration}
 \title{Packages life duration at specific Date or for a specific version}
 \usage{
-pacs_lifeduration(pacs, versions = NULL, at = NULL)
+pacs_lifeduration(
+  pacs,
+  versions = NULL,
+  at = NULL,
+  lib.loc = NULL,
+  repos = "https://cran.rstudio.com/"
+)
 }
 \arguments{
 \item{pacs}{character vector packages names.}
@@ -12,6 +18,10 @@ pacs_lifeduration(pacs, versions = NULL, at = NULL)
 \item{versions}{character vector versions of packages. Default: NULL}
 
 \item{at}{Date old version of package. Default: NULL}
+
+\item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
+
+\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 logical if package is healthy.

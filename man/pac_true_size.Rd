@@ -32,6 +32,5 @@ R base packages are not counted.
 \examples{
 # size in MB, with all its dependencies
 pacs::pac_true_size("memoise") / 10**6
-# exclude packages if at least one other package use it too
-pacs::pac_true_size("memoise", exclude_joint = 1L) / 10**6
+
 }

@@ -5,6 +5,7 @@
 #' @param from Date new version of package. Default: NULL
 #' @param version character version of package. Default: NULL
 #' @param to Date CRAN URL. Default: NULL
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
@@ -15,8 +16,8 @@
 #' pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 #' pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 #' pac_timemachine("dplyr", at = Sys.Date())
-pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NULL) {
-  stopifnot(pac %in% c(rownames(available_packages()), pacs_base()))
+pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NULL, repos = "https://cran.rstudio.com/") {
+  stopifnot(pac %in% c(rownames(available_packages(repos = repos)), pacs_base()))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),
     !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)
@@ -61,6 +62,7 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
 #' @param at Date old version of package. Default: NULL
 #' @param from Date new version of package. Default: NULL
 #' @param to Date CRAN URL. Default: NULL
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' For bigger lists might need a few minutes.
@@ -71,11 +73,11 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
 #' @examples
 #' pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
 #' pacs_timemachine(c("dplyr", "memoise"), at = Sys.Date())
-pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL) {
-  pacs_cran <- intersect(pacs, rownames(available_packages()))
+pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL,  repos = "https://cran.rstudio.com/") {
+  pacs_cran <- intersect(pacs, rownames(available_packages(repos = repos)))
   pacs_skip <- setdiff(pacs, pacs_cran)
   if (length(pacs_skip)) cat("Skipping non CRAN packages", pacs_skip, "\n")
-  stats::setNames(lapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to)), pacs_cran)
+  stats::setNames(lapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to, repos)), pacs_cran)
 }
 
 pac_cran_recent_raw <- function(pac) {

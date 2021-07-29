@@ -7,6 +7,7 @@
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
 #' \item{Package}{character package names.}
@@ -29,10 +30,12 @@
 lib_validate <- function(lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
-                         checkred = FALSE) {
+                         checkred = FALSE,
+                         repos = "https://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(lifeduration))
+
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
   res_agg <- installed_descriptions(lib.loc, fields)
@@ -54,7 +57,19 @@ lib_validate <- function(lib.loc = NULL,
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
 
-  result$newest <- apply(result, 1, function(x) is_last_release(x["Package"], x["Version.have"]))
+  newest_df <- merge(available_packages(repos = repos)[, c("Package", "Version")],
+        installed_packages(lib.loc = lib.loc)[, c("Package", "Version")],
+        by = "Package",
+        sort = FALSE
+  )
+
+  newest_df$newest <- newest_df$Version.x == newest_df$Version.y
+
+  result <- merge(result,
+                  newest_df[, c("Package", "newest")],
+                  by = "Package",
+                  sort = FALSE,
+                  all.x = TRUE)
 
   if (checkred) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
@@ -63,7 +78,7 @@ lib_validate <- function(lib.loc = NULL,
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"]))
+    result$life_duration <- apply(result, 1, function(x) pac_lifeduration(x["Package"], x["Version.have"], repos = repos))
   }
 
   result
@@ -77,6 +92,7 @@ lib_validate <- function(lib.loc = NULL,
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
 #' \item{Package}{character package names.}
@@ -99,7 +115,8 @@ lib_validate <- function(lib.loc = NULL,
 pac_validate <- function(pac, lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
-                         checkred = FALSE) {
+                         checkred = FALSE,
+                         repos = "https://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot((length(pac) == 1) && is.character(pac))
@@ -141,6 +158,7 @@ pac_validate <- function(pac, lib.loc = NULL,
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
 #' \item{Package}{character package names.}
@@ -164,7 +182,8 @@ pacs_validate <- function(pacs,
                           lib.loc = NULL,
                           fields = c("Depends", "Imports", "LinkingTo"),
                           lifeduration = FALSE,
-                          checkred = FALSE) {
+                          checkred = FALSE,
+                          repos = "https://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.null(pacs) || is.character(pacs))

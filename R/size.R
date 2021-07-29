@@ -9,7 +9,7 @@
 pac_size <- function(pac, lib.loc = NULL) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
-  stopifnot(pac %in% rownames(utils::installed.packages(lib.loc = lib.loc)))
+  stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
   found <- try(find.package(pac, lib.loc = lib.loc), silent = TRUE)
   if (inherits(found, "try-error")) {
     0
@@ -33,7 +33,7 @@ pacs_size <- function(pacs = NULL, lib.loc = NULL) {
   if (!is.null(pacs)) {
     tocheck <- pacs
   } else {
-    tocheck <- rownames(utils::installed.packages(lib.loc = lib.loc))
+    tocheck <- rownames(installed_packages(lib.loc = lib.loc))
   }
 
   dirs <- vapply(
@@ -57,8 +57,7 @@ pacs_size <- function(pacs = NULL, lib.loc = NULL) {
 #' @examples
 #' # size in MB, with all its dependencies
 #' pacs::pac_true_size("memoise") / 10**6
-#' # exclude packages if at least one other package use it too
-#' pacs::pac_true_size("memoise", exclude_joint = 1L) / 10**6
+#'
 pac_true_size <- function(pac,
                           fields = c("Depends", "Imports", "LinkingTo"),
                           lib.loc = NULL,

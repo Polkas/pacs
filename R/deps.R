@@ -34,7 +34,7 @@ pac_deps <- function(pac,
   stopifnot(is.character(repos))
 
   if (local) {
-    stopifnot(pac %in% c(rownames(utils::installed.packages(lib.loc = lib.loc)), pacs_base()))
+    stopifnot(pac %in% c(rownames(installed_packages(lib.loc = lib.loc)), pacs_base()))
 
     paks_global <- NULL
     pac_v <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
@@ -63,7 +63,7 @@ pac_deps <- function(pac,
     }
 
     deps(pac, fields)
-    v_base <- utils::installed.packages(lib.loc = lib.loc)
+    v_base <- installed_packages(lib.loc = lib.loc)
   } else {
     stopifnot(pac %in% rownames(available_packages(repos)))
     paks_global <- tools::package_dependencies(pac,
@@ -144,7 +144,7 @@ pacs_deps <- function(pacs = NULL,
   if (!is.null(pacs)) {
     tocheck <- pacs
   } else {
-    tocheck <- rownames(utils::installed.packages(lib.loc = lib.loc))
+    tocheck <- rownames(installed_packages(lib.loc = lib.loc))
   }
 
   dfs <- do.call(rbind, lapply(seq_along(tocheck), function(x) {

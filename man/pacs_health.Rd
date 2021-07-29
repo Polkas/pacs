@@ -4,7 +4,14 @@
 \alias{pacs_health}
 \title{Packages health state at a specific Date or for a specific versions}
 \usage{
-pacs_health(pacs, versions = NULL, at = NULL)
+pacs_health(
+  pacs,
+  versions = NULL,
+  at = NULL,
+  limit = 14,
+  lib.loc = NULL,
+  repos = "https://cran.rstudio.com/"
+)
 }
 \arguments{
 \item{pacs}{character vector packages names.}
@@ -12,6 +19,12 @@ pacs_health(pacs, versions = NULL, at = NULL)
 \item{versions}{character vector versions of packages. Default: NULL}
 
 \item{at}{Date old version of package. Default: NULL}
+
+\item{limit}{numeric at least days to treat as healthy. Default: 14}
+
+\item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
+
+\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 logical vector, TRUE if a package is healthy.
