@@ -1,4 +1,4 @@
-#' Validate the library.
+#' Validate the local library.
 #' @description
 #' Checking if installed packages have correct versions taking into account all DESCRIPTION files requirements.
 #' Moreover identifying which packages are newest releases.
@@ -80,13 +80,13 @@ lib_validate <- function(lib.loc = NULL,
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos)), function(z) if (length(z) == 0) NA_real_ else z, numeric(1))
+    result$life_duration <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc)), function(z) if (length(z) == 0) NA_real_ else z, numeric(1))
   }
 
   result
 }
 
-#' Validate a specific package
+#' Validate a specific local package
 #' @description
 #' Checking if installed package dependencies have correct versions taking into account their DESCRIPTION files requirements.
 #' Moreover identifying which packages are newest releases.
@@ -116,7 +116,8 @@ lib_validate <- function(lib.loc = NULL,
 #' @examples
 #' pac_validate("memoise")
 #'
-pac_validate <- function(pac, lib.loc = NULL,
+pac_validate <- function(pac,
+                         lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
                          checkred = FALSE,

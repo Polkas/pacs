@@ -34,6 +34,7 @@ pac_deps <- function(pac,
   stopifnot(is.logical(attr))
   stopifnot(is.logical(recursive))
   stopifnot(is.character(repos))
+  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
 
   if (local) {
     stopifnot(pac %in% c(rownames(installed_packages(lib.loc = lib.loc)), pacs_base()))

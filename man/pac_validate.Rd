@@ -2,7 +2,7 @@
 % Please edit documentation in R/valid.R
 \name{pac_validate}
 \alias{pac_validate}
-\title{Validate a specific package}
+\title{Validate a specific local package}
 \usage{
 pac_validate(
   pac,

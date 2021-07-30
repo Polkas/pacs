@@ -2,7 +2,7 @@
 % Please edit documentation in R/valid.R
 \name{lib_validate}
 \alias{lib_validate}
-\title{Validate the library.}
+\title{Validate the local library.}
 \usage{
 lib_validate(
   lib.loc = NULL,

@@ -16,13 +16,19 @@
 #' pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 #' pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 #' pac_timemachine("dplyr", at = Sys.Date())
-pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NULL, repos = "https://cran.rstudio.com/") {
+pac_timemachine <- function(pac,
+                            at = NULL,
+                            from = NULL,
+                            to = NULL,
+                            version = NULL,
+                            repos = "https://cran.rstudio.com/") {
   stopifnot(pac %in% c(rownames(available_packages(repos = repos)), pacs_base()))
+  stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),
     !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)
   ) ||
-    all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1))
+    all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1 && is.character(version)))
 
   result <- pac_archived(pac)
   cran_page <- pac_cran_recent(pac)

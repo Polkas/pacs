@@ -4,7 +4,14 @@
 \alias{pac_description}
 \title{Package DESCRIPTION file}
 \usage{
-pac_description(pac, version = NULL, at = NULL, local = FALSE, lib.loc = NULL)
+pac_description(
+  pac,
+  version = NULL,
+  at = NULL,
+  local = FALSE,
+  lib.loc = NULL,
+  repos = "https://cran.rstudio.com/"
+)
 }
 \arguments{
 \item{pac}{character a package name.}
@@ -16,6 +23,8 @@ pac_description(pac, version = NULL, at = NULL, local = FALSE, lib.loc = NULL)
 \item{local}{logical if to use local library. Default: FALSE}
 
 \item{lib.loc}{character used optionally when local is equal TRUE. Default: NULL}
+
+\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 list with names proper for DESCRIPTION file fields.

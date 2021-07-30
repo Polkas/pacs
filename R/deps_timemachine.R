@@ -20,6 +20,7 @@ pac_deps_timemachine <- function(pac,
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(xor(!is.null(version), !is.null(at)))
   stopifnot(is.logical(recursive))
+  stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
   if (is.null(version)) {
     health <- pac_health(pac, at = at)

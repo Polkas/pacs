@@ -37,6 +37,7 @@ test_that("dir_size", {
 
 test_that("pacs::pac_size", {
   expect_true(pacs::pac_size("stats") > 0)
+  expect_error(pac_size("WRONG"))
 })
 
 test_that("pacs::pac_true_size", {
@@ -44,6 +45,7 @@ test_that("pacs::pac_true_size", {
   expect_true(stats_size > 1)
   stats_size2 <- pacs::pac_true_size("stats", exclude_joint = 1L)
   expect_equal(stats_size2, pac_size("stats"))
+  expect_error(pac_true_size("WRONG"))
 })
 
 test_that("pacs_base", {
@@ -73,7 +75,10 @@ if (is_online()) {
   test_that("pac_timemachine", {
     expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"))$Version == "1.0.0")
     expect_true(nrow(pac_timemachine("memoise", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 2)
-  })
+    expect_error(pac_timemachine("WRONG"))
+    expect_error(pac_timemachine("dplyr", version = 2))
+    expect_identical(nrow(pac_timemachine("dplyr", version = "999.1.1.1")), 0L)
+    })
 
   test_that("pac_lifeduration", {
     a <- pac_lifeduration("dplyr", version = "0.8.0")
@@ -82,17 +87,22 @@ if (is_online()) {
     expect_identical(a, b)
     expect_true(is.na(pac_lifeduration("WRONGPACKAGE")))
     expect_error(pac_lifeduration("dplyr", version = 1))
+    expect_error(pac_lifeduration("dplyr", version = 1))
   })
 
   test_that("pac_health", {
     expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")))
     expect_true(is.logical(pac_health("dplyr")))
+    expect_true(is.na(pac_health("WRONG")))
   })
 
   test_that("pac_description", {
     expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
     expect_true(utils::compareVersion(pac_description("memoise", local = TRUE)$Version,
                                       pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
+    expect_identical(pac_description("dplyr", "1.1.1.1"), list())
+    expect_identical(pac_description("WRONG"), list())
+    expect_identical(pac_description("dplyr", "0.0.0.1"), list())
   })
 
   test_that("pac_last", {
@@ -102,6 +112,7 @@ if (is_online()) {
     ))["Version"]),
     pac_last("dplyr", repos = "https://cran.rstudio.com/")
     )
+    expect_true(is.na(pac_last("WRONG")))
   })
 
 }

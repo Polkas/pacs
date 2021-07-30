@@ -6,7 +6,8 @@
 #' @export
 #' @examples
 #' cat(pacs::pac_size("stats") / 10**6, "MB")
-pac_size <- function(pac, lib.loc = NULL) {
+pac_size <- function(pac,
+                     lib.loc = NULL) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))

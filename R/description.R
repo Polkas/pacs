@@ -5,18 +5,30 @@
 #' @param at Date. Default: NULL
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return list with names proper for DESCRIPTION file fields.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pac_description("dplyr", version = "0.8.0")
 #' pac_description("dplyr", at = as.Date("2019-02-01"))
-pac_description <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc = NULL) {
+pac_description <- function(pac,
+                            version = NULL,
+                            at = NULL,
+                            local = FALSE,
+                            lib.loc = NULL,
+                            repos = "https://cran.rstudio.com/") {
   stopifnot(isFALSE(local) ||
     (isTRUE(local) && (is.null(version) || isTRUE(utils::packageDescription(pac)$Version == version))))
   stopifnot(all(c(is.null(version), is.null(at))) || xor(!is.null(version), !is.null(at)))
   stopifnot(is.null(at) || inherits(at, "Date"))
-  stopifnot(length(pac) == 1)
+  stopifnot(length(pac) == 1 && is.character(pac))
+  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
+
+  if (!pac %in% rownames(available_packages(repos = repos)) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1))) {
+    return(list())
+  }
 
   if (local && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
     return(utils::packageDescription(pac, lib.loc))
@@ -54,7 +66,6 @@ pac_description_dcf_raw <- function(pac, version, at) {
     silent = TRUE
   )
   if (inherits(tt, "try-error")) {
-    last_version <- last_version_fun(pac)
     temp_tar <- tempfile(fileext = "tar.gz")
     if (!is.null(version) && version != last_version) {
       base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)
@@ -68,10 +79,15 @@ pac_description_dcf_raw <- function(pac, version, at) {
       pac,
       version
     )
-    utils::download.file(d_url,
-      destfile = temp_tar,
-      quiet = TRUE
-    )
+
+    download <- try({
+      utils::download.file(d_url,
+        destfile = temp_tar,
+        quiet = TRUE
+      )}, silent = TRUE)
+
+    if (inherits(download, "try-error")) return(list())
+
     temp_dir <- tempdir(check = TRUE)
     utils::untar(temp_tar, exdir = temp_dir)
     # tabs are not acceptable

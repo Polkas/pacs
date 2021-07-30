@@ -14,14 +14,20 @@
 #' pac_lifeduration("memoise")
 #' pac_lifeduration("dplyr", version = "0.8.0")
 #' pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
-pac_lifeduration <- function(pac, version = NULL, at = NULL, lib.loc = NULL, repos = "https://cran.rstudio.com/") {
-  stopifnot(length(pac) == 1)
+pac_lifeduration <- function(pac,
+                             version = NULL,
+                             at = NULL,
+                             lib.loc = NULL,
+                             repos = "https://cran.rstudio.com/") {
+  stopifnot(length(pac) == 1 && is.character(pac))
   stopifnot(!all(c(!is.null(version), !is.null(at))))
+  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
   if (!pac %in% rownames(available_packages(repos = repos))) {
     return(NA)
   } else {
-    last_version <- last_version_fun(pac)
+    last_version <- pac_last(pac, repos = repos)
   }
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
@@ -30,24 +36,31 @@ pac_lifeduration <- function(pac, version = NULL, at = NULL, lib.loc = NULL, rep
     (!is.null(version) && isTRUE(utils::compareVersion(version, last_version) == 0))) {
 
     if (is_installed) {
-    descr <- utils::packageDescription(pac)
-    if (isTRUE(utils::compareVersion(last_version, descr[["Version"]]) == 0)) {
+    descr <- utils::packageDescription(pac, lib.loc = lib.loc)
+    if (isTRUE(utils::compareVersion(descr[["Version"]], last_version) == 0)) {
       life <- Sys.Date() - as.Date.character(as.character(descr[["Date/Publication"]]), format = "%Y-%m-%d %H:%M:%S UTC")
       return(life)
     } else {
-      life <- Sys.Date() - as.Date(pac_description(pac, version = descr[["Version"]])[["Date/Publication"]])
+      life <- Sys.Date() - as.Date(pac_description(pac,
+                                                   version = descr[["Version"]],
+                                                   lib.loc = lib.loc)[["Date/Publication"]])
       return(life)
     }
     } else {
-      life <- Sys.Date() - as.Date(pac_description(pac, version = last_version)[["Date/Publication"]])
+      life <- Sys.Date() - as.Date(pac_description(pac,
+                                                   version = last_version,
+                                                   lib.loc = lib.loc)[["Date/Publication"]])
       return(life)
     }
   }
 
-  if (is.null(version)) {
+  if (is.null(version) && !is.null(at)) {
     pac_tm <- utils::tail(pac_timemachine(pac, at = at), 1)
     pac_tm$Life_Duration
   } else {
+    if (isTRUE(utils::compareVersion(version, last_version) == 1)) {
+      return(NA)
+    }
     pac_tm <- pac_timemachine(pac)
     if (all(vapply(pac_tm$Version, function(v) isFALSE(utils::compareVersion(v, version) == 0), logical(1)))) return(NA)
     pac_tm <- pac_tm[vapply(pac_tm$Version, function(v) isTRUE(utils::compareVersion(v, version) == 0), logical(1)), ]
@@ -74,9 +87,15 @@ pac_lifeduration <- function(pac, version = NULL, at = NULL, lib.loc = NULL, rep
 #' @examples
 #' pac_health("memoise")
 #' pac_health("dplyr", version = "0.8.0")
-pac_health <- function(pac, version = NULL, at = NULL, limit = 14, lib.loc = NULL, repos = "https://cran.rstudio.com/") {
-  stopifnot(length(pac) == 1)
+pac_health <- function(pac,
+                       version = NULL,
+                       at = NULL,
+                       limit = 14,
+                       lib.loc = NULL,
+                       repos = "https://cran.rstudio.com/") {
+  stopifnot(length(pac) == 1 && is.character(pac))
   stopifnot(!all(c(!is.null(version), !is.null(at))))
+  stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
   if (pac %in% pacs_base()) {
     return(TRUE)

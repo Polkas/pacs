@@ -20,6 +20,9 @@ pac_compare_versions <- function(pac,
                                  new,
                                  fields = c("Imports", "Depends", "LinkingTo")) {
   stopifnot((length(pac) == 1) && is.character(pac))
+  stopifnot((length(old) == 1) && is.character(old))
+  stopifnot((length(new) == 1) && is.character(new))
+
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(utils::compareVersion(new, old) == 1)
 
