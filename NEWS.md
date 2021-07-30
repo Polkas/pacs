@@ -1,12 +1,14 @@
 # 0.2.7
 
-* Removed all `pacs` functions, as giving sb freedom to used different loop functions.
+* Removed all `pacs` functions, to give somebody the freedom of using different loop functions.
 * Added a hint to use `mclapply` for non Windows users.
+* Use `vapply` over the `parallel::mclapply` to be sure about the result length.
+* Added additional `ad.Date` so on older R versions binding is correct.
 
 # 0.2.6
 
 * Replace `gregexec` with a `stringi` function, as not supported on older R versions.
-* Improved performance of `lib_validate` function, under default arguments and whole R CRAN library will takes 2 seconds.
+* Improved performance of `lib_validate` function, under default arguments and whole R CRAN library will consume 2 seconds.
 * Update `roxygen2` descriptions.
 * Added `lib.loc` and `repos` arguments to more functions.
 * `mclapply` under many functions.

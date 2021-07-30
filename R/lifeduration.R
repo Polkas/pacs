@@ -13,6 +13,7 @@
 #' @examples
 #' pac_lifeduration("memoise")
 #' pac_lifeduration("dplyr", version = "0.8.0")
+#' pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
 pac_lifeduration <- function(pac, version = NULL, at = NULL, lib.loc = NULL, repos = "https://cran.rstudio.com/") {
   stopifnot(length(pac) == 1)
   stopifnot(!all(c(!is.null(version), !is.null(at))))
@@ -98,7 +99,7 @@ pac_health <- function(pac, version = NULL, at = NULL, limit = 14, lib.loc = NUL
     return(NA)
   }
 
-  res <- life >= limit
+  res <- isTRUE(life >= limit)
 
   if (is_last_release(pac, version, at)) {
     if (pac_checkred(pac)) FALSE else res

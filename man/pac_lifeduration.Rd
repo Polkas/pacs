@@ -37,4 +37,5 @@ Results are cached for 1 hour with \code{memoise} package, memory cache.
 \examples{
 pac_lifeduration("memoise")
 pac_lifeduration("dplyr", version = "0.8.0")
+pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
 }

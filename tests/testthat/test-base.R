@@ -76,7 +76,12 @@ if (is_online()) {
   })
 
   test_that("pac_lifeduration", {
-    expect_true(pac_lifeduration("dplyr", version = "0.8.0") == 1)
+    a <- pac_lifeduration("dplyr", version = "0.8.0")
+    b <- pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+    expect_true(a == 1)
+    expect_identical(a, b)
+    expect_true(is.na(pac_lifeduration("WRONGPACKAGE")))
+    expect_error(pac_lifeduration("dplyr", version = 1))
   })
 
   test_that("pac_health", {
@@ -90,8 +95,5 @@ if (is_online()) {
                                       pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
   })
 
-  test_that("pac_checkred", {
-    expect_true(is.logical(pac_checkred("survival")))
-  })
 
 }

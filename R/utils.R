@@ -272,7 +272,7 @@ get_cran_check_page_raw <- function(pac) {
 get_cran_check_page <- memoise::memoise(get_cran_check_page_raw, cache = cachem::cache_mem(max_age = 60*60))
 
 #' Checking the R CRAN package check page status
-#' @description using R CRAN package check page to validate if there are ANY error and/or warning and/or note.
+#' @description using R CRAN package check page to validate if there are ANY errors and/or warnings and/or notes.
 #' @param pac character a package name.
 #' @param scope character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`

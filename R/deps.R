@@ -10,8 +10,8 @@
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame with packages and their versions. Versions are taken from `installed.packages` or newest released.
-#' @note When invoke in the loop then use code like that to aggregate the results,
-#' `stats::aggregate(result[, c("Version"), drop = FALSE], list(Package = result$Package), pacs::compareVersionsMax)`.
+#' @note When function is invoked in the loop afterwards binded results could be aggregated like,
+#' `stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)`.
 #' @export
 #' @examples
 #' pacs::pac_deps("stats", base = TRUE)$Package

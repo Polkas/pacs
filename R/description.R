@@ -1,5 +1,5 @@
 #' package DESCRIPTION file
-#' @description package DESCRIPTION file taken locally or if remotely then from GITHUB CRAN mirror or CRAN website.
+#' @description package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 #' @param pac character a package name.
 #' @param version character package version. Default: NULL
 #' @param at Date. Default: NULL
@@ -53,35 +53,28 @@ pac_description_dcf_raw <- function(pac, version, at) {
     },
     silent = TRUE
   )
-
   if (inherits(tt, "try-error")) {
     last_version <- last_version_fun(pac)
     temp_tar <- tempfile(fileext = "tar.gz")
-
     if (!is.null(version) && version != last_version) {
       base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)
     } else {
       base_url <- "https://cran.r-project.org/src/contrib"
       version <- last_version
     }
-
     d_url <- sprintf(
       "%s/%s_%s.tar.gz",
       base_url,
       pac,
       version
     )
-
     utils::download.file(d_url,
       destfile = temp_tar,
       quiet = TRUE
     )
-
     temp_dir <- tempdir(check = TRUE)
-
     utils::untar(temp_tar, exdir = temp_dir)
     # tabs are not acceptable
-
     as.list(read.dcf(file.path(temp_dir, pac, "DESCRIPTION"))[1, ])
   } else {
     as.list(read.dcf(ee)[1, ])

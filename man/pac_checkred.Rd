@@ -21,7 +21,7 @@ pac_checkred(
 logical if the package fail under specified criteria.
 }
 \description{
-using R CRAN package check page to validate if there are ANY error and/or warning and/or note.
+using R CRAN package check page to validate if there are ANY errors and/or warnings and/or notes.
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.

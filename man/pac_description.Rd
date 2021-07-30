@@ -21,7 +21,7 @@ pac_description(pac, version = NULL, at = NULL, local = FALSE, lib.loc = NULL)
 list with names proper for DESCRIPTION file fields.
 }
 \description{
-package DESCRIPTION file taken locally or if remotely then from GITHUB CRAN mirror or CRAN website.
+package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.

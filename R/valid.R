@@ -23,9 +23,9 @@
 #' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` or `checkred` turned on.
 #' Results are NOT cached with `memoise` package, as `mclapply` function is used.
-#' For `lifeduration` and `checkred` options there is used `parallel::mclapply` function.
+#' For `lifeduration` and `checkred` options there is used the `parallel::mclapply` function.
 #' Remember that `parallel::mclapply` under Windows works like the regular `lapply` function.
-#' To set higher number of cores use code like `options(mc.cores = parallel::detectCores() - 1)` at the beginning of the session.
+#' To set higher number of cores use code like `options(mc.cores = parallel::detectCores() - 1)` at the beginning of your session.
 #' @export
 #' @examples
 #' lib_validate()

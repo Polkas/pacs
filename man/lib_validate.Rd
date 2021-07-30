@@ -46,9 +46,9 @@ Version.expected.min column not count packages which are not a dependency for an
 When turn on the \code{lifeduration} and/or \code{checkred} options, calculations might be time consuming.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} or \code{checkred} turned on.
 Results are NOT cached with \code{memoise} package, as \code{mclapply} function is used.
-For \code{lifeduration} and \code{checkred} options there is used \code{parallel::mclapply} function.
+For \code{lifeduration} and \code{checkred} options there is used the \code{parallel::mclapply} function.
 Remember that \code{parallel::mclapply} under Windows works like the regular \code{lapply} function.
-To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 1)} at the beginning of the session.
+To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 1)} at the beginning of your session.
 }
 \examples{
 lib_validate()

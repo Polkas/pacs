@@ -42,8 +42,8 @@ data.frame with packages and their versions. Versions are taken from \code{insta
 Package dependencies from DESCRIPTION files with installed or expected versions or newest released.
 }
 \note{
-When invoke in the loop then use code like that to aggregate the results,
-\code{stats::aggregate(result[, c("Version"), drop = FALSE], list(Package = result$Package), pacs::compareVersionsMax)}.
+When function is invoked in the loop afterwards binded results could be aggregated like,
+\code{stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)}.
 }
 \examples{
 pacs::pac_deps("stats", base = TRUE)$Package
