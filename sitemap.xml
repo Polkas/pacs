@@ -63,28 +63,4 @@
   <url>
     <loc>/reference/pacs_base.html</loc>
   </url>
-  <url>
-    <loc>/reference/pacs_checkred.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pacs_deps.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pacs_description.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pacs_health.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pacs_lifeduration.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pacs_size.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pacs_timemachine.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pacs_validate.html</loc>
-  </url>
 </urlset>
