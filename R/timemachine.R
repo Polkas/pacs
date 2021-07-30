@@ -31,7 +31,7 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
     return(cran_page)
   }
 
-  result$Archived <- as.Date(c(result$Released[-1], cran_page$Released), origin = "1970-01-01")
+  result$Archived <- as.Date(c(result$Released[-1], cran_page$Released))
   result$Life_Duration <- result$Archived - result$Released
   f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size")
   result <- rbind(result[, f_cols], cran_page[, f_cols])
@@ -64,7 +64,7 @@ pac_cran_recent_raw <- function(pac) {
 
     data.frame(
       Package = pac,
-      Released = cran_released,
+      Released = as.Date(cran_released),
       Size = NA,
       Description = NA,
       Version = cran_v,

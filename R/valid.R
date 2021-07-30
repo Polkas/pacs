@@ -61,7 +61,7 @@ lib_validate <- function(lib.loc = NULL,
   result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
 
   newest_df <- merge(available_packages(repos = repos)[, c("Package", "Version")],
-        installed_packages(lib.loc = lib.loc)[, c("Package", "Version")],
+                     installed_agg[, c("Package", "Version")],
         by = "Package",
         sort = FALSE
   )
@@ -76,12 +76,12 @@ lib_validate <- function(lib.loc = NULL,
 
   if (checkred) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
-    result$checkred <- unlist(parallel::mclapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x])))
+    result$checkred <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x])), function(z) if (length(z) == 0) NA else z, logical(1))
   }
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- unlist(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package"], result[x, "Version.have"], repos = repos)))
+    result$life_duration <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos)), function(z) if (length(z) == 0) NA_real_ else z, numeric(1))
   }
 
   result
@@ -149,7 +149,7 @@ pac_validate <- function(pac, lib.loc = NULL,
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package"], result[x, "Version.have"], repos = repos), logical(1))
+    result$life_duration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos), numeric(1))
   }
 
   result
