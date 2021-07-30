@@ -15,8 +15,8 @@
 
 | Function                            | Description                                                 | 
 |:------------------------------------|:--------------------------------------------------|
-|`lib_validate`                       | Validating the library                            |
-|`pac_validate`             | Package validation              |
+|`lib_validate`                       | Validate the local library          |
+|`pac_validate`             | Validate a specific local package              |
 |`pac_deps`               |  Package dependencies with installed or expected versions |
 |`pac_deps_timemachine`|  Package dependencies for certain version or time point|
 |`pac_description` | Package DESCRIPTION file at Date or for a certain version      |
@@ -28,21 +28,21 @@
 |`pac_true_size`                      | True size of the package (with dependencies)| 
 |`pacs_base`                          | R base packages                               |
 |`pac_last`|  The most recent package version|
-|`pac_checkred` |   Checking the package CRAN check page status for any errors and warnings |
+|`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
 
-Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
+**Hint**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-Hint2: Almost all time consuming calculations are cached (for 1 hour) with `memoise` package, second invoke of the same call is instantaneous. For `lib_validate` function so when `parallel::mclapply` is used results are not cached.
+**Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise` package, second invoke of the same call is instantaneous. For `lib_validate` function so when `parallel::mclapply` is used results are not cached.
 
-Hint3: Use `mclapply` (not for Windows) to speed up calculations, although under multithreating computation results are NOT cached with `memoise` package. Simply invoke at the beginning of the session `options(mc.cores = parallel::detectCores() - 1)` and use `parallel::mclapply` instead of `lapply`.
+**Hint3**: Use `mclapply` (not for Windows) to speed up calculations, although under multithreating computation results are NOT cached with `memoise` package. Simply invoke at the beginning of the session `options(mc.cores = parallel::detectCores() - 1)` and use `parallel::mclapply` instead of `lapply`.
 
-Hint4: When your library have more than a few thousand packages (`nrow(utils::installed.packages())`), please be patient when running Internet based functions. Optionally the third hint could be applied, so use of `parallel::mclapply`. Ps. Now, the whole R CRAN library contains around 17 thousands packages.
+**Hint4**: When your library have more than a few thousand packages (`nrow(utils::installed.packages())`), please be patient when running Internet based functions. Optionally the third hint could be applied, so use of `parallel::mclapply`. Ps. Now, the whole R CRAN library contains around 17 thousands packages.
 
 ## Validate the library
 
 This procedure will be crucial for R developers as clearly showing the possible broken packages inside a library. Thus we could assess which packages require versions update.
 
-Default validation of library.
+Default validation of the library.
 
 ```r
 pacs::lib_validate()
@@ -56,8 +56,8 @@ pacs::lib_validate(lifeduration = TRUE, checkred = TRUE)
 
 ### Package Weight Case Study: `devtools`
 
-Take into account that the size is appropriate for you system `Sys.info()`.
-Installation with `install.packages` and some `devtools` functions might result in different package sizes.
+Take into account that packages sizes are appropriate for you local system (`Sys.info()`).
+Installation with `install.packages` and some `devtools` functions might result in different packages sizes.
 
 ```r
 # if not have
@@ -65,14 +65,14 @@ install.packages("devtools")
 install.packages("shiny")
 ```
 
-Size of a package:
+Size of the `devtools` package:
 
 ```r
 cat(pacs::pac_size("devtools") / 10**6, "MB", "\n")
 ```
 
-True size of a package as taking into account its dependencies.
-At the time of writing it, it is `113MB` for `devtools` without base packages (Mac OS arm64).
+True size of the package as taking into account its dependencies.
+At the time of writing it, it is `113MB` for `devtools` without base packages (`Mac OS arm64`).
 
 ```r
 cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")
@@ -80,7 +80,7 @@ cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")
 
 A reasonable assumption might be to count only dependencies which are not used by any other package.
 Then we could use `exclude_joint` argument to limit them.
-However hard to assume if your local installation is a reasonable proxy for average user.
+However hard to assume if your local installation is a reasonable proxy for an average user.
 
 ```
 # exclude packages if at least one other package use it too
@@ -106,7 +106,7 @@ pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"
 pac_timemachine("dplyr", at = Sys.Date())
 ```
 
-CRAN packages Date mirror - will take some time (even few minutes):
+CRAN packages mirror at Date - will take some time (even few minutes):
 
 ```r
 all_timemachine <- lapply(rownames(installed.packages()), function(x) pac_timemachine(x, at = as.Date("2020-08-08")))
@@ -117,7 +117,7 @@ all_timemachine <- mclapply(rownames(installed.packages()), function(x) pac_time
 
 ## Package health
 
-We could find out if a certain package version was live more than 14 days (or other updated). 
+We could find out if a certain package version was lived more than 14 days (or other x limit days). 
 If not then we might assume something wrong was with it, as had to be quickly updated.
 
 e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could find out that it was published only for 1 day.
@@ -126,7 +126,7 @@ e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could fi
 pac_lifeduration("dplyr", "0.8.0")
 ```
 
-With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than x days) we are checking if there are any red messages on CRAN check pages.
+With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than 14 days ago) we are checking if there are any red messages on CRAN check pages.
 
 ```r
 pac_health("dplyr", version = "0.8.0", limit = 14)
@@ -143,22 +143,22 @@ all_pacs_health <- mclapply(rownames(installed.packages()), function(x) pacs_hea
 
 ## Package DESCRIPTION file
 
-Reading a raw `dcf` file DESCRIPTION files scrapped from the github CRAN mirror or if not worked from the CRAN website. 
+Reading raw `dcf` DESCRIPTION files scrapped from the github CRAN mirror or if not worked from the CRAN website. 
 
 ```r
 pac_description("dplyr", version = "0.8.0")
 pac_description("dplyr", at = as.Date("2019-01-01"))
 ```
 
-## Dependencies for version and remote one
+## Dependencies for specific version
 
-For newest release.
+For the newest release.
 
 ```r
 pacs::pac_deps("devtools", local = FALSE)$Package
 ```
 
-For certain version, might take some time.
+For a certain version, might take some time.
 
 ```r
 pacs::pac_deps_timemachine("dplyr", version = "0.8.1")
@@ -167,7 +167,7 @@ pacs::pac_deps_timemachine("dplyr", version = "0.8.1")
 ## Package dependencies and differences between versions
 
 The crucial functionality is to get versions for all package dependencies. 
-Versions might come form installed packages or all DESCRIPTION files.
+Versions might come form installed packages or DESCRIPTION files.
 
 Useful functions to get list of base packages. 
 You might want to exclude them from final results.
@@ -178,19 +178,19 @@ pacs_base()
 pacs_base(startup = TRUE)
 ```
 
-`pac_deps` for extremely fast retrieve of package dependencies, 
-packages versions might come from installed ones or from description files (required minimum).
+`pac_deps` for an extremely fast retrieving of package dependencies, 
+packages versions might come from installed ones or from DESCRIPTION files (required minimum).
 
 ```r
 # Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
 # pacs::package_deps is providing the min required version for each package
 # Use it to answer what we should have
-res <- pacs::pac_deps("shiny")
+res <- pacs::pac_deps("shiny", description_v = TRUE)
 res
 attributes(res)
 ```
 
-Packages dependencies with versions from description files.
+Packages dependencies with versions from DESCRIPTION files.
 
 ```r
 pacs::pac_deps("shiny", description_v = TRUE)

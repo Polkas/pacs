@@ -1,4 +1,4 @@
-#' Package dependencies for a certain version or time point.
+#' Package dependencies for a certain version or time point
 #' @description Package dependencies from DESCRIPTION files retrieved recursively for certain version or time point.
 #' @param pac character a package name.
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`

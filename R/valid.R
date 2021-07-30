@@ -1,4 +1,4 @@
-#' Validate the local library.
+#' Validate the local library
 #' @description
 #' Checking if installed packages have correct versions taking into account all DESCRIPTION files requirements.
 #' Moreover identifying which packages are newest releases.

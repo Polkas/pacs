@@ -2,7 +2,7 @@
 % Please edit documentation in R/deps_timemachine.R
 \name{pac_deps_timemachine}
 \alias{pac_deps_timemachine}
-\title{Package dependencies for a certain version or time point.}
+\title{Package dependencies for a certain version or time point}
 \usage{
 pac_deps_timemachine(
   pac,
