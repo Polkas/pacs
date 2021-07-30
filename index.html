@@ -272,19 +272,11 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.4.0"</span>, <span class="st">"1.6.0"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="packages-dependencies" class="section level2">
-<h2 class="hasAnchor">
-<a href="#packages-dependencies" class="anchor" aria-hidden="true"></a>Packages dependencies</h2>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">all_deps</span> <span class="op">&lt;-</span> <span class="fu">pacs_deps</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs_deps</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"stats"</span>, <span class="st">"shiny"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-</div>
 <div id="packages-versions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#packages-versions" class="anchor" aria-hidden="true"></a>packages versions</h2>
 <p>Small guide how to work with packages versions (“package_version” and “numeric_version” classes).</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># if you do not remember a calss name use class(packageVersion("base"))</span>
 <span class="va">v1</span> <span class="op">&lt;-</span> <span class="fu">`class&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"package_version"</span>, <span class="st">"numeric_version"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">v2</span> <span class="op">&lt;-</span> <span class="fu">`class&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"package_version"</span>, <span class="st">"numeric_version"</span><span class="op">)</span><span class="op">)</span>
@@ -299,7 +291,7 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 <h2 class="hasAnchor">
 <a href="#bonus---base-solutions" class="anchor" aria-hidden="true"></a>Bonus - base solutions</h2>
 <p>What we have now:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># installed packages might be misleading as the current installation could be unhealthy</span>
 <span class="co"># Installation (utils::installed.packages()) might be easy broken with e.g. devtools::install_version</span>
 <span class="va">install_pacs</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span>
@@ -311,7 +303,7 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 <span class="va">deps_pacs</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/package_dependencies.html" class="external-link">package_dependencies</a></span><span class="op">(</span><span class="st">"shiny"</span>, db <span class="op">=</span> <span class="va">avail_pacs</span>, recursive <span class="op">=</span> <span class="cn">T</span>, which <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="va">avail_pacs</span><span class="op">[</span><span class="va">avail_pacs</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Package"</span><span class="op">)</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">deps_pacs</span>, <span class="op">]</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Package"</span>, <span class="st">"Version"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>Dependencies in both directions:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For certain fields (which) please use at least R 4.1.0</span>
 <span class="co"># default on utils::available.packages - remote R mirror</span>
 <span class="co"># unfortunately omitting versions</span>
