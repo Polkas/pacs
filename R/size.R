@@ -5,7 +5,7 @@
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
-#' cat(pacs::pacs_size("stats") / 10**6, "MB")
+#' cat(pacs::pac_size("stats") / 10**6, "MB")
 pac_size <- function(pac, lib.loc = NULL) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
@@ -16,33 +16,6 @@ pac_size <- function(pac, lib.loc = NULL) {
   } else {
     dir_size(found)
   }
-}
-
-#' Size of packages.
-#' @description size of packages.
-#' @param pacs character vector packages.
-#' @param lib.loc character vector. Default: NULL
-#' @return numeric vector sizes in bytes, to get MB ten divide by `10**6`.
-#' @export
-#' @examples
-#' cat(pacs::pacs_size("stats") / 10**6, "MB")
-pacs_size <- function(pacs = NULL, lib.loc = NULL) {
-  stopifnot(is.null(pacs) || is.character(pacs))
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
-
-  if (!is.null(pacs)) {
-    tocheck <- pacs
-  } else {
-    tocheck <- rownames(installed_packages(lib.loc = lib.loc))
-  }
-
-  dirs <- vapply(
-    tocheck,
-    function(p) pac_size(p, lib.loc = lib.loc),
-    numeric(1)
-  )
-
-  stats::setNames(dirs, tocheck)
 }
 
 #' Package true size
@@ -73,5 +46,5 @@ pac_true_size <- function(pac,
     pacs_all <- setdiff(pacs_all, names(Filter(function(x) length(x) > exclude_joint, depsy)))
   }
 
-  sum(pacs_size(unique(c(pac, setdiff(pacs_all, "R"))), lib.loc = lib.loc))
+  sum(vapply(unique(c(pac, setdiff(pacs_all, "R"))), function(x) pac_size(x, lib.loc = lib.loc), numeric(1)))
 }

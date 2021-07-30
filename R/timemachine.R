@@ -56,33 +56,6 @@ pac_timemachine <- function(pac, at = NULL, from = NULL, to = NULL, version = NU
   }
 }
 
-#' Packages versions at a specific Date or a Date interval
-#' @description using CRAN website to get packages version/versions used at a specific Date or a Date interval.
-#' @param pacs character vector packages names.
-#' @param at Date old version of package. Default: NULL
-#' @param from Date new version of package. Default: NULL
-#' @param to Date CRAN URL. Default: NULL
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
-#' @return data.frame
-#' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
-#' For bigger lists might need a few minutes.
-#' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
-#' The base part of URL in the result is `https://cran.r-project.org/src/contrib/`.
-#' Results are cached for 1 hour with `memoise` package.
-#' There is used `parallel::mclapply` function.
-#' Remember that `mclaply` under Windows works like the regular `lapply` function.
-#' To set higher number of cores use code like `options(mc.cores = parallel::detectCores() - 2)` at the beginning of the session.
-#' @export
-#' @examples
-#' pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
-#' pacs_timemachine(c("dplyr", "memoise"), at = Sys.Date())
-pacs_timemachine <- function(pacs, at = NULL, from = NULL, to = NULL,  repos = "https://cran.rstudio.com/") {
-  pacs_cran <- intersect(pacs, rownames(available_packages(repos = repos)))
-  pacs_skip <- setdiff(pacs, pacs_cran)
-  if (length(pacs_skip)) cat("Skipping non CRAN packages", pacs_skip, "\n")
-  stats::setNames(parallel::mclapply(pacs_cran, function(pac) pac_timemachine(pac, at, from, to, repos)), pacs_cran)
-}
-
 pac_cran_recent_raw <- function(pac) {
   cran_page <- try(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac)), silent = TRUE)
   if (!inherits(cran_page, "try-error")) {

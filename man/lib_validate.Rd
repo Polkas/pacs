@@ -45,10 +45,10 @@ Optionally we could add life duration and CRAN check page status for each packag
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 When turn on the \code{lifeduration} and/or \code{checkred} options, calculations might be time consuming.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} or \code{checkred} turned on.
-Results are cached for 1 hour with \code{memoise} package, memory cache.
+Results are NOT cached with \code{memoise} package, as \code{mclapply} function is used.
 For \code{lifeduration} and \code{checkred} options there is used \code{parallel::mclapply} function.
 Remember that \code{mclaply} under Windows works like the regular \code{lapply} function.
-To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 2)} at the beginning of the session.
+To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 1)} at the beginning of the session.
 }
 \examples{
 lib_validate()

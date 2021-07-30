@@ -1,3 +1,8 @@
+# 0.2.7
+
+* Removed all `pacs` functions, as giving sb freedom to used different loop functions.
+* Added a hint to use `mclapply` for non Windows users.
+
 # 0.2.6
 
 * Replace `gregexec` with a `stringi` function, as not supported on older R versions.

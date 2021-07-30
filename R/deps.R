@@ -10,6 +10,8 @@
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame with packages and their versions. Versions are taken from `installed.packages` or newest released.
+#' @note When invoke in the loop then use code like that to aggregate the results,
+#' `stats::aggregate(result[, c("Version"), drop = FALSE], list(Package = result$Package), pacs::compareVersionsMax)`.
 #' @export
 #' @examples
 #' pacs::pac_deps("stats", base = TRUE)$Package
@@ -107,65 +109,4 @@ pac_deps <- function(pac,
   }
 
   res_df
-}
-
-#' Packages dependencies
-#' @description Package dependencies from DESCRIPTION files with installed or expected versions or newest released.
-#' @param pacs character vector of packages.
-#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
-#' @param attr logical specify if package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE
-#' @param base logical if to add base packages too. Default: FALSE
-#' @param local logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE
-#' @param description_v if the dependencies version should be taken from description files, minimal required. Default: FALSE#'
-#' @param attr logical specify if package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: FALSE
-#' @param recursive logical if to assess the dependencies recursively. Default: TRUE
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
-#' @return data.frame with packages and their versions. Versions are taken from `installed.packages` or newest released.
-#' Result are aggregated with taking the highest version across duplicated packages.
-#' @export
-#' @examples
-#' pacs_deps(c("stats", "base"), base = TRUE, attr = FALSE)
-pacs_deps <- function(pacs = NULL,
-                      fields = c("Depends", "Imports", "LinkingTo"),
-                      lib.loc = NULL,
-                      base = FALSE,
-                      local = TRUE,
-                      description_v = FALSE,
-                      attr = TRUE,
-                      recursive = TRUE,
-                      repos = "https://cran.rstudio.com/") {
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
-  stopifnot(is.null(pacs) || is.character(pacs))
-  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
-  stopifnot(is.logical(base))
-  stopifnot(is.logical(attr))
-  stopifnot(is.logical(recursive))
-  stopifnot(is.character(repos))
-
-  if (!is.null(pacs)) {
-    tocheck <- pacs
-  } else {
-    tocheck <- rownames(installed_packages(lib.loc = lib.loc))
-  }
-
-  dfs <- do.call(rbind, lapply(seq_along(tocheck), function(x) {
-    pac_deps(tocheck[x],
-      fields = fields,
-      lib.loc = lib.loc,
-      attr = attr,
-      base = base,
-      local = local,
-      recursive = recursive,
-      description_v = description_v,
-      repos = repos
-    )
-  }))
-
-  if (nrow(dfs) > 0) {
-    # higher version have a priority
-    stats::aggregate(dfs[, c("Version"), drop = FALSE], list(Package = dfs$Package), compareVersionsMax)
-  } else {
-    dfs
-  }
 }

@@ -15,23 +15,27 @@
 
 | Function                            | Description                                                 | 
 |:------------------------------------|:------------------------------------------------------------|
-|`lib_validate`                       | Validating the library                                      |
-|`pac_validate`/`pacs_validate`       | Package/s: Validation              |
-|`pac_deps`/`pacs_deps`               |  Package/s dependencies with installed or expected versions |
-|`pac_deps_timemachine`/`pacs_deps_timemachine`|  Package/s dependencies for certain version or time point|
-|`pac_description`/`pacs_description` | Package/s description at Date or for a certain version      |
-|`pac_lifeduration`/`pacs_lifeduration` | Package/s version/s life duration  |
-|`pac_health`/`pacs_health`           | Package/s health    |
-|`pac_size`/`pacs_size`               | Size of the package/s                                       | 
-|`pac_timemachine`/`pacs_timemachine` | Package/s version/s at a specific Date or a Date interval   |
+|`lib_validate`                       | Validating the library                              |
+|`pac_validate`       | Package/s: Validation              |
+|`pac_deps`               |  Package/s dependencies with installed or expected versions |
+|`pac_deps_timemachine`|  Package/s dependencies for certain version or time point|
+|`pac_description` | Package/s description at Date or for a certain version      |
+|`pac_lifeduration` | Package/s version/s life duration  |
+|`pac_health`           | Package/s health    |
+|`pac_size`             | Size of the package/s                                       | 
+|`pac_timemachine` | Package/s version/s at a specific Date or a Date interval   |
 |`pac_compare_versions`               | Compare dependencies of specific package versions           |
 |`pac_true_size`                      | True size of the package (with dependencies too)            | 
 |`pacs_base`                          | R base packages                                             |
-|`pac_checkred`/`pacs_checkred`                          |   Checking a package CRAN check page status for any errors and warnings |
+|`pac_checkred`                         |   Checking a package CRAN check page status for any errors and warnings |
 
 Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-Hint2: all time consuming calculations are cached (for 1 hour) with `memoise` package, second invoke of the same call is instantaneous.
+Hint2: Almost all time consuming calculations are cached (for 1 hour) with `memoise` package, second invoke of the same call is instantaneous. For `lib_validate` function so when `parallel::mclapply` is used results are not cached.
+
+Hint3: Use `mclapply` (not for Windows) to speed up calculations, although under multithreating computation results are NOT cached with `memoise` package. Simply invoke at the beginning of the session `options(mc.cores = parallel::detectCores() - 1)` and use `parallel::mclapply` instead of `lapply`.
+
+Hint4: When your library have more than a few thousand packages (`nrow(utils::installed.packages())`), please be patient when running Internet based functions. Optionally the third hint could be applied, so use of `parallel::mclapply`. Ps. Now, the whole R CRAN library contains around 17 thousands packages.
 
 ## Validate the library
 
@@ -95,20 +99,19 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 
 ```r
 pac_timemachine("dplyr")
+pac_timemachine("dplyr", version = "0.8.0")
 pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 pac_timemachine("dplyr", at = Sys.Date())
 ```
 
-```r
-pacs_timemachine(c("dplyr", "shiny"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01"))
-pacs_timemachine(c("dplyr", "shiny"), at = Sys.Date())
-```
-
 CRAN packages Date mirror - will take some time (even few minutes):
 
 ```r
-pacs_timemachine(rownames(installed.packages()), at = as.Date("2020-08-08"))
+all_timemachine <- lapply(rownames(installed.packages()), function(x) pac_timemachine(x, at = as.Date("2020-08-08")))
+# parallely for non Windows machines
+options(mc.cores = parallel::detectCores() - 1) # once per session
+all_timemachine <- mclapply(rownames(installed.packages()), function(x) pac_timemachine(x, at = as.Date("2020-08-08")))
 ```
 
 ## Package health
@@ -131,7 +134,10 @@ pac_health("dplyr", version = "0.8.0", limit = 14)
 All packages health, skip non CRAN packages - will take some time (even few minutes):
 
 ```r
-all_pacs_health <- pacs_health(rownames(installed.packages()))
+all_pacs_health <- lapply(rownames(installed.packages()), function(x) pacs_health(x))
+# parallely for non Windows machines
+options(mc.cores = parallel::detectCores() - 1) # once per session
+all_pacs_health <- mclapply(rownames(installed.packages()), function(x) pacs_health(x))
 ```
 
 ## Package DESCRIPTION file
@@ -141,13 +147,6 @@ Reading a raw `dcf` file DESCRIPTION files scrapped from CRAN website.
 ```r
 pac_description("dplyr", version = "0.8.0")
 pac_description("dplyr", at = as.Date("2019-01-01"))
-```
-
-For many packages:
-
-```r
-pacs_description(c("dplyr", "shiny"), version = c("0.8.0", "1.5.0"))
-pacs_description(c("dplyr", "shiny"), at = as.Date("2019-01-01"))
 ```
 
 ## Dependencies for version and remote one

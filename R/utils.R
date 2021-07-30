@@ -287,26 +287,3 @@ pac_checkred <- function(pac, scope = c("ERROR", "WARN"), repos = "https://cran.
 
   is_red_check_raw(pac, scope, repos = repos)
 }
-
-#' Checking the R CRAN packages check pages statuses
-#' @description using R CRAN packages check pages to validate if there are ANY error and/or warning and/or note.
-#' @param pacs character vector packages names.
-#' @param scope character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
-#' @return logical named vector if packages fail under specified criteria.
-#' @note Results are cached for 1 hour with `memoise` package.
-#' @export
-#' @examples
-#' pacs_checkred(c("dplyr", "devtools"))
-#' pacs_checkred("dplyr", scope = c("ERROR"))
-pacs_checkred <- function(pacs, scope = c("ERROR", "WARN", "NOTE"), repos = "https://cran.rstudio.com/") {
-  stopifnot(all(scope %in% c("ERROR", "WARN", "NOTE")))
-  stopifnot(is.null(pacs) || is.character(pacs))
-
-  checks <- unlist(parallel::mclapply(
-    pacs,
-    function(p) is_red_check_raw(p, scope, repos)
-  ))
-
-  stats::setNames(checks, pacs)
-}

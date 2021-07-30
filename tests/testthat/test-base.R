@@ -30,11 +30,6 @@ test_that("pacs::pac_deps", {
   expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)) == 2)
 })
 
-test_that("pacs::pacs_deps", {
-  expect_true(nrow(pacs_deps(c("stats", "tools", "methods"), base = TRUE)) > 0)
-  expect_true(nrow(pacs_deps(c("stats", "tools", "methods"), base = TRUE, description_v = T)) > 0)
-})
-
 test_that("dir_size", {
   current_dir <- dir_size(".")
   expect_true(current_dir > 0)
@@ -44,20 +39,11 @@ test_that("pacs::pac_size", {
   expect_true(pacs::pac_size("stats") > 0)
 })
 
-test_that("pacs::pacs_size", {
-  expect_true(length(pacs::pacs_size(c("stats", "methods"))) > 0)
-  expect_true(sum(pacs::pacs_size(c("stats", "methods"))) > 0)
-})
-
 test_that("pacs::pac_true_size", {
   stats_size <- pacs::pac_true_size("stats") / 10**6
   expect_true(stats_size > 1)
   stats_size2 <- pacs::pac_true_size("stats", exclude_joint = 1L)
   expect_equal(stats_size2, pac_size("stats"))
-})
-
-test_that("pacs::pacs_size", {
-  expect_true(length(pacs_size()) > 1)
 })
 
 test_that("pacs_base", {
@@ -84,63 +70,18 @@ if (is_online()) {
     expect_true(nrow(pac_validate("stats")) == 0)
   })
 
-  test_that("pac_validate", {
-    expect_true(nrow(pacs_validate(c("stats", "graphics"))) == 0)
-  })
-
   test_that("pac_timemachine", {
     expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"))$Version == "1.0.0")
     expect_true(nrow(pac_timemachine("memoise", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 2)
-  })
-
-  test_that("pacs_timemachine", {
-    expect_identical(
-      vapply(
-        pacs_timemachine(c("dplyr", "memoise"), from = as.Date("2018-06-30"), to = as.Date("2019-01-01")),
-        function(x) nrow(x),
-        numeric(1)
-      ),
-      c(dplyr = 3, memoise = 1)
-    )
-    expect_identical(
-      vapply(
-        pacs_timemachine(c("dplyr", "memoise"), at = Sys.Date()),
-        function(x) nrow(x),
-        numeric(1)
-      ),
-      c(dplyr = 1, memoise = 1)
-    )
   })
 
   test_that("pac_lifeduration", {
     expect_true(pac_lifeduration("dplyr", version = "0.8.0") == 1)
   })
 
-  test_that("pac_lifeduration", {
-    expect_true(length(pacs_lifeduration(c("dplyr", "memoise"))) == 2)
-    expect_identical(names(pacs_lifeduration(c("dplyr", "memoise"))), c("dplyr", "memoise"))
-  })
-
   test_that("pac_health", {
     expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")))
     expect_true(is.logical(pac_health("dplyr")))
-  })
-
-  test_that("pacs_health", {
-    expect_equal(
-      pacs_health(c("dplyr", "devtools"),
-        versions = c("0.8.0", "2.4.0")
-      ),
-      stats::setNames(
-        list(
-          FALSE,
-          TRUE
-        ),
-        c("dplyr", "devtools")
-      )
-    )
-
-    expect_true(is.logical(unlist(pacs_health(c("dplyr", "devtools")))))
   })
 
   test_that("pac_description", {
@@ -149,15 +90,8 @@ if (is_online()) {
                                       pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
   })
 
-  test_that("pacs_description", {
-    expect_true(length(pacs_description(c("dplyr", "memoise"), version = c("0.8.1", "1.0.0"))) == 2)
-  })
-
   test_that("pac_checkred", {
     expect_true(is.logical(pac_checkred("survival")))
   })
 
-  test_that("pacs_checkred", {
-    expect_true(is.logical(pacs_checkred(c("survival", "MASS"))))
-  })
 }
