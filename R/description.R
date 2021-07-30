@@ -1,4 +1,4 @@
-#' package DESCRIPTION file
+#' Package DESCRIPTION file
 #' @description package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 #' @param pac character a package name.
 #' @param version character package version. Default: NULL

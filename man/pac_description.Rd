@@ -2,7 +2,7 @@
 % Please edit documentation in R/description.R
 \name{pac_description}
 \alias{pac_description}
-\title{package DESCRIPTION file}
+\title{Package DESCRIPTION file}
 \usage{
 pac_description(pac, version = NULL, at = NULL, local = FALSE, lib.loc = NULL)
 }

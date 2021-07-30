@@ -194,6 +194,12 @@ last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem
 #' @examples
 #' pac_last("dplyr")
 pac_last <- function(pac, repos = "https://cran.rstudio.com/") {
+  stopifnot((length(pac) == 1) && is.character(pac))
+  stopifnot(is.character(repos))
+
+  if (!pac %in% rownames(available_packages(repos = repos))) {
+    return(NA)
+  }
   last_version_fun(pac, repos = repos)
 }
 
@@ -297,6 +303,8 @@ get_cran_check_page <- memoise::memoise(get_cran_check_page_raw, cache = cachem:
 #' pac_checkred("dplyr", scope = c("ERROR"))
 pac_checkred <- function(pac, scope = c("ERROR", "WARN"), repos = "https://cran.rstudio.com/") {
   stopifnot(all(scope %in% c("ERROR", "WARN", "NOTE")))
+  stopifnot((length(pac) == 1) && is.character(pac))
+  stopifnot(is.character(repos))
 
   is_red_check_raw(pac, scope, repos = repos)
 }
