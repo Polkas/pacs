@@ -27,6 +27,7 @@
 |`pac_compare_versions`               | Compare dependencies of specific package versions           |
 |`pac_true_size`                      | True size of the package (with dependencies too)            | 
 |`pacs_base`                          | R base packages                                             |
+|`pac_last`|  The most recent package version|
 |`pac_checkred`                         |   Checking a package CRAN check page status for any errors and warnings |
 
 Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
@@ -142,7 +143,7 @@ all_pacs_health <- mclapply(rownames(installed.packages()), function(x) pacs_hea
 
 ## Package DESCRIPTION file
 
-Reading a raw `dcf` file DESCRIPTION files scrapped from CRAN website. 
+Reading a raw `dcf` file DESCRIPTION files scrapped from the github CRAN mirror or if not worked from the CRAN website. 
 
 ```r
 pac_description("dplyr", version = "0.8.0")
@@ -207,8 +208,16 @@ Raw dependencies from DESCRIPTION file
 pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
 ```
 
-This is for sure something new on the R market.
-comparing dependencies per package versions.
+Comparing DESCRIPTION file dependencies between local and newest package.
+This might fail if you already have a newest package.
+
+```r
+pacs::pac_compare_versions("shiny", 
+                           pacs::pac_description("shiny", local = TRUE)$Version,
+                           pacs::pac_last("shiny"))
+```
+
+Comparing DESCRIPTION file dependencies between package versions.
 
 ```r
 pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")

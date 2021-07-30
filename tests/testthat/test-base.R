@@ -95,5 +95,13 @@ if (is_online()) {
                                       pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
   })
 
+  test_that("pac_last", {
+    expect_identical(
+    unname(available.packages(repos = "https://cran.rstudio.com/", filters = list(
+      function (db) db[db[,"Package"] == "dplyr", ]
+    ))["Version"]),
+    pac_last("dplyr", repos = "https://cran.rstudio.com/")
+    )
+  })
 
 }

@@ -1,3 +1,9 @@
+# 0.2.8
+
+* Added `pac_last` to check the most recent package version.
+* Added additional usage example `pacs::pac_compare_versions` in `README` file. 
+* CRAN version 0.2.8 .
+
 # 0.2.7
 
 * Removed all `pacs` functions, to give somebody the freedom of using different loop functions.

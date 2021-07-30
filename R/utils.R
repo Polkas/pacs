@@ -178,11 +178,24 @@ extract_deps <- function(x) {
   list(packages = pacs, versions = versions)
 }
 
-last_version_raw <- function(pac) {
+last_version_raw <- function(pac , repos) {
   available_packages()[rownames(available_packages()) == pac, "Version"]
 }
 
 last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem(max_age = 60*60))
+
+#' Getting the most recent package version
+#' @description using `utils::available.packages` to get the newest package version.
+#' @param pac character a package name.
+#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
+#' @return character most recent package version.
+#' @note Results are cached for 1 hour with `memoise` package.
+#' @export
+#' @examples
+#' pac_last("dplyr")
+pac_last <- function(pac, repos = "https://cran.rstudio.com/") {
+  last_version_fun(pac, repos = repos)
+}
 
 is_last_release <- function(pac, version = NULL, at = NULL, lib.loc = NULL, repos = "https://cran.rstudio.com/") {
   stopifnot(xor(!is.null(version), !is.null(at)) || (is.null(version) && is.null(at)))
