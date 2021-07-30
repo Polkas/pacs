@@ -98,11 +98,11 @@
 <tbody>
 <tr class="odd">
 <td align="left"><code>lib_validate</code></td>
-<td align="left">Validating the library</td>
+<td align="left">Validate the local library</td>
 </tr>
 <tr class="even">
 <td align="left"><code>pac_validate</code></td>
-<td align="left">Package validation</td>
+<td align="left">Validate a specific local package</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>pac_deps</code></td>
@@ -150,19 +150,19 @@
 </tr>
 <tr class="even">
 <td align="left"><code>pac_checkred</code></td>
-<td align="left">Checking the package CRAN check page status for any errors and warnings</td>
+<td align="left">Checking the R CRAN package check page status for any errors and warnings</td>
 </tr>
 </tbody>
 </table>
-<p>Hint: <code>Version</code> variable is mostly a minimal required i.e. max(version1, version2 , …)</p>
-<p>Hint2: Almost all time consuming calculations are cached (for 1 hour) with <code>memoise</code> package, second invoke of the same call is instantaneous. For <code>lib_validate</code> function so when <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> is used results are not cached.</p>
-<p>Hint3: Use <code>mclapply</code> (not for Windows) to speed up calculations, although under multithreating computation results are NOT cached with <code>memoise</code> package. Simply invoke at the beginning of the session <code>options(mc.cores = parallel::detectCores() - 1)</code> and use <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> instead of <code>lapply</code>.</p>
-<p>Hint4: When your library have more than a few thousand packages (<code>nrow(utils::installed.packages())</code>), please be patient when running Internet based functions. Optionally the third hint could be applied, so use of <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code>. Ps. Now, the whole R CRAN library contains around 17 thousands packages.</p>
+<p><strong>Hint</strong>: <code>Version</code> variable is mostly a minimal required i.e. max(version1, version2 , …)</p>
+<p><strong>Hint2</strong>: Almost all time consuming calculations are cached (for 1 hour) with <code>memoise</code> package, second invoke of the same call is instantaneous. For <code>lib_validate</code> function so when <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> is used results are not cached.</p>
+<p><strong>Hint3</strong>: Use <code>mclapply</code> (not for Windows) to speed up calculations, although under multithreating computation results are NOT cached with <code>memoise</code> package. Simply invoke at the beginning of the session <code>options(mc.cores = parallel::detectCores() - 1)</code> and use <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> instead of <code>lapply</code>.</p>
+<p><strong>Hint4</strong>: When your library have more than a few thousand packages (<code>nrow(utils::installed.packages())</code>), please be patient when running Internet based functions. Optionally the third hint could be applied, so use of <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code>. Ps. Now, the whole R CRAN library contains around 17 thousands packages.</p>
 <div id="validate-the-library" class="section level2">
 <h2 class="hasAnchor">
 <a href="#validate-the-library" class="anchor" aria-hidden="true"></a>Validate the library</h2>
 <p>This procedure will be crucial for R developers as clearly showing the possible broken packages inside a library. Thus we could assess which packages require versions update.</p>
-<p>Default validation of library.</p>
+<p>Default validation of the library.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>The full library validation require activation of two additional arguments <code>lifeduration</code> and <code>checkred</code>. Additional arguments are on default turned off as are time consuming, assessment might take even few minutes.</p>
@@ -172,18 +172,18 @@
 <h3 class="hasAnchor">
 <a href="#package-weight-case-study-devtools" class="anchor" aria-hidden="true"></a>Package Weight Case Study: <code>devtools</code>
 </h3>
-<p>Take into account that the size is appropriate for you system <code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>. Installation with <code>install.packages</code> and some <code>devtools</code> functions might result in different package sizes.</p>
+<p>Take into account that packages sizes are appropriate for you local system (<code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>). Installation with <code>install.packages</code> and some <code>devtools</code> functions might result in different packages sizes.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># if not have</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
-<p>Size of a package:</p>
+<p>Size of the <code>devtools</code> package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_size.html">pac_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
-<p>True size of a package as taking into account its dependencies. At the time of writing it, it is <code>113MB</code> for <code>devtools</code> without base packages (Mac OS arm64).</p>
+<p>True size of the package as taking into account its dependencies. At the time of writing it, it is <code>113MB</code> for <code>devtools</code> without base packages (<code>Mac OS arm64</code>).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
-<p>A reasonable assumption might be to count only dependencies which are not used by any other package. Then we could use <code>exclude_joint</code> argument to limit them. However hard to assume if your local installation is a reasonable proxy for average user.</p>
+<p>A reasonable assumption might be to count only dependencies which are not used by any other package. Then we could use <code>exclude_joint</code> argument to limit them. However hard to assume if your local installation is a reasonable proxy for an average user.</p>
 <pre><code># exclude packages if at least one other package use it too
 cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")</code></pre>
 <p>Might be useful to check the number of dependencies too:</p>
@@ -202,7 +202,7 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 <span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2017-02-02"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2017-02-02"</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2018-04-02"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>CRAN packages Date mirror - will take some time (even few minutes):</p>
+<p>CRAN packages mirror at Date - will take some time (even few minutes):</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">all_timemachine</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="va">x</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-08-08"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># parallely for non Windows machines</span>
@@ -212,11 +212,11 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 <div id="package-health" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-health" class="anchor" aria-hidden="true"></a>Package health</h2>
-<p>We could find out if a certain package version was live more than 14 days (or other updated). If not then we might assume something wrong was with it, as had to be quickly updated.</p>
+<p>We could find out if a certain package version was lived more than 14 days (or other x limit days). If not then we might assume something wrong was with it, as had to be quickly updated.</p>
 <p>e.g. <code>dplyr</code> under the “0.8.0” version seems to be a broken release, we could find out that it was published only for 1 day.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pac_lifeduration.html">pac_lifeduration</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"0.8.0"</span><span class="op">)</span></code></pre></div>
-<p>With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than x days) we are checking if there are any red messages on CRAN check pages.</p>
+<p>With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than 14 days ago) we are checking if there are any red messages on CRAN check pages.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pac_health.html">pac_health</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span>, limit <span class="op">=</span> <span class="fl">14</span><span class="op">)</span></code></pre></div>
 <p>All packages health, skip non CRAN packages - will take some time (even few minutes):</p>
@@ -229,39 +229,39 @@ Please as a courtesy to the R CRAN, don’t overload their server by constantly 
 <div id="package-description-file" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-description-file" class="anchor" aria-hidden="true"></a>Package DESCRIPTION file</h2>
-<p>Reading a raw <code>dcf</code> file DESCRIPTION files scrapped from the github CRAN mirror or if not worked from the CRAN website.</p>
+<p>Reading raw <code>dcf</code> DESCRIPTION files scrapped from the github CRAN mirror or if not worked from the CRAN website.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pac_description.html">pac_description</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span><span class="op">)</span>
 <span class="fu"><a href="reference/pac_description.html">pac_description</a></span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2019-01-01"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="dependencies-for-version-and-remote-one" class="section level2">
+<div id="dependencies-for-specific-version-and-the-last-one" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dependencies-for-version-and-remote-one" class="anchor" aria-hidden="true"></a>Dependencies for version and remote one</h2>
-<p>For newest release.</p>
+<a href="#dependencies-for-specific-version-and-the-last-one" class="anchor" aria-hidden="true"></a>Dependencies for specific version and the last one</h2>
+<p>For the newest release.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
-<p>For certain version, might take some time.</p>
+<p>For a certain version, might take some time.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps_timemachine.html">pac_deps_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.1"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="package-dependencies-and-differences-between-versions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-dependencies-and-differences-between-versions" class="anchor" aria-hidden="true"></a>Package dependencies and differences between versions</h2>
-<p>The crucial functionality is to get versions for all package dependencies. Versions might come form installed packages or all DESCRIPTION files.</p>
+<p>The crucial functionality is to get versions for all package dependencies. Versions might come form installed packages or DESCRIPTION files.</p>
 <p>Useful functions to get list of base packages. You might want to exclude them from final results.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pacs_base.html">pacs_base</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># start up loaded, base packages</span>
 <span class="fu"><a href="reference/pacs_base.html">pacs_base</a></span><span class="op">(</span>startup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p><code>pac_deps</code> for extremely fast retrieve of package dependencies, packages versions might come from installed ones or from description files (required minimum).</p>
+<p><code>pac_deps</code> for an extremely fast retrieving of package dependencies, packages versions might come from installed ones or from DESCRIPTION files (required minimum).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Providing more than tools::package_dependencies and packrat:::recursivePackageVersion</span>
 <span class="co"># pacs::package_deps is providing the min required version for each package</span>
 <span class="co"># Use it to answer what we should have</span>
-<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"shiny"</span>, description_v <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">res</span>
 <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
-<p>Packages dependencies with versions from description files.</p>
+<p>Packages dependencies with versions from DESCRIPTION files.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"shiny"</span>, description_v <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Remote (newest CRAN) package dependencies with versions.</p>
