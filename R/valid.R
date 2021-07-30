@@ -29,7 +29,7 @@
 #' @export
 #' @examples
 #' lib_validate()
-#'
+#' lib_validate(lifeduration = TRUE, checkred = TRUE)
 lib_validate <- function(lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
