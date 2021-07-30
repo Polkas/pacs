@@ -66,7 +66,7 @@ lib_validate <- function(lib.loc = NULL,
         sort = FALSE
   )
 
-  newest_df$newest <- newest_df$Version.x == newest_df$Version.y
+  newest_df$newest <- as.character(newest_df$Version.x) == as.character(newest_df$Version.y)
 
   result <- merge(result,
                   newest_df[, c("Package", "newest")],
