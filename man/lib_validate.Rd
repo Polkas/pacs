@@ -38,7 +38,7 @@ data.frame with 5/6/7 columns.
 }
 \description{
 Checking if installed packages have correct versions taking into account all DESCRIPTION files requirements.
-Moreover we know which packages are newest releases.
+Moreover identifying which packages are newest releases.
 Optionally we could add life duration and CRAN check page status for each package.
 }
 \note{

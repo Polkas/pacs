@@ -2,7 +2,7 @@
 % Please edit documentation in R/size.R
 \name{pac_true_size}
 \alias{pac_true_size}
-\title{Package true size}
+\title{True size of the package}
 \usage{
 pac_true_size(
   pac,
@@ -24,7 +24,7 @@ pac_true_size(
 numeric size in bytes, to get MB then divide by \code{10**6}.
 }
 \description{
-Package true size as it takes into account its dependencies.
+True size of the package as it takes into account its dependencies.
 }
 \note{
 R base packages are not counted.

@@ -18,8 +18,8 @@ pac_size <- function(pac, lib.loc = NULL) {
   }
 }
 
-#' Package true size
-#' @description Package true size as it takes into account its dependencies.
+#' True size of the package
+#' @description True size of the package as it takes into account its dependencies.
 #' @param pac character a package name.
 #' @param fields character vector, Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector, Default: NULL
