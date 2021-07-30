@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
       </span>
     </div>
 
@@ -180,8 +180,8 @@
     <p>data.frame with packages and their versions. Versions are taken from <code>installed.packages</code> or newest released.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>When invoke in the loop then use code like that to aggregate the results,
-<code>stats::aggregate(result[, c("Version"), drop = FALSE], list(Package = result$Package), pacs::compareVersionsMax)</code>.</p>
+    <p>When function is invoked in the loop afterwards binded results could be aggregated like,
+<code>stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pacs</span><span class='fu'>::</span><span class='fu'>pac_deps</span><span class='op'>(</span><span class='st'>"stats"</span>, base <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Package</span></span>
