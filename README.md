@@ -216,16 +216,6 @@ pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
 pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
 ```
 
-## Packages dependencies
-
-```r
-all_deps <- pacs_deps()
-```
-
-```r
-pacs_deps(c("stats", "shiny"))
-```
-
 ## packages versions
 
 Small guide how to work with packages versions ("package_version" and "numeric_version" classes).

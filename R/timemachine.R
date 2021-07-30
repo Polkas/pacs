@@ -92,7 +92,7 @@ pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_m
 
 pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
-  rr <- try(readLines(paste0("https://cran.r-project.org/", base_archive)), silent = TRUE)
+  rr <- try(readLines(paste0("https://cran.r-project.org", base_archive)), silent = TRUE)
 
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table>", rr)
