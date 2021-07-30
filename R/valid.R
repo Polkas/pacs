@@ -58,7 +58,7 @@ lib_validate <- function(lib.loc = NULL,
 
   result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
 
-  result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
+  result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
   newest_df <- merge(available_packages(repos = repos)[, c("Package", "Version")],
                      installed_agg[, c("Package", "Version")],
