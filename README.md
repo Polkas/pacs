@@ -14,21 +14,21 @@
 - Getting a list of all releases for a specific package.
 
 | Function                            | Description                                                 | 
-|:------------------------------------|:------------------------------------------------------------|
-|`lib_validate`                       | Validating the library                              |
-|`pac_validate`       | Package/s: Validation              |
-|`pac_deps`               |  Package/s dependencies with installed or expected versions |
-|`pac_deps_timemachine`|  Package/s dependencies for certain version or time point|
-|`pac_description` | Package/s description at Date or for a certain version      |
-|`pac_lifeduration` | Package/s version/s life duration  |
-|`pac_health`           | Package/s health    |
-|`pac_size`             | Size of the package/s                                       | 
-|`pac_timemachine` | Package/s version/s at a specific Date or a Date interval   |
-|`pac_compare_versions`               | Compare dependencies of specific package versions           |
-|`pac_true_size`                      | True size of the package (with dependencies too)            | 
-|`pacs_base`                          | R base packages                                             |
+|:------------------------------------|:--------------------------------------------------|
+|`lib_validate`                       | Validating the library                            |
+|`pac_validate`             | Package validation              |
+|`pac_deps`               |  Package dependencies with installed or expected versions |
+|`pac_deps_timemachine`|  Package dependencies for certain version or time point|
+|`pac_description` | Package DESCRIPTION file at Date or for a certain version      |
+|`pac_lifeduration` | Package version life duration  |
+|`pac_health`           | Package version health    |
+|`pac_size`             | Size of the package                                       | 
+|`pac_timemachine` | Package versions at a specific Date or a Date interval   |
+|`pac_compare_versions`               | Compare dependencies between different versions of a package          |
+|`pac_true_size`                      | True size of the package (with dependencies)| 
+|`pacs_base`                          | R base packages                               |
 |`pac_last`|  The most recent package version|
-|`pac_checkred`                         |   Checking a package CRAN check page status for any errors and warnings |
+|`pac_checkred` |   Checking the package CRAN check page status for any errors and warnings |
 
 Hint: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 

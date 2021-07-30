@@ -52,5 +52,4 @@ To set higher number of cores use code like \code{options(mc.cores = parallel::d
 }
 \examples{
 lib_validate()
-
 }
