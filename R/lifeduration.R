@@ -38,7 +38,9 @@ pac_lifeduration <- function(pac,
     if (is_installed) {
     descr <- utils::packageDescription(pac, lib.loc = lib.loc)
     if (isTRUE(utils::compareVersion(descr[["Version"]], last_version) == 0)) {
-      life <- Sys.Date() - as.Date.character(as.character(descr[["Date/Publication"]]), format = "%Y-%m-%d %H:%M:%S UTC")
+      base_date <- descr[["Date/Publication"]]
+      isUTC <- grepl("UTC", base_date)
+      life <- Sys.Date() - as.Date.character(substr(as.character(base_date), 1, 19), format = paste0("%Y-%m-%d %H:%M:%S"))
       return(life)
     } else {
       life <- Sys.Date() - as.Date(pac_description(pac,

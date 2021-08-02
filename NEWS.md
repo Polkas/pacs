@@ -1,3 +1,7 @@
+# 0.2.9
+
+* Fixed `pac_lifeduration`, not work for old packages which do not have UTC in published Date.
+
 # 0.2.8
 
 * Added `pac_last` to check the most recent package version.
@@ -9,7 +13,7 @@
 * Removed all `pacs` functions, to give somebody the freedom of using different loop functions.
 * Added a hint to use `mclapply` for non Windows users.
 * Use `vapply` over the `parallel::mclapply` to be sure about the result length.
-* Added additional `ad.Date` so on older R versions binding is correct.
+* Added additional `as.Date` so on older R versions binding is correct.
 
 # 0.2.6
 
