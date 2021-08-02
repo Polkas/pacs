@@ -293,7 +293,7 @@ get_cran_check_page <- memoise::memoise(get_cran_check_page_raw, cache = cachem:
 #' Checking the R CRAN package check page status
 #' @description using R CRAN package check page to validate if there are ANY errors and/or warnings and/or notes.
 #' @param pac character a package name.
-#' @param scope character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")
+#' @param scope character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return logical if the package fail under specified criteria.
 #' @note Results are cached for 1 hour with `memoise` package.
@@ -301,8 +301,8 @@ get_cran_check_page <- memoise::memoise(get_cran_check_page_raw, cache = cachem:
 #' @examples
 #' pac_checkred("dplyr")
 #' pac_checkred("dplyr", scope = c("ERROR"))
-pac_checkred <- function(pac, scope = c("ERROR", "WARN"), repos = "https://cran.rstudio.com/") {
-  stopifnot(all(scope %in% c("ERROR", "WARN", "NOTE")))
+pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), repos = "https://cran.rstudio.com/") {
+  stopifnot(all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")))
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.character(repos))
 

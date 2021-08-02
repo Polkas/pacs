@@ -8,7 +8,7 @@ lib_validate(
   lib.loc = NULL,
   fields = c("Depends", "Imports", "LinkingTo"),
   lifeduration = FALSE,
-  checkred = FALSE,
+  checkred = character(0),
   repos = "https://cran.rstudio.com/"
 )
 }
@@ -19,7 +19,7 @@ lib_validate(
 
 \item{lifeduration}{logical if to add life duration column, might take some time. Default: FALSE}
 
-\item{checkred}{logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE}
+\item{checkred}{character if to add R CRAN check page status, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. Default \code{character(0)}}
 
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }

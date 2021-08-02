@@ -51,7 +51,7 @@ pacs::lib_validate()
 The full library validation require activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, assessment might take even few minutes.
 
 ```r
-pacs::lib_validate(lifeduration = TRUE, checkred = TRUE)
+pacs::lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
 ```
 
 ### Package Weight Case Study: `devtools`

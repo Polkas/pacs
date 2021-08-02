@@ -6,14 +6,14 @@
 \usage{
 pac_checkred(
   pac,
-  scope = c("ERROR", "WARN"),
+  scope = c("ERROR", "FAIL"),
   repos = "https://cran.rstudio.com/"
 )
 }
 \arguments{
 \item{pac}{character a package name.}
 
-\item{scope}{character vector scope of the check, accepted values c("ERROR", "WARN", "NOTE"). Default c("ERROR", "WARN")}
+\item{scope}{character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
 
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }

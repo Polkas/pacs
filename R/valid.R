@@ -6,7 +6,7 @@
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
-#' @param checkred logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE
+#' @param checkred character if to add R CRAN check page status, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `character(0)`
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
@@ -32,11 +32,12 @@
 lib_validate <- function(lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
-                         checkred = FALSE,
+                         checkred = character(0),
                          repos = "https://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(lifeduration))
+  stopifnot(length(checkred) == 0 || all(checkred %in% c("ERROR", "FAIL", "WARN", "NOTE")))
 
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
@@ -73,7 +74,7 @@ lib_validate <- function(lib.loc = NULL,
                   sort = FALSE,
                   all.x = TRUE)
 
-  if (checkred) {
+  if (length(checkred)) {
     cat("Please wait, Packages CRAN check statuses are assessed.\n")
     result$checkred <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) result$newest[x] && pac_checkred(result$Package[x])), function(z) if (length(z) == 0) NA else z, logical(1))
   }

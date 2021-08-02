@@ -1,6 +1,7 @@
 # 0.2.9
 
 * Fixed `pac_lifeduration`, not work for old packages which do not have UTC in published Date.
+* `checkred` argument from `lib_validate` will expecting any values from `c("ERROR", "FAIL", "WARN", "NOTE")` vector.
 
 # 0.2.8
 
