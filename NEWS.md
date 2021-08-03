@@ -3,6 +3,7 @@
 * Fixed `pac_lifeduration`, not work for old packages which do not have UTC in published Date.
 * `checkred` argument from `lib_validate` will expecting any values from `c("ERROR", "FAIL", "WARN", "NOTE")` vector.
 * Default `scope` for `pac_checkred` will be `c("ERROR", "FAIL")`.
+* Improve `pac_compare_versions`, e.g. Default old version is the local one and the new one is the last release.
 
 # 0.2.8
 

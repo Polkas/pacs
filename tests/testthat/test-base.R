@@ -58,6 +58,12 @@ if (is_online()) {
     expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
   })
 
+  test_that("pacs::pac_compare_exports", {
+    expect_true(length(pac_compare_exports("memoise", "0.2.1", "2.0.0")) == 2)
+    expect_identical(pac_compare_exports("memoise", "0.2.1", "2.0.0")$added, c("cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
+                                                                               "drop_cache", "has_cache", "timeout"))
+  })
+
   test_that("pacs::pac_deps_timemachine", {
     expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
   })
@@ -102,17 +108,31 @@ if (is_online()) {
                                       pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
     expect_identical(pac_description("dplyr", "1.1.1.1"), list())
     expect_identical(pac_description("WRONG"), list())
-    expect_identical(pac_description("dplyr", "0.0.0.1"), list())
+    expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), list())
   })
 
   test_that("pac_last", {
     expect_identical(
     unname(available.packages(repos = "https://cran.rstudio.com/", filters = list(
-      function (db) db[db[,"Package"] == "dplyr", ]
+      function(db) db[db[,"Package"] == "dplyr", ]
     ))["Version"]),
     pac_last("dplyr", repos = "https://cran.rstudio.com/")
     )
     expect_true(is.na(pac_last("WRONG")))
+  })
+
+  test_that("pac_namespace", {
+    expect_true(length(pac_namespace("dplyr", version = "0.8.0")) == 10)
+    expect_true(length(pac_namespace("shiny")) > 0)
+    expect_true(length(pac_namespace("sp")) > 0)
+    expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
+    expect_identical(pac_namespace("dplyr", "1.1.1.1"), list())
+    expect_identical(pac_namespace("WRONG"), list())
+    expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), list(imports = list(), exports = character(0), exportPatterns = character(0),
+                                                                               importClasses = list(), importMethods = list(), exportClasses = character(0),
+                                                                               exportMethods = character(0), exportClassPatterns = character(0),
+                                                                               dynlibs = character(0), S3methods = structure(character(0), .Dim = c(0L,
+                                                                                                                                                    4L))))
   })
 
 }

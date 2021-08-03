@@ -6,19 +6,25 @@
 \usage{
 pac_compare_versions(
   pac,
-  old,
-  new,
-  fields = c("Imports", "Depends", "LinkingTo")
+  old = NULL,
+  new = NULL,
+  fields = c("Imports", "Depends", "LinkingTo"),
+  lib.loc = NULL,
+  repos = "https://cran.rstudio.com/"
 )
 }
 \arguments{
 \item{pac}{character a package name.}
 
-\item{old}{character an old version of package.}
+\item{old}{character an old version of package, default local version. Default: NULL}
 
-\item{new}{character a new version of package.}
+\item{new}{character a new version of package, default newest version. Default: NULL}
 
 \item{fields}{character a vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+
+\item{lib.loc}{character. Default: NULL}
+
+\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 data.frame with 4 columns.
@@ -31,8 +37,9 @@ data.frame with 4 columns.
 }
 }
 \description{
-using the remote CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions.
+using the remote github CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions.
 }
 \examples{
 pac_compare_versions("memoise", "0.2.1", "2.0.0")
+pac_compare_versions("memoise", "0.2.1")
 }

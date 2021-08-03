@@ -31,6 +31,7 @@ pac_description <- function(pac,
   }
 
   if (local && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
+    if (!pac %in% installed_packages(lib.loc = lib.loc)) return(list())
     return(utils::packageDescription(pac, lib.loc))
   } else {
     pac_description_dcf(pac, version, at)
@@ -91,10 +92,14 @@ pac_description_dcf_raw <- function(pac, version, at) {
     temp_dir <- tempdir(check = TRUE)
     utils::untar(temp_tar, exdir = temp_dir)
     # tabs are not acceptable
-    as.list(read.dcf(file.path(temp_dir, pac, "DESCRIPTION"))[1, ])
+    result <- as.list(read.dcf(file.path(temp_dir, pac, "DESCRIPTION"))[1, ])
+    unlink("temp_dir", recursive = TRUE)
   } else {
-    as.list(read.dcf(ee)[1, ])
+    result <- as.list(read.dcf(ee)[1, ])
+    unlink(ee)
   }
+
+  result
 }
 
 pac_description_dcf <- memoise::memoise(pac_description_dcf_raw, cache = cachem::cache_mem(max_age = 60 * 60))

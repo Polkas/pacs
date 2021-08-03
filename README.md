@@ -51,6 +51,7 @@ pacs::lib_validate()
 The full library validation require activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, assessment might take even few minutes.
 
 ```r
+options(mc.cores = parallel::detectCores() - 1) # once per session
 pacs::lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
 ```
 
@@ -209,12 +210,10 @@ pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
 ```
 
 Comparing DESCRIPTION file dependencies between local and newest package.
-This might fail if you already have a newest package.
+We will get duplicated columns if the local version is the newest one.
 
 ```r
-pacs::pac_compare_versions("shiny", 
-                           pacs::pac_description("shiny", local = TRUE)$Version,
-                           pacs::pac_last("shiny"))
+pacs::pac_compare_versions("shiny")
 ```
 
 Comparing DESCRIPTION file dependencies between package versions.
@@ -223,6 +222,24 @@ Comparing DESCRIPTION file dependencies between package versions.
 pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
 
 pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
+# to newest release
+pacs::pac_compare_versions("shiny", "1.4.0")
+```
+
+Comparing NAMESPACE exports between local and newest package.
+
+```r
+pacs::pac_compare_exports("shiny")
+```
+
+Comparing NAMESPACE exports between package versions.
+
+```r
+pacs::pac_compare_exports("shiny", "1.4.0", "1.5.0")
+
+pacs::pac_compare_exports("shiny", "1.4.0", "1.6.0")
+# to newest release
+pacs::pac_compare_exports("shiny", "1.4.0")
 ```
 
 ## packages versions
