@@ -31,6 +31,9 @@
     <loc>/reference/pac_checkred.html</loc>
   </url>
   <url>
+    <loc>/reference/pac_compare_exports.html</loc>
+  </url>
+  <url>
     <loc>/reference/pac_compare_versions.html</loc>
   </url>
   <url>
@@ -50,6 +53,9 @@
   </url>
   <url>
     <loc>/reference/pac_lifeduration.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pac_namespace.html</loc>
   </url>
   <url>
     <loc>/reference/pac_size.html</loc>
