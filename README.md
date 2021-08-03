@@ -25,6 +25,7 @@
 |`pac_size`             | Size of the package                                       | 
 |`pac_timemachine` | Package versions at a specific Date or a Date interval   |
 |`pac_compare_versions`               | Compare dependencies between different versions of a package          |
+|`pac_compare_exports`               | Compare NAMESPACE exports between different versions of a package          |
 |`pac_true_size`                      | True size of the package (with dependencies)| 
 |`pacs_base`                          | R base packages                               |
 |`pac_last`|  The most recent package version|
