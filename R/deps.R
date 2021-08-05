@@ -19,6 +19,8 @@
 #' pacs::pac_deps("memoise", description_v = FALSE)
 #' # raw dependencies from DESCRIPTION file
 #' pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
+#' # raw dependencies from DESCRIPTION file - last release
+#' pacs::pac_deps("memoise", description_v = TRUE, local = FALSE, recursive = FALSE)
 pac_deps <- function(pac,
                      fields = c("Depends", "Imports", "LinkingTo"),
                      lib.loc = NULL,

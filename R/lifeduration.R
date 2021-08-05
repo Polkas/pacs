@@ -1,7 +1,7 @@
 #' Package version life duration at specific Date or for a specific version
 #' @description using CRAN website to get a package life duration for certain version or at a specific Date.
 #' @param pac character a package name.
-#' @param version character version of package. Default: NULL
+#' @param version character version of package, by default the local version is taken if not avaiable then the newest is assumed. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`

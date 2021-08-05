@@ -1,13 +1,13 @@
-test_that("replaceNA", {
+test_that("pacs::replaceNA", {
   expect_true(all(!is.na(replaceNA(c(1, 2, NA, 3, NA), 0))))
 })
 
-test_that("compareVersionsMax", {
+test_that("pacs::compareVersionsMax", {
   expect_true(pacs::compareVersionsMax(c("1.1.1", "1.0.0", "3.3.3")) == "3.3.3")
   expect_true(pacs::compareVersionsMax("3.3.3") == "3.3.3")
 })
 
-test_that("compareVersionsMin", {
+test_that("pacs::compareVersionsMin", {
   expect_true(pacs::compareVersionsMin(c("1.1.1", "1.0.0", "3.3.3")) == "1.0.0")
   expect_true(pacs::compareVersionsMin("1.1.1") == "1.1.1")
 })
@@ -30,7 +30,7 @@ test_that("pacs::pac_deps", {
   expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)) == 2)
 })
 
-test_that("dir_size", {
+test_that("pacs::dir_size", {
   current_dir <- dir_size(".")
   expect_true(current_dir > 0)
 })
@@ -48,7 +48,7 @@ test_that("pacs::pac_true_size", {
   expect_error(pac_true_size("WRONG"))
 })
 
-test_that("pacs_base", {
+test_that("pacs::pacs_base", {
   expect_true(all(c("stats", "methods", "base", "utils", "graphics") %in% pacs_base()))
   expect_true(length(pacs_base()) >= length(pacs_base(startup = TRUE)))
 })
@@ -74,11 +74,11 @@ if (is_online()) {
     expect_true(inherits(lib_res, "data.frame"))
   })
 
-  test_that("pac_validate", {
+  test_that("pacs::pac_validate", {
     expect_true(nrow(pac_validate("stats")) == 0)
   })
 
-  test_that("pac_timemachine", {
+  test_that("pacs::pac_timemachine", {
     expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"))$Version == "1.0.0")
     expect_true(nrow(pac_timemachine("memoise", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 2)
     expect_error(pac_timemachine("WRONG"))
@@ -86,7 +86,7 @@ if (is_online()) {
     expect_identical(nrow(pac_timemachine("dplyr", version = "999.1.1.1")), 0L)
     })
 
-  test_that("pac_lifeduration", {
+  test_that("pacs::pac_lifeduration", {
     a <- pac_lifeduration("dplyr", version = "0.8.0")
     b <- pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
     expect_true(a == 1)
@@ -94,15 +94,16 @@ if (is_online()) {
     expect_true(is.na(pac_lifeduration("WRONGPACKAGE")))
     expect_error(pac_lifeduration("dplyr", version = 1))
     expect_error(pac_lifeduration("dplyr", version = 1))
+    expect_true(pac_lifeduration("memoise") > 0)
   })
 
-  test_that("pac_health", {
+  test_that("pacs::pac_health", {
     expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")))
     expect_true(is.logical(pac_health("dplyr")))
     expect_true(is.na(pac_health("WRONG")))
   })
 
-  test_that("pac_description", {
+  test_that("pacs::pac_description", {
     expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
     expect_true(utils::compareVersion(pac_description("memoise", local = TRUE)$Version,
                                       pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
@@ -111,7 +112,7 @@ if (is_online()) {
     expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), list())
   })
 
-  test_that("pac_last", {
+  test_that("pacs::pac_last", {
     expect_identical(
     unname(available.packages(repos = "https://cran.rstudio.com/", filters = list(
       function(db) db[db[,"Package"] == "dplyr", ]
@@ -121,7 +122,13 @@ if (is_online()) {
     expect_true(is.na(pac_last("WRONG")))
   })
 
-  test_that("pac_namespace", {
+  test_that("pacs::pac_checkred", {
+    expect_true(is.logical(pac_checkred("dplyr")))
+    expect_true(is.na(pac_checkred("WRONG")))
+    expect_error(pac_checkred("dplyr", scope = ""))
+  })
+
+  test_that("pacs::pac_namespace", {
     expect_true(length(pac_namespace("dplyr", version = "0.8.0")) == 10)
     expect_true(length(pac_namespace("shiny")) > 0)
     expect_true(length(pac_namespace("sp")) > 0)
