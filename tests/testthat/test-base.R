@@ -132,6 +132,8 @@ if (is_online()) {
     expect_true(length(pac_namespace("dplyr", version = "0.8.0")) == 10)
     expect_true(length(pac_namespace("shiny")) > 0)
     expect_true(length(pac_namespace("sp")) > 0)
+    expect_true(length(pac_namespace("Rcpp")) > 0)
+    expect_true(length(pac_namespace("Brobdingnag")) > 0)
     expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
     expect_identical(pac_namespace("dplyr", "1.1.1.1"), list())
     expect_identical(pac_namespace("WRONG"), list())
