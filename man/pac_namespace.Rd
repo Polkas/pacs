@@ -27,7 +27,7 @@ pac_namespace(
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
-list with names proper for DESCRIPTION file fields.
+list with names proper for NAMESPACE file, the same as format as returned by \code{base::parseNamespaceFile}.
 }
 \description{
 package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.

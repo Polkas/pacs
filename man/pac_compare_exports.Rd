@@ -34,5 +34,5 @@ The comparison is only about exports.
 }
 \examples{
 pac_compare_exports("memoise", "0.2.1", "2.0.0")
-pac_compare_exports("shiny", "1.4.0", "1.6.0")
+pac_compare_exports("shiny", "1.0.0", "1.6.0")
 }
