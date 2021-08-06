@@ -172,22 +172,42 @@
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "cache_filesystem" "cache_gcs"        "cache_memory"     "cache_s3"        </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [5] "drop_cache"       "has_cache"        "timeout"         </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-in'><span class='fu'>pac_compare_exports</span><span class='op'>(</span><span class='st'>"shiny"</span>, <span class='st'>"1.4.0"</span>, <span class='st'>"1.6.0"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> shiny:1.4.0 vs 1.6.0</span>
+<span class='r-in'><span class='fu'>pac_compare_exports</span><span class='op'>(</span><span class='st'>"shiny"</span>, <span class='st'>"1.0.0"</span>, <span class='st'>"1.6.0"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> shiny:1.0.0 vs 1.6.0</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $removed</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> character(0)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "knit_print.html"                  "knit_print.reactive"             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3] "knit_print.shiny.appobj"          "knit_print.shiny.render.function"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5] "knit_print.shiny.tag"             "knit_print.shiny.tag.list"       </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $added</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "MockShinySession"        "bindCache"              </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "bindEvent"               "devmode"                </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "getCurrentTheme"         "get_devmode_option"     </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "httpResponse"            "in_devmode"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "markdown"                "moduleServer"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "quoToFunction"           "reactiveConsole"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "registerThemeDependency" "runTests"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "shinyAppTemplate"        "tabPanelBody"           </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "testServer"              "updateActionLink"       </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "with_devmode"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "MockShinySession"         "appendTab"               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "bindCache"                "bindEvent"               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "createRenderFunction"     "devmode"                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "diskCache"                "freezeReactiveVal"       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "getCurrentOutputInfo"     "getCurrentTheme"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "getQueryString"           "getUrlHash"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "get_devmode_option"       "hideTab"                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "httpResponse"             "in_devmode"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "insertTab"                "is.key_missing"          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "isRunning"                "key_missing"             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "loadSupport"              "markdown"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [23] "memoryCache"              "moduleServer"            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "onStop"                   "prependTab"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [27] "quoToFunction"            "reactiveConsole"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [29] "reactiveVal"              "reactlog"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "reactlogReset"            "reactlogShow"            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [33] "registerThemeDependency"  "removeResourcePath"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [35] "removeTab"                "renderCachedPlot"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37] "resourcePaths"            "runTests"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [39] "setSerializer"            "shinyAppTemplate"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [41] "showTab"                  "sizeGrowthRatio"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [43] "snapshotExclude"          "snapshotPreprocessInput" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [45] "snapshotPreprocessOutput" "tabPanelBody"            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [47] "tagGetAttribute"          "tagHasAttribute"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49] "testServer"               "updateActionLink"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [51] "updateVarSelectInput"     "updateVarSelectizeInput" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [53] "varSelectInput"           "varSelectizeInput"       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [55] "with_devmode"            </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 </code></pre></div>
   </div>
