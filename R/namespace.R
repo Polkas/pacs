@@ -6,7 +6,7 @@
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
-#' @return list with names proper for DESCRIPTION file fields.
+#' @return list with names proper for NAMESPACE file, the same as format as returned by `base::parseNamespaceFile`.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' This function is mainly built under source code from `base::parseNamespaceFile`.
 #' @export

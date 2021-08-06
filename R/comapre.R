@@ -76,7 +76,7 @@ pac_compare_versions <- function(pac,
 #' @export
 #' @examples
 #' pac_compare_exports("memoise", "0.2.1", "2.0.0")
-#' pac_compare_exports("shiny", "1.4.0", "1.6.0")
+#' pac_compare_exports("shiny", "1.0.0", "1.6.0")
 pac_compare_exports <- function(pac,
                                 old = NULL,
                                 new = NULL,

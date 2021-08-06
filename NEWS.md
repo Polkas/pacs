@@ -1,9 +1,15 @@
+# 0.2.10
+
+*  
+
 # 0.2.9
 
 * Fixed `pac_lifeduration`, not work for old packages which do not have UTC in published Date.
+* Added optional `FAIL` status when checking `CRAN` check pages.
 * `checkred` argument from `lib_validate` will expecting any values from `c("ERROR", "FAIL", "WARN", "NOTE")` vector.
 * Default `scope` for `pac_checkred` will be `c("ERROR", "FAIL")`.
 * Improve `pac_compare_versions`, e.g. Default old version is the local one and the new one is the last release.
+* Added `pac_comapre_exports` and `pac_namespace`.
 
 # 0.2.8
 
