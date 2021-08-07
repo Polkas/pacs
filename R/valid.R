@@ -8,7 +8,7 @@
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred character if to add R CRAN check page status, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `character(0)`
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`.
-#' @param cores numeric number of cores to use when `lifeduration` or `checkred` is activated. Default: `parallel::detectCores() - 1`
+#' @param cores numeric number of cores to use when `lifeduration` or `checkred` is activated. Default: `max(parallel::detectCores() - 1, 1)`
 #' @param parallel character type of parallel calculations when `lifeduration` or `checkred` is activated, `c("auto", "none", "mclapply", "parLapply")`. Default: `"auto"`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
@@ -35,7 +35,7 @@ lib_validate <- function(lib.loc = NULL,
                          lifeduration = FALSE,
                          checkred = character(0),
                          repos = "https://cran.rstudio.com/",
-                         cores = parallel::detectCores() - 1,
+                         cores = max(parallel::detectCores() - 1, 1),
                          parallel = "auto") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
@@ -84,7 +84,7 @@ lib_validate <- function(lib.loc = NULL,
     if (length(checkred)) {
       cat("Please wait, Packages CRAN check statuses are assessed.\n")
       if (parallel %in% c("auto", "mclapply") && machine != "Windows") {
-        withr::with_options(list(mc.cores = cores),{result$checkred <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x]))), function(z) if (length(z) == 0) NA else as.logical(z), logical(1))})
+        result$checkred <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x])), mc.cores = cores), function(z) if (length(z) == 0) NA else as.logical(z), logical(1))
       } else if (parallel %in% c("auto", "parLapply")) {
         cl <- parallel::makeCluster(getOption("cl.cores", cores))
         result$checkred <- vapply(parallel::parLapply(cl, seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x]))), function(z) if (length(z) == 0) NA else as.logical(z), logical(1))
@@ -97,7 +97,7 @@ lib_validate <- function(lib.loc = NULL,
     if (lifeduration) {
       cat("Please wait, Packages life durations are assessed.\n")
       if (parallel %in% c("auto", "mclapply") && machine != "Windows") {
-        withr::with_options(list(mc.cores = cores),{result$life_duration <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc)), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))})
+        result$life_duration <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), mc.cores = cores), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))
       } else if (parallel %in% c("auto", "parLapply")) {
         cl <- parallel::makeCluster(getOption("cl.cores", cores))
         result$life_duration <- vapply(parallel::parLapply(cl, seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc)), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))

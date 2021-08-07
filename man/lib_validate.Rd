@@ -9,7 +9,9 @@ lib_validate(
   fields = c("Depends", "Imports", "LinkingTo"),
   lifeduration = FALSE,
   checkred = character(0),
-  repos = "https://cran.rstudio.com/"
+  repos = "https://cran.rstudio.com/",
+  cores = parallel::detectCores() - 1,
+  parallel = "auto"
 )
 }
 \arguments{
@@ -21,7 +23,11 @@ lib_validate(
 
 \item{checkred}{character if to add R CRAN check page status, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. Default \code{character(0)}}
 
-\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}.}
+
+\item{cores}{numeric number of cores to use when \code{lifeduration} or \code{checkred} is activated. Default: \code{parallel::detectCores() - 1}}
+
+\item{parallel}{character type of parallel calculations when \code{lifeduration} or \code{checkred} is activated, \code{c("auto", "none", "mclapply", "parLapply")}. Default: \code{"auto"}}
 }
 \value{
 data.frame with 5/6/7 columns.
@@ -45,10 +51,9 @@ Optionally we could add life duration and CRAN check page status for each packag
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 When turn on the \code{lifeduration} and/or \code{checkred} options, calculations might be time consuming.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} or \code{checkred} turned on.
-Results are NOT cached with \code{memoise} package, as \code{mclapply} function is used.
-For \code{lifeduration} and \code{checkred} options there is used the \code{parallel::mclapply} function.
-Remember that \code{parallel::mclapply} under Windows works like the regular \code{lapply} function.
-To set higher number of cores use code like \code{options(mc.cores = parallel::detectCores() - 1)} at the beginning of your session.
+Results are NOT cached with \code{memoise} package, when \code{parallel::mclapply} function is used.
+For \code{lifeduration} and \code{checkred} options there is used the \code{parallel::mclapply} function or \code{parallel::parLapply}, \code{cores} on default is set to all cores minus one.
+Remember that \code{parallel::mclapply} under Windows works like the regular \code{lapply} function, changing \code{cores} will be neutral for Windows machines.
 }
 \examples{
 lib_validate()
