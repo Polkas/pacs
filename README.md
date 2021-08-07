@@ -20,6 +20,7 @@
 |`pac_deps`               |  Package dependencies with installed or expected versions |
 |`pac_deps_timemachine`|  Package dependencies for certain version or time point|
 |`pac_description` | Package DESCRIPTION file at Date or for a certain version      |
+|`pac_namespace` | Package NAMESPACE file at Date or for a certain version      |
 |`pac_lifeduration` | Package version life duration  |
 |`pac_health`           | Package version health    |
 |`pac_size`             | Size of the package                                       | 
@@ -33,11 +34,11 @@
 
 **Hint**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-**Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise` package, second invoke of the same call is instantaneous. For `lib_validate` function so when `parallel::mclapply` is used results are not cached.
+**Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous. For `pacs::lib_validate` when `parallel::mclapply` is used results are not cached.
 
-**Hint3**: Use `mclapply` (not for Windows) to speed up calculations, although under multithreating computation results are NOT cached with `memoise` package. Simply invoke at the beginning of the session `options(mc.cores = parallel::detectCores() - 1)` and use `parallel::mclapply` instead of `lapply`.
+**Hint3**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. For `parallel::mclapply` invoke at the beginning of the session `options(mc.cores = parallel::detectCores() - 1)` and use `parallel::mclapply` instead of `lapply`. For `parallel::parLapply` build a cluster `cl <- parallel::makeCluster(getOption("cl.cores", parallel::detectCores() - 1))` and use it inside the function.
 
-**Hint4**: When your library have more than a few thousand packages (`nrow(utils::installed.packages())`), please be patient when running Internet based functions. Optionally the third hint could be applied, so use of `parallel::mclapply`. Ps. Now, the whole R CRAN library contains around 17 thousands packages.
+**Hint4**: When your library have more than a few thousand packages (`nrow(utils::installed.packages())`), please be patient when running Internet based functions. Optionally the third hint could be applied, so use of parallel computation. Ps. Now, the whole R CRAN library contains around 18 thousands packages.
 
 ## Validate the library
 
@@ -52,7 +53,6 @@ pacs::lib_validate()
 The full library validation require activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, assessment might take even few minutes.
 
 ```r
-options(mc.cores = parallel::detectCores() - 1) # once per session
 pacs::lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
 ```
 
@@ -137,10 +137,10 @@ pac_health("dplyr", version = "0.8.0", limit = 14)
 All packages health, skip non CRAN packages - will take some time (even few minutes):
 
 ```r
-all_pacs_health <- lapply(rownames(installed.packages()), function(x) pacs_health(x))
+all_pacs_health <- lapply(rownames(installed.packages()), function(x) pacs::pacs_health(x))
 # parallely for non Windows machines
 options(mc.cores = parallel::detectCores() - 1) # once per session
-all_pacs_health <- mclapply(rownames(installed.packages()), function(x) pacs_health(x))
+all_pacs_health <- mclapply(rownames(installed.packages()), function(x) pacs::pacs_health(x))
 ```
 
 ## Package DESCRIPTION file
@@ -148,8 +148,8 @@ all_pacs_health <- mclapply(rownames(installed.packages()), function(x) pacs_hea
 Reading raw `dcf` DESCRIPTION files scrapped from the github CRAN mirror or if not worked from the CRAN website. 
 
 ```r
-pac_description("dplyr", version = "0.8.0")
-pac_description("dplyr", at = as.Date("2019-01-01"))
+pacs::pac_description("dplyr", version = "0.8.0")
+pacs::pac_description("dplyr", at = as.Date("2019-01-01"))
 ```
 
 ## Dependencies for specific version
@@ -157,7 +157,7 @@ pac_description("dplyr", at = as.Date("2019-01-01"))
 For the newest release.
 
 ```r
-pacs::pac_deps("devtools", local = FALSE)$Package
+pacs::pacs::pac_deps("devtools", local = FALSE)$Package
 ```
 
 For a certain version, might take some time.
@@ -175,9 +175,9 @@ Useful functions to get list of base packages.
 You might want to exclude them from final results.
 
 ```r
-pacs_base()
+pacs::pacs_base()
 # start up loaded, base packages
-pacs_base(startup = TRUE)
+pacs::pacs_base(startup = TRUE)
 ```
 
 `pac_deps` for an extremely fast retrieving of package dependencies, 
@@ -240,7 +240,7 @@ pacs::pac_compare_exports("shiny", "1.4.0", "1.5.0")
 
 pacs::pac_compare_exports("shiny", "1.4.0", "1.6.0")
 # to newest release
-pacs::pac_compare_exports("shiny", "1.4.0")
+pacs::pac_compare_exports("shiny", "1.0.0")
 ```
 
 ## packages versions
