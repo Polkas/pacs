@@ -10,7 +10,7 @@ lib_validate(
   lifeduration = FALSE,
   checkred = character(0),
   repos = "https://cran.rstudio.com/",
-  cores = parallel::detectCores() - 1,
+  cores = max(parallel::detectCores() - 1, 1),
   parallel = "auto"
 )
 }
@@ -25,7 +25,7 @@ lib_validate(
 
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}.}
 
-\item{cores}{numeric number of cores to use when \code{lifeduration} or \code{checkred} is activated. Default: \code{parallel::detectCores() - 1}}
+\item{cores}{numeric number of cores to use when \code{lifeduration} or \code{checkred} is activated. Default: \code{max(parallel::detectCores() - 1, 1)}}
 
 \item{parallel}{character type of parallel calculations when \code{lifeduration} or \code{checkred} is activated, \code{c("auto", "none", "mclapply", "parLapply")}. Default: \code{"auto"}}
 }
@@ -53,6 +53,7 @@ When turn on the \code{lifeduration} and/or \code{checkred} options, calculation
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} or \code{checkred} turned on.
 Results are NOT cached with \code{memoise} package, when \code{parallel::mclapply} function is used.
 For \code{lifeduration} and \code{checkred} options there is used the \code{parallel::mclapply} function or \code{parallel::parLapply}, \code{cores} on default is set to all cores minus one.
+\code{cores} argument has lower priority than not \code{NULL} \code{getOption("mc.cores")}or \code{getOption("cl.cores")}.
 Remember that \code{parallel::mclapply} under Windows works like the regular \code{lapply} function, changing \code{cores} will be neutral for Windows machines.
 }
 \examples{
