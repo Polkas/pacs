@@ -16,7 +16,7 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/checkpage_packages.html</loc>
+    <loc>/reference/checked_packages.html</loc>
   </url>
   <url>
     <loc>/reference/compareVersionsMax.html</loc>
@@ -34,7 +34,7 @@
     <loc>/reference/pac_checkred.html</loc>
   </url>
   <url>
-    <loc>/reference/pac_compare_exports.html</loc>
+    <loc>/reference/pac_compare_namespace.html</loc>
   </url>
   <url>
     <loc>/reference/pac_compare_versions.html</loc>
