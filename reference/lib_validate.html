@@ -191,7 +191,8 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 Results are NOT cached with <code>memoise</code> package, when <code><a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply</a></code> function is used.
 For the <code>lifeduration</code> option there is used the <code><a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply</a></code> function or <code><a href='https://rdrr.io/r/parallel/clusterApply.html'>parallel::parLapply</a></code>, <code>cores</code> on default is set to all cores minus one.
 <code>cores</code> argument has lower priority than not <code>NULL</code> <code>getOption("mc.cores")</code>or <code>getOption("cl.cores")</code>.
-Remember that <code><a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply</a></code> under Windows works like the regular <code>lapply</code> function, changing <code>cores</code> will be neutral for Windows machines.</p>
+Remember that <code><a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply</a></code> under Windows works like the regular <code>lapply</code> function, changing <code>cores</code> will be neutral for Windows machines.
+Warning: Parallel computations might be unstable, remember that optionally only <code>lifeduration</code> might be triggered for such.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>lib_validate</span><span class='op'>(</span><span class='op'>)</span></span>
