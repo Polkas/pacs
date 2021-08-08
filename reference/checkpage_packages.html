@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • pacs</title>
+<title>Checking all R CRAN packages check page statuses. — checkpage_packages • pacs</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Checking all R CRAN packages check page statuses. — checkpage_packages" />
+<meta property="og:description" content="retrieving all R CRAN packages check pages.
+The data is downloaded from https://cran.r-project.org/web/checks/check_summary_by_package.html." />
 
 
 
@@ -66,7 +68,7 @@
   <body data-spy="scroll" data-target="#toc">
     
 
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -110,150 +112,29 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Checking all R CRAN packages check page statuses.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>checkpage_packages.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>retrieving all R CRAN packages check pages.
+The data is downloaded from <code>https://cran.r-project.org/web/checks/check_summary_by_package.html</code>.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>checkpage_packages</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="checkpage_packages.html">checkpage_packages()</a></code> </p>
-        </td>
-        <td><p>Checking all R CRAN packages check page statuses.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="compareVersionsMax.html">compareVersionsMax()</a></code> </p>
-        </td>
-        <td><p>Maximum version across the vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="compareVersionsMin.html">compareVersionsMin()</a></code> </p>
-        </td>
-        <td><p>Minimum version across the vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lib_validate.html">lib_validate()</a></code> </p>
-        </td>
-        <td><p>Validate the local library</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_checkred.html">pac_checkred()</a></code> </p>
-        </td>
-        <td><p>Checking the R CRAN package check page status</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_compare_exports.html">pac_compare_exports()</a></code> </p>
-        </td>
-        <td><p>Compare NAMESPACE exports between specific packages versions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_compare_versions.html">pac_compare_versions()</a></code> </p>
-        </td>
-        <td><p>Compare DESCRIPTION files dependencies between specific packages versions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_deps.html">pac_deps()</a></code> </p>
-        </td>
-        <td><p>Package dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_deps_timemachine.html">pac_deps_timemachine()</a></code> </p>
-        </td>
-        <td><p>Package dependencies for a certain version or time point</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_description.html">pac_description()</a></code> </p>
-        </td>
-        <td><p>Package DESCRIPTION file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_health.html">pac_health()</a></code> </p>
-        </td>
-        <td><p>Package health state at a specific Date or for a specific version</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_last.html">pac_last()</a></code> </p>
-        </td>
-        <td><p>Getting the most recent package version</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_lifeduration.html">pac_lifeduration()</a></code> </p>
-        </td>
-        <td><p>Package version life duration at specific Date or for a specific version</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_namespace.html">pac_namespace()</a></code> </p>
-        </td>
-        <td><p>Package NAMESPACE file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_size.html">pac_size()</a></code> </p>
-        </td>
-        <td><p>Size of the package</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_timemachine.html">pac_timemachine()</a></code> </p>
-        </td>
-        <td><p>Package version at a specific Date or a Date interval</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_true_size.html">pac_true_size()</a></code> </p>
-        </td>
-        <td><p>True size of the package</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pac_validate.html">pac_validate()</a></code> </p>
-        </td>
-        <td><p>Validate a specific local package</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pacs_base.html">pacs_base()</a></code> </p>
-        </td>
-        <td><p>List of base R packages</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>data.frame</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Results are cached for 1 hour with <code>memoise</code> package.</p>
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
