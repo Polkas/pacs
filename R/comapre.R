@@ -104,9 +104,6 @@ pac_compare_exports <- function(pac,
   old_e <- pac_namespace(pac, old, lib.loc = lib.loc, repos = repos)$exports
   new_e <- pac_namespace(pac, new, lib.loc = lib.loc, repos = repos)$exports
 
-  cat(sprintf("%s:%s vs %s\n", pac, old, new))
   result <- list(removed = setdiff(old_e, new_e), added = setdiff(new_e, old_e))
-  attr(result, "old") <- old
-  attr(result, "new") <- new
-  result
+  structure(result, package = pac, old = old, new = new)
 }
