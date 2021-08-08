@@ -9,6 +9,7 @@ pac_health(
   version = NULL,
   at = NULL,
   limit = 14,
+  scope = c("ERROR", "FAIL"),
   lib.loc = NULL,
   repos = "https://cran.rstudio.com/"
 )
@@ -21,6 +22,8 @@ pac_health(
 \item{at}{Date old version of package. Default: NULL}
 
 \item{limit}{numeric at least days to treat as healthy. Default: 14}
+
+\item{scope}{character vector scope of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. Default \code{c("ERROR", "FAIL")}}
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 

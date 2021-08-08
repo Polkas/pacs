@@ -14,7 +14,7 @@
 - Getting a list of all releases for a specific package.
 
 | Function                            | Description                                                 | 
-|:------------------------------------|:--------------------------------------------------|
+|:------------------------------------|:-----------------------------------------------|
 |`lib_validate`                       | Validate the local library          |
 |`pac_validate`             | Validate a specific local package              |
 |`pac_deps`               |  Package dependencies with installed or expected versions |
@@ -26,7 +26,7 @@
 |`pac_size`             | Size of the package                                       | 
 |`pac_timemachine` | Package versions at a specific Date or a Date interval   |
 |`pac_compare_versions`               | Compare dependencies between different versions of a package          |
-|`pac_compare_namespace`               | Compare NAMESPACE fileds between different versions of a package  |
+|`pac_compare_namespace`               | Compare NAMESPACE fields between different versions of a package  |
 |`pac_true_size`                      | True size of the package (with dependencies)| 
 |`pacs_base`                          | R base packages                               |
 |`pac_last`|  The most recent package version|
@@ -37,11 +37,11 @@
 
 **Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous.
 
-**Hint3**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
+**Hint3**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
 
 ## Validate the library
 
-This procedure will be crucial for R developers as clearly showing the possible broken packages inside a library. Thus we could assess which packages require versions update.
+This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library. Thus we could assess which packages require versions update.
 
 Default validation of the library.
 
@@ -49,7 +49,7 @@ Default validation of the library.
 pacs::lib_validate()
 ```
 
-The full library validation require activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, assessment might take even few minutes.
+The full library validation require activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, for `lifeduration` assessment might take even few minutes for bigger libraries.
 
 ```r
 pacs::lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
@@ -57,7 +57,7 @@ pacs::lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
 
 ### Package Weight Case Study: `devtools`
 
-Take into account that packages sizes are appropriate for you local system (`Sys.info()`).
+Take into account that packages sizes are appropriate for your local system (`Sys.info()`).
 Installation with `install.packages` and some `devtools` functions might result in different packages sizes.
 
 ```r
@@ -130,7 +130,7 @@ With 14 day limit we get a proper health status. We are sure about this state as
 pac_health("dplyr", version = "0.8.0", limit = 14)
 ```
 
-All packages health, skip non CRAN packages - will take some time (even few minutes):
+All packages health with default arguments, skipped non CRAN packages - will take some time (even few minutes):
 
 ```r
 all_pacs_health <- lapply(rownames(installed.packages()), function(x) pacs::pac_health(x))
@@ -141,8 +141,19 @@ all_pacs_health <- lapply(rownames(installed.packages()), function(x) pacs::pac_
 Reading raw `dcf` DESCRIPTION files scrapped from the github CRAN mirror or if not worked from the CRAN website. 
 
 ```r
+pacs::pac_description("dplyr")
 pacs::pac_description("dplyr", version = "0.8.0")
 pacs::pac_description("dplyr", at = as.Date("2019-01-01"))
+```
+
+## Package NAMESPACE file
+
+Reading raw NAMESPACE files scrapped from the github CRAN mirror or if not worked from the CRAN website. 
+
+```r
+pacs::pac_namespace("dplyr")
+pacs::pac_namespace("dplyr", version = "0.8.0")
+pacs::pac_namespace("dplyr", at = as.Date("2019-01-01"))
 ```
 
 ## Dependencies for specific version
