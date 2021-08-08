@@ -64,7 +64,7 @@ pac_lifeduration <- function(pac,
       return(NA)
     }
     pac_tm <- pac_timemachine(pac)
-    if (all(vapply(pac_tm$Version, function(v) isFALSE(utils::compareVersion(v, version) == 0), logical(1)))) return(NA)
+    if (isTRUE(all(vapply(pac_tm$Version, function(v) isFALSE(utils::compareVersion(v, version) == 0), logical(1))))) return(NA)
     pac_tm <- pac_tm[vapply(pac_tm$Version, function(v) isTRUE(utils::compareVersion(v, version) == 0), logical(1)), ]
     pac_tm$Life_Duration
   }
@@ -116,7 +116,7 @@ pac_health <- function(pac,
 
   life <- pac_lifeduration(pac, version = version, at = at, lib.loc = lib.loc, repos = repos)
 
-  if (is.na(life)) {
+  if (length(life) != 1 || is.na(life)) {
     return(NA)
   }
 

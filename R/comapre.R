@@ -61,6 +61,8 @@ pac_compare_versions <- function(pac,
   col_new <- paste0("Version.", new)
   res$version_status <- apply(res, 1, function(x) utils::compareVersion(x[col_new], x[col_old]))
   rownames(res) <- NULL
+  attr(res, "old") <- old
+  attr(res, "new") <- new
   res
 }
 
@@ -103,6 +105,8 @@ pac_compare_exports <- function(pac,
   new_e <- pac_namespace(pac, new, lib.loc = lib.loc, repos = repos)$exports
 
   cat(sprintf("%s:%s vs %s\n", pac, old, new))
-  list(removed = setdiff(old_e, new_e), added = setdiff(new_e, old_e))
-
+  result <- list(removed = setdiff(old_e, new_e), added = setdiff(new_e, old_e))
+  attr(result, "old") <- old
+  attr(result, "new") <- new
+  result
 }

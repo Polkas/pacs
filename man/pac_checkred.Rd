@@ -25,6 +25,7 @@ using R CRAN package check page to validate if there are ANY errors and/or warni
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.
+If you need to check many packages at once then recommended usage of \code{pacs::checkpage_packages}.
 }
 \examples{
 pac_checkred("dplyr")

@@ -43,19 +43,19 @@ pac_timemachine <- function(pac,
   result <- rbind(result[, f_cols], cran_page[, f_cols])
   result <- result[, f_cols]
 
-  if (!is.null(at)) {
-    if (all(at >= result$Released)) {
+  if (isTRUE(!is.null(at))) {
+    if (isTRUE(all(at >= result$Released))) {
       utils::tail(result, 1)
     } else {
       result[at >= result$Released & at <= result$Archived, ]
     }
-  } else if (!is.null(from) && !is.null(to)) {
+  } else if (isTRUE(!is.null(from) && !is.null(to))) {
     if (all(from >= result$Released)) {
       utils::tail(result, 1)
     } else {
       result[to >= result$Released & from <= result$Archived, ]
     }
-  } else if (!is.null(version)) {
+  } else if (isTRUE(!is.null(version))) {
     result[result$Version == version, ]
   } else {
     result
@@ -64,31 +64,33 @@ pac_timemachine <- function(pac,
 
 pac_cran_recent_raw <- function(pac) {
   cran_page <- try(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac)), silent = TRUE)
-  if (!inherits(cran_page, "try-error")) {
-    cran_v <- gsub("</?td>", "", cran_page[grep("Version:", cran_page) + 1])
-    cran_released <- gsub("</?td>", "", cran_page[grep("Published:", cran_page) + 1])
+  if (!inherits(cran_page, "try-error") && any(grepl(pac, cran_page))) {
+    cran_v <- utils::head(gsub("</?td>", "", cran_page[grep("Version:", cran_page) + 1]), 1)
+    cran_released <- utils::head(gsub("</?td>", "", cran_page[grep("Published:", cran_page) + 1]), 1)
+
+    if (length(cran_v) == 0) cran_v <- NA
+    if (length(cran_released) == 0) cran_released <- NA
+    f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size")
 
     data.frame(
       Package = pac,
-      Released = as.Date(cran_released),
-      Size = NA,
-      Description = NA,
       Version = cran_v,
+      Released = as.Date(cran_released),
       Archived = NA,
       Life_Duration = Sys.Date() - as.Date(cran_released),
       URL = sprintf("%s_%s.tar.gz", pac, cran_v),
+      Size = NA,
       stringsAsFactors = FALSE
     )
   } else {
     data.frame(
       Package = pac,
-      Released = NA,
-      Size = NA,
-      Description = NA,
       Version = NA,
+      Released = NA,
       Archived = NA,
       Life_Duration = NA,
       URL = NA,
+      Size = NA,
       stringsAsFactors = FALSE
     )
   }
@@ -100,8 +102,8 @@ pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
   rr <- try(readLines(paste0("https://cran.r-project.org", base_archive)), silent = TRUE)
 
-  if (!inherits(rr, "try-error")) {
-    rr_range <- grep("</?table>", rr)
+  if (!inherits(rr, "try-error") && any(grepl(pac, rr))) {
+    rr_range <- grep("</?table+>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     # not use rvest as it is too big dependency
     header <- stringi::stri_match_all(rrr[[1]], regex = ">([^<>]+)<")[[1]][, 2]

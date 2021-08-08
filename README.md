@@ -31,12 +31,13 @@
 |`pacs_base`                          | R base packages                               |
 |`pac_last`|  The most recent package version|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
+|`checkpage_packages`| Checking all R CRAN packages check page status at once|
 
 **Hint**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-**Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous. For `pacs::lib_validate` when `parallel::mclapply` is used results are not cached.
+**Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous. For `pacs::lib_validate` (only for activated `lifeduration`) so when `parallel::mclapply` is used results are not cached.
 
-**Hint3**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package.
+**Hint3**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
 
 **Hint4**: When your library have more than a few thousand packages (`nrow(utils::installed.packages())`), please be patient when running Internet based functions. Optionally the third hint could be applied, so usage of parallel computation. Ps. Now, the whole R CRAN library contains around 18 thousands packages.
 
@@ -111,10 +112,7 @@ pac_timemachine("dplyr", at = Sys.Date())
 CRAN packages mirror at Date - will take some time (even few minutes):
 
 ```r
-all_timemachine <- lapply(rownames(installed.packages()), function(x) pac_timemachine(x, at = as.Date("2020-08-08")))
-# parallely for non Windows machines
-options(mc.cores = parallel::detectCores() - 1) # once per session
-all_timemachine <- mclapply(rownames(installed.packages()), function(x) pac_timemachine(x, at = as.Date("2020-08-08")))
+all_timemachine <- lapply(rownames(installed.packages()), function(x) pacs::pac_timemachine(x, at = as.Date("2020-08-08")))
 ```
 
 ## Package health
@@ -137,10 +135,7 @@ pac_health("dplyr", version = "0.8.0", limit = 14)
 All packages health, skip non CRAN packages - will take some time (even few minutes):
 
 ```r
-all_pacs_health <- lapply(rownames(installed.packages()), function(x) pacs::pacs_health(x))
-# parallely for non Windows machines
-options(mc.cores = parallel::detectCores() - 1) # once per session
-all_pacs_health <- mclapply(rownames(installed.packages()), function(x) pacs::pacs_health(x))
+all_pacs_health <- lapply(rownames(installed.packages()), function(x) pacs::pac_health(x))
 ```
 
 ## Package DESCRIPTION file

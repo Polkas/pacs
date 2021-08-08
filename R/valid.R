@@ -6,7 +6,7 @@
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
-#' @param checkred character if to add R CRAN check page status, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `character(0)`
+#' @param checkred character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `character(0)`
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`.
 #' @param cores numeric number of cores to use when `lifeduration` or `checkred` is activated. Default: `max(parallel::detectCores() - 1, 1)`
 #' @param parallel character type of parallel calculations when `lifeduration` or `checkred` is activated, `c("auto", "none", "mclapply", "parLapply")`. Default: `"auto"`
@@ -18,19 +18,24 @@
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 #' \item{newest}{ logical if the installed version is the newest one.}
-#' \item{checkred}{(Optional) logical if the newest package contains any errors or warnings on CRAN check page.}
+#' \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page.}
 #' \item{life_duration}{(Optional) integer number of days package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
-#' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` or `checkred` turned on.
+#' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` turned on.
 #' Results are NOT cached with `memoise` package, when `parallel::mclapply` function is used.
-#' For `lifeduration` and `checkred` options there is used the `parallel::mclapply` function or `parallel::parLapply`, `cores` on default is set to all cores minus one.
+#' For the `lifeduration` option there is used the `parallel::mclapply` function or `parallel::parLapply`, `cores` on default is set to all cores minus one.
 #' `cores` argument has lower priority than not `NULL` `getOption("mc.cores")`or `getOption("cl.cores")`.
 #' Remember that `parallel::mclapply` under Windows works like the regular `lapply` function, changing `cores` will be neutral for Windows machines.
 #' @export
 #' @examples
 #' lib_validate()
+#'
+#' \dontrun{
+#' lib_validate(checkred = c("ERROR", "FAIL"))
+#' lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
+#' }
 lib_validate <- function(lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
@@ -80,32 +85,24 @@ lib_validate <- function(lib.loc = NULL,
                   sort = FALSE,
                   all.x = TRUE)
 
-  if (length(checkred) || length(lifeduration)) {
-    machine <- Sys.info()["sysname"]
-    if (length(checkred)) {
-      cat("Please wait, Packages CRAN check statuses are assessed.\n")
-      if (parallel %in% c("auto", "mclapply") && machine != "Windows") {
-        result$checkred <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x])), mc.cores = getOption("mc.cores", cores)), function(z) if (length(z) == 0) NA else as.logical(z), logical(1))
-      } else if (parallel %in% c("auto", "parLapply")) {
-        cl <- parallel::makeCluster(getOption("cl.cores", cores))
-        result$checkred <- vapply(parallel::parLapply(cl, seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x]))), function(z) if (length(z) == 0) NA else as.logical(z), logical(1))
-        parallel::stopCluster(cl)
-      } else {
-        result$checkred <- lapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x])))
-      }
-    }
 
-    if (lifeduration) {
-      cat("Please wait, Packages life durations are assessed.\n")
-      if (parallel %in% c("auto", "mclapply") && machine != "Windows") {
-        result$life_duration <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), mc.cores = getOption("mc.cores", cores)), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))
-      } else if (parallel %in% c("auto", "parLapply")) {
-        cl <- parallel::makeCluster(getOption("cl.cores", cores))
-        result$life_duration <- vapply(parallel::parLapply(cl, seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc)), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))
-        parallel::stopCluster(cl)
-      } else {
-        result$life_duration <- lapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc))
-      }
+  if (length(checkred)) {
+    checkred_all <- checkpage_packages()
+    checkred_names_scope <- checkred_all$Package[grepl(sprintf("(?:%s)", paste(checkred, collapse = "|")), checkred_all$unique_status)]
+    result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
+  }
+
+  if (lifeduration) {
+    machine <- Sys.info()["sysname"]
+    cat("Please wait, Packages life durations are assessed.\n")
+    if (parallel %in% c("auto", "mclapply") && machine != "Windows") {
+      result$life_duration <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), mc.cores = getOption("mc.cores", cores)), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))
+    } else if (parallel %in% c("auto", "parLapply")) {
+      cl <- parallel::makeCluster(getOption("cl.cores", cores))
+      result$life_duration <- vapply(parallel::parLapply(cl, seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc)), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))
+      parallel::stopCluster(cl)
+    } else {
+      result$life_duration <- lapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc))
     }
   }
 
