@@ -13,7 +13,7 @@ Description:
   Exploring a complexity of a specific package like evaluating sizes in bytes of all its dependencies.
   Assessing the life duration of a specific package version.
   Checking a package CRAN check page status for any errors and warnings.
-  Retrieving a DESCRIPTION file for any package version. 
+  Retrieving a DESCRIPTION or NAMESPACE file for any package version. 
   Getting a list of all releases for a specific package.
 License: GPL (>= 3)
 URL: https://github.com/Polkas/pacs
