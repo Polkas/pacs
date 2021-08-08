@@ -28,6 +28,8 @@ pac_compare_versions <- function(pac,
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
+  stopifnot(is.character(repos))
+  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
@@ -73,13 +75,15 @@ pac_compare_versions <- function(pac,
 #' @param new character a new version of package.
 #' @param lib.loc character. Default: NULL
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
-#' @return list with two slots, added and removed
+#' @return list with `c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")` slots, and added and removed ones for each of them.
 #' @note The comparison is only about exports.
 #' @export
 #' @examples
-#' pac_compare_exports("memoise", "0.2.1", "2.0.0")
-#' pac_compare_exports("shiny", "1.0.0", "1.6.0")
-pac_compare_exports <- function(pac,
+#' pac_compare_namespace("memoise", "0.2.1", "2.0.0")
+#' pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports
+#' pac_compare_namespace("shiny", "1.0.0", "1.6.0")
+#' pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
+pac_compare_namespace <- function(pac,
                                 old = NULL,
                                 new = NULL,
                                 lib.loc = NULL,
@@ -87,6 +91,8 @@ pac_compare_exports <- function(pac,
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
+  stopifnot(is.character(repos))
+  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
@@ -100,10 +106,14 @@ pac_compare_exports <- function(pac,
   if (utils::compareVersion(new, old) < 0) {
     return(list())
   }
+  result <- list()
+  fields <- c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")
+  for (f in fields) {
+    old_f <- unlist(pac_namespace(pac, old, lib.loc = lib.loc, repos = repos)[[f]])
+    new_f <- unlist(pac_namespace(pac, new, lib.loc = lib.loc, repos = repos)[[f]])
 
-  old_e <- pac_namespace(pac, old, lib.loc = lib.loc, repos = repos)$exports
-  new_e <- pac_namespace(pac, new, lib.loc = lib.loc, repos = repos)$exports
+    result[[f]] <- list(removed = setdiff(old_f, new_f), added = setdiff(new_f, old_f))
+  }
 
-  result <- list(removed = setdiff(old_e, new_e), added = setdiff(new_e, old_e))
   structure(result, package = pac, old = old, new = new)
 }

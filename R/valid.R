@@ -16,12 +16,12 @@
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 #' \item{newest}{ logical if the installed version is the newest one.}
-#' \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page. `pacs::checkpage_packages` is used to quickly retrieve all statuses at once.}
+#' \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page. `pacs::checked_packages` is used to quickly retrieve all statuses at once.}
 #' \item{life_duration}{(Optional) integer number of days package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' When turn on the `lifeduration` options, calculations might be time consuming.
-#' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` turned on.
+#' Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' lib_validate()
@@ -76,7 +76,7 @@ lib_validate <- function(lib.loc = NULL,
 
 
   if (length(checkred)) {
-    checkred_all <- checkpage_packages()
+    checkred_all <- checked_packages()
     checkred_names_scope <- checkred_all$Package[grepl(sprintf("(?:%s)", paste(checkred, collapse = "|")), checkred_all$unique_status)]
     result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
   }

@@ -58,9 +58,9 @@ if (is_online()) {
     expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
   })
 
-  test_that("pacs::pac_compare_exports", {
-    expect_true(length(pac_compare_exports("memoise", "0.2.1", "2.0.0")) == 2)
-    expect_identical(pac_compare_exports("memoise", "0.2.1", "2.0.0")$added, c("cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
+  test_that("pacs::pac_compare_namesapce", {
+    expect_true(length(pac_compare_namespace("memoise", "0.2.1", "2.0.0")) == 10)
+    expect_identical(pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports$added, c("cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
                                                                                "drop_cache", "has_cache", "timeout"))
   })
 
@@ -152,7 +152,10 @@ if (is_online()) {
                                                                                                                                                     4L))))
   })
 
-  test_that("pacs::checkpage_packages", {
-    expect_true(is.data.frame(pacs::checkpage_packages()))
+  test_that("pacs::checked_packages", {
+    checked <- pacs::checked_packages()
+    expect_true(is.data.frame(checked))
+    expect_true(nrow(checked) > 0)
+    expect_true(all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked)))
   })
 }

@@ -32,7 +32,7 @@ data.frame with 5/6/7 columns.
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 \item{newest}{ logical if the installed version is the newest one.}
-\item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page. \code{pacs::checkpage_packages} is used to quickly retrieve all statuses at once.}
+\item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page. \code{pacs::checked_packages} is used to quickly retrieve all statuses at once.}
 \item{life_duration}{(Optional) integer number of days package was released.}
 }
 }
@@ -44,7 +44,7 @@ Optionally we could add life duration and CRAN check page status for each packag
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 When turn on the \code{lifeduration} options, calculations might be time consuming.
-Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} turned on.
+Results are cached for 1 hour with \code{memoise} package.
 }
 \examples{
 lib_validate()

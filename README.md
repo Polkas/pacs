@@ -26,12 +26,12 @@
 |`pac_size`             | Size of the package                                       | 
 |`pac_timemachine` | Package versions at a specific Date or a Date interval   |
 |`pac_compare_versions`               | Compare dependencies between different versions of a package          |
-|`pac_compare_exports`               | Compare NAMESPACE exports between different versions of a package          |
+|`pac_compare_namespace`               | Compare NAMESPACE fileds between different versions of a package  |
 |`pac_true_size`                      | True size of the package (with dependencies)| 
 |`pacs_base`                          | R base packages                               |
 |`pac_last`|  The most recent package version|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
-|`checkpage_packages`| Downloading all R CRAN packages check page statuses|
+|`checked_packages`| Downloading all R CRAN packages check page statuses|
 
 **Hint**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
@@ -220,20 +220,21 @@ pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
 pacs::pac_compare_versions("shiny", "1.4.0")
 ```
 
-Comparing NAMESPACE exports between local and newest package.
+Comparing NAMESPACE between local and newest package.
 
 ```r
-pacs::pac_compare_exports("shiny")
+pacs::pac_compare_namespace("shiny")
 ```
 
-Comparing NAMESPACE exports between package versions.
+Comparing NAMESPACE between package versions.
 
 ```r
-pacs::pac_compare_exports("shiny", "1.4.0", "1.5.0")
+pacs::pac_compare_namespace("shiny", "1.0.0", "1.5.0")
+# e.g. only exports 
+pacs::pac_compare_namespace("shiny", "1.0.0", "1.5.0")$exports
 
-pacs::pac_compare_exports("shiny", "1.4.0", "1.6.0")
 # to newest release
-pacs::pac_compare_exports("shiny", "1.0.0")
+pacs::pac_compare_namespace("shiny", "1.0.0")
 ```
 
 ## packages versions

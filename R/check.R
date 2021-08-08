@@ -26,7 +26,7 @@ get_cran_check_page <- memoise::memoise(get_cran_check_page_raw, cache = cachem:
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return logical if the package fail under specified criteria.
 #' @note Results are cached for 1 hour with `memoise` package.
-#' If you need to check many packages at once then recommended usage of `pacs::checkpage_packages`.
+#' If you need to check many packages at once then recommended usage of `pacs::checked_packages`.
 #' @export
 #' @examples
 #' pac_checkred("dplyr")
@@ -40,12 +40,12 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), repos = "https://cran.
 }
 
 #' Downloading all R CRAN packages check page statuses.
-#' @description retrieving all R CRAN packages check pages.
+#' @description Retrieving all R CRAN packages check pages.
 #' The data is downloaded from `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
-#' @return data.frame
+#' @return data.frame with the same structure as the html table on `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
-checkpage_packages <- function() {
+checked_packages <- function() {
   packages <- read_checkred_packages()
   if (is.data.frame(packages)) {
     result <- packages
@@ -72,7 +72,7 @@ read_checkred_packages_raw <- function() {
     result_raw <- as.data.frame(result_raw)
     colnames(result_raw) <- header
 
-    result_raw$unique_status <- apply(result_raw[, grep("r-", colnames(result_raw))], 1, function(x) paste0(unique(x), collapse = ", "))
+    result_raw$unique_status <- apply(result_raw[, grep("r-", colnames(result_raw))], 1, function(x) paste0(sort(unique(x)), collapse = ", "))
 
   } else {
     result_raw <- NA
