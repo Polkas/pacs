@@ -131,7 +131,7 @@ Optionally we could add life duration and CRAN check page status for each depend
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
   fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
   lifeduration <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  checkred <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  checkred <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
   repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span>
 <span class='op'>)</span></code></pre></div>
 
@@ -156,7 +156,7 @@ Optionally we could add life duration and CRAN check page status for each depend
     </tr>
     <tr>
       <th>checkred</th>
-      <td><p>logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE</p></td>
+      <td><p>character vector scope of R CRAN check pages statuses to consider, any of <code>c("ERROR", "FAIL", "WARN", "NOTE")</code>. Default <code>character(0)</code></p></td>
     </tr>
     <tr>
       <th>repos</th>
@@ -173,7 +173,7 @@ Optionally we could add life duration and CRAN check page status for each depend
 <dt>version_status</dt><dd><p>numeric -1/0/1 which comes from <code><a href='https://rdrr.io/r/utils/compareVersion.html'>utils::compareVersion</a></code> function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.</p></dd>
 <dt>newest</dt><dd><p>logical if the installed version is the newest one.</p></dd>
-<dt>checkred</dt><dd><p>(Optional) logical if the newest package contains any errors or warnings on CRAN check page.</p></dd>
+<dt>checkred</dt><dd><p>(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page.</p></dd>
 <dt>life_duration</dt><dd><p>(Optional) integer number of days package was released.</p></dd>
 
 </dl>
@@ -181,7 +181,7 @@ Optionally we could add life duration and CRAN check page status for each depend
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-When turn on the <code>lifeduration</code> and/or <code>checkred</code> options, calculations might be time consuming.
+When turn on the <code>lifeduration</code> option, calculations might be time consuming.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with <code>lifeduration</code> or <code>checkred</code> turned on.
 Results are cached with <code>memoise</code> package, memory cache.</p>
 
@@ -191,7 +191,15 @@ Results are cached with <code>memoise</code> package, memory cache.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 1  cachem                             1.0.5              1   TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 2 fastmap                             1.1.0              1   TRUE</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 3   rlang               0.4.10       0.4.11              1   TRUE</span>
-<span class='r-in'></span>
+<span class='r-in'><span class='fu'>pac_validate</span><span class='op'>(</span><span class='st'>"memoise"</span>, lifeduration <span class='op'>=</span> <span class='cn'>TRUE</span>, checkred <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ERROR"</span>, <span class='st'>"FAIL"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Package Version.expected.min Version.have version_status newest checkred</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  cachem                             1.0.5              1   TRUE    FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 fastmap                             1.1.0              1   TRUE    FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   rlang               0.4.10       0.4.11              1   TRUE    FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   life_duration</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1            85</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2           195</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3           100</span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
