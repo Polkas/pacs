@@ -235,11 +235,10 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
                                                                                                           , drop = FALSE]))
 }
 
-
 pac_readnamespace_raw <- function(pac, version, at) {
   if (!is.null(at)) {
     tt <- pac_timemachine(pac, at = at)
-    version <- utils::tail(tt[order(tt$Life_Duration), ], 1)$Version
+    version <- utils::tail(tt[order(tt$LifeDuration), ], 1)$Version
   }
 
   ee <- tempfile()

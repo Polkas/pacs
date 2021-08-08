@@ -24,7 +24,7 @@ pac_lifeduration(
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
-list named of \code{difftime}, number of days package version was the newest one.
+\code{difftime}, number of days package version was the newest one.
 }
 \description{
 using CRAN website to get a package life duration for certain version or at a specific Date.

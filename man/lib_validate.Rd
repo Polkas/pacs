@@ -26,14 +26,14 @@ lib_validate(
 \value{
 data.frame with 5/6/7 columns.
 \describe{
-\item{Package}{character package names.}
+\item{Package}{character a package name.}
 \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
 \item{Version.have}{character installed package version.}
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-\item{newest}{ logical if the installed version is the newest one.}
+\item{newest}{logical if the installed version is the newest one.}
 \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page. \code{pacs::checked_packages} is used to quickly retrieve all statuses at once.}
-\item{life_duration}{(Optional) integer number of days package was released.}
+\item{lifeduration}{(Optional) integer number of days a package was released.}
 }
 }
 \description{

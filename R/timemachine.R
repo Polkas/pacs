@@ -6,7 +6,16 @@
 #' @param version character version of package. Default: NULL
 #' @param to Date CRAN URL. Default: NULL
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
-#' @return data.frame
+#' @return data.frame with 7 columns
+#' \describe{
+#' \item{Package}{character package name.}
+#' \item{Version}{character package version.}
+#' \item{Released}{character release Date}
+#' \item{Archived}{character archived Date.}
+#' \item{LifeDuration}{difftime number of days the version was the newest one.}
+#' \item{URL}{character the suffix of the base URL to tar.gz file.}
+#' \item{Size}{character size of the tar.gz file.}
+#' }
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 #' The base part of URL in the result is `https://cran.r-project.org/src/contrib/`.
@@ -38,8 +47,8 @@ pac_timemachine <- function(pac,
   }
 
   result$Archived <- as.Date(c(result$Released[-1], cran_page$Released))
-  result$Life_Duration <- result$Archived - result$Released
-  f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size")
+  result$LifeDuration <- result$Archived - result$Released
+  f_cols <- c("Package", "Version", "Released", "Archived", "LifeDuration", "URL", "Size")
   result <- rbind(result[, f_cols], cran_page[, f_cols])
   result <- result[, f_cols]
 
@@ -70,14 +79,14 @@ pac_cran_recent_raw <- function(pac) {
 
     if (length(cran_v) == 0) cran_v <- NA
     if (length(cran_released) == 0) cran_released <- NA
-    f_cols <- c("Package", "Version", "Released", "Archived", "Life_Duration", "URL", "Size")
+    f_cols <- c("Package", "Version", "Released", "Archived", "LifeDuration", "URL", "Size")
 
     data.frame(
       Package = pac,
       Version = cran_v,
       Released = as.Date(cran_released),
       Archived = NA,
-      Life_Duration = Sys.Date() - as.Date(cran_released),
+      LifeDuration = Sys.Date() - as.Date(cran_released),
       URL = sprintf("%s_%s.tar.gz", pac, cran_v),
       Size = NA,
       stringsAsFactors = FALSE
@@ -88,7 +97,7 @@ pac_cran_recent_raw <- function(pac) {
       Version = NA,
       Released = NA,
       Archived = NA,
-      Life_Duration = NA,
+      LifeDuration = NA,
       URL = NA,
       Size = NA,
       stringsAsFactors = FALSE

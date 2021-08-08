@@ -10,14 +10,14 @@
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`.
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
-#' \item{Package}{character package names.}
+#' \item{Package}{character a package name.}
 #' \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
 #' \item{Version.have}{character installed package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-#' \item{newest}{ logical if the installed version is the newest one.}
+#' \item{newest}{logical if the installed version is the newest one.}
 #' \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page. `pacs::checked_packages` is used to quickly retrieve all statuses at once.}
-#' \item{life_duration}{(Optional) integer number of days package was released.}
+#' \item{lifeduration}{(Optional) integer number of days a package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' When turn on the `lifeduration` options, calculations might be time consuming.
@@ -74,7 +74,6 @@ lib_validate <- function(lib.loc = NULL,
                   sort = FALSE,
                   all.x = TRUE)
 
-
   if (length(checkred)) {
     checkred_all <- checked_packages()
     checkred_names_scope <- checkred_all$Package[grepl(sprintf("(?:%s)", paste(checkred, collapse = "|")), checkred_all$unique_status)]
@@ -83,7 +82,7 @@ lib_validate <- function(lib.loc = NULL,
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
+    result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
   }
 
   result
@@ -102,14 +101,14 @@ lib_validate <- function(lib.loc = NULL,
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
-#' \item{Package}{character package names.}
+#' \item{Package}{character a package name.}
 #' \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
 #' \item{Version.have}{character installed package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 #' \item{newest}{ logical if the installed version is the newest one.}
 #' \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page.}
-#' \item{life_duration}{(Optional) integer number of days package was released.}
+#' \item{lifeduration}{(Optional) integer number of days a package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' When turn on the `lifeduration` option, calculations might be time consuming.
@@ -152,7 +151,7 @@ pac_validate <- function(pac,
   }
 
   if (lifeduration) {
-    result$life_duration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
+    result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
   }
 
   result

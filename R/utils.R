@@ -166,7 +166,7 @@ installed_packages_raw <- memoise::memoise(utils::installed.packages, cache = ca
 
 extract_deps <- function(x) {
   splited <- stri_split_fixed(x, ",")
-  trimed <- lapply(splited, trimws)
+  trimed <- lapply(splited, stri_trim)
   v_reg <- function(x) vapply(stringi::stri_match_all(x, regex = "([0-9\\.-]+)\\)"),
                               function(i) `[`(i, 2),
                               character(1))

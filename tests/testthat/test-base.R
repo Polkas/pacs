@@ -138,7 +138,6 @@ if (is_online()) {
     expect_true(length(pac_namespace("xROI")) >= 0)
     expect_true(length(pac_namespace("CNVScope")) >= 0)
     expect_true(length(pac_namespace("GFORCE")) >= 0)
-    expect_true(length(pac_namespace("xROI", local = TRUE)) == 0)
     expect_true(length(pac_namespace("CrossValidate")) >= 0)
     expect_true(length(pac_namespace("classGraph")) >= 0)
     expect_true(length(pac_namespace("mi")) >= 0)

@@ -5,7 +5,7 @@
 #' @param at Date old version of package. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
-#' @return list named of `difftime`, number of days package version was the newest one.
+#' @return `difftime`, number of days package version was the newest one.
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' Results are cached for 1 hour with `memoise` package, memory cache.
@@ -40,12 +40,14 @@ pac_lifeduration <- function(pac,
     if (isTRUE(utils::compareVersion(descr[["Version"]], last_version) == 0)) {
       base_date <- descr[["Date/Publication"]]
       isUTC <- grepl("UTC", base_date)
-      life <- Sys.Date() - as.Date.character(substr(as.character(base_date), 1, 19), format = paste0("%Y-%m-%d %H:%M:%S"))
+      life <- Sys.Date() - as.Date(as.character(base_date))
+      if (identical(life, structure(numeric(0), class = "difftime", units = "days"))) life <- NA
       return(life)
     } else {
       life <- Sys.Date() - as.Date(pac_description(pac,
                                                    version = descr[["Version"]],
                                                    lib.loc = lib.loc)[["Date/Publication"]])
+      if (identical(life, structure(numeric(0), class = "difftime", units = "days"))) life <- NA
       return(life)
     }
     } else {
@@ -58,7 +60,7 @@ pac_lifeduration <- function(pac,
 
   if (is.null(version) && !is.null(at)) {
     pac_tm <- utils::tail(pac_timemachine(pac, at = at), 1)
-    pac_tm$Life_Duration
+    pac_tm$LifeDuration
   } else {
     if (isTRUE(utils::compareVersion(version, last_version) == 1)) {
       return(NA)
@@ -66,7 +68,7 @@ pac_lifeduration <- function(pac,
     pac_tm <- pac_timemachine(pac)
     if (isTRUE(all(vapply(pac_tm$Version, function(v) isFALSE(utils::compareVersion(v, version) == 0), logical(1))))) return(NA)
     pac_tm <- pac_tm[vapply(pac_tm$Version, function(v) isTRUE(utils::compareVersion(v, version) == 0), logical(1)), ]
-    pac_tm$Life_Duration
+    pac_tm$LifeDuration
   }
 }
 
