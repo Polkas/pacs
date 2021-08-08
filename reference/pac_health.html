@@ -82,7 +82,7 @@ CRAN team gives around one/two week to resolved a package which gave errors unde
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.11</span>
       </span>
     </div>
 
@@ -131,6 +131,7 @@ CRAN team gives around one/two week to resolved a package which gave errors unde
   version <span class='op'>=</span> <span class='cn'>NULL</span>,
   at <span class='op'>=</span> <span class='cn'>NULL</span>,
   limit <span class='op'>=</span> <span class='fl'>14</span>,
+  scope <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ERROR"</span>, <span class='st'>"FAIL"</span><span class='op'>)</span>,
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
   repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span>
 <span class='op'>)</span></code></pre></div>
@@ -153,6 +154,10 @@ CRAN team gives around one/two week to resolved a package which gave errors unde
     <tr>
       <th>limit</th>
       <td><p>numeric at least days to treat as healthy. Default: 14</p></td>
+    </tr>
+    <tr>
+      <th>scope</th>
+      <td><p>character vector scope of R CRAN check pages statuses to consider, any of <code>c("ERROR", "FAIL", "WARN", "NOTE")</code>. Default <code>c("ERROR", "FAIL")</code></p></td>
     </tr>
     <tr>
       <th>lib.loc</th>
