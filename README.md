@@ -31,7 +31,7 @@
 |`pacs_base`                          | R base packages                               |
 |`pac_last`|  The most recent package version|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
-|`checkpage_packages`| Checking all R CRAN packages check page status at once|
+|`checkpage_packages`| Downloading all R CRAN packages check page statuses|
 
 **Hint**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 

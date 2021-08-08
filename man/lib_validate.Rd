@@ -55,6 +55,7 @@ Results are NOT cached with \code{memoise} package, when \code{parallel::mclappl
 For the \code{lifeduration} option there is used the \code{parallel::mclapply} function or \code{parallel::parLapply}, \code{cores} on default is set to all cores minus one.
 \code{cores} argument has lower priority than not \code{NULL} \code{getOption("mc.cores")}or \code{getOption("cl.cores")}.
 Remember that \code{parallel::mclapply} under Windows works like the regular \code{lapply} function, changing \code{cores} will be neutral for Windows machines.
+Warning: Parallel computations might be unstable, remember that optionally only \code{lifeduration} might be triggered for such.
 }
 \examples{
 lib_validate()

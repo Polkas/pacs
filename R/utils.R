@@ -315,7 +315,7 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), repos = "https://cran.
   is_red_check_raw(pac, scope, repos = repos)
 }
 
-#' Checking all R CRAN packages check page statuses.
+#' Downloading all R CRAN packages check page statuses.
 #' @description retrieving all R CRAN packages check pages.
 #' The data is downloaded from `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
 #' @return data.frame

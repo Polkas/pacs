@@ -28,6 +28,7 @@
 #' For the `lifeduration` option there is used the `parallel::mclapply` function or `parallel::parLapply`, `cores` on default is set to all cores minus one.
 #' `cores` argument has lower priority than not `NULL` `getOption("mc.cores")`or `getOption("cl.cores")`.
 #' Remember that `parallel::mclapply` under Windows works like the regular `lapply` function, changing `cores` will be neutral for Windows machines.
+#' Warning: Parallel computations might be unstable, remember that optionally only `lifeduration` might be triggered for such.
 #' @export
 #' @examples
 #' lib_validate()
