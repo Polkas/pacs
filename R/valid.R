@@ -8,8 +8,6 @@
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `character(0)`
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`.
-#' @param cores numeric number of cores to use when `lifeduration` or `checkred` is activated. Default: `max(parallel::detectCores() - 1, 1)`
-#' @param parallel character type of parallel calculations when `lifeduration` or `checkred` is activated, `c("auto", "none", "mclapply", "parLapply")`. Default: `"auto"`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
 #' \item{Package}{character package names.}
@@ -22,13 +20,8 @@
 #' \item{life_duration}{(Optional) integer number of days package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-#' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
+#' When turn on the `lifeduration` options, calculations might be time consuming.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` turned on.
-#' Results are NOT cached with `memoise` package, when `parallel::mclapply` function is used.
-#' For the `lifeduration` option there is used the `parallel::mclapply` function or `parallel::parLapply`, `cores` on default is set to all cores minus one.
-#' `cores` argument has lower priority than not `NULL` `getOption("mc.cores")`or `getOption("cl.cores")`.
-#' Remember that `parallel::mclapply` under Windows works like the regular `lapply` function, changing `cores` will be neutral for Windows machines.
-#' Warning: Parallel computations might be unstable, remember that optionally only `lifeduration` might be triggered for such.
 #' @export
 #' @examples
 #' lib_validate()
@@ -38,15 +31,11 @@ lib_validate <- function(lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
                          checkred = character(0),
-                         repos = "https://cran.rstudio.com/",
-                         cores = max(parallel::detectCores() - 1, 1),
-                         parallel = "auto") {
+                         repos = "https://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(lifeduration))
   stopifnot(length(checkred) == 0 || all(checkred %in% c("ERROR", "FAIL", "WARN", "NOTE")))
-  stopifnot(length(parallel) == 0 || all(parallel %in% c("auto", "none", "mclapply", "parLapply")))
-  stopifnot(is.numeric(cores))
 
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
@@ -91,17 +80,8 @@ lib_validate <- function(lib.loc = NULL,
   }
 
   if (lifeduration) {
-    machine <- Sys.info()["sysname"]
     cat("Please wait, Packages life durations are assessed.\n")
-    if (parallel %in% c("auto", "mclapply") && machine != "Windows") {
-      result$life_duration <- vapply(parallel::mclapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), mc.cores = getOption("mc.cores", cores)), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))
-    } else if (parallel %in% c("auto", "parLapply")) {
-      cl <- parallel::makeCluster(getOption("cl.cores", cores))
-      result$life_duration <- vapply(parallel::parLapply(cl, seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc)), function(z) if (length(z) == 0) NA_real_ else as.numeric(z), numeric(1))
-      parallel::stopCluster(cl)
-    } else {
-      result$life_duration <- lapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc))
-    }
+    result$life_duration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
   }
 
   result
@@ -170,7 +150,7 @@ pac_validate <- function(pac,
 
   if (lifeduration) {
     cat("Please wait, Packages life durations are assessed.\n")
-    result$life_duration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos), numeric(1))
+    result$life_duration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
   }
 
   result

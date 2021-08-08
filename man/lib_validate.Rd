@@ -9,9 +9,7 @@ lib_validate(
   fields = c("Depends", "Imports", "LinkingTo"),
   lifeduration = FALSE,
   checkred = character(0),
-  repos = "https://cran.rstudio.com/",
-  cores = max(parallel::detectCores() - 1, 1),
-  parallel = "auto"
+  repos = "https://cran.rstudio.com/"
 )
 }
 \arguments{
@@ -24,10 +22,6 @@ lib_validate(
 \item{checkred}{character vector scope of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. Default \code{character(0)}}
 
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}.}
-
-\item{cores}{numeric number of cores to use when \code{lifeduration} or \code{checkred} is activated. Default: \code{max(parallel::detectCores() - 1, 1)}}
-
-\item{parallel}{character type of parallel calculations when \code{lifeduration} or \code{checkred} is activated, \code{c("auto", "none", "mclapply", "parLapply")}. Default: \code{"auto"}}
 }
 \value{
 data.frame with 5/6/7 columns.
@@ -49,13 +43,8 @@ Optionally we could add life duration and CRAN check page status for each packag
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-When turn on the \code{lifeduration} and/or \code{checkred} options, calculations might be time consuming.
+When turn on the \code{lifeduration} options, calculations might be time consuming.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} turned on.
-Results are NOT cached with \code{memoise} package, when \code{parallel::mclapply} function is used.
-For the \code{lifeduration} option there is used the \code{parallel::mclapply} function or \code{parallel::parLapply}, \code{cores} on default is set to all cores minus one.
-\code{cores} argument has lower priority than not \code{NULL} \code{getOption("mc.cores")}or \code{getOption("cl.cores")}.
-Remember that \code{parallel::mclapply} under Windows works like the regular \code{lapply} function, changing \code{cores} will be neutral for Windows machines.
-Warning: Parallel computations might be unstable, remember that optionally only \code{lifeduration} might be triggered for such.
 }
 \examples{
 lib_validate()

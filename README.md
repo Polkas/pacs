@@ -35,11 +35,9 @@
 
 **Hint**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-**Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous. For `pacs::lib_validate` (only for activated `lifeduration`) so when `parallel::mclapply` is used results are not cached.
+**Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous.
 
 **Hint3**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
-
-**Hint4**: When your library have more than a few thousand packages (`nrow(utils::installed.packages())`), please be patient when running Internet based functions. Optionally the third hint could be applied, so usage of parallel computation. Ps. Now, the whole R CRAN library contains around 18 thousands packages.
 
 ## Validate the library
 
