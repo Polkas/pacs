@@ -48,6 +48,8 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 }
 \examples{
 lib_validate()
-
+\dontrun{
+lib_validate(checkred = c("ERROR", "FAIL"))
 lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
+}
 }

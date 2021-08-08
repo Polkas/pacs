@@ -9,7 +9,7 @@ pac_validate(
   lib.loc = NULL,
   fields = c("Depends", "Imports", "LinkingTo"),
   lifeduration = FALSE,
-  checkred = FALSE,
+  checkred = character(0),
   repos = "https://cran.rstudio.com/"
 )
 }
@@ -22,7 +22,7 @@ pac_validate(
 
 \item{lifeduration}{logical if to add life duration column, might take some time. Default: FALSE}
 
-\item{checkred}{logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE}
+\item{checkred}{character vector scope of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. Default \code{character(0)}}
 
 \item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 }
@@ -35,7 +35,7 @@ data.frame with 5/6/7 columns.
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 \item{newest}{ logical if the installed version is the newest one.}
-\item{checkred}{(Optional) logical if the newest package contains any errors or warnings on CRAN check page.}
+\item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page.}
 \item{life_duration}{(Optional) integer number of days package was released.}
 }
 }
@@ -46,11 +46,11 @@ Optionally we could add life duration and CRAN check page status for each depend
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-When turn on the \code{lifeduration} and/or \code{checkred} options, calculations might be time consuming.
+When turn on the \code{lifeduration} option, calculations might be time consuming.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} or \code{checkred} turned on.
 Results are cached with \code{memoise} package, memory cache.
 }
 \examples{
 pac_validate("memoise")
-
+pac_validate("memoise", lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
 }

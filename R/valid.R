@@ -25,8 +25,10 @@
 #' @export
 #' @examples
 #' lib_validate()
-#'
+#' \dontrun{
+#' lib_validate(checkred = c("ERROR", "FAIL"))
 #' lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
+#' }
 lib_validate <- function(lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
@@ -96,7 +98,7 @@ lib_validate <- function(lib.loc = NULL,
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
-#' @param checkred logical if to add R CRAN check page status, any WARNING or ERROR will give TRUE. Default FALSE
+#' @param checkred character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `character(0)`
 #' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
@@ -106,26 +108,28 @@ lib_validate <- function(lib.loc = NULL,
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 #' \item{newest}{ logical if the installed version is the newest one.}
-#' \item{checkred}{(Optional) logical if the newest package contains any errors or warnings on CRAN check page.}
+#' \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page.}
 #' \item{life_duration}{(Optional) integer number of days package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-#' When turn on the `lifeduration` and/or `checkred` options, calculations might be time consuming.
+#' When turn on the `lifeduration` option, calculations might be time consuming.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` or `checkred` turned on.
 #' Results are cached with `memoise` package, memory cache.
 #' @export
 #' @examples
 #' pac_validate("memoise")
-#'
+#' pac_validate("memoise", lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
 pac_validate <- function(pac,
                          lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
-                         checkred = FALSE,
+                         checkred = character(0),
                          repos = "https://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot((length(pac) == 1) && is.character(pac))
+  stopifnot(length(checkred) == 0 || all(checkred %in% c("ERROR", "FAIL", "WARN", "NOTE")))
+  stopifnot(is.logical(lifeduration))
 
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
   installed_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields)
@@ -143,13 +147,11 @@ pac_validate <- function(pac,
 
   result$newest <- apply(result, 1, function(x) is_last_release(x["Package"], x["Version.have"]))
 
-  if (checkred) {
-    cat("Please wait, Packages CRAN check statuses are assessed.\n")
-    result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x])), logical(1))
+  if (length(checkred)) {
+    result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x], scope = checkred, repos = repos)), logical(1))
   }
 
   if (lifeduration) {
-    cat("Please wait, Packages life durations are assessed.\n")
     result$life_duration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
   }
 

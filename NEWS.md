@@ -1,7 +1,8 @@
 # 0.2.10
 
 *  Using `https://cran.r-project.org/web/checks/check_summary_by_package.html` to efficiently check the CRAN check pages globally. As a result `lib_validate` is hugely more efficient when `checkred` argument is triggered.
-* Remove `mclapply` `README` examples, add add notes that parallel computations might be unstable.
+* Remove `mclapply` `README` examples, add notes that parallel computations might be unstable.
+* Remove parallel computation from `pacs::lib_validate` as might be unstable and is already optimized.
 
 # 0.2.9
 
