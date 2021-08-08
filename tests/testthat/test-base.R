@@ -152,4 +152,7 @@ if (is_online()) {
                                                                                                                                                     4L))))
   })
 
+  test_that("pacs::checkpage_packages", {
+    expect_true(is.data.frame(pacs::checkpage_packages()))
+  })
 }
