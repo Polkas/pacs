@@ -1,13 +1,25 @@
-# 0.2.11
+# 0.3.1
 
 * New CRAN release.
+* Small docs improvements.
+* Additional tests, maintain coverage over 80%.
+* Additional input validation.
+* Added `xml2` to imports.
+
+# 0.3.0
+
+* Added `pac_checkpage` and `cran_flavors`.
+* Added `flavors` argument to functions checking packages statuses so only specific server might be considered.
+* New `checkred` argument definition for `validate` family functions.
+* Remove `dontrun` from `lib_validate`.
+* Improving docs and descriptions.
 
 # 0.2.10
 
 *  Using `https://cran.r-project.org/web/checks/check_summary_by_package.html` to efficiently check the CRAN check pages globally. As a result `lib_validate` is hugely more efficient when `checkred` argument is triggered.
 * Remove `mclapply` `README` examples, add notes that parallel computations might be unstable.
 * Remove parallel computation from `pacs::lib_validate` as might be unstable and is already optimized.
-* Added `checked_packages()` to retrieve the html table from `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
+* Added `checked_packages()` to retrieve the html table from `https://cran.r-project.org/web/checks/check_summary_by_package.html`, all CRAN checks.
 * Removed `pac_comapre_exports` and replace with more general `pac_comapre_namespace`.
 
 # 0.2.9

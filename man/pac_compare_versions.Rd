@@ -24,7 +24,7 @@ pac_compare_versions(
 
 \item{lib.loc}{character. Default: NULL}
 
-\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 data.frame with 4 columns.

@@ -2,11 +2,12 @@
 % Please edit documentation in R/check.R
 \name{pac_checkred}
 \alias{pac_checkred}
-\title{Checking the R CRAN package check page status}
+\title{Checking the package R CRAN check page status}
 \usage{
 pac_checkred(
   pac,
   scope = c("ERROR", "FAIL"),
+  flavors = NULL,
   repos = "https://cran.rstudio.com/"
 )
 }
@@ -15,19 +16,26 @@ pac_checkred(
 
 \item{scope}{character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
 
-\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
+\item{flavors}{character vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default all CRAN machines are considered, NULL value. Default NULL}
+
+\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 logical if the package fail under specified criteria.
 }
 \description{
-using R CRAN package check page to validate if there are ANY errors and/or warnings and/or notes.
+using package R CRAN check page to validate if there are ANY errors and/or fails and/or warnings and/or notes.
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.
-If you need to check many packages at once then recommended usage of \code{pacs::checked_packages}.
+If you need to check many packages at once then is recommended usage of \code{pacs::checked_packages}.
+Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{
 pac_checkred("dplyr")
 pac_checkred("dplyr", scope = c("ERROR"))
+pac_checkred("dplyr",
+             scope = c("ERROR", "FAIL", "WARN"),
+             flavors = c("r-devel-linux-x86_64-debian-clang",
+             "r-devel-linux-x86_64-debian-gcc"))
 }

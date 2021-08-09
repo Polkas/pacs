@@ -4,7 +4,7 @@
 #' @param version character version of package, by default the local version is taken if not available then the newest is assumed. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return `difftime`, number of days package version was the newest one.
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
@@ -81,8 +81,9 @@ pac_lifeduration <- function(pac,
 #' @param at Date old version of package. Default: NULL
 #' @param limit numeric at least days to treat as healthy. Default: 14
 #' @param scope character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `c("ERROR", "FAIL")`
+#' @param flavors character vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default all CRAN machines are considered, NULL value. Default NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return logical if package is healthy.
 #' @note Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
 #' The newest release are checked for warnings/errors on R CRAN check page.
@@ -91,12 +92,14 @@ pac_lifeduration <- function(pac,
 #' @export
 #' @examples
 #' pac_health("memoise")
-#' pac_health("dplyr", version = "0.8.0")
+#' pac_health("dplyr", version = "0.8.0", limit = 14)
+#' pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
 pac_health <- function(pac,
                        version = NULL,
                        at = NULL,
                        limit = 14,
                        scope = c("ERROR", "FAIL"),
+                       flavors = NULL,
                        lib.loc = NULL,
                        repos = "https://cran.rstudio.com/") {
   stopifnot(length(pac) == 1 && is.character(pac))
@@ -127,7 +130,7 @@ pac_health <- function(pac,
   res <- isTRUE(life >= limit)
 
   if (is_last_release(pac, version, at)) {
-    if (isTRUE(pac_checkred(pac, scope = scope))) FALSE else res
+    if (isTRUE(pac_checkred(pac, scope = scope, flavors = flavors, repos = repos))) FALSE else res
   } else {
     res
   }

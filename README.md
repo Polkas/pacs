@@ -11,6 +11,7 @@
 - Assessing life duration of a specific package version.
 - Checking a package CRAN check page status for any errors and warnings.
 - Retrieving a DESCRIPTION or NAMESPACE file for any package version.
+- Comparing DESCRIPTION or NAMESPACE files between different package versions.
 - Getting a list of all releases for a specific package.
 
 | Function                            | Description                                                 | 
@@ -32,12 +33,16 @@
 |`pac_last`|  The most recent package version|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
 |`checked_packages`| Downloading all R CRAN packages check page statuses|
+|`pac_checkpage` |   Retrieving the package R CRAN check page.|
+|`cran_flavors`|  Retrieving all R CRAN servers flavors (servers)|
 
-**Hint**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
+**Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-**Hint2**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous.
+**Hint2**: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages()` over `pacs::pac_last`.
 
-**Hint3**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
+**Hint3**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous.
+
+**Hint4**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
 
 ## Validate the library
 
@@ -51,48 +56,36 @@ pacs::lib_validate()
 
 The full library validation require activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, for `lifeduration` assessment might take even few minutes for bigger libraries.
 
-```r
-pacs::lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
-```
-
-### Package Weight Case Study: `devtools`
-
-Take into account that packages sizes are appropriate for your local system (`Sys.info()`).
-Installation with `install.packages` and some `devtools` functions might result in different packages sizes.
+Assessment of status on CRAN check pages takes only few additional seconds even for all R CRAN packages. `pacs::checked_packages()` is used to gather all packages check statuses for all CRAN servers.
 
 ```r
-# if not have
-install.packages("devtools")
-install.packages("shiny")
+pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
 ```
 
-Size of the `devtools` package:
+When `lifeduration` is triggered then assessment might takes even few minutes.
 
 ```r
-cat(pacs::pac_size("devtools") / 10**6, "MB", "\n")
+pacs::lib_validate(lifeduration = TRUE, 
+                   checkred = list(scope = c("ERROR", "FAIL")))
 ```
 
-True size of the package as taking into account its dependencies.
-At the time of writing it, it is `113MB` for `devtools` without base packages (`Mac OS arm64`).
+Not only scope for check pages could be updated, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify `flavors` field inside list consumed by the `checkred` argument and narrow the tested machines. The full list of CRAN servers (flavors) might be get with `pacs::cran_flavors()$Flavor`.
 
 ```r
-cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")
+pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"), 
+                   flavors = pacs::cran_flavors()$Flavor[1:2]))
 ```
 
-A reasonable assumption might be to count only dependencies which are not used by any other package.
-Then we could use `exclude_joint` argument to limit them.
-However hard to assume if your local installation is a reasonable proxy for an average user.
+## R CRAN packages check page statuses
 
-```
-# exclude packages if at least one other package use it too
-cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
-```
-
-Might be useful to check the number of dependencies too:
+`checked_packages` was built to extend the `.packages` family functions, like `utils::installed.packages()` and `utils::available.packages()`. 
+`pacs::checked_packages` retrieves all current packages checks from CRAN, from `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
 
 ```r
-pacs::pac_deps("devtools", local = TRUE)$Package
+pacs::checked_packages()
 ```
+
+Use `pacs::pac_checkpage("dplyr")` to get per package check page. However `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result are cached after the first invoke.
 
 ## Time machine - Package version at Date or specific Date interval
 
@@ -105,12 +98,6 @@ pac_timemachine("dplyr", version = "0.8.0")
 pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 pac_timemachine("dplyr", at = Sys.Date())
-```
-
-CRAN packages mirror at Date - will take some time (even few minutes):
-
-```r
-all_timemachine <- lapply(rownames(installed.packages()), function(x) pacs::pac_timemachine(x, at = as.Date("2020-08-08")))
 ```
 
 ## Package health
@@ -130,10 +117,10 @@ With 14 day limit we get a proper health status. We are sure about this state as
 pac_health("dplyr", version = "0.8.0", limit = 14)
 ```
 
-All packages health with default arguments, skipped non CRAN packages - will take some time (even few minutes):
+For the newest package we will check the CRAN check page too, the scope might be adjusted.
 
 ```r
-all_pacs_health <- lapply(rownames(installed.packages()), function(x) pacs::pac_health(x))
+pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
 ```
 
 ## Package DESCRIPTION file
@@ -161,7 +148,7 @@ pacs::pac_namespace("dplyr", at = as.Date("2019-01-01"))
 For the newest release.
 
 ```r
-pacs::pacs::pac_deps("devtools", local = FALSE)$Package
+pacs::pac_deps("devtools", local = FALSE)$Package
 ```
 
 For a certain version, might take some time.
@@ -248,6 +235,45 @@ pacs::pac_compare_namespace("shiny", "1.0.0", "1.5.0")$exports
 pacs::pac_compare_namespace("shiny", "1.0.0")
 ```
 
+## Package Weight Case Study: `devtools`
+
+Take into account that packages sizes are appropriate for your local system (`Sys.info()`).
+Installation with `install.packages` and some `devtools` functions might result in different packages sizes.
+
+```r
+# if not have
+install.packages("devtools")
+install.packages("shiny")
+```
+
+Size of the `devtools` package:
+
+```r
+cat(pacs::pac_size("devtools") / 10**6, "MB", "\n")
+```
+
+True size of the package as taking into account its dependencies.
+At the time of writing it, it is `113MB` for `devtools` without base packages (`Mac OS arm64`).
+
+```r
+cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")
+```
+
+A reasonable assumption might be to count only dependencies which are not used by any other package.
+Then we could use `exclude_joint` argument to limit them.
+However hard to assume if your local installation is a reasonable proxy for an average user.
+
+```
+# exclude packages if at least one other package use it too
+cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
+```
+
+Might be useful to check the number of dependencies too:
+
+```r
+pacs::pac_deps("devtools", local = TRUE)$Package
+```
+
 ## packages versions
 
 Small guide how to work with packages versions ("package_version" and "numeric_version" classes).
@@ -262,34 +288,4 @@ str(v1)
 compareVersion("1.1.1", "1.0.0")
 # comparing versions vector with pacs::compareVersionsMax
 pacs::compareVersionsMax(c("1.1.1", "1.0.0", "3.3.3"))
-```
-
-## Bonus - base solutions
-
-What we have now:
-
-```r
-# installed packages might be misleading as the current installation could be unhealthy
-# Installation (utils::installed.packages()) might be easy broken with e.g. devtools::install_version
-install_pacs <- utils::installed.packages()
-deps_pacs <- tools::package_dependencies("shiny", db = install_pacs, recursive = T, which = c("Depends", "Imports", "LinkingTo"))[[1]]
-install_pacs[install_pacs[, c("Package")] %in% deps_pacs, ][,c("Package", "Version")]
-
-# Using R CRAN mirror
-avail_pacs <- utils::available.packages()
-deps_pacs <- tools::package_dependencies("shiny", db = avail_pacs, recursive = T, which = c("Depends", "Imports", "LinkingTo"))[[1]]
-avail_pacs[avail_pacs[, c("Package")] %in% deps_pacs, ][,c("Package", "Version")]
-```
- 
-Dependencies in both directions:
-
-```r
-# For certain fields (which) please use at least R 4.1.0
-# default on utils::available.packages - remote R mirror
-# unfortunately omitting versions
-all_dependencies <- tools::package_dependencies(recursive = TRUE, db = installed.packages(),
-                                                which = c("Depends", "Imports", "LinkingTo"))
-                                                
-# in other direction packages depends on a certain package
-tools::dependsOnPkgs("stats")
 ```

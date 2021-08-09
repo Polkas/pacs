@@ -10,6 +10,7 @@ pac_health(
   at = NULL,
   limit = 14,
   scope = c("ERROR", "FAIL"),
+  flavors = NULL,
   lib.loc = NULL,
   repos = "https://cran.rstudio.com/"
 )
@@ -25,9 +26,11 @@ pac_health(
 
 \item{scope}{character vector scope of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. Default \code{c("ERROR", "FAIL")}}
 
+\item{flavors}{character vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default all CRAN machines are considered, NULL value. Default NULL}
+
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 logical if package is healthy.
@@ -45,5 +48,6 @@ Results are cached for 1 hour with \code{memoise} package, memory cache.
 }
 \examples{
 pac_health("memoise")
-pac_health("dplyr", version = "0.8.0")
+pac_health("dplyr", version = "0.8.0", limit = 14)
+pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
 }

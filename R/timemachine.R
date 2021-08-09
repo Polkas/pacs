@@ -5,7 +5,7 @@
 #' @param from Date new version of package. Default: NULL
 #' @param version character version of package. Default: NULL
 #' @param to Date CRAN URL. Default: NULL
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return data.frame with 7 columns
 #' \describe{
 #' \item{Package}{character package name.}
@@ -31,7 +31,7 @@ pac_timemachine <- function(pac,
                             to = NULL,
                             version = NULL,
                             repos = "https://cran.rstudio.com/") {
-  stopifnot(pac %in% c(rownames(available_packages(repos = repos)), pacs_base()))
+  stopifnot(pac %in% rownames(available_packages(repos = repos)))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),
@@ -112,22 +112,16 @@ pac_archived_raw <- function(pac) {
   rr <- try(readLines(paste0("https://cran.r-project.org", base_archive)), silent = TRUE)
 
   if (!inherits(rr, "try-error") && any(grepl(pac, rr))) {
-    rr_range <- grep("</?table+>", rr)
+    rr_range <- grep("</?table>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     # not use rvest as it is too big dependency
-    header <- stringi::stri_match_all(rrr[[1]], regex = ">([^<>]+)<")[[1]][, 2]
+    header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
 
-    result_raw <- as.data.frame(
-      do.call(
-        rbind,
-        lapply(
-          4:(length(rrr) - 1),
-          function(x) stringi::stri_match_all(rrr[x], regex = ">([^<>]+)<")[[1]][, 2]
-        )
-      ),
-      stringsAsFactors = FALSE
-    )
-    colnames(result_raw) <- header
+    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr[2:length(rrr)], collapse = "\n")), "//td"))),
+                         ncol = length(header),
+                         nrow = length(rrr) - 3, byrow = TRUE))
+    result_raw <- result_raw[-1, -1]
+    colnames(result_raw) <- header[-1]
 
     result <- result_raw[result_raw[["Last modified"]] != "", ]
     colnames(result) <- c("Package", "Released", "Size", "Description")

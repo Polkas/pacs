@@ -187,7 +187,7 @@ last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem
 #' Getting the most recent package version
 #' @description using `utils::available.packages` to get the newest package version.
 #' @param pac character a package name.
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the repository to use. Default `https://cran.rstudio.com/`
 #' @return character most recent package version.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export

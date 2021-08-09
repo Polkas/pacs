@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{checked_packages}
 \alias{checked_packages}
-\title{Downloading all R CRAN packages check page statuses.}
+\title{Retrieving all R CRAN packages check pages statuses.}
 \usage{
 checked_packages()
 }
@@ -10,7 +10,7 @@ checked_packages()
 data.frame with the same structure as the html table on \verb{https://cran.r-project.org/web/checks/check_summary_by_package.html}.
 }
 \description{
-Retrieving all R CRAN packages check pages.
+Retrieving all R CRAN packages check pages statuses.
 The data is downloaded from \verb{https://cran.r-project.org/web/checks/check_summary_by_package.html}.
 }
 \note{

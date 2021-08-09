@@ -6,8 +6,8 @@
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
-#' @param checkred character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `character(0)`
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`.
+#' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
+#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
@@ -25,19 +25,20 @@
 #' @export
 #' @examples
 #' lib_validate()
-#' \dontrun{
-#' lib_validate(checkred = c("ERROR", "FAIL"))
-#' lib_validate(lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
-#' }
 lib_validate <- function(lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
-                         checkred = character(0),
+                         checkred = list(scope = character(0), flavors = NULL),
                          repos = "https://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(lifeduration))
-  stopifnot(length(checkred) == 0 || all(checkred %in% c("ERROR", "FAIL", "WARN", "NOTE")))
+  stopifnot(is.list(checkred) &&
+              length(checkred) %in% c(1,2) &&
+              (c("scope") %in% names(checkred)) &&
+              length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
+              is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)
+  )
 
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
@@ -74,9 +75,11 @@ lib_validate <- function(lib.loc = NULL,
                   sort = FALSE,
                   all.x = TRUE)
 
-  if (length(checkred)) {
+  if (length(checkred$scope)) {
     checkred_all <- checked_packages()
-    checkred_names_scope <- checkred_all$Package[grepl(sprintf("(?:%s)", paste(checkred, collapse = "|")), checkred_all$unique_status)]
+    flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
+    checkred_all$unique_status <- apply(checkred_all[, flavors], 1, function(x) paste0(sort(unique(x)), collapse = ", "))
+    checkred_names_scope <- checkred_all$Package[grepl(sprintf("(?:%s)", paste(checkred$scope, collapse = "|")), checkred_all$unique_status)]
     result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
   }
 
@@ -97,8 +100,8 @@ lib_validate <- function(lib.loc = NULL,
 #' @param lib.loc character. Default: NULL
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
-#' @param checkred character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `character(0)`
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
+#' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
+#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
@@ -117,18 +120,25 @@ lib_validate <- function(lib.loc = NULL,
 #' @export
 #' @examples
 #' pac_validate("memoise")
-#' pac_validate("memoise", lifeduration = TRUE, checkred = c("ERROR", "FAIL"))
+#' pac_validate("memoise",
+#'              lifeduration = TRUE,
+#'              checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL))
 pac_validate <- function(pac,
                          lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
-                         checkred = character(0),
+                         checkred = list(scope = character(0), flavors = NULL),
                          repos = "https://cran.rstudio.com/") {
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(length(checkred) == 0 || all(checkred %in% c("ERROR", "FAIL", "WARN", "NOTE")))
   stopifnot(is.logical(lifeduration))
+  stopifnot(is.list(checkred) &&
+              length(checkred) %in% c(1,2) &&
+              (c("scope") %in% names(checkred)) &&
+              length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
+              is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)
+  )
 
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
   installed_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields)
@@ -146,8 +156,8 @@ pac_validate <- function(pac,
 
   result$newest <- apply(result, 1, function(x) is_last_release(x["Package"], x["Version.have"]))
 
-  if (length(checkred)) {
-    result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x], scope = checkred, repos = repos)), logical(1))
+  if (length(checkred$scope)) {
+    result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && pac_checkred(result$Package[x], scope = checkred$scope, flavors = checkred$flavors, repos = repos)), logical(1))
   }
 
   if (lifeduration) {

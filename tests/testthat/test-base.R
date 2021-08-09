@@ -56,12 +56,17 @@ test_that("pacs::pacs_base", {
 if (is_online()) {
   test_that("pacs::pac_compare_versions", {
     expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
+    expect_true(suppressWarnings(any(duplicated(colnames(pac_compare_versions("memoise", "2.0.0", "2.0.0"))))))
+    expect_error(pac_compare_versions("memoise", "2.0.0", "2.4.0"))
+    expect_error(pac_compare_versions("memoise", "2.8.0", "2.4.0"))
   })
 
   test_that("pacs::pac_compare_namesapce", {
     expect_true(length(pac_compare_namespace("memoise", "0.2.1", "2.0.0")) == 10)
     expect_identical(pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports$added, c("cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
                                                                                "drop_cache", "has_cache", "timeout"))
+    expect_error(pac_compare_namespace("memoise", "2.0.0", "2.4.0"))
+    expect_error(pac_compare_namespace("memoise", "2.8.0", "2.4.0"))
   })
 
   test_that("pacs::pac_deps_timemachine", {
@@ -72,6 +77,8 @@ if (is_online()) {
     expect_error(lib_validate(lib.loc = "wrong"))
     lib_res <- lib_validate()
     expect_true(inherits(lib_res, "data.frame"))
+    expect_error(lib_validate(checkred = TRUE))
+    expect_error(lib_validate(checkred = "ERROR"))
   })
 
   test_that("pacs::pac_validate", {
@@ -151,10 +158,25 @@ if (is_online()) {
                                                                                                                                                     4L))))
   })
 
+  checked <- pacs::checked_packages()
+
   test_that("pacs::checked_packages", {
-    checked <- pacs::checked_packages()
     expect_true(is.data.frame(checked))
     expect_true(nrow(checked) > 0)
     expect_true(all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked)))
+  })
+
+  flavs <- pacs::cran_flavors()
+  test_that("pacs::cran_flavors()", {
+    expect_true(all(flavs$Flavor %in% colnames(checked)))
+    expect_true(nrow(flavs) > 0)
+    expect_true(is.data.frame(flavs))
+  })
+
+  test_that("pacs::pac_checkpage", {
+    dplyr_checkpage <- pacs::pac_checkpage("dplyr")
+    expect_true(all(flavs$Flavor %in% dplyr_checkpage$Flavor))
+    expect_true(nrow(dplyr_checkpage) > 0)
+    expect_true(is.data.frame(dplyr_checkpage))
   })
 }

@@ -9,7 +9,7 @@ pac_last(pac, repos = "https://cran.rstudio.com/")
 \arguments{
 \item{pac}{character a package name.}
 
-\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 character most recent package version.

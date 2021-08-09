@@ -21,7 +21,7 @@ pac_lifeduration(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.

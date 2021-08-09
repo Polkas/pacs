@@ -5,7 +5,7 @@
 #' @param at Date. Default: NULL
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
-#' @param repos character the base URL of the repositories to use. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with names proper for DESCRIPTION file fields.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export

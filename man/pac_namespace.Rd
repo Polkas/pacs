@@ -24,7 +24,7 @@ pac_namespace(
 
 \item{lib.loc}{character used optionally when local is equal TRUE. Default: NULL}
 
-\item{repos}{character the base URL of the repositories to use. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 list with names proper for NAMESPACE file, the same as format as returned by \code{base::parseNamespaceFile}.
