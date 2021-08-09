@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compare DESCRIPTION files dependencies between specific packages versions — pac_compare_versions • pacs</title>
+<title>Retrieving the package R CRAN check page — pac_checkpage • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Compare DESCRIPTION files dependencies between specific packages versions — pac_compare_versions" />
-<meta property="og:description" content="using the remote github CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions." />
+<meta property="og:title" content="Retrieving the package R CRAN check page — pac_checkpage" />
+<meta property="og:description" content="Retrieving the R CRAN package check page." />
 
 
 
@@ -113,23 +113,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compare DESCRIPTION files dependencies between specific packages versions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/comapre.R'><code>R/comapre.R</code></a></small>
-    <div class="hidden name"><code>pac_compare_versions.Rd</code></div>
+    <h1>Retrieving the package R CRAN check page</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/check.R'><code>R/check.R</code></a></small>
+    <div class="hidden name"><code>pac_checkpage.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>using the remote github CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions.</p>
+    <p>Retrieving the R CRAN package check page.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_compare_versions</span><span class='op'>(</span>
-  <span class='va'>pac</span>,
-  old <span class='op'>=</span> <span class='cn'>NULL</span>,
-  new <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Imports"</span>, <span class='st'>"Depends"</span>, <span class='st'>"LinkingTo"</span><span class='op'>)</span>,
-  lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span>
-<span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_checkpage</span><span class='op'>(</span><span class='va'>pac</span>, repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,22 +132,6 @@
       <td><p>character a package name.</p></td>
     </tr>
     <tr>
-      <th>old</th>
-      <td><p>character an old version of package, default local version. Default: NULL</p></td>
-    </tr>
-    <tr>
-      <th>new</th>
-      <td><p>character a new version of package, default newest version. Default: NULL</p></td>
-    </tr>
-    <tr>
-      <th>fields</th>
-      <td><p>character a vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></td>
-    </tr>
-    <tr>
-      <th>lib.loc</th>
-      <td><p>character. Default: NULL</p></td>
-    </tr>
-    <tr>
       <th>repos</th>
       <td><p>character the base URL of the repository to use. Used only for the validation. Default <code>https://cran.rstudio.com/</code></p></td>
     </tr>
@@ -162,27 +139,45 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame with 4 columns.</p><dl>
-<dt>Package</dt><dd><p>character package names.</p></dd>
-<dt>Version.OLD</dt><dd><p>character versions of dependencies required by an old package version.</p></dd>
-<dt>Version.NEW</dt><dd><p>character versions of dependencies required by a new package version.</p></dd>
-<dt>version_status</dt><dd><p>numeric -1/0/1 which comes from <code><a href='https://rdrr.io/r/utils/compareVersion.html'>utils::compareVersion</a></code> function.
-0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.</p></dd>
+    <p>data.frame.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-</dl>
-
+    <p>Results are cached for 1 hour with <code>memoise</code> package.
+If you need to check many packages at once then is recommended usage of <code><a href='checked_packages.html'>pacs::checked_packages</a></code>.
+Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pac_compare_versions</span><span class='op'>(</span><span class='st'>"memoise"</span>, <span class='st'>"0.2.1"</span>, <span class='st'>"2.0.0"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   Package Version.0.2.1 Version.2.0.0 version_status</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  cachem          &lt;NA&gt;                            1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  digest                        &lt;NA&gt;             -1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   rlang          &lt;NA&gt;        0.4.10              1</span>
-<span class='r-in'><span class='fu'>pac_compare_versions</span><span class='op'>(</span><span class='st'>"memoise"</span>, <span class='st'>"0.2.1"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   Package Version.0.2.1 Version.2.0.0 version_status</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  cachem          &lt;NA&gt;                            1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  digest                        &lt;NA&gt;             -1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   rlang          &lt;NA&gt;        0.4.10              1</span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pac_checkpage</span><span class='op'>(</span><span class='st'>"dplyr"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               Flavor Version Tinstall Tcheck Ttotal Status</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  r-devel-linux-x86_64-debian-clang   1.0.7    23.41 189.36 212.77     OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    r-devel-linux-x86_64-debian-gcc   1.0.7    15.45 138.48 153.93     OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  r-devel-linux-x86_64-fedora-clang   1.0.7                 249.30   NOTE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    r-devel-linux-x86_64-fedora-gcc   1.0.7                 238.79   NOTE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5             r-devel-windows-x86_64   1.0.7    30.00 242.00 272.00     OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  r-devel-windows-x86_64-gcc10-UCRT   1.0.7                          NOTE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7             r-patched-linux-x86_64   1.0.7    20.04 115.59 135.63     OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8              r-patched-solaris-x86   1.0.7                 301.00   NOTE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9             r-release-linux-x86_64   1.0.7    18.88 190.68 209.56     OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10             r-release-macos-arm64   1.0.7                          NOTE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11            r-release-macos-x86_64   1.0.7                          NOTE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12     r-release-windows-ix86_x86_64   1.0.7    32.00 246.00 278.00     OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13             r-oldrel-macos-x86_64   1.0.7                          NOTE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14      r-oldrel-windows-ix86_x86_64   1.0.7    42.00 306.00 348.00     OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Flags</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14      </span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

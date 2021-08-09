@@ -25,10 +25,16 @@
     <loc>/reference/compareVersionsMin.html</loc>
   </url>
   <url>
+    <loc>/reference/cran_flavors.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
     <loc>/reference/lib_validate.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pac_checkpage.html</loc>
   </url>
   <url>
     <loc>/reference/pac_checkred.html</loc>
