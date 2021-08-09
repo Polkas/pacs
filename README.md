@@ -38,11 +38,18 @@
 
 **Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-**Hint2**: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages()` over `pacs::pac_last`.
+**Hint2**: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
 
 **Hint3**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous.
 
 **Hint4**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
+
+## Installation
+
+```r
+# install.packages("remotes")
+remotes::install_github("polkas/pacs")
+```
 
 ## Validate the library
 
@@ -69,7 +76,7 @@ pacs::lib_validate(lifeduration = TRUE,
                    checkred = list(scope = c("ERROR", "FAIL")))
 ```
 
-Not only scope for check pages could be updated, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify `flavors` field inside list consumed by the `checkred` argument and narrow the tested machines. The full list of CRAN servers (flavors) might be get with `pacs::cran_flavors()$Flavor`.
+Not only `scope` field inside `checkred` list could be updated, to remind any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify `flavors` field inside the  `checkred` list argument and narrow the tested machines. The full list of CRAN servers (flavors) might be get with `pacs::cran_flavors()$Flavor`.
 
 ```r
 pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"), 
@@ -79,25 +86,24 @@ pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"),
 ## R CRAN packages check page statuses
 
 `checked_packages` was built to extend the `.packages` family functions, like `utils::installed.packages()` and `utils::available.packages()`. 
-`pacs::checked_packages` retrieves all current packages checks from CRAN, from `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
+`pacs::checked_packages` retrieves all current packages checks from [CRAN webpage](https://cran.r-project.org/web/checks/check_summary_by_package.html).
 
 ```r
 pacs::checked_packages()
 ```
 
-Use `pacs::pac_checkpage("dplyr")` to get per package check page. However `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result are cached after the first invoke.
+Use `pacs::pac_checkpage("dplyr")` to get per package check page. However `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result is cached after the first invoke.
 
 ## Time machine - Package version at Date or specific Date interval
 
-Using R CRAN website to get packages version/versions used at a specific Date or a Date interval.  
-Please as a courtesy to the R CRAN, don't overload their server by constantly using these functions.
+Using R CRAN website to get packages version/versions used at a specific Date or a Date interval.
 
 ```r
-pac_timemachine("dplyr")
-pac_timemachine("dplyr", version = "0.8.0")
-pac_timemachine("dplyr", at = as.Date("2017-02-02"))
-pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
-pac_timemachine("dplyr", at = Sys.Date())
+pacs::pac_timemachine("dplyr")
+pacs::pac_timemachine("dplyr", version = "0.8.0")
+pacs::pac_timemachine("dplyr", at = as.Date("2017-02-02"))
+pacs::pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
+pacs::pac_timemachine("dplyr", at = Sys.Date())
 ```
 
 ## Package health
@@ -108,19 +114,21 @@ If not then we might assume something wrong was with it, as had to be quickly up
 e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could find out that it was published only for 1 day.
 
 ```r
-pac_lifeduration("dplyr", "0.8.0")
+pacs::pac_lifeduration("dplyr", "0.8.0")
 ```
 
-With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages (released less than 14 days ago) we are checking if there are any red messages on CRAN check pages.
+With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages we are checking if there are any red messages on CRAN check pages too, specify with a `scope` argument.
 
 ```r
-pac_health("dplyr", version = "0.8.0", limit = 14)
+pacs::pac_health("dplyr", version = "0.8.0", limit = 14)
 ```
 
 For the newest package we will check the CRAN check page too, the scope might be adjusted.
 
 ```r
-pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
+pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"))
+pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"), 
+                 flavors = pacs::cran_flavors()$Flavor[1])
 ```
 
 ## Package DESCRIPTION file
@@ -159,17 +167,8 @@ pacs::pac_deps_timemachine("dplyr", version = "0.8.1")
 
 ## Package dependencies and differences between versions
 
-The crucial functionality is to get versions for all package dependencies. 
+One of the main functionality is to get versions for all package dependencies. 
 Versions might come form installed packages or DESCRIPTION files.
-
-Useful functions to get list of base packages. 
-You might want to exclude them from final results.
-
-```r
-pacs::pacs_base()
-# start up loaded, base packages
-pacs::pacs_base(startup = TRUE)
-```
 
 `pac_deps` for an extremely fast retrieving of package dependencies, 
 packages versions might come from installed ones or from DESCRIPTION files (required minimum).
@@ -200,6 +199,17 @@ Raw dependencies from DESCRIPTION file
 ```r
 pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
 ```
+
+Useful functions to get list of base packages. 
+You might want to exclude them from final results.
+
+```r
+pacs::pacs_base()
+# start up loaded, base packages
+pacs::pacs_base(startup = TRUE)
+```
+
+## Comparing DESCRIPTION or NAMESPACE files between different package versions
 
 Comparing DESCRIPTION file dependencies between local and newest package.
 We will get duplicated columns if the local version is the newest one.

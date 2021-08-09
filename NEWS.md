@@ -5,6 +5,7 @@
 * Additional tests, maintain coverage over 80%.
 * Additional input validation.
 * Added `xml2` to imports.
+* Update `README` file.
 
 # 0.3.0
 

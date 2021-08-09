@@ -79,6 +79,14 @@ if (is_online()) {
     expect_true(inherits(lib_res, "data.frame"))
     expect_error(lib_validate(checkred = TRUE))
     expect_error(lib_validate(checkred = "ERROR"))
+    lib_res2 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
+    lib_res3 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
+    lib_res4 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN", "NOTE")))
+    expect_true(sum(lib_res3$checkred, na.rm = TRUE) >= sum(lib_res2$checkred, na.rm = TRUE))
+    expect_true(sum(lib_res4$checkred, na.rm = TRUE) >= sum(lib_res3$checkred, na.rm = TRUE))
+    lib_res_s1 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = cran_flavors()$Flavor[1]))
+    lib_res_s2 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = cran_flavors()$Flavor[1:4]))
+    expect_true(sum(lib_res_s2$checkred, na.rm = TRUE) >= sum(lib_res_s1$checkred, na.rm = TRUE))
   })
 
   test_that("pacs::pac_validate", {
