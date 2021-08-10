@@ -1,6 +1,10 @@
-# 0.3.1
+# 0.3.2
 
 * New CRAN release.
+* Added `\dontrun` to most of examples as `utils::installed.packages` consumes 30 seconds on win-builder.
+
+# 0.3.1
+
 * Small docs improvements.
 * Additional tests, maintain coverage over 80%.
 * Additional input validation.

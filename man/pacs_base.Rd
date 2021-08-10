@@ -16,6 +16,8 @@ character vector
 using installed.packages and priority equal "base" to retrieve base packages.
 }
 \examples{
+\dontrun{
 pacs_base()
 pacs_base(startup = TRUE)
+}
 }

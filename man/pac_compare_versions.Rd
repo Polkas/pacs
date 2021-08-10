@@ -40,6 +40,8 @@ data.frame with 4 columns.
 using the remote github CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions.
 }
 \examples{
+\dontrun{
 pac_compare_versions("memoise", "0.2.1", "2.0.0")
 pac_compare_versions("memoise", "0.2.1")
+}
 }

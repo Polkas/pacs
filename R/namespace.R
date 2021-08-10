@@ -11,10 +11,11 @@
 #' This function is mainly built under source code from `base::parseNamespaceFile`.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_namespace("dplyr", version = "0.8.0")
 #' pac_namespace("dplyr", at = as.Date("2019-02-01"))
 #' pac_namespace("memoise", local = TRUE)
-#'
+#' }
 pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc = NULL, repos = "https://cran.rstudio.com/") {
   stopifnot(isFALSE(local) ||
               (isTRUE(local) && (is.null(version) || isTRUE(utils::packageDescription(pac)$Version == version))))

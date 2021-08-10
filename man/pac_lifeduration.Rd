@@ -35,7 +35,9 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 Results are cached for 1 hour with \code{memoise} package, memory cache.
 }
 \examples{
+\dontrun{
 pac_lifeduration("memoise")
 pac_lifeduration("dplyr", version = "0.8.0")
 pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+}
 }

@@ -47,7 +47,9 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 Results are cached for 1 hour with \code{memoise} package, memory cache.
 }
 \examples{
+\dontrun{
 pac_health("memoise")
 pac_health("dplyr", version = "0.8.0", limit = 14)
 pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
+}
 }

@@ -22,9 +22,11 @@
 #' Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 #' pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 #' pac_timemachine("dplyr", at = Sys.Date())
+#' }
 pac_timemachine <- function(pac,
                             at = NULL,
                             from = NULL,

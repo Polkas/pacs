@@ -18,5 +18,7 @@ numeric size in bytes, to get MB ten divide by \code{10**6}.
 size of package.
 }
 \examples{
+\dontrun{
 cat(pacs::pac_size("stats") / 10**6, "MB")
+}
 }

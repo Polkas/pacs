@@ -24,7 +24,15 @@
 #' Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
+#' \dontrun{
 #' lib_validate()
+#' lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
+#' lib_validate(checkred = list(scope = c("ERROR", "FAIL"),
+#'              flavors = cran_flavors()$Flavor[1:2]))
+#' # activate lifeduration argument, could be time consuming for bigger libraries.
+#' lib_validate(lifeduration = TRUE,
+#'              checkred = list(scope = c("ERROR", "FAIL")))
+#' }
 lib_validate <- function(lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
@@ -119,10 +127,12 @@ lib_validate <- function(lib.loc = NULL,
 #' Results are cached with `memoise` package, memory cache.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_validate("memoise")
 #' pac_validate("memoise",
 #'              lifeduration = TRUE,
 #'              checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL))
+#' }
 pac_validate <- function(pac,
                          lib.loc = NULL,
                          fields = c("Depends", "Imports", "LinkingTo"),

@@ -51,8 +51,10 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 Results are cached with \code{memoise} package, memory cache.
 }
 \examples{
+\dontrun{
 pac_validate("memoise")
 pac_validate("memoise",
              lifeduration = TRUE,
              checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL))
+}
 }

@@ -33,6 +33,8 @@ Package dependencies from DESCRIPTION files retrieved recursively for certain ve
 Longer lived version is taken if 2 is available at the same date (switch time).
 }
 \examples{
+\dontrun{
 pacs::pac_deps_timemachine("memoise", "0.2.1")
 pacs::pac_deps_timemachine("memoise", at = as.Date("2021-01-01"))
+}
 }

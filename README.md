@@ -33,8 +33,8 @@
 |`pac_last`|  The most recent package version|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
 |`checked_packages`| Downloading all R CRAN packages check page statuses|
-|`pac_checkpage` |   Retrieving the package R CRAN check page.|
-|`cran_flavors`|  Retrieving all R CRAN servers flavors (servers)|
+|`pac_checkpage` |   Retrieving the package R CRAN check page|
+|`cran_flavors`|  Retrieving all R CRAN servers flavors|
 
 **Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 

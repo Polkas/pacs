@@ -10,8 +10,10 @@
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_description("dplyr", version = "0.8.0")
 #' pac_description("dplyr", at = as.Date("2019-02-01"))
+#' }
 pac_description <- function(pac,
                             version = NULL,
                             at = NULL,

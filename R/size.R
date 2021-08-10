@@ -5,7 +5,9 @@
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
+#' \dontrun{
 #' cat(pacs::pac_size("stats") / 10**6, "MB")
+#' }
 pac_size <- function(pac,
                      lib.loc = NULL) {
   stopifnot((length(pac) == 1) && is.character(pac))
@@ -29,9 +31,10 @@ pac_size <- function(pac,
 #' @return numeric size in bytes, to get MB then divide by `10**6`.
 #' @export
 #' @examples
+#' \dontrun{
 #' # size in MB, with all its dependencies
 #' pacs::pac_true_size("memoise") / 10**6
-#'
+#' }
 pac_true_size <- function(pac,
                           fields = c("Depends", "Imports", "LinkingTo"),
                           lib.loc = NULL,

@@ -14,6 +14,7 @@
 #' `stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)`.
 #' @export
 #' @examples
+#' \dontrun{
 #' pacs::pac_deps("stats", base = TRUE)$Package
 #' pacs::pac_deps("memoise")$Package
 #' pacs::pac_deps("memoise", description_v = FALSE)
@@ -21,6 +22,7 @@
 #' pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
 #' # raw dependencies from DESCRIPTION file - last release
 #' pacs::pac_deps("memoise", description_v = TRUE, local = FALSE, recursive = FALSE)
+#' }
 pac_deps <- function(pac,
                      fields = c("Depends", "Imports", "LinkingTo"),
                      lib.loc = NULL,

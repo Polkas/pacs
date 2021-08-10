@@ -16,8 +16,10 @@
 #' }
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_compare_versions("memoise", "0.2.1", "2.0.0")
 #' pac_compare_versions("memoise", "0.2.1")
+#' }
 pac_compare_versions <- function(pac,
                                  old = NULL,
                                  new = NULL,
@@ -83,8 +85,10 @@ pac_compare_versions <- function(pac,
 #' @note The comparison is only about exports.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_compare_namespace("shiny", "1.0.0", "1.6.0")
 #' pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
+#' }
 pac_compare_namespace <- function(pac,
                                 old = NULL,
                                 new = NULL,

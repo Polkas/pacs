@@ -37,8 +37,9 @@ Results are cached for 1 hour with \code{memoise} package.
 This function is mainly built under source code from \code{base::parseNamespaceFile}.
 }
 \examples{
+\dontrun{
 pac_namespace("dplyr", version = "0.8.0")
 pac_namespace("dplyr", at = as.Date("2019-02-01"))
 pac_namespace("memoise", local = TRUE)
-
+}
 }

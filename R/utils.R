@@ -87,8 +87,10 @@ is_online <- function(site = "https://example.com/") {
 #' @param startup logical include only startup packages. Default: FALSE
 #' @return character vector
 #' @examples
+#' \dontrun{
 #' pacs_base()
 #' pacs_base(startup = TRUE)
+#' }
 #' @export
 #'
 pacs_base <- function(startup = FALSE) {

@@ -9,8 +9,10 @@
 #' @return named vector package dependencies and their versions at the release date of main package plus one day.
 #' @export
 #' @examples
+#' \dontrun{
 #' pacs::pac_deps_timemachine("memoise", "0.2.1")
 #' pacs::pac_deps_timemachine("memoise", at = as.Date("2021-01-01"))
+#' }
 pac_deps_timemachine <- function(pac,
                                  version = NULL,
                                  at = NULL,

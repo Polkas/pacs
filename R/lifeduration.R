@@ -11,9 +11,11 @@
 #' Results are cached for 1 hour with `memoise` package, memory cache.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_lifeduration("memoise")
 #' pac_lifeduration("dplyr", version = "0.8.0")
 #' pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+#' }
 pac_lifeduration <- function(pac,
                              version = NULL,
                              at = NULL,
@@ -91,9 +93,11 @@ pac_lifeduration <- function(pac,
 #' Results are cached for 1 hour with `memoise` package, memory cache.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_health("memoise")
 #' pac_health("dplyr", version = "0.8.0", limit = 14)
 #' pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
+#' }
 pac_health <- function(pac,
                        version = NULL,
                        at = NULL,

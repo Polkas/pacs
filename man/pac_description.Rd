@@ -36,6 +36,8 @@ package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CR
 Results are cached for 1 hour with \code{memoise} package.
 }
 \examples{
+\dontrun{
 pac_description("dplyr", version = "0.8.0")
 pac_description("dplyr", at = as.Date("2019-02-01"))
+}
 }

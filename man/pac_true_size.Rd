@@ -30,7 +30,8 @@ True size of the package as it takes into account its dependencies.
 R base packages are not counted.
 }
 \examples{
+\dontrun{
 # size in MB, with all its dependencies
 pacs::pac_true_size("memoise") / 10**6
-
+}
 }

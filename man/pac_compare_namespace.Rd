@@ -33,6 +33,8 @@ using the remote github CRAN mirror to compare NAMESPACE exports between specifi
 The comparison is only about exports.
 }
 \examples{
+\dontrun{
 pac_compare_namespace("shiny", "1.0.0", "1.6.0")
 pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
+}
 }
