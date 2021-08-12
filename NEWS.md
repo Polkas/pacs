@@ -1,6 +1,7 @@
 # 0.3.3
 
-* Fix `lib_validate` as it not take into account statuses for not fully performed tests, it was case for less than 1% of packages.
+* Fix `lib_validate` as it not take into account statuses for not fully performed tests, it was case for less than 1% of all packages.
+* Add note that `checked_packages` could return duplicated observations which is expected.
 
 # 0.3.2
 
