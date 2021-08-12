@@ -28,12 +28,14 @@ pac_description <- function(pac,
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
-  if (!pac %in% rownames(available_packages(repos = repos)) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1))) {
+  is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
+
+  if (!is_installed && (!pac %in% rownames(available_packages(repos = repos)) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
     return(list())
   }
 
   if (local && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
-    if (!pac %in% installed_packages(lib.loc = lib.loc)) return(list())
+    if (!is_installed) return(list())
     return(utils::packageDescription(pac, lib.loc))
   } else {
     pac_description_dcf(pac, version, at)
@@ -48,7 +50,7 @@ pac_description_dcf_raw <- function(pac, version, at) {
 
   ee <- tempfile()
 
-  last_version <- last_version_fun(pac)
+  last_version <- pac_last(pac)
 
   if (is.null(version)) {
     version <- last_version
@@ -70,7 +72,7 @@ pac_description_dcf_raw <- function(pac, version, at) {
   )
   if (inherits(tt, "try-error")) {
     temp_tar <- tempfile(fileext = "tar.gz")
-    if (!is.null(version) && version != last_version) {
+    if (isTRUE(!is.null(version) && version != last_version)) {
       base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)
     } else {
       base_url <- "https://cran.r-project.org/src/contrib"

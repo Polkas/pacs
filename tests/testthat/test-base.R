@@ -57,16 +57,16 @@ if (is_online()) {
   test_that("pacs::pac_compare_versions", {
     expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
     expect_true(suppressWarnings(any(duplicated(colnames(pac_compare_versions("memoise", "2.0.0", "2.0.0"))))))
-    expect_error(pac_compare_versions("memoise", "2.0.0", "2.4.0"))
-    expect_error(pac_compare_versions("memoise", "2.8.0", "2.4.0"))
+    expect_error(suppressWarnings(pac_compare_versions("memoise", "2.0.0", "22.4.0")))
+    expect_error(pac_compare_versions("memoise", "22.8.0", "22.4.0"))
   })
 
   test_that("pacs::pac_compare_namesapce", {
     expect_true(length(pac_compare_namespace("memoise", "0.2.1", "2.0.0")) == 10)
     expect_identical(pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports$added, c("cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
                                                                                "drop_cache", "has_cache", "timeout"))
-    expect_error(pac_compare_namespace("memoise", "2.0.0", "2.4.0"))
-    expect_error(pac_compare_namespace("memoise", "2.8.0", "2.4.0"))
+    expect_error(suppressWarnings(pac_compare_namespace("memoise", "2.0.0", "22.4.0")))
+    expect_error(pac_compare_namespace("memoise", "22.8.0", "22.4.0"))
   })
 
   test_that("pacs::pac_deps_timemachine", {
@@ -74,6 +74,7 @@ if (is_online()) {
   })
 
   test_that("pacs::lib_validate", {
+    expect_identical(sort(rownames(installed_packages())), sort(setdiff(c(lib_validate()$Package, pacs_base()), "R")))
     expect_error(lib_validate(lib.loc = "wrong"))
     lib_res <- lib_validate()
     expect_true(inherits(lib_res, "data.frame"))
@@ -122,7 +123,7 @@ if (is_online()) {
     expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
     expect_true(utils::compareVersion(pac_description("memoise", local = TRUE)$Version,
                                       pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
-    expect_identical(pac_description("dplyr", "1.1.1.1"), list())
+    expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), list())
     expect_identical(pac_description("WRONG"), list())
     expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), list())
   })
@@ -157,13 +158,9 @@ if (is_online()) {
     expect_true(length(pac_namespace("classGraph")) >= 0)
     expect_true(length(pac_namespace("mi")) >= 0)
     expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
-    expect_identical(pac_namespace("dplyr", "1.1.1.1"), list())
+    expect_identical(suppressWarnings(pac_namespace("dplyr", "1.1.1.1")), list())
     expect_identical(pac_namespace("WRONG"), list())
-    expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), list(imports = list(), exports = character(0), exportPatterns = character(0),
-                                                                               importClasses = list(), importMethods = list(), exportClasses = character(0),
-                                                                               exportMethods = character(0), exportClassPatterns = character(0),
-                                                                               dynlibs = character(0), S3methods = structure(character(0), .Dim = c(0L,
-                                                                                                                                                    4L))))
+    expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), list())
   })
 
   checked <- pacs::checked_packages()

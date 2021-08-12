@@ -25,19 +25,22 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
-  if (!pac %in% rownames(available_packages(repos = repos)) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1))) {
+  is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
+
+  if (!is_installed && (!pac %in% rownames(available_packages(repos = repos)) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
     return(list())
   }
 
   if (local && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
-    if (!pac %in% installed_packages(lib.loc = lib.loc)) return(list())
+    if (!is_installed) return(list())
     namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"))
   } else {
     namespace_lines <- pac_readnamespace(pac, version, at)
+    if (length(namespace_lines) == 0) return(list())
   }
 
-  enc <- pacs::pac_description(pac = pac, version = version, at = at, lib.loc = lib.loc, repos = repos)$Encoding
-  if (is.null(enc)) enc <- "UTF-8"
+  enc <- suppressWarnings(pacs::pac_description(pac = pac, version = version, at = at, lib.loc = lib.loc, repos = repos))$Encoding
+  if (is.null(enc) || is.na(enc)) enc <- "UTF-8"
 
   directives <- if (!is.na(enc) && !Sys.getlocale("LC_CTYPE") %in%
                     c("C", "POSIX")) {
@@ -266,7 +269,7 @@ pac_readnamespace_raw <- function(pac, version, at) {
   )
   if (inherits(tt, "try-error")) {
     temp_tar <- tempfile(fileext = "tar.gz")
-    if (!is.null(version) && version != last_version) {
+    if (isTRUE(!is.null(version) && version != last_version)) {
       base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)
     } else {
       base_url <- "https://cran.r-project.org/src/contrib"
