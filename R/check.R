@@ -78,6 +78,7 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL, repos 
 #' The data is downloaded from `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
 #' @return data.frame with the same structure as the html table on `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
 #' @note Results are cached for 1 hour with `memoise` package.
+#' Some packages could be duplicated as not all tests are performed for a new version so two versions still coexists.
 #' @export
 checked_packages <- function() {
   packages <- read_checkred_packages()
