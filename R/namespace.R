@@ -33,7 +33,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
 
   if (local && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
     if (!is_installed) return(list())
-    namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"))
+    namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"), warn = FALSE)
   } else {
     namespace_lines <- pac_readnamespace(pac, version, at)
     if (length(namespace_lines) == 0) return(list())
@@ -293,10 +293,10 @@ pac_readnamespace_raw <- function(pac, version, at) {
     temp_dir <- tempdir(check = TRUE)
     utils::untar(temp_tar, exdir = temp_dir)
     # tabs are not acceptable
-    result <- readLines(file.path(temp_dir, pac, "NAMESPACE"))
+    result <- readLines(file.path(temp_dir, pac, "NAMESPACE"), warn = FALSE)
     unlink("temp_dir", recursive = TRUE)
   } else {
-    result <- readLines(ee)
+    result <- readLines(ee, warn = FALSE)
     unlink(ee)
   }
 

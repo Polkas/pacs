@@ -74,7 +74,7 @@ pac_timemachine <- function(pac,
 }
 
 pac_cran_recent_raw <- function(pac) {
-  cran_page <- try(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac)), silent = TRUE)
+  cran_page <- try(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac), warn = FALSE), silent = TRUE)
   if (!inherits(cran_page, "try-error") && any(grepl(pac, cran_page))) {
     cran_v <- utils::head(gsub("</?td>", "", cran_page[grep("Version:", cran_page) + 1]), 1)
     cran_released <- utils::head(gsub("</?td>", "", cran_page[grep("Published:", cran_page) + 1]), 1)
@@ -111,7 +111,7 @@ pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_m
 
 pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
-  rr <- try(readLines(paste0("https://cran.r-project.org", base_archive)), silent = TRUE)
+  rr <- try(readLines(paste0("https://cran.r-project.org", base_archive), warn = FALSE), silent = TRUE)
 
   if (!inherits(rr, "try-error") && any(grepl(pac, rr))) {
     rr_range <- grep("</?table>", rr)

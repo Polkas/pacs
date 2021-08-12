@@ -75,7 +75,7 @@ dir_size <- function(path, recursive = TRUE) {
 is_online <- function(site = "https://example.com/") {
   tryCatch(
     {
-      suppressWarnings(readLines(site, n = 1))
+      suppressWarnings(readLines(site, n = 1, warn = FALSE))
       TRUE
     },
     error = function(e) FALSE

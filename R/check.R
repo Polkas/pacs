@@ -1,5 +1,5 @@
 read_checkpage_raw <- function(pac) {
-  rr <- try(readLines(sprintf("https://cran.r-project.org/web/checks/check_results_%s.html", pac)), silent = TRUE)
+  rr <- try(readLines(sprintf("https://cran.r-project.org/web/checks/check_results_%s.html", pac), warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
@@ -92,7 +92,7 @@ checked_packages <- function() {
 }
 
 read_checkred_packages_raw <- function() {
-  rr <- try(readLines("https://cran.r-project.org/web/checks/check_summary_by_package.html"), silent = TRUE)
+  rr <- try(readLines("https://cran.r-project.org/web/checks/check_summary_by_package.html", warn = FALSE), silent = TRUE)
 
   if (!inherits(rr, "try-error")) {
     length_rr <- length(rr)
@@ -118,7 +118,7 @@ read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = c
 
 read_cran_flavours_raw <- function() {
   base_url <- "https://cran.r-project.org/web/checks/check_flavors.html"
-  rr <- try(readLines(base_url), silent = TRUE)
+  rr <- try(readLines(base_url, warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
