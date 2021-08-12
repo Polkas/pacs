@@ -1,3 +1,7 @@
+# 0.3.3
+
+* Fix `lib_validate` as it not take into account statuses for not fully performed tests, it was case for less than 1% of packages.
+
 # 0.3.2
 
 * New CRAN release.

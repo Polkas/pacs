@@ -86,7 +86,8 @@ lib_validate <- function(lib.loc = NULL,
   if (length(checkred$scope)) {
     checkred_all <- checked_packages()
     flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
-    checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% checkred$scope))
+    scope_final <- c(checkred$scope, paste0(checkred$scope, "*"))
+    checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
     checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
     result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
   }
