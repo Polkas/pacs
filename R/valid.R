@@ -69,9 +69,10 @@ lib_validate <- function(lib.loc = NULL,
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
-  newest_df <- merge(available_packages(repos = repos)[, c("Package", "Version")],
-                     installed_agg[, c("Package", "Version")],
+  newest_df <- merge(installed_agg[, c("Package", "Version")],
+                     available_packages(repos = repos)[, c("Package", "Version")],
         by = "Package",
+        all.x = TRUE,
         sort = FALSE
   )
 
@@ -90,6 +91,7 @@ lib_validate <- function(lib.loc = NULL,
     checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
     checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
     result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
+    result$checkred[is.na(result$newest)] <- NA
   }
 
   if (lifeduration) {

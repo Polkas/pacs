@@ -2,6 +2,7 @@
 
 * Fix `lib_validate` as it not take into account statuses for not fully performed tests, it was case for less than 1% of all packages.
 * Add note that `checked_packages` could return duplicated observations which is expected.
+* Improve merge in `lib_validate` to show non-CRAN packages too.
 
 # 0.3.2
 
