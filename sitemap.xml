@@ -16,6 +16,12 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/available_packages.html</loc>
+  </url>
+  <url>
+    <loc>/reference/biocran_repos.html</loc>
+  </url>
+  <url>
     <loc>/reference/checked_packages.html</loc>
   </url>
   <url>
