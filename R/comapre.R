@@ -5,7 +5,7 @@
 #' @param new character a new version of package, default newest version. Default: NULL
 #' @param fields character a vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character. Default: NULL
-#' @param repos character the base URL of the repository to use. Default "https://cran.rstudio.org"
+#' @param repos character the base URL of the CRAN repository to use. Default "https://cran.rstudio.org"
 #' @return data.frame with 4 columns.
 #' \describe{
 #' \item{Package}{character package names.}
@@ -27,7 +27,7 @@ pac_compare_versions <- function(pac,
                                  lib.loc = NULL,
                                  repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(pac %in% rownames(available_packages(repos = repos)))
+  stopifnot(pac_on(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
@@ -80,7 +80,7 @@ pac_compare_versions <- function(pac,
 #' @param old character an old version of package.
 #' @param new character a new version of package.
 #' @param lib.loc character. Default: NULL
-#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with `c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")` slots, and added and removed ones for each of them.
 #' @note The comparison is only about exports.
 #' @export
@@ -95,7 +95,7 @@ pac_compare_namespace <- function(pac,
                                 lib.loc = NULL,
                                 repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(pac %in% rownames(available_packages(repos = repos)))
+  stopifnot(pac_on(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(is.character(repos))

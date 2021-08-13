@@ -21,7 +21,7 @@ lib_validate(
 
 \item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. \code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines. Default \code{list(scope = character(0), flavor = NULL)}}
 
-\item{repos}{character the base URL of the repository to use. Default \code{pacs::biocran_repos()}}
+\item{repos}{character vector base URLs of the repositories to use. Default \code{pacs::biocran_repos()}}
 }
 \value{
 data.frame with 6/7/8 columns.

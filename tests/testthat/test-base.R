@@ -124,9 +124,9 @@ if (is_online()) {
     expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
     expect_true(utils::compareVersion(pac_description("memoise", local = TRUE)$Version,
                                       pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
-    expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), list())
-    expect_identical(pac_description("WRONG"), list())
-    expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), list())
+    expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
+    expect_identical(pac_description("WRONG"), structure(list(), package = "WRONG"))
+    expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
   })
 
   test_that("pacs::pac_last", {
@@ -159,9 +159,9 @@ if (is_online()) {
     expect_true(length(pac_namespace("classGraph")) >= 0)
     expect_true(length(pac_namespace("mi")) >= 0)
     expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
-    expect_identical(suppressWarnings(pac_namespace("dplyr", "1.1.1.1")), list())
-    expect_identical(pac_namespace("WRONG"), list())
-    expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), list())
+    expect_identical(suppressWarnings(pac_namespace("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
+    expect_identical(pac_namespace("WRONG"), structure(list(), package = "WRONG"))
+    expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
   })
 
   checked <-  suppressWarnings(pacs::checked_packages())
@@ -181,7 +181,7 @@ if (is_online()) {
 
   test_that("pacs::pac_checkpage", {
     dplyr_checkpage <- pacs::pac_checkpage("dplyr")
-    expect_true(all(flavs$Flavor %in% dplyr_checkpage$Flavor))
+    expect_true(all(dplyr_checkpage$Flavor %in% flavs$Flavor))
     expect_true(nrow(dplyr_checkpage) > 0)
     expect_true(is.data.frame(dplyr_checkpage))
   })

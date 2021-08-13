@@ -2,7 +2,7 @@
 % Please edit documentation in R/namespace.R
 \name{pac_namespace}
 \alias{pac_namespace}
-\title{CRAN package NAMESPACE file}
+\title{package NAMESPACE file}
 \usage{
 pac_namespace(
   pac,
@@ -16,7 +16,7 @@ pac_namespace(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character package version. Default: NULL}
+\item{version}{character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL}
 
 \item{at}{Date. Default: NULL}
 
@@ -24,7 +24,7 @@ pac_namespace(
 
 \item{lib.loc}{character used optionally when local is equal TRUE. Default: NULL}
 
-\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the CRAN repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 list with names proper for NAMESPACE file, the same as format as returned by \code{base::parseNamespaceFile}.

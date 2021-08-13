@@ -1,11 +1,11 @@
-#' CRAN package NAMESPACE file
+#' package NAMESPACE file
 #' @description CRAN package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 #' @param pac character a package name.
-#' @param version character package version. Default: NULL
+#' @param version character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL
 #' @param at Date. Default: NULL
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
-#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with names proper for NAMESPACE file, the same as format as returned by `base::parseNamespaceFile`.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' This function is mainly built under source code from `base::parseNamespaceFile`.
@@ -27,19 +27,26 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
 
-  if (!is_installed && (!pac %in% rownames(available_packages(repos = repos)) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
-    return(list())
+  if (!is_installed && (!pac_on(pac, repos) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
+    return(structure(list(), package = pac, version = version))
   }
 
-  if ((local || is_installed) && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
-    if (!is_installed) return(list())
+  if ((local) && (is.null(version) || (!is.null(version) && isTRUE(is_installed && utils::packageDescription(pac)$Version == version)))) {
+    if (!is_installed) return(structure(list(), package = pac, version = version))
     namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"), warn = FALSE)
+    version <- pac_description(pac, local = TRUE)$Version
   } else {
     namespace_lines <- pac_readnamespace(pac, version, at)
-    if (length(namespace_lines) == 0) return(list())
+    if (length(namespace_lines) == 0 && is_installed && is.null(version)) {
+      namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"), warn = FALSE)
+      version <- pac_description(pac, local = TRUE)$Version
+    } else if (length(namespace_lines) == 0) {
+      version <- attr(namespace_lines, "version")
+      return(structure(list(), package = pac, version = version))
+    }
   }
 
-  enc <- suppressWarnings(pacs::pac_description(pac = pac, version = version, at = at, lib.loc = lib.loc, repos = repos))$Encoding
+  enc <- suppressWarnings(pacs::pac_description(pac = pac, version = version, at = at, lib.loc = lib.loc, repos = repos)$Encoding)
   if (is.null(enc) || is.na(enc)) enc <- "UTF-8"
 
   directives <- if (!is.na(enc) && !Sys.getlocale("LC_CTYPE") %in%
@@ -232,11 +239,12 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
   }
   for (e in directives) parseDirective(e)
   dynlibs <- dynlibs[!duplicated(dynlibs)]
-  list(imports = imports, exports = exports, exportPatterns = unique(exportPatterns),
+  result <- list(imports = imports, exports = exports, exportPatterns = unique(exportPatterns),
        importClasses = importClasses, importMethods = importMethods,
        exportClasses = unique(exportClasses), exportMethods = unique(exportMethods),
        exportClassPatterns = unique(exportClassPatterns), dynlibs = dynlibs, S3methods = unique(S3methods[seq_len(nS3),
                                                                                                           , drop = FALSE]))
+  structure(result, package = pac, version = version)
 }
 
 pac_readnamespace_raw <- function(pac, version, at) {
@@ -288,7 +296,7 @@ pac_readnamespace_raw <- function(pac, version, at) {
                            quiet = TRUE
       )}, silent = TRUE)
 
-    if (inherits(download, "try-error")) return(list())
+    if (inherits(download, "try-error")) return(structure(list(), package = pac, version = version))
 
     temp_dir <- tempdir(check = TRUE)
     utils::untar(temp_tar, exdir = temp_dir)
@@ -300,7 +308,7 @@ pac_readnamespace_raw <- function(pac, version, at) {
     unlink(ee)
   }
 
-  result
+  structure(result, package = pac, version = version)
 }
 
 pac_readnamespace <- memoise::memoise(pac_readnamespace_raw, cache = cachem::cache_mem(max_age = 60 * 60))

@@ -30,7 +30,7 @@ pac_health(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character the base URL of the repository to use. Default "https://cran.rstudio.org"}
+\item{repos}{character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"}
 }
 \value{
 logical if package is healthy.

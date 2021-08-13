@@ -7,7 +7,7 @@
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
-#' @param repos character the base URL of the repository to use. Default `pacs::biocran_repos()`
+#' @param repos character vector base URLs of the repositories to use. Default `pacs::biocran_repos()`
 #' @return data.frame with 6/7/8 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
@@ -49,6 +49,7 @@ lib_validate <- function(lib.loc = NULL,
               length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
               is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)
   )
+  stopifnot(is.character(repos))
 
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
@@ -130,7 +131,7 @@ lib_validate <- function(lib.loc = NULL,
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
-#' @param repos character the base URL of the repository to use. Default `pacs::biocran_repos()`
+#' @param repos character vector base URLs of the repositories to use. Default `pacs::biocran_repos()`
 #' @return data.frame with 5/6/7 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
@@ -171,6 +172,7 @@ pac_validate <- function(pac,
               length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
               is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)
   )
+  stopifnot(is.character(repos))
 
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
   installed_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields)
@@ -187,9 +189,9 @@ pac_validate <- function(pac,
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
 
-  result$newest <- apply(result, 1, function(x) isTRUE(pac_last(x["Package"]) == x["Version.have"]))
+  result$newest <- apply(result, 1, function(x) isTRUE(pac_islast(x["Package"], version = x["Version.have"],  repos = repos)))
 
-  result$cran <- apply(result, 1, function(x) isTRUE(is_cran(x["Package"])))
+  result$cran <- apply(result, 1, function(x) isTRUE(pac_on(x["Package"], "https://cran.rstudio.com/")))
 
   if (length(checkred$scope)) {
     result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && result$cran[x] && pac_checkred(result$Package[x], scope = checkred$scope, flavors = checkred$flavors)), logical(1))

@@ -15,13 +15,13 @@ pac_lifeduration(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character version of package, by default the local version is taken if not available then the newest is assumed. Default: NULL}
+\item{version}{character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL}
 
 \item{at}{Date old version of package. Default: NULL}
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character the base URL of the repository to use. Default \code{biocran_repos()}}
+\item{repos}{character vector base URLs of the repository to use. Default \code{biocran_repos()}}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.
@@ -39,5 +39,6 @@ Results are cached for 1 hour with \code{memoise} package, memory cache.
 pac_lifeduration("memoise")
 pac_lifeduration("dplyr", version = "0.8.0")
 pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+pac_lifeduration("S4Vectors")
 }
 }

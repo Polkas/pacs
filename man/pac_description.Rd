@@ -2,7 +2,7 @@
 % Please edit documentation in R/description.R
 \name{pac_description}
 \alias{pac_description}
-\title{CRAN package DESCRIPTION file}
+\title{package DESCRIPTION file}
 \usage{
 pac_description(
   pac,
@@ -16,7 +16,7 @@ pac_description(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character package version. Default: NULL}
+\item{version}{character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL}
 
 \item{at}{Date. Default: NULL}
 
@@ -24,7 +24,7 @@ pac_description(
 
 \item{lib.loc}{character used optionally when local is equal TRUE. Default: NULL}
 
-\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the CRAN repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 list with names proper for DESCRIPTION file fields.
