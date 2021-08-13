@@ -1,5 +1,5 @@
-#' Package NAMESPACE file
-#' @description package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
+#' CRAN package NAMESPACE file
+#' @description CRAN package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 #' @param pac character a package name.
 #' @param version character package version. Default: NULL
 #' @param at Date. Default: NULL
@@ -31,7 +31,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
     return(list())
   }
 
-  if (local && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
+  if ((local || is_installed) && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
     if (!is_installed) return(list())
     namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"), warn = FALSE)
   } else {

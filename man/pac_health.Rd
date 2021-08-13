@@ -2,7 +2,7 @@
 % Please edit documentation in R/lifeduration.R
 \name{pac_health}
 \alias{pac_health}
-\title{Package health state at a specific Date or for a specific version}
+\title{CRAN package health state at a specific Date or for a specific version}
 \usage{
 pac_health(
   pac,
@@ -30,7 +30,7 @@ pac_health(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Default "https://cran.rstudio.org"}
 }
 \value{
 logical if package is healthy.

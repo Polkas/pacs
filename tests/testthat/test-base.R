@@ -74,7 +74,8 @@ if (is_online()) {
   })
 
   test_that("pacs::lib_validate", {
-    expect_identical(sort(rownames(installed_packages())), sort(setdiff(c(lib_validate()$Package, pacs_base()), "R")))
+    expect_identical(sort(unique(rownames(installed_packages()))),
+                     sort(unique(setdiff(c(lib_validate()$Package, pacs_base()), "R"))))
     expect_error(lib_validate(lib.loc = "wrong"))
     lib_res <- lib_validate()
     expect_true(inherits(lib_res, "data.frame"))
@@ -130,7 +131,7 @@ if (is_online()) {
 
   test_that("pacs::pac_last", {
     expect_identical(
-    unname(available.packages(repos = "https://cran.rstudio.com/", filters = list(
+    unname(utils::available.packages(repos = "https://cran.rstudio.com/", filters = list(
       function(db) db[db[,"Package"] == "dplyr", ]
     ))["Version"]),
     pac_last("dplyr", repos = "https://cran.rstudio.com/")
@@ -163,7 +164,7 @@ if (is_online()) {
     expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), list())
   })
 
-  checked <- pacs::checked_packages()
+  checked <-  suppressWarnings(pacs::checked_packages())
 
   test_that("pacs::checked_packages", {
     expect_true(is.data.frame(checked))

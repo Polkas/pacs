@@ -1,4 +1,4 @@
-#' Package dependencies
+#' package dependencies
 #' @description Package dependencies from DESCRIPTION files with installed or expected versions or newest released.
 #' @param pac character a package name.
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`

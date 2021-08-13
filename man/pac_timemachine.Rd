@@ -4,14 +4,7 @@
 \alias{pac_timemachine}
 \title{Package version at a specific Date or a Date interval}
 \usage{
-pac_timemachine(
-  pac,
-  at = NULL,
-  from = NULL,
-  to = NULL,
-  version = NULL,
-  repos = "https://cran.rstudio.com/"
-)
+pac_timemachine(pac, at = NULL, from = NULL, to = NULL, version = NULL)
 }
 \arguments{
 \item{pac}{character a package name.}
@@ -23,8 +16,6 @@ pac_timemachine(
 \item{to}{Date CRAN URL. Default: NULL}
 
 \item{version}{character version of package. Default: NULL}
-
-\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 data.frame with 7 columns

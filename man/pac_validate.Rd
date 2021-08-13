@@ -10,7 +10,7 @@ pac_validate(
   fields = c("Depends", "Imports", "LinkingTo"),
   lifeduration = FALSE,
   checkred = list(scope = character(0), flavors = NULL),
-  repos = "https://cran.rstudio.com/"
+  repos = biocran_repos()
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ pac_validate(
 
 \item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. \code{flavor} vector of machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines. Default \code{list(scope = character(0), flavor = NULL)}}
 
-\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Default \code{pacs::biocran_repos()}}
 }
 \value{
 data.frame with 5/6/7 columns.
@@ -35,6 +35,7 @@ data.frame with 5/6/7 columns.
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 \item{newest}{ logical if the installed version is the newest one.}
+\item{cran}{logical if the package is on CRAN, version is not taken into accout here.}
 \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page.}
 \item{lifeduration}{(Optional) integer number of days a package was released.}
 }

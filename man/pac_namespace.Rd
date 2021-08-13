@@ -2,7 +2,7 @@
 % Please edit documentation in R/namespace.R
 \name{pac_namespace}
 \alias{pac_namespace}
-\title{Package NAMESPACE file}
+\title{CRAN package NAMESPACE file}
 \usage{
 pac_namespace(
   pac,
@@ -30,7 +30,7 @@ pac_namespace(
 list with names proper for NAMESPACE file, the same as format as returned by \code{base::parseNamespaceFile}.
 }
 \description{
-package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
+CRAN package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.

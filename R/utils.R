@@ -154,7 +154,10 @@ installed_agg_fun_raw <- function(lib.loc = NULL, fields) {
 
 installed_agg_fun <- memoise::memoise(installed_agg_fun_raw, cache = cachem::cache_mem(max_age = 60*60))
 
-available_packages <- function(repos = "https://cran.rstudio.com/") {
+#' List Available Packages at CRAN-like Repositories
+#' @description available_packages returns a matrix of details corresponding to packages currently available at one or more repositories. The current list of packages is downloaded over the internet (or copied from a local mirror).
+#' @param repos character vector, the base URL(s) of the repositories to use. Default `pacs::biocran_repos()`
+available_packages <- function(repos = biocran_repos()) {
   available_packages_raw(repos = repos)
 }
 
@@ -181,7 +184,12 @@ extract_deps <- function(x) {
 }
 
 last_version_raw <- function(pac , repos) {
-  available_packages()[rownames(available_packages()) == pac, "Version"]
+  which_p <- rownames(available_packages(repos = repos)) == pac
+  if (sum(which_p, na.rm = TRUE) > 0) {
+    available_packages(repos = repos)[which_p, "Version"]
+  } else {
+    NA
+  }
 }
 
 last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem(max_age = 60*60))
@@ -189,41 +197,69 @@ last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem
 #' Getting the most recent package version
 #' @description using `utils::available.packages` to get the newest package version.
 #' @param pac character a package name.
-#' @param repos character the base URL of the repository to use. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the repository to use. Default `pacs::biocran_repos()`
 #' @return character most recent package version.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
 #' pac_last("dplyr")
-pac_last <- function(pac, repos = "https://cran.rstudio.com/") {
+pac_last <- function(pac, repos = biocran_repos()) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.character(repos))
 
-  if (!pac %in% rownames(available_packages(repos = repos))) {
+  if (isTRUE(!pac %in% rownames(available_packages(repos = repos)))) {
     return(NA)
   }
+
   last_version_fun(pac, repos = repos)
 }
 
-is_last_release <- function(pac, version = NULL, at = NULL, lib.loc = NULL, repos = "https://cran.rstudio.com/") {
+
+is_cran <- function(pac) {
+  stopifnot((length(pac) == 1) && is.character(pac))
+  if (isTRUE(!pac %in% rownames(available_packages(repos = "https://cloud.r-project.org")))) {
+    FALSE
+  } else {
+    TRUE
+  }
+}
+
+#' Simple wrapper around `BiocManager::repositories`
+#' @description Simple wrapper around `BiocManager::repositories`, suppress messages which are expected e.g. for RStudio users.
+#' @param ... optional `BiocManager::repositories` arguments.
+#' @return named character vector of repositories.
+#' @export
+#' @examples
+#' biocran_repos()
+#' biocran_repos(version = "3.13")
+biocran_repos <- function(...) {
+  suppressMessages(BiocManager::repositories(...))
+}
+
+is_last_release <- function(pac, version = NULL, at = NULL, lib.loc = NULL, repos = c("https://bioconductor.org/packages/3.13/bioc",
+                                                                                      "https://bioconductor.org/packages/3.13/data/annotation",
+                                                                                      "https://bioconductor.org/packages/3.13/data/experiment",
+                                                                                      "https://bioconductor.org/packages/3.13/workflows",
+                                                                                      "https://bioconductor.org/packages/3.13/books",
+                                                                                      "https://cloud.r-project.org")) {
   stopifnot(xor(!is.null(version), !is.null(at)) || (is.null(version) && is.null(at)))
 
   if (!pac %in% rownames(available_packages(repos = repos))) {
     return(NA)
   }
 
-  last_version <- available_packages()[rownames(available_packages(repos = repos)) == pac, "Version"]
+  last_version <- pac_last(pac, repos = repos)
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
 
-  if (is.null(version) && is.null(at)) {
+  if (isTRUE(is.null(version) && is.null(at))) {
     if (is_installed) {
       version <- pac_description(pac, local = TRUE)$Version
     } else {
       return(FALSE)
     }
-  } else if (is.null(version) && !is.null(at)) {
-    version <- utils::tail(pac_timemachine(pac = pac, at = at, repos = repos), 1)$Version
+  } else if (isTRUE(is.null(version) && !is.null(at))) {
+    version <- utils::tail(pac_timemachine(pac = pac, at = at), 1)$Version
   }
 
   isTRUE(utils::compareVersion(last_version, version) == 0)

@@ -21,7 +21,6 @@ read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem
 #' Retrieving the package R CRAN check page
 #' @description Retrieving the R CRAN package check page.
 #' @param pac character a package name.
-#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return data.frame.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' If you need to check many packages at once then is recommended usage of `pacs::checked_packages`.
@@ -29,9 +28,13 @@ read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem
 #' @export
 #' @examples
 #' pac_checkpage("dplyr")
-pac_checkpage <- function(pac, repos = "https://cran.rstudio.com/") {
+pac_checkpage <- function(pac) {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(pac %in% rownames(available_packages(repos = repos)))
+
+  if (!pac %in% rownames(available_packages(repos = "https://cran.rstudio.com/"))) {
+    return(NA)
+  }
+
   read_checkpage(pac)
 }
 
@@ -40,10 +43,10 @@ pac_checkpage <- function(pac, repos = "https://cran.rstudio.com/") {
 #' @param pac character a package name.
 #' @param scope character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")
 #' @param flavors character vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default all CRAN machines are considered, NULL value. Default NULL
-#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return logical if the package fail under specified criteria.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' If you need to check many packages at once then is recommended usage of `pacs::checked_packages`.
+#' The used repository `https://cran.rstudio.com/`.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' @export
 #' @examples
@@ -53,15 +56,14 @@ pac_checkpage <- function(pac, repos = "https://cran.rstudio.com/") {
 #'              scope = c("ERROR", "FAIL", "WARN"),
 #'              flavors = c("r-devel-linux-x86_64-debian-clang",
 #'              "r-devel-linux-x86_64-debian-gcc"))
-pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL, repos = "https://cran.rstudio.com/") {
+pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
   stopifnot(all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")))
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(is.character(repos))
   stopifnot(length(scope) == 0 || all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
             is.null(flavors) || all(flavors %in% cran_flavors()$Flavor)
   )
 
-  if (!pac %in% rownames(available_packages(repos = repos))) {
+  if (!pac %in% rownames(available_packages(repos = "https://cran.rstudio.com/"))) {
     return(NA)
   }
 

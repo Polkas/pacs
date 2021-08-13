@@ -13,28 +13,30 @@
 - Retrieving a DESCRIPTION or NAMESPACE file for any package version.
 - Comparing DESCRIPTION or NAMESPACE files between different package versions.
 - Getting a list of all releases for a specific package.
+- The Bioconductor is partly supported.
 
 | Function                            | Description                                                 | 
 |:------------------------------------|:-----------------------------------------------|
 |`lib_validate`                       | Validate the local library          |
 |`pac_validate`             | Validate a specific local package              |
-|`pac_deps`               |  Package dependencies with installed or expected versions |
-|`pac_deps_timemachine`|  Package dependencies for certain version or time point|
-|`pac_description` | Package DESCRIPTION file at Date or for a certain version      |
-|`pac_namespace` | Package NAMESPACE file at Date or for a certain version      |
+|`pac_deps`               |  CRAN package dependencies with installed or expected versions |
+|`pac_deps_timemachine`|  CRAN package dependencies for certain version or time point|
+|`pac_description` | CRAN package DESCRIPTION file at Date or for a certain version      |
+|`pac_namespace` | CRAN package NAMESPACE file at Date or for a certain version      |
 |`pac_lifeduration` | Package version life duration  |
-|`pac_health`           | Package version health    |
+|`pac_health`           | CRAN package version health    |
 |`pac_size`             | Size of the package                                       | 
-|`pac_timemachine` | Package versions at a specific Date or a Date interval   |
-|`pac_compare_versions`               | Compare dependencies between different versions of a package          |
-|`pac_compare_namespace`               | Compare NAMESPACE fields between different versions of a package  |
+|`pac_timemachine` | CRAN package versions at a specific Date or a Date interval   |
+|`pac_compare_versions`               | Compare dependencies between different versions of a CRAN package          |
+|`pac_compare_namespace`               | Compare NAMESPACE fields between different versions of a CRAN package  |
 |`pac_true_size`                      | True size of the package (with dependencies)| 
 |`pacs_base`                          | R base packages                               |
-|`pac_last`|  The most recent package version|
+|`pac_last`|The most recent package version|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
 |`checked_packages`| Downloading all R CRAN packages check page statuses|
 |`pac_checkpage` |   Retrieving the package R CRAN check page|
 |`cran_flavors`|  Retrieving all R CRAN servers flavors|
+|`biocran_repos()`| Display current Bioconductor and CRAN repositories|
 
 **Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 

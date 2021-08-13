@@ -2,7 +2,7 @@
 % Please edit documentation in R/comapre.R
 \name{pac_compare_versions}
 \alias{pac_compare_versions}
-\title{Compare DESCRIPTION files dependencies between specific packages versions}
+\title{Compare DESCRIPTION files dependencies between specific CRAN packages versions}
 \usage{
 pac_compare_versions(
   pac,
@@ -24,7 +24,7 @@ pac_compare_versions(
 
 \item{lib.loc}{character. Default: NULL}
 
-\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Default "https://cran.rstudio.org"}
 }
 \value{
 data.frame with 4 columns.

@@ -4,12 +4,7 @@
 \alias{pac_checkred}
 \title{Checking the package R CRAN check page status}
 \usage{
-pac_checkred(
-  pac,
-  scope = c("ERROR", "FAIL"),
-  flavors = NULL,
-  repos = "https://cran.rstudio.com/"
-)
+pac_checkred(pac, scope = c("ERROR", "FAIL"), flavors = NULL)
 }
 \arguments{
 \item{pac}{character a package name.}
@@ -17,8 +12,6 @@ pac_checkred(
 \item{scope}{character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
 
 \item{flavors}{character vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default all CRAN machines are considered, NULL value. Default NULL}
-
-\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 logical if the package fail under specified criteria.
@@ -29,6 +22,7 @@ using package R CRAN check page to validate if there are ANY errors and/or fails
 \note{
 Results are cached for 1 hour with \code{memoise} package.
 If you need to check many packages at once then is recommended usage of \code{pacs::checked_packages}.
+The used repository \verb{https://cran.rstudio.com/}.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{

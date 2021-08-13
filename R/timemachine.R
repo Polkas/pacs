@@ -5,7 +5,6 @@
 #' @param from Date new version of package. Default: NULL
 #' @param version character version of package. Default: NULL
 #' @param to Date CRAN URL. Default: NULL
-#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return data.frame with 7 columns
 #' \describe{
 #' \item{Package}{character package name.}
@@ -31,9 +30,8 @@ pac_timemachine <- function(pac,
                             at = NULL,
                             from = NULL,
                             to = NULL,
-                            version = NULL,
-                            repos = "https://cran.rstudio.com/") {
-  stopifnot(pac %in% rownames(available_packages(repos = repos)))
+                            version = NULL) {
+  stopifnot(pac %in% rownames(available_packages(repos = "https://cran.rstudio.com/")))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),

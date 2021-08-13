@@ -9,7 +9,7 @@ pac_lifeduration(
   version = NULL,
   at = NULL,
   lib.loc = NULL,
-  repos = "https://cran.rstudio.com/"
+  repos = biocran_repos()
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ pac_lifeduration(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character the base URL of the repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Default \code{biocran_repos()}}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/comapre.R
 \name{pac_compare_namespace}
 \alias{pac_compare_namespace}
-\title{Compare NAMESPACE exports between specific packages versions}
+\title{Compare NAMESPACE exports between specific CRAN packages versions}
 \usage{
 pac_compare_namespace(
   pac,

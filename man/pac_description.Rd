@@ -2,7 +2,7 @@
 % Please edit documentation in R/description.R
 \name{pac_description}
 \alias{pac_description}
-\title{Package DESCRIPTION file}
+\title{CRAN package DESCRIPTION file}
 \usage{
 pac_description(
   pac,
@@ -30,7 +30,7 @@ pac_description(
 list with names proper for DESCRIPTION file fields.
 }
 \description{
-package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
+CRAN package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.

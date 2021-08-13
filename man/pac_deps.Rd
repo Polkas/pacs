@@ -2,7 +2,7 @@
 % Please edit documentation in R/deps.R
 \name{pac_deps}
 \alias{pac_deps}
-\title{Package dependencies}
+\title{package dependencies}
 \usage{
 pac_deps(
   pac,

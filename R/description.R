@@ -1,5 +1,5 @@
-#' Package DESCRIPTION file
-#' @description package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
+#' CRAN package DESCRIPTION file
+#' @description CRAN package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 #' @param pac character a package name.
 #' @param version character package version. Default: NULL
 #' @param at Date. Default: NULL
@@ -34,7 +34,7 @@ pac_description <- function(pac,
     return(list())
   }
 
-  if (local && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
+  if ((local || is_installed) && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
     if (!is_installed) return(list())
     return(utils::packageDescription(pac, lib.loc))
   } else {

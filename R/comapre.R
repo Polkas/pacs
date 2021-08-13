@@ -1,11 +1,11 @@
-#' Compare DESCRIPTION files dependencies between specific packages versions
+#' Compare DESCRIPTION files dependencies between specific CRAN packages versions
 #' @description using the remote github CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions.
 #' @param pac character a package name.
 #' @param old character an old version of package, default local version. Default: NULL
 #' @param new character a new version of package, default newest version. Default: NULL
 #' @param fields character a vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character. Default: NULL
-#' @param repos character the base URL of the repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @param repos character the base URL of the repository to use. Default "https://cran.rstudio.org"
 #' @return data.frame with 4 columns.
 #' \describe{
 #' \item{Package}{character package names.}
@@ -74,7 +74,7 @@ pac_compare_versions <- function(pac,
   res
 }
 
-#' Compare NAMESPACE exports between specific packages versions
+#' Compare NAMESPACE exports between specific CRAN packages versions
 #' @description using the remote github CRAN mirror to compare NAMESPACE exports between specific packages versions.
 #' @param pac character a package name.
 #' @param old character an old version of package.

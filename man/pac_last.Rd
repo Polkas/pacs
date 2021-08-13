@@ -4,12 +4,12 @@
 \alias{pac_last}
 \title{Getting the most recent package version}
 \usage{
-pac_last(pac, repos = "https://cran.rstudio.com/")
+pac_last(pac, repos = biocran_repos())
 }
 \arguments{
 \item{pac}{character a package name.}
 
-\item{repos}{character the base URL of the repository to use. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character the base URL of the repository to use. Default \code{pacs::biocran_repos()}}
 }
 \value{
 character most recent package version.
