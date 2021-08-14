@@ -2,18 +2,20 @@
 % Please edit documentation in R/check.R
 \name{biocran_repos}
 \alias{biocran_repos}
-\title{Simple wrapper around \code{BiocManager::repositories}}
+\title{CRAN and Bioconductor repositories}
 \usage{
-biocran_repos(...)
+biocran_repos(version = pac_bioversion())
 }
 \arguments{
-\item{...}{optional \code{BiocManager::repositories} arguments.}
+\item{version}{character the Bioconductor release.
+By default the newest Bioconductor release for the specific R version is assumed. The maximum version is equal to \code{head(pacs::pac_bioreleases()$Release, 1)}. Default \code{pacs::pac_bioversion()}}
 }
 \value{
 named character vector of repositories.
 }
 \description{
-Simple wrapper around \code{BiocManager::repositories}, suppress messages which are expected e.g. for RStudio users.
+CRAN and Bioconductor repositories.
+The newest Bioconductor release for the specific R version is assumed.
 }
 \examples{
 biocran_repos()

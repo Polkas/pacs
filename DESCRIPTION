@@ -32,5 +32,4 @@ Config/testthat/edition: 3
 Imports:
     memoise,
     stringi,
-    xml2,
-    BiocManager
+    xml2

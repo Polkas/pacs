@@ -186,15 +186,34 @@ pac_bioreleases <- function() {
   read_bio_releases()
 }
 
-#' Simple wrapper around `BiocManager::repositories`
-#' @description Simple wrapper around `BiocManager::repositories`, suppress messages which are expected e.g. for RStudio users.
-#' @param ... optional `BiocManager::repositories` arguments.
+#' Retrieving most recent Bioconductor releases for current R version
+#' @description Retrieving most recent Bioconductor releases for current R version.
+#' @return character Bioconductor release.
+#' @export
+#' @examples
+#' pac_bioversion()
+pac_bioversion <- function() {
+  Rv <- paste0(R.Version()$major, ".", substr(R.Version()$minor, 1, 1))
+  utils::head(pac_bioreleases()$Release[match(Rv, pac_bioreleases()$R)], 1)
+}
+
+#' CRAN and Bioconductor repositories
+#' @description CRAN and Bioconductor repositories.
+#' The newest Bioconductor release for the specific R version is assumed.
+#' @param version character the Bioconductor release.
+#' By default the newest Bioconductor release for the specific R version is assumed. The maximum version is equal to `head(pacs::pac_bioreleases()$Release, 1)`. Default `pacs::pac_bioversion()`
 #' @return named character vector of repositories.
 #' @export
 #' @examples
 #' biocran_repos()
 #' biocran_repos(version = "3.13")
-biocran_repos <- function(...) {
-  suppressMessages(BiocManager::repositories(...))
+biocran_repos <- function(version = pac_bioversion()) {
+  stopifnot(version %in% pac_bioreleases()$Release)
+  c(BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
+    BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version) ,
+    BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
+    BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
+    BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", version),
+    CRAN = sprintf("https://cran.rstudio.com/"))
 }
 
