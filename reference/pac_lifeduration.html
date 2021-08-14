@@ -139,7 +139,7 @@
     </tr>
     <tr>
       <th>version</th>
-      <td><p>character version of package, by default the local version is taken if not available then the newest is assumed. Default: NULL</p></td>
+      <td><p>character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL</p></td>
     </tr>
     <tr>
       <th>at</th>
@@ -151,7 +151,7 @@
     </tr>
     <tr>
       <th>repos</th>
-      <td><p>character the base URL of the repository to use. Default <code><a href='biocran_repos.html'>biocran_repos()</a></code></p></td>
+      <td><p>character vector base URLs of the repository to use. Default <code><a href='biocran_repos.html'>biocran_repos()</a></code></p></td>
     </tr>
     </table>
 
@@ -169,6 +169,7 @@ Results are cached for 1 hour with <code>memoise</code> package, memory cache.</
 <span class='r-in'><span class='fu'>pac_lifeduration</span><span class='op'>(</span><span class='st'>"memoise"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>pac_lifeduration</span><span class='op'>(</span><span class='st'>"dplyr"</span>, version <span class='op'>=</span> <span class='st'>"0.8.0"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>pac_lifeduration</span><span class='op'>(</span><span class='st'>"dplyr"</span>, at <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2019-02-14"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_lifeduration</span><span class='op'>(</span><span class='st'>"S4Vectors"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
 </code></pre></div>
   </div>

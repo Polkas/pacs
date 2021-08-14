@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>package DESCRIPTION file — pac_description • pacs</title>
+<title>Checking if a packge is in repositories — pac_on • pacs</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="package DESCRIPTION file — pac_description" />
-<meta property="og:description" content="CRAN package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website." />
+<meta property="og:title" content="Checking if a packge is in repositories — pac_on" />
+<meta property="og:description" content="using utils::available.packages to check if package is in repoitories." />
 
 
 
@@ -113,23 +113,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>package DESCRIPTION file</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/description.R'><code>R/description.R</code></a></small>
-    <div class="hidden name"><code>pac_description.Rd</code></div>
+    <h1>Checking if a packge is in repositories</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/onlast.R'><code>R/onlast.R</code></a></small>
+    <div class="hidden name"><code>pac_on.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>CRAN package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.</p>
+    <p>using <code><a href='https://rdrr.io/r/utils/available.packages.html'>utils::available.packages</a></code> to check if package is in repoitories.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_description</span><span class='op'>(</span>
-  <span class='va'>pac</span>,
-  version <span class='op'>=</span> <span class='cn'>NULL</span>,
-  at <span class='op'>=</span> <span class='cn'>NULL</span>,
-  local <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  repos <span class='op'>=</span> <span class='st'>"https://cran.rstudio.com/"</span>
-<span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_on</span><span class='op'>(</span><span class='va'>pac</span>, repos <span class='op'>=</span> <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,39 +132,25 @@
       <td><p>character a package name.</p></td>
     </tr>
     <tr>
-      <th>version</th>
-      <td><p>character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL</p></td>
-    </tr>
-    <tr>
-      <th>at</th>
-      <td><p>Date. Default: NULL</p></td>
-    </tr>
-    <tr>
-      <th>local</th>
-      <td><p>logical if to use local library. Default: FALSE</p></td>
-    </tr>
-    <tr>
-      <th>lib.loc</th>
-      <td><p>character used optionally when local is equal TRUE. Default: NULL</p></td>
-    </tr>
-    <tr>
       <th>repos</th>
-      <td><p>character the base URL of the CRAN repository to use. Used only for the validation. Default <code>https://cran.rstudio.com/</code></p></td>
+      <td><p>character vector base URLs of the repositories to use. By default checking CRAN and Bioconductor. Default <code><a href='biocran_repos.html'>pacs::biocran_repos()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list with names proper for DESCRIPTION file fields.</p>
+    <p>logical if a package is inside ropositories.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Results are cached for 1 hour with <code>memoise</code> package.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'>pac_description</span><span class='op'>(</span><span class='st'>"dplyr"</span>, version <span class='op'>=</span> <span class='st'>"0.8.0"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>pac_description</span><span class='op'>(</span><span class='st'>"dplyr"</span>, at <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='st'>"2019-02-01"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pac_on</span><span class='op'>(</span><span class='st'>"dplyr"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'><span class='fu'>pac_on</span><span class='op'>(</span><span class='st'>"dplyr"</span>, <span class='st'>"https://cran.rstudio.com/"</span> <span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'><span class='fu'>pac_on</span><span class='op'>(</span><span class='st'>"dplyr"</span>, <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='st'>"Bio"</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
 </code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -64,6 +64,9 @@
     <loc>/reference/pac_health.html</loc>
   </url>
   <url>
+    <loc>/reference/pac_islast.html</loc>
+  </url>
+  <url>
     <loc>/reference/pac_last.html</loc>
   </url>
   <url>
@@ -71,6 +74,9 @@
   </url>
   <url>
     <loc>/reference/pac_namespace.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pac_on.html</loc>
   </url>
   <url>
     <loc>/reference/pac_size.html</loc>
