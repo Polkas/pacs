@@ -4,11 +4,12 @@
 \alias{biocran_repos}
 \title{CRAN and Bioconductor repositories}
 \usage{
-biocran_repos(version = pac_bioversion())
+biocran_repos(version = NULL)
 }
 \arguments{
 \item{version}{character the Bioconductor release.
-By default the newest Bioconductor release for the specific R version is assumed. The maximum version is equal to \code{head(pacs::pac_bioreleases()$Release, 1)}. Default \code{pacs::pac_bioversion()}}
+By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
+The maximum version could be checked with \code{pacs::pac_bioreleases()}. Default NULL}
 }
 \value{
 named character vector of repositories.
@@ -19,5 +20,4 @@ The newest Bioconductor release for the specific R version is assumed.
 }
 \examples{
 biocran_repos()
-biocran_repos(version = "3.13")
 }

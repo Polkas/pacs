@@ -186,34 +186,30 @@ pac_bioreleases <- function() {
   read_bio_releases()
 }
 
-#' Retrieving most recent Bioconductor releases for current R version
-#' @description Retrieving most recent Bioconductor releases for current R version.
-#' @return character Bioconductor release.
-#' @export
-#' @examples
-#' pac_bioversion()
-pac_bioversion <- function() {
-  Rv <- paste0(R.Version()$major, ".", substr(R.Version()$minor, 1, 1))
-  utils::head(pac_bioreleases()$Release[match(Rv, pac_bioreleases()$R)], 1)
-}
-
 #' CRAN and Bioconductor repositories
 #' @description CRAN and Bioconductor repositories.
 #' The newest Bioconductor release for the specific R version is assumed.
 #' @param version character the Bioconductor release.
-#' By default the newest Bioconductor release for the specific R version is assumed. The maximum version is equal to `head(pacs::pac_bioreleases()$Release, 1)`. Default `pacs::pac_bioversion()`
+#' By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
+#' The maximum version could be checked with `pacs::pac_bioreleases()`. Default NULL
 #' @return named character vector of repositories.
 #' @export
 #' @examples
 #' biocran_repos()
-#' biocran_repos(version = "3.13")
-biocran_repos <- function(version = pac_bioversion()) {
-  stopifnot(version %in% pac_bioreleases()$Release)
-  c(BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
-    BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version) ,
-    BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
-    BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
-    BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", version),
-    CRAN = sprintf("https://cran.rstudio.com/"))
+biocran_repos <- function(version = NULL) {
+  Rv <- paste0(R.Version()$major, ".", substr(R.Version()$minor, 1, 1))
+  bio_ok <- pac_bioreleases()$Release[match(Rv, pac_bioreleases()$R)]
+  stopifnot(is.null(version) || (!is.null(version) && isTRUE(version %in% bio_ok)))
+  if (is.null(version)) version <- utils::head(bio_ok, 1)
+  if (is.na(version)) {
+    c(CRAN = "https://cran.rstudio.com/")
+  } else {
+    c(BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
+      BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version) ,
+      BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
+      BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
+      BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", version),
+      CRAN = "https://cran.rstudio.com/")
+  }
 }
 

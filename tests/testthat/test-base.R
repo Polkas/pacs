@@ -192,4 +192,9 @@ if (is_online()) {
     expect_true(is.data.frame(bioreleases))
     expect_identical(colnames(bioreleases), c("Release", "Date", "Software packages", "R"))
   })
+
+  test_that("pacs::biocran_repos()", {
+    expect_true(length(biocran_repos()) > 0)
+    expect_error(biocran_repos("4.3.3.3.3"))
+  })
 }
