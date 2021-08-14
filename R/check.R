@@ -138,7 +138,7 @@ read_cran_flavours_raw <- function() {
   result_raw
 }
 
-read_cran_flavours <- memoise::memoise(read_cran_flavours_raw)
+read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::cache_mem(max_age = 60*60))
 
 #' Retrieving all R CRAN servers flavors
 #' @description Retrieving all R CRAN servers flavors.
@@ -151,3 +151,50 @@ read_cran_flavours <- memoise::memoise(read_cran_flavours_raw)
 cran_flavors <- function() {
   read_cran_flavours()
 }
+
+
+read_bio_releases_raw <- function() {
+  base_url <- "https://www.bioconductor.org/about/release-announcements/"
+  rr <- try(readLines(base_url, warn = FALSE), silent = TRUE)
+  if (!inherits(rr, "try-error")) {
+    rr_range <- grep("</?table[^>]*>", rr)
+    rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
+    rrr_all <- paste(rrr, collapse = "\n")
+    header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
+    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr_all, collapse = "\n")), "//td"))),
+                                       ncol = length(header), byrow = TRUE))
+    colnames(result_raw) <- header
+    result_raw$Date <- as.Date(result_raw$Date, format = "%B %d, %y")
+  } else {
+    result_raw <- NA
+  }
+
+  result_raw
+}
+
+read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cache_mem(max_age = 60*60))
+
+#' Retrieving all Bioconductor releases
+#' @description Retrieving all Bioconductor releases.
+#' The data is downloaded from `https://www.bioconductor.org/about/release-announcements/`.
+#' @return data.frame with the same structure as the html table on `https://www.bioconductor.org/about/release-announcements/`.
+#' @note Results are cached for 1 hour with `memoise` package.
+#' @export
+#' @examples
+#' pac_bioreleases()
+pac_bioreleases <- function() {
+  read_bio_releases()
+}
+
+#' Simple wrapper around `BiocManager::repositories`
+#' @description Simple wrapper around `BiocManager::repositories`, suppress messages which are expected e.g. for RStudio users.
+#' @param ... optional `BiocManager::repositories` arguments.
+#' @return named character vector of repositories.
+#' @export
+#' @examples
+#' biocran_repos()
+#' biocran_repos(version = "3.13")
+biocran_repos <- function(...) {
+  suppressMessages(BiocManager::repositories(...))
+}
+

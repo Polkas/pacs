@@ -32,13 +32,14 @@
 |`pac_true_size`                      | True size of the package (with dependencies)| 
 |`pacs_base`                          | R base packages                               |
 |`pac_last`|The most recent package version|
-|`pac_islast`| Checking if a package vecion is the most recent one|
+|`pac_islast`| Checking if a package version is the most recent one|
 |`pac_on`| Checking if a package is currently inside provided repositories|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
-|`checked_packages`| Downloading all R CRAN packages check page statuses|
+|`pac_bioreleases`|Retrieving all Bioconductor releases|
 |`pac_checkpage` |   Retrieving the package R CRAN check page|
+|`checked_packages`| Retrieving all R CRAN packages check page statuses|
 |`cran_flavors`|  Retrieving all R CRAN servers flavors|
-|`biocran_repos()`| Display current Bioconductor and CRAN repositories|
+|`biocran_repos`| Display current Bioconductor and CRAN repositories|
 
 **Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 

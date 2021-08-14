@@ -57,9 +57,9 @@ is_on_raw <- function(pac, repos = biocran_repos()) {
 is_on <- memoise::memoise(is_on_raw)
 
 #' Checking if a packge version is the most recent one
-#' @description .
+#' @description checking if a package version is the most recent one, by default the installed version is compared.
 #' @param pac character a package name.
-#' @param version character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL
+#' @param version character package version, by default the installed version is taken. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and Bioconductor. Default `pacs::biocran_repos()`
 #' @return logical if a package is inside ropositories.
@@ -95,16 +95,4 @@ pac_islast <- function(pac, version = NULL, lib.loc = NULL, repos = c("https://b
   }
 
   isTRUE(utils::compareVersion(last_version, version) == 0)
-}
-
-#' Simple wrapper around `BiocManager::repositories`
-#' @description Simple wrapper around `BiocManager::repositories`, suppress messages which are expected e.g. for RStudio users.
-#' @param ... optional `BiocManager::repositories` arguments.
-#' @return named character vector of repositories.
-#' @export
-#' @examples
-#' biocran_repos()
-#' biocran_repos(version = "3.13")
-biocran_repos <- function(...) {
-  suppressMessages(BiocManager::repositories(...))
 }

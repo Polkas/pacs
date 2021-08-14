@@ -15,7 +15,7 @@ pac_lifeduration(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL}
+\item{version}{character package version, By default the newest version is taken. Default: NULL}
 
 \item{at}{Date old version of package. Default: NULL}
 
@@ -30,7 +30,7 @@ pac_lifeduration(
 using CRAN website to get a package life duration for certain version or at a specific Date.
 }
 \note{
-Function will scrap two CRAN URLS. Works only with CRAN packages.
+Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 Results are cached for 1 hour with \code{memoise} package, memory cache.
 }

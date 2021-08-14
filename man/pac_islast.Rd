@@ -18,7 +18,7 @@ pac_islast(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL}
+\item{version}{character package version, by default the installed version is taken. Default: NULL}
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
@@ -28,7 +28,7 @@ pac_islast(
 logical if a package is inside ropositories.
 }
 \description{
-.
+checking if a package version is the most recent one, by default the installed version is compared.
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.

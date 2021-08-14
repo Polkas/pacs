@@ -174,15 +174,22 @@ if (is_online()) {
 
   flavs <- pacs::cran_flavors()
   test_that("pacs::cran_flavors()", {
-    expect_true(all(flavs$Flavor %in% colnames(checked)))
+    expect_true(any(flavs$Flavor %in% colnames(checked)))
     expect_true(nrow(flavs) > 0)
     expect_true(is.data.frame(flavs))
   })
 
   test_that("pacs::pac_checkpage", {
     dplyr_checkpage <- pacs::pac_checkpage("dplyr")
-    expect_true(all(dplyr_checkpage$Flavor %in% flavs$Flavor))
+    expect_true(any(dplyr_checkpage$Flavor %in% flavs$Flavor))
     expect_true(nrow(dplyr_checkpage) > 0)
     expect_true(is.data.frame(dplyr_checkpage))
+  })
+
+  test_that("pacs::pac_bioreleases()", {
+    bioreleases <- pac_bioreleases()
+    expect_true(nrow(bioreleases) > 0)
+    expect_true(is.data.frame(bioreleases))
+    expect_identical(colnames(bioreleases), c("Release", "Date", "Software packages", "R"))
   })
 }
