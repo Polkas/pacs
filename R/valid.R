@@ -105,16 +105,21 @@ lib_validate <- function(lib.loc = NULL,
 
   if (length(checkred$scope)) {
     checkred_all <- checked_packages()
-    flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
-    scope_final <- c(checkred$scope, paste0(checkred$scope, "*"))
-    checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
-    checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
-    result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
-    result$checkred[is.na(result$newest) | !result$cran] <- NA
+    if (is.data.frame(checkred_all)) {
+      flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
+      scope_final <- c(checkred$scope, paste0(checkred$scope, "*"))
+      checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
+      checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
+      result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
+      result$checkred[is.na(result$newest) | !result$cran] <- NA
+    } else {
+      message("Failed to retrieve packages statuses with the checked_packages() function.")
+      result$checkred <- NA
+    }
   }
 
   if (lifeduration) {
-    cat("Please wait, Packages life durations are assessed.\n")
+    message("Please wait, Packages life durations are assessed.\n")
     result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
   }
 
