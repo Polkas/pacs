@@ -139,7 +139,7 @@
     </tr>
     <tr>
       <th>version</th>
-      <td><p>character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL</p></td>
+      <td><p>character package version, By default the newest version is taken. Default: NULL</p></td>
     </tr>
     <tr>
       <th>at</th>
@@ -160,7 +160,7 @@
     <p><code>difftime</code>, number of days package version was the newest one.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Function will scrap two CRAN URLS. Works only with CRAN packages.
+    <p>Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 Results are cached for 1 hour with <code>memoise</code> package, memory cache.</p>
 
