@@ -167,30 +167,30 @@ if (is_online()) {
   checked <-  suppressWarnings(pacs::checked_packages())
 
   test_that("pacs::checked_packages", {
-    expect_true(is.na(checked) || (is.data.frame(checked) &&
-                                     nrow(checked) > 0 &&
+    expect_true((length(checked) == 1 && is.na(checked)) || (is.data.frame(checked) &&
+                                     (nrow(checked) > 0) &&
                                      all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked))))
   })
 
   flavs <- pacs::cran_flavors()
   test_that("pacs::cran_flavors()", {
-    expect_true(any(flavs$Flavor %in% colnames(checked)))
-    expect_true(nrow(flavs) > 0)
-    expect_true(is.data.frame(flavs))
+    expect_true((length(flavs) == 1 && is.na(flavs)) || (any(flavs$Flavor %in% colnames(checked)) &&
+                                                           (nrow(flavs) > 0) &&
+                                                           is.data.frame(flavs)))
   })
 
   test_that("pacs::pac_checkpage", {
     dplyr_checkpage <- pacs::pac_checkpage("dplyr")
-    expect_true(any(dplyr_checkpage$Flavor %in% flavs$Flavor))
-    expect_true(nrow(dplyr_checkpage) > 0)
-    expect_true(is.data.frame(dplyr_checkpage))
+    expect_true((length(dplyr_checkpage) == 1) && is.na(dplyr_checkpage) || (any(dplyr_checkpage$Flavor %in% flavs$Flavor) &&
+                                                                                (nrow(dplyr_checkpage) > 0) &&
+                                                                              is.data.frame(dplyr_checkpage)))
   })
 
   test_that("pacs::bio_releases()", {
     bioreleases <- bio_releases()
-    expect_true(nrow(bioreleases) > 0)
-    expect_true(is.data.frame(bioreleases))
-    expect_identical(colnames(bioreleases), c("Release", "Date", "Software packages", "R"))
+    expect_true((length(bioreleases) == 1 && is.na(bioreleases)) || ((nrow(bioreleases) > 0) &&
+                                                                       is.data.frame(bioreleases) &&
+                                                                       all(colnames(bioreleases) %in% c("Release", "Date", "Software packages", "R"))))
   })
 
   test_that("pacs::biocran_repos()", {
