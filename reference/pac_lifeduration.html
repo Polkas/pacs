@@ -127,7 +127,7 @@
   version <span class='op'>=</span> <span class='cn'>NULL</span>,
   at <span class='op'>=</span> <span class='cn'>NULL</span>,
   lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  repos <span class='op'>=</span> <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span>version <span class='op'>=</span> <span class='fu'>pacs</span><span class='fu'>::</span><span class='fu'><a href='bio_releases.html'>bio_releases</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Release</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+  repos <span class='op'>=</span> <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -151,7 +151,7 @@
     </tr>
     <tr>
       <th>repos</th>
-      <td><p>character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default <code>pacs::biocran_repos(version = pacs::bio_releases()$Release[1])</code></p></td>
+      <td><p>character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default <code><a href='biocran_repos.html'>pacs::biocran_repos()</a></code></p></td>
     </tr>
     </table>
 
