@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Checking if a packge is in repositories — pac_on • pacs</title>
+<title>Checking if a package is in repositories — pac_isin • pacs</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Checking if a packge is in repositories — pac_on" />
+<meta property="og:title" content="Checking if a package is in repositories — pac_isin" />
 <meta property="og:description" content="using utils::available.packages to check if package is in repoitories." />
 
 
@@ -113,16 +113,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Checking if a packge is in repositories</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/onlast.R'><code>R/onlast.R</code></a></small>
-    <div class="hidden name"><code>pac_on.Rd</code></div>
+    <h1>Checking if a package is in repositories</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Polkas/pacs/blob/master/R/in_last.R'><code>R/in_last.R</code></a></small>
+    <div class="hidden name"><code>pac_isin.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>using <code><a href='https://rdrr.io/r/utils/available.packages.html'>utils::available.packages</a></code> to check if package is in repoitories.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_on</span><span class='op'>(</span><span class='va'>pac</span>, repos <span class='op'>=</span> <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_isin</span><span class='op'>(</span><span class='va'>pac</span>, repos <span class='op'>=</span> <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,17 +139,17 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logical if a package is inside ropositories.</p>
+    <p>logical if a package is inside repositories.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Results are cached for 1 hour with <code>memoise</code> package.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pac_on</span><span class='op'>(</span><span class='st'>"dplyr"</span><span class='op'>)</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>pac_isin</span><span class='op'>(</span><span class='st'>"dplyr"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-in'><span class='fu'>pac_on</span><span class='op'>(</span><span class='st'>"dplyr"</span>, <span class='st'>"https://cran.rstudio.com/"</span> <span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_isin</span><span class='op'>(</span><span class='st'>"dplyr"</span>, <span class='st'>"https://cran.rstudio.com/"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-in'><span class='fu'>pac_on</span><span class='op'>(</span><span class='st'>"dplyr"</span>, <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='st'>"Bio"</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_isin</span><span class='op'>(</span><span class='st'>"dplyr"</span>, <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='st'>"Bio"</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
 </code></pre></div>
   </div>

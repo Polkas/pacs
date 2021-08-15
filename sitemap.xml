@@ -19,6 +19,9 @@
     <loc>/reference/available_packages.html</loc>
   </url>
   <url>
+    <loc>/reference/bio_releases.html</loc>
+  </url>
+  <url>
     <loc>/reference/biocran_repos.html</loc>
   </url>
   <url>
@@ -64,6 +67,9 @@
     <loc>/reference/pac_health.html</loc>
   </url>
   <url>
+    <loc>/reference/pac_isin.html</loc>
+  </url>
+  <url>
     <loc>/reference/pac_islast.html</loc>
   </url>
   <url>
@@ -74,9 +80,6 @@
   </url>
   <url>
     <loc>/reference/pac_namespace.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pac_on.html</loc>
   </url>
   <url>
     <loc>/reference/pac_size.html</loc>
