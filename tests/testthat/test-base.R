@@ -34,8 +34,8 @@ test_that("pacs::pac_deps", {
   stats_deps2 <- pacs::pac_deps("stats", attr = FALSE, base = TRUE)
   expect_true(ncol(stats_deps2) > 0)
   expect_true(length(stats_deps2$Package) > 0)
-
   expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)) == 2)
+  expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)) == 2)
 })
 
 test_that("pacs::dir_size", {
