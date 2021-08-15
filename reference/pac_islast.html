@@ -122,16 +122,7 @@
     <p>checking if a package version is the most recent one, by default the installed version is compared.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_islast</span><span class='op'>(</span>
-  <span class='va'>pac</span>,
-  version <span class='op'>=</span> <span class='cn'>NULL</span>,
-  lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>,
-  repos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"https://bioconductor.org/packages/3.13/bioc"</span>,
-    <span class='st'>"https://bioconductor.org/packages/3.13/data/annotation"</span>,
-    <span class='st'>"https://bioconductor.org/packages/3.13/data/experiment"</span>,
-    <span class='st'>"https://bioconductor.org/packages/3.13/workflows"</span>,
-    <span class='st'>"https://bioconductor.org/packages/3.13/books"</span>, <span class='st'>"https://cloud.r-project.org"</span><span class='op'>)</span>
-<span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>pac_islast</span><span class='op'>(</span><span class='va'>pac</span>, version <span class='op'>=</span> <span class='cn'>NULL</span>, lib.loc <span class='op'>=</span> <span class='cn'>NULL</span>, repos <span class='op'>=</span> <span class='fu'><a href='biocran_repos.html'>biocran_repos</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,7 +141,7 @@
     </tr>
     <tr>
       <th>repos</th>
-      <td><p>character vector base URLs of the repositories to use. By default checking CRAN and Bioconductor. Default <code><a href='biocran_repos.html'>pacs::biocran_repos()</a></code></p></td>
+      <td><p>character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default <code><a href='biocran_repos.html'>pacs::biocran_repos()</a></code></p></td>
     </tr>
     </table>
 
@@ -159,14 +150,15 @@
     <p>logical if a package is inside ropositories.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Results are cached for 1 hour with <code>memoise</code> package.</p>
+    <p>Results are cached for 1 hour with <code>memoise</code> package.
+For Bioconductor if package is the newest one per R version.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
 <span class='r-in'><span class='fu'>pac_islast</span><span class='op'>(</span><span class='st'>"memoise"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>pac_islast</span><span class='op'>(</span><span class='st'>"dplyr"</span>, version <span class='op'>=</span> <span class='st'>"1.0.0"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='pac_lifeduration.html'>pac_lifeduration</a></span><span class='op'>(</span><span class='st'>"S4Vectors"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='pac_lifeduration.html'>pac_lifeduration</a></span><span class='op'>(</span><span class='st'>"S4Vectors"</span>, version <span class='op'>=</span> <span class='fu'><a href='pac_last.html'>pac_last</a></span><span class='op'>(</span><span class='st'>"S4Vectors"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_islast</span><span class='op'>(</span><span class='st'>"S4Vectors"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>pac_islast</span><span class='op'>(</span><span class='st'>"S4Vectors"</span>, version <span class='op'>=</span> <span class='fu'><a href='pac_last.html'>pac_last</a></span><span class='op'>(</span><span class='st'>"S4Vectors"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span></span>
 </code></pre></div>
   </div>
