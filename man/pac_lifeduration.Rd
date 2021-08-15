@@ -9,7 +9,7 @@ pac_lifeduration(
   version = NULL,
   at = NULL,
   lib.loc = NULL,
-  repos = biocran_repos(version = pacs::bio_releases()$Release[1])
+  repos = biocran_repos()
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ pac_lifeduration(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default \code{pacs::biocran_repos(version = pacs::bio_releases()$Release[1])}}
+\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default \code{pacs::biocran_repos()}}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.

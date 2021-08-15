@@ -4,7 +4,7 @@
 #' @param version character package version, By default the newest version is taken. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
-#' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default `pacs::biocran_repos(version = pacs::bio_releases()$Release[1])`
+#' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default `pacs::biocran_repos()`
 #' @return `difftime`, number of days package version was the newest one.
 #' @note Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
@@ -22,7 +22,7 @@ pac_lifeduration <- function(pac,
                              version = NULL,
                              at = NULL,
                              lib.loc = NULL,
-                             repos = biocran_repos(version = pacs::bio_releases()$Release[1])) {
+                             repos = biocran_repos()) {
   stopifnot(length(pac) == 1 && is.character(pac))
   stopifnot(!all(c(!is.null(version), !is.null(at))))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
