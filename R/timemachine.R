@@ -113,6 +113,7 @@ pac_archived_raw <- function(pac) {
 
   if (!inherits(rr, "try-error") && any(grepl(pac, rr))) {
     rr_range <- grep("</?table>", rr)
+    if (length(rr_range) != 2) return(NA)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
 

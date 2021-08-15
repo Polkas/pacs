@@ -2,6 +2,7 @@ read_checkpage_raw <- function(pac) {
   rr <- try(readLines(sprintf("https://cran.r-project.org/web/checks/check_results_%s.html", pac), warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
+    if (length(rr_range) != 2) return(NA)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
     header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
@@ -100,6 +101,7 @@ read_checkred_packages_raw <- function() {
   if (!inherits(rr, "try-error")) {
     length_rr <- length(rr)
     rr_range <- grep("</?table[^>]*>", rr)
+    if (length(rr_range) != 2) return(NA)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
     header_machines <- trimws(gsub("check_flavors.html#", "", xml_attr(xml_find_all(read_html(rrr[1]), "//th/a"), "href")))
@@ -124,6 +126,7 @@ read_cran_flavours_raw <- function() {
   rr <- try(readLines(base_url, warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
+    if (length(rr_range) != 2) return(NA)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
     header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
@@ -159,6 +162,7 @@ read_bio_releases_raw <- function() {
   rr <- try(readLines(base_url, warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
+    if (length(rr_range) != 2) return(NA)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
     header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
