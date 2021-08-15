@@ -167,9 +167,9 @@ if (is_online()) {
   checked <-  suppressWarnings(pacs::checked_packages())
 
   test_that("pacs::checked_packages", {
-    expect_true(is.data.frame(checked))
-    expect_true(nrow(checked) > 0)
-    expect_true(all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked)))
+    expect_true(is.na(checked) || (is.data.frame(checked) &&
+                                     nrow(checked) > 0 &&
+                                     all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked))))
   })
 
   flavs <- pacs::cran_flavors()
