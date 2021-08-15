@@ -52,11 +52,15 @@ Results are cached for 1 hour with \code{memoise} package.
 \dontrun{
 lib_validate()
 lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
-lib_validate(checkred = list(scope = c("ERROR", "FAIL"),
-             flavors = cran_flavors()$Flavor[1:2]))
+lib_validate(checkred = list(
+  scope = c("ERROR", "FAIL"),
+  flavors = cran_flavors()$Flavor[1:2]
+))
 # activate lifeduration argument, could be time consuming for bigger libraries.
-lib_validate(lifeduration = TRUE,
-             checkred = list(scope = c("ERROR", "FAIL")))
+lib_validate(
+  lifeduration = TRUE,
+  checkred = list(scope = c("ERROR", "FAIL"))
+)
 # only R CRAN repository
 lib_validate(repos = "https://cran.rstudio.com/")
 }

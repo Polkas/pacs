@@ -29,11 +29,15 @@
 #' \dontrun{
 #' lib_validate()
 #' lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
-#' lib_validate(checkred = list(scope = c("ERROR", "FAIL"),
-#'              flavors = cran_flavors()$Flavor[1:2]))
+#' lib_validate(checkred = list(
+#'   scope = c("ERROR", "FAIL"),
+#'   flavors = cran_flavors()$Flavor[1:2]
+#' ))
 #' # activate lifeduration argument, could be time consuming for bigger libraries.
-#' lib_validate(lifeduration = TRUE,
-#'              checkred = list(scope = c("ERROR", "FAIL")))
+#' lib_validate(
+#'   lifeduration = TRUE,
+#'   checkred = list(scope = c("ERROR", "FAIL"))
+#' )
 #' # only R CRAN repository
 #' lib_validate(repos = "https://cran.rstudio.com/")
 #' }
@@ -46,11 +50,10 @@ lib_validate <- function(lib.loc = NULL,
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
-              length(checkred) %in% c(1,2) &&
-              (c("scope") %in% names(checkred)) &&
-              length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
-              is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)
-  )
+    length(checkred) %in% c(1, 2) &&
+    (c("scope") %in% names(checkred)) &&
+    length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
+    is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor))
   stopifnot(is.character(repos))
 
   installed_agg <- installed_agg_fun(lib.loc, fields)
@@ -75,35 +78,37 @@ lib_validate <- function(lib.loc = NULL,
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
   newest_df <- merge(installed_agg[, c("Package", "Version")],
-                     available_packages(repos = repos)[, c("Package", "Version")],
-        by = "Package",
-        all.x = TRUE,
-        sort = FALSE
+    available_packages(repos = repos)[, c("Package", "Version")],
+    by = "Package",
+    all.x = TRUE,
+    sort = FALSE
   )
 
   newest_df$newest <- as.character(newest_df$Version.x) == as.character(newest_df$Version.y)
 
   result <- merge(result,
-                  newest_df[, c("Package", "newest")],
-                  by = "Package",
-                  sort = FALSE,
-                  all.x = TRUE)
+    newest_df[, c("Package", "newest")],
+    by = "Package",
+    sort = FALSE,
+    all.x = TRUE
+  )
 
   cran_df <- merge(installed_agg[, c("Package", "Version")],
-                    available_packages(repos = "https://cloud.r-project.org")[, c("Package", "Version")],
-                     by = "Package",
-                     all.x = TRUE,
-                     sort = FALSE
+    available_packages(repos = "https://cloud.r-project.org")[, c("Package", "Version")],
+    by = "Package",
+    all.x = TRUE,
+    sort = FALSE
   )
 
   cran_df$cran <- !is.na(cran_df$Version.y)
   cran_df$cran[is.na(cran_df$cran)] <- FALSE
 
   result <- merge(result,
-                  cran_df[, c("Package", "cran")],
-                  by = "Package",
-                  sort = FALSE,
-                  all.x = TRUE)
+    cran_df[, c("Package", "cran")],
+    by = "Package",
+    sort = FALSE,
+    all.x = TRUE
+  )
 
   if (length(checkred$scope)) {
     checkred_all <- checked_packages()
@@ -160,8 +165,9 @@ lib_validate <- function(lib.loc = NULL,
 #' \dontrun{
 #' pac_validate("memoise")
 #' pac_validate("memoise",
-#'              lifeduration = TRUE,
-#'              checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL))
+#'   lifeduration = TRUE,
+#'   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+#' )
 #' }
 pac_validate <- function(pac,
                          lib.loc = NULL,
@@ -174,11 +180,10 @@ pac_validate <- function(pac,
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
-              length(checkred) %in% c(1,2) &&
-              (c("scope") %in% names(checkred)) &&
-              length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
-              is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)
-  )
+    length(checkred) %in% c(1, 2) &&
+    (c("scope") %in% names(checkred)) &&
+    length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
+    is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor))
   stopifnot(is.character(repos))
 
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
@@ -192,21 +197,21 @@ pac_validate <- function(pac,
   )
 
   if (nrow(result)) {
-  result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
+    result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
 
-  result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
+    result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
 
-  result$newest <- apply(result, 1, function(x) isTRUE(pac_islast(x["Package"], version = x["Version.have"],  repos = repos)))
+    result$newest <- apply(result, 1, function(x) isTRUE(pac_islast(x["Package"], version = x["Version.have"], repos = repos)))
 
-  result$cran <- apply(result, 1, function(x) isTRUE(pac_isin(x["Package"], "https://cran.rstudio.com/")))
+    result$cran <- apply(result, 1, function(x) isTRUE(pac_isin(x["Package"], "https://cran.rstudio.com/")))
 
-  if (length(checkred$scope)) {
-    result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && result$cran[x] && pac_checkred(result$Package[x], scope = checkred$scope, flavors = checkred$flavors)), logical(1))
-  }
+    if (length(checkred$scope)) {
+      result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && result$cran[x] && pac_checkred(result$Package[x], scope = checkred$scope, flavors = checkred$flavors)), logical(1))
+    }
 
-  if (lifeduration) {
-    result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
-  }
+    if (lifeduration) {
+      result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
+    }
   }
   result
 }

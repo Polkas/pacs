@@ -90,10 +90,10 @@ pac_compare_versions <- function(pac,
 #' pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
 #' }
 pac_compare_namespace <- function(pac,
-                                old = NULL,
-                                new = NULL,
-                                lib.loc = NULL,
-                                repos = "https://cran.rstudio.com/") {
+                                  old = NULL,
+                                  new = NULL,
+                                  lib.loc = NULL,
+                                  repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(pac_isin(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))

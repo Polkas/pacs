@@ -2,14 +2,17 @@ read_checkpage_raw <- function(pac) {
   rr <- try(readLines(sprintf("https://cran.r-project.org/web/checks/check_results_%s.html", pac), warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
-    if (length(rr_range) != 2) return(NA)
+    if (length(rr_range) != 2) {
+      return(NA)
+    }
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
     header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
 
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(rrr_all), "//td"))),
-                                       ncol = length(header),
-                                       nrow = length(rrr) - 1, byrow = TRUE))
+      ncol = length(header),
+      nrow = length(rrr) - 1, byrow = TRUE
+    ))
     colnames(result_raw) <- header
     result_raw$Flavor <- gsub("\\+", "_", result_raw$Flavor)
     result_raw
@@ -18,7 +21,7 @@ read_checkpage_raw <- function(pac) {
   }
 }
 
-read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem(max_age = 60*60))
+read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
 #' Retrieving the R CRAN package check page
 #' @description Retrieving the R CRAN package check page.
@@ -55,15 +58,17 @@ pac_checkpage <- function(pac) {
 #' pac_checkred("dplyr")
 #' pac_checkred("dplyr", scope = c("ERROR"))
 #' pac_checkred("dplyr",
-#'              scope = c("ERROR", "FAIL", "WARN"),
-#'              flavors = c("r-devel-linux-x86_64-debian-clang",
-#'              "r-devel-linux-x86_64-debian-gcc"))
+#'   scope = c("ERROR", "FAIL", "WARN"),
+#'   flavors = c(
+#'     "r-devel-linux-x86_64-debian-clang",
+#'     "r-devel-linux-x86_64-debian-gcc"
+#'   )
+#' )
 pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
   stopifnot(all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")))
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(length(scope) == 0 || all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
-            is.null(flavors) || all(flavors %in% cran_flavors()$Flavor)
-  )
+    is.null(flavors) || all(flavors %in% cran_flavors()$Flavor))
 
   if (!pac_isin(pac, "https://cran.rstudio.com/")) {
     return(NA)
@@ -101,15 +106,18 @@ read_checkred_packages_raw <- function() {
   if (!inherits(rr, "try-error")) {
     length_rr <- length(rr)
     rr_range <- grep("</?table[^>]*>", rr)
-    if (length(rr_range) != 2) return(NA)
+    if (length(rr_range) != 2) {
+      return(NA)
+    }
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
     header_machines <- trimws(gsub("check_flavors.html#", "", xml_attr(xml_find_all(read_html(rrr[1]), "//th/a"), "href")))
     header[3:(length(header_machines) + 2)] <- header_machines
     length_rrr <- length(rrr)
     result_raw <- matrix(trimws(xml_text(xml_find_all(read_html(paste0(rrr[2:length_rrr], collapse = "\n")), "/html/body//tr/td"))),
-                         ncol = length(header),
-                         nrow = length_rrr - 1, byrow = TRUE)
+      ncol = length(header),
+      nrow = length_rrr - 1, byrow = TRUE
+    )
 
     result_raw <- as.data.frame(result_raw)
     colnames(result_raw) <- header
@@ -119,21 +127,24 @@ read_checkred_packages_raw <- function() {
   result_raw
 }
 
-read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = cachem::cache_mem(max_age = 60*60))
+read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
 read_cran_flavours_raw <- function() {
   base_url <- "https://cran.r-project.org/web/checks/check_flavors.html"
   rr <- try(readLines(base_url, warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
-    if (length(rr_range) != 2) return(NA)
+    if (length(rr_range) != 2) {
+      return(NA)
+    }
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
     header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
 
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(rrr_all), "//td"))),
-                                       ncol = length(header),
-                                       nrow = length(rrr) - 1, byrow = TRUE))
+      ncol = length(header),
+      nrow = length(rrr) - 1, byrow = TRUE
+    ))
     colnames(result_raw) <- header
     result_raw$Flavor <- gsub("\\+", "_", result_raw$Flavor)
   } else {
@@ -143,7 +154,7 @@ read_cran_flavours_raw <- function() {
   result_raw
 }
 
-read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::cache_mem(max_age = 60*60))
+read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
 #' Retrieving all R CRAN servers flavors
 #' @description Retrieving all R CRAN servers flavors.
@@ -162,12 +173,15 @@ read_bio_releases_raw <- function() {
   rr <- try(readLines(base_url, warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
-    if (length(rr_range) != 2) return(NA)
+    if (length(rr_range) != 2) {
+      return(NA)
+    }
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
     header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr_all, collapse = "\n")), "//td"))),
-                                       ncol = length(header), byrow = TRUE))
+      ncol = length(header), byrow = TRUE
+    ))
     colnames(result_raw) <- header
     result_raw$Date <- as.Date(result_raw$Date, format = "%B %d, %y")
   } else {
@@ -177,7 +191,7 @@ read_bio_releases_raw <- function() {
   result_raw
 }
 
-read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cache_mem(max_age = 60*60))
+read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
 #' Retrieving all Bioconductor releases
 #' @description Retrieving all Bioconductor releases.
@@ -209,12 +223,13 @@ biocran_repos <- function(version = NULL) {
   if (isNA(version)) {
     c(CRAN = "https://cran.rstudio.com/")
   } else {
-    c(BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
-      BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version) ,
+    c(
+      BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
+      BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version),
       BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
       BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
       BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", version),
-      CRAN = "https://cran.rstudio.com/")
+      CRAN = "https://cran.rstudio.com/"
+    )
   }
 }
-

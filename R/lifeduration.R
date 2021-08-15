@@ -48,8 +48,9 @@ pac_lifeduration <- function(pac,
       return(life)
     } else if (ison_cran) {
       life <- Sys.Date() - as.Date(substr(pac_description(pac,
-                                                   version = last_version,
-                                                   lib.loc = lib.loc)[["Date/Publication"]], 1, 10))
+        version = last_version,
+        lib.loc = lib.loc
+      )[["Date/Publication"]], 1, 10))
       return(life)
     } else {
       return(NA)
@@ -65,11 +66,13 @@ pac_lifeduration <- function(pac,
         return(NA)
       }
       pac_tm <- pac_timemachine(pac)
-      if (isTRUE(all(vapply(pac_tm$Version, function(v) isFALSE(utils::compareVersion(v, version) == 0), logical(1))))) return(NA)
+      if (isTRUE(all(vapply(pac_tm$Version, function(v) isFALSE(utils::compareVersion(v, version) == 0), logical(1))))) {
+        return(NA)
+      }
       pac_tm <- pac_tm[vapply(pac_tm$Version, function(v) isTRUE(utils::compareVersion(v, version) == 0), logical(1)), ]
       return(pac_tm$LifeDuration)
     }
-  } else{
+  } else {
     return(NA)
   }
 }
@@ -119,8 +122,10 @@ pac_health <- function(pac,
     return(NA)
   }
 
-  poss_pacs <- unique(c(rownames(installed_packages(lib.loc = lib.loc)),
-                        rownames(available_packages(repos = repos))))
+  poss_pacs <- unique(c(
+    rownames(installed_packages(lib.loc = lib.loc)),
+    rownames(available_packages(repos = repos))
+  ))
 
   if (all(c(is.null(version), is.null(at))) && !pac %in% poss_pacs) {
     return(NA)

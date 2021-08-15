@@ -130,10 +130,10 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
   versions <- desc_e$versions
 
   joint <- data.frame(
-        Version = unlist(lapply(seq_along(packages), function(x) replaceNA(versions[[x]], ""))),
-        Package = unlist(lapply(seq_along(packages), function(x)  replace(packages[[x]], packages[[x]] == "NA", NA))),
-        stringsAsFactors = FALSE
-      )
+    Version = unlist(lapply(seq_along(packages), function(x) replaceNA(versions[[x]], ""))),
+    Package = unlist(lapply(seq_along(packages), function(x) replace(packages[[x]], packages[[x]] == "NA", NA))),
+    stringsAsFactors = FALSE
+  )
 
   res_agg <- stats::aggregate(
     joint[, c("Version"), drop = FALSE],
@@ -156,7 +156,7 @@ installed_agg_fun_raw <- function(lib.loc = NULL, fields) {
   installed_agg
 }
 
-installed_agg_fun <- memoise::memoise(installed_agg_fun_raw, cache = cachem::cache_mem(max_age = 60*60))
+installed_agg_fun <- memoise::memoise(installed_agg_fun_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
 #' List Available Packages at CRAN-like Repositories
 #' @description available_packages returns a matrix of details corresponding to packages currently available at one or more repositories. The current list of packages is downloaded over the internet (or copied from a local mirror).
@@ -165,24 +165,32 @@ available_packages <- function(repos = biocran_repos()) {
   available_packages_raw(repos = repos)
 }
 
-available_packages_raw <- memoise::memoise(utils::available.packages, cache = cachem::cache_mem(max_age = 60*60))
+available_packages_raw <- memoise::memoise(utils::available.packages, cache = cachem::cache_mem(max_age = 60 * 60))
 
 installed_packages <- function(lib.loc = NULL, priority = NULL) {
   installed_packages_raw(lib.loc = lib.loc, priority = priority)
 }
 
-installed_packages_raw <- memoise::memoise(utils::installed.packages, cache = cachem::cache_mem(max_age = 60*60))
+installed_packages_raw <- memoise::memoise(utils::installed.packages, cache = cachem::cache_mem(max_age = 60 * 60))
 
 extract_deps <- function(x) {
   splited <- stri_split_fixed(x, ",")
   trimed <- lapply(splited, stri_trim)
-  v_reg <- function(x) vapply(stringi::stri_match_all(x, regex = "([0-9\\.-]+)\\)"),
-                              function(i) `[`(i, 2),
-                              character(1))
+  v_reg <- function(x) {
+    vapply(
+      stringi::stri_match_all(x, regex = "([0-9\\.-]+)\\)"),
+      function(i) `[`(i, 2),
+      character(1)
+    )
+  }
   versions <- lapply(trimed, v_reg)
-  v_pac <- function(x) vapply(stri_split_regex(x, "[ \n\\(]"),
-                              function(x) `[[`(x, 1),
-                              character(1))
+  v_pac <- function(x) {
+    vapply(
+      stri_split_regex(x, "[ \n\\(]"),
+      function(x) `[[`(x, 1),
+      character(1)
+    )
+  }
   pacs <- lapply(trimed, v_pac)
   list(packages = pacs, versions = versions)
 }
@@ -206,7 +214,7 @@ available_descriptions <- function(repos, fields, deps = NULL) {
 
   joint <- data.frame(
     Version = unlist(sapply(seq_along(packages), function(x) replaceNA(versions[[x]], ""))),
-    Package = unlist(sapply(seq_along(packages), function(x)  replace(packages[[x]], packages[[x]] == "NA", NA))),
+    Package = unlist(sapply(seq_along(packages), function(x) replace(packages[[x]], packages[[x]] == "NA", NA))),
     stringsAsFactors = FALSE
   )
 
@@ -231,4 +239,4 @@ available_agg_fun_raw <- function(repos = "https://cran.rstudio.com/", fields) {
   available_agg
 }
 
-available_agg_fun <- memoise::memoise(available_agg_fun_raw, cache = cachem::cache_mem(max_age = 60*60))
+available_agg_fun <- memoise::memoise(available_agg_fun_raw, cache = cachem::cache_mem(max_age = 60 * 60))

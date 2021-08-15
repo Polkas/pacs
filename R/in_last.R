@@ -1,4 +1,4 @@
-last_version_raw <- function(pac , repos) {
+last_version_raw <- function(pac, repos) {
   which_p <- rownames(available_packages(repos = repos)) == pac
   if (any(which_p)) {
     available_packages(repos = repos)[which_p, "Version"]
@@ -7,7 +7,7 @@ last_version_raw <- function(pac , repos) {
   }
 }
 
-last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem(max_age = 60*60))
+last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
 #' Getting the most recent package version
 #' @description using `utils::available.packages` to get the newest package version.
@@ -84,7 +84,7 @@ pac_islast <- function(pac, version = NULL, lib.loc = NULL, repos = biocran_repo
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
 
-   if (isTRUE(is.null(version))) {
+  if (isTRUE(is.null(version))) {
     if (is_installed) {
       version <- pac_description(pac, local = TRUE)$Version
     } else {

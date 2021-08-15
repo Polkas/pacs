@@ -35,7 +35,9 @@ pac_description <- function(pac,
   }
 
   if ((local) && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
-    if (!is_installed) return(structure(list(), package = pac, version = version))
+    if (!is_installed) {
+      return(structure(list(), package = pac, version = version))
+    }
     result <- utils::packageDescription(pac, lib.loc)
     return(structure(result, package = pac, version = result$version))
   } else {
@@ -93,13 +95,19 @@ pac_description_dcf_raw <- function(pac, version, at) {
       version
     )
 
-    download <- try({
-      utils::download.file(d_url,
-        destfile = temp_tar,
-        quiet = TRUE
-      )}, silent = TRUE)
+    download <- try(
+      {
+        utils::download.file(d_url,
+          destfile = temp_tar,
+          quiet = TRUE
+        )
+      },
+      silent = TRUE
+    )
 
-    if (inherits(download, "try-error")) return(structure(list(), package = pac, version = version))
+    if (inherits(download, "try-error")) {
+      return(structure(list(), package = pac, version = version))
+    }
 
     temp_dir <- tempdir(check = TRUE)
     utils::untar(temp_tar, exdir = temp_dir)

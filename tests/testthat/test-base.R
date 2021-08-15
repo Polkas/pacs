@@ -71,8 +71,10 @@ if (is_online()) {
 
   test_that("pacs::pac_compare_namesapce", {
     expect_true(length(pac_compare_namespace("memoise", "0.2.1", "2.0.0")) == 10)
-    expect_identical(pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports$added, c("cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
-                                                                               "drop_cache", "has_cache", "timeout"))
+    expect_identical(pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports$added, c(
+      "cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
+      "drop_cache", "has_cache", "timeout"
+    ))
     expect_error(suppressWarnings(pac_compare_namespace("memoise", "2.0.0", "22.4.0")))
     expect_error(pac_compare_namespace("memoise", "22.8.0", "22.4.0"))
   })
@@ -82,8 +84,10 @@ if (is_online()) {
   })
 
   test_that("pacs::lib_validate", {
-    expect_identical(sort(unique(rownames(installed_packages()))),
-                     sort(unique(setdiff(c(lib_validate()$Package, pacs_base()), "R"))))
+    expect_identical(
+      sort(unique(rownames(installed_packages()))),
+      sort(unique(setdiff(c(lib_validate()$Package, pacs_base()), "R")))
+    )
     expect_error(lib_validate(lib.loc = "wrong"))
     lib_res <- lib_validate()
     expect_true(inherits(lib_res, "data.frame"))
@@ -109,7 +113,7 @@ if (is_online()) {
     expect_error(pac_timemachine("WRONG"))
     expect_error(pac_timemachine("dplyr", version = 2))
     expect_identical(nrow(pac_timemachine("dplyr", version = "999.1.1.1")), 0L)
-    })
+  })
 
   test_that("pacs::pac_lifeduration", {
     a <- pac_lifeduration("dplyr", version = "0.8.0")
@@ -130,8 +134,10 @@ if (is_online()) {
 
   test_that("pacs::pac_description", {
     expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
-    expect_true(utils::compareVersion(pac_description("memoise", local = TRUE)$Version,
-                                      pac_description("memoise", local = FALSE)$Version) %in% c(0, 1))
+    expect_true(utils::compareVersion(
+      pac_description("memoise", local = TRUE)$Version,
+      pac_description("memoise", local = FALSE)$Version
+    ) %in% c(0, 1))
     expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
     expect_identical(pac_description("WRONG"), structure(list(), package = "WRONG"))
     expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
@@ -139,10 +145,10 @@ if (is_online()) {
 
   test_that("pacs::pac_last", {
     expect_identical(
-    unname(utils::available.packages(repos = "https://cran.rstudio.com/", filters = list(
-      function(db) db[db[,"Package"] == "dplyr", ]
-    ))["Version"]),
-    pac_last("dplyr", repos = "https://cran.rstudio.com/")
+      unname(utils::available.packages(repos = "https://cran.rstudio.com/", filters = list(
+        function(db) db[db[, "Package"] == "dplyr", ]
+      ))["Version"]),
+      pac_last("dplyr", repos = "https://cran.rstudio.com/")
     )
     expect_true(is.na(pac_last("WRONG")))
   })
@@ -172,33 +178,33 @@ if (is_online()) {
     expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
   })
 
-  checked <-  suppressWarnings(pacs::checked_packages())
+  checked <- suppressWarnings(pacs::checked_packages())
 
   test_that("pacs::checked_packages", {
     expect_true(isNA(checked) || (is.data.frame(checked) &&
-                                    (nrow(checked) > 0) &&
-                                     all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked))))
+      (nrow(checked) > 0) &&
+      all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked))))
   })
 
   flavs <- pacs::cran_flavors()
   test_that("pacs::cran_flavors()", {
     expect_true(isNA(flavs) || (is.data.frame(flavs) &&
-                                  any(flavs$Flavor %in% colnames(checked)) &&
-                                  (nrow(flavs) > 0)))
+      any(flavs$Flavor %in% colnames(checked)) &&
+      (nrow(flavs) > 0)))
   })
 
   test_that("pacs::pac_checkpage", {
     dplyr_checkpage <- pacs::pac_checkpage("dplyr")
     expect_true(isNA(dplyr_checkpage) || (is.data.frame(dplyr_checkpage) &&
-                                            (nrow(dplyr_checkpage) > 0) &&
-                                            any(dplyr_checkpage$Flavor %in% flavs$Flavor)))
+      (nrow(dplyr_checkpage) > 0) &&
+      any(dplyr_checkpage$Flavor %in% flavs$Flavor)))
   })
 
   test_that("pacs::bio_releases()", {
     bioreleases <- bio_releases()
     expect_true(isNA(bioreleases) || (is.data.frame(bioreleases) &&
-                                        (nrow(bioreleases) > 0) &&
-                                        all(colnames(bioreleases) %in% c("Release", "Date", "Software packages", "R"))))
+      (nrow(bioreleases) > 0) &&
+      all(colnames(bioreleases) %in% c("Release", "Date", "Software packages", "R"))))
   })
 
   test_that("pacs::biocran_repos()", {

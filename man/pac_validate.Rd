@@ -55,7 +55,8 @@ Results are cached with \code{memoise} package, memory cache.
 \dontrun{
 pac_validate("memoise")
 pac_validate("memoise",
-             lifeduration = TRUE,
-             checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL))
+  lifeduration = TRUE,
+  checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+)
 }
 }
