@@ -27,7 +27,7 @@ pac_compare_versions <- function(pac,
                                  lib.loc = NULL,
                                  repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(pac_on(pac, repos))
+  stopifnot(pac_isin(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
@@ -95,7 +95,7 @@ pac_compare_namespace <- function(pac,
                                 lib.loc = NULL,
                                 repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(pac_on(pac, repos))
+  stopifnot(pac_isin(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(is.character(repos))

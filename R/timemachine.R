@@ -31,7 +31,7 @@ pac_timemachine <- function(pac,
                             from = NULL,
                             to = NULL,
                             version = NULL) {
-  stopifnot(pac_on(pac, "https://cran.rstudio.com/"))
+  stopifnot(pac_isin(pac, "https://cran.rstudio.com/"))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),

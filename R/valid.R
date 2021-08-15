@@ -196,7 +196,7 @@ pac_validate <- function(pac,
 
   result$newest <- apply(result, 1, function(x) isTRUE(pac_islast(x["Package"], version = x["Version.have"],  repos = repos)))
 
-  result$cran <- apply(result, 1, function(x) isTRUE(pac_on(x["Package"], "https://cran.rstudio.com/")))
+  result$cran <- apply(result, 1, function(x) isTRUE(pac_isin(x["Package"], "https://cran.rstudio.com/")))
 
   if (length(checkred$scope)) {
     result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && result$cran[x] && pac_checkred(result$Package[x], scope = checkred$scope, flavors = checkred$flavors)), logical(1))

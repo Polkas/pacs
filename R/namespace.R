@@ -27,7 +27,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
 
-  if (!is_installed && (!pac_on(pac, repos) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
+  if (!is_installed && (!pac_isin(pac, repos) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
     return(structure(list(), package = pac, version = version))
   }
 

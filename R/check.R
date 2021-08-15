@@ -32,7 +32,7 @@ read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem
 pac_checkpage <- function(pac) {
   stopifnot((length(pac) == 1) && is.character(pac))
 
-  if (!pac_on(pac, "https://cran.rstudio.com/")) {
+  if (!pac_isin(pac, "https://cran.rstudio.com/")) {
     return(NA)
   }
 
@@ -64,7 +64,7 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
             is.null(flavors) || all(flavors %in% cran_flavors()$Flavor)
   )
 
-  if (!pac_on(pac, "https://cran.rstudio.com/")) {
+  if (!pac_isin(pac, "https://cran.rstudio.com/")) {
     return(NA)
   }
 

@@ -33,7 +33,7 @@
 |`pacs_base`                          | R base packages                               |
 |`pac_last`|The most recent package version|
 |`pac_islast`| Checking if a package version is the most recent one|
-|`pac_on`| Checking if a package is currently inside provided repositories|
+|`pac_isin`| Checking if a package is currently inside provided repositories|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
 |`pac_checkpage` |   Retrieving the package R CRAN check page|
 |`checked_packages`| Retrieving all R CRAN packages check page statuses|

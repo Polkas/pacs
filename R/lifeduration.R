@@ -29,7 +29,7 @@ pac_lifeduration <- function(pac,
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
 
-  if (!pac_on(pac, repos) && !is_installed) {
+  if (!pac_isin(pac, repos) && !is_installed) {
     return(NA)
   } else {
     last_version <- pac_last(pac, repos = repos)
@@ -52,7 +52,7 @@ pac_lifeduration <- function(pac,
     }
   }
 
-  ison_cran <- is_on(pac, "https://cran.rstudio.com/")
+  ison_cran <- is_isin(pac, "https://cran.rstudio.com/")
 
   if (ison_cran) {
     if (is.null(version) && !is.null(at)) {
@@ -113,7 +113,7 @@ pac_health <- function(pac,
     return(TRUE)
   }
 
-  if (any(c(!is.null(version), !is.null(at))) && !pac_on(pac, repos)) {
+  if (any(c(!is.null(version), !is.null(at))) && !pac_isin(pac, repos)) {
     return(NA)
   }
 

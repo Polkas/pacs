@@ -74,7 +74,7 @@ pac_deps <- function(pac,
     deps(pac, fields)
     v_base <- installed_packages(lib.loc = lib.loc)
   } else {
-    stopifnot(pac_on(pac, repos))
+    stopifnot(pac_isin(pac, repos))
     paks_global <- tools::package_dependencies(pac,
       db = available_packages(repos),
       which = fields,

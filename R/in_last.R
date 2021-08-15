@@ -22,31 +22,31 @@ pac_last <- function(pac, repos = biocran_repos()) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.character(repos))
 
-  if (!pac_on(pac, repos = repos)) {
+  if (!pac_isin(pac, repos = repos)) {
     return(NA)
   }
 
   last_version_fun(pac, repos = repos)
 }
 
-#' Checking if a packge is in repositories
+#' Checking if a package is in repositories
 #' @description using `utils::available.packages` to check if package is in repoitories.
 #' @param pac character a package name.
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and Bioconductor. Default `pacs::biocran_repos()`
-#' @return logical if a package is inside ropositories.
+#' @return logical if a package is inside repositories.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
-#' pac_on("dplyr")
-#' pac_on("dplyr", "https://cran.rstudio.com/" )
-#' pac_on("dplyr", biocran_repos()[grep("Bio", names(biocran_repos()))])
-pac_on <- function(pac, repos = biocran_repos()) {
+#' pac_isin("dplyr")
+#' pac_isin("dplyr", "https://cran.rstudio.com/")
+#' pac_isin("dplyr", biocran_repos()[grep("Bio", names(biocran_repos()))])
+pac_isin <- function(pac, repos = biocran_repos()) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.character(repos))
-  is_on(pac, repos = repos)
+  is_isin(pac, repos = repos)
 }
 
-is_on_raw <- function(pac, repos = biocran_repos()) {
+is_isin_raw <- function(pac, repos = biocran_repos()) {
   if (isTRUE(pac %in% rownames(available_packages(repos = repos)))) {
     TRUE
   } else {
@@ -54,7 +54,7 @@ is_on_raw <- function(pac, repos = biocran_repos()) {
   }
 }
 
-is_on <- memoise::memoise(is_on_raw)
+is_isin <- memoise::memoise(is_isin_raw)
 
 #' Checking if a packge version is the most recent one
 #' @description checking if a package version is the most recent one, by default the installed version is compared.
@@ -78,7 +78,7 @@ pac_islast <- function(pac, version = NULL, lib.loc = NULL, repos = c("https://b
                                                                       "https://bioconductor.org/packages/3.13/workflows",
                                                                       "https://bioconductor.org/packages/3.13/books",
                                                                       "https://cloud.r-project.org")) {
-  if (!pac_on(pac, repos)) {
+  if (!pac_isin(pac, repos)) {
     return(NA)
   }
 
