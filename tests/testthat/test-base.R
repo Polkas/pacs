@@ -1,8 +1,8 @@
-test_that("pacs::replaceNA", {
+test_that("replaceNA", {
   expect_true(all(!is.na(replaceNA(c(1, 2, NA, 3, NA), 0))))
 })
 
-test_that("pacs::isNA", {
+test_that("isNA", {
   expect_true(isNA(NA))
   expect_false(isNA(c(NA, NA)))
   expect_false(isNA(2))
