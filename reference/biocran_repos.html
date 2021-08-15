@@ -124,16 +124,16 @@ The newest Bioconductor release for the specific R version is assumed." />
 The newest Bioconductor release for the specific R version is assumed.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>biocran_repos</span><span class='op'>(</span>version <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>biocran_repos</span><span class='op'>(</span>bioversion <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>version</th>
+      <th>bioversion</th>
       <td><p>character the Bioconductor release.
 By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
-The maximum version could be checked with <code><a href='pac_bioreleases.html'>pacs::pac_bioreleases()</a></code>. Default NULL</p></td>
+The maximum version could be checked with <code>pacs::bio_releases()</code>. Default NULL</p></td>
     </tr>
     </table>
 
