@@ -4,7 +4,7 @@
 #' @param version character package version, By default the newest version is taken. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
-#' @param repos character vector base URLs of the repository to use. Default `biocran_repos()`
+#' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default `pacs::biocran_repos(version = pacs::bio_releases()$Release[1])`
 #' @return `difftime`, number of days package version was the newest one.
 #' @note Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
@@ -15,19 +15,21 @@
 #' pac_lifeduration("memoise")
 #' pac_lifeduration("dplyr", version = "0.8.0")
 #' pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+#' # For Bioconductor packages will work only for the newest per R version and installed packages.
 #' pac_lifeduration("S4Vectors")
 #' }
 pac_lifeduration <- function(pac,
                              version = NULL,
                              at = NULL,
                              lib.loc = NULL,
-                             repos = biocran_repos()) {
+                             repos = biocran_repos(version = pacs::bio_releases()$Release[1])) {
   stopifnot(length(pac) == 1 && is.character(pac))
   stopifnot(!all(c(!is.null(version), !is.null(at))))
   stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
+  ison_cran <- is_isin(pac, "https://cran.rstudio.com/")
 
   if (!pac_isin(pac, repos) && !is_installed) {
     return(NA)
@@ -44,15 +46,15 @@ pac_lifeduration <- function(pac,
       life <- Sys.Date() - as.Date(as.character(substr(base_date, 1, 10)))
       if (identical(life, structure(numeric(0), class = "difftime", units = "days"))) life <- NA
       return(life)
-    } else {
+    } else if (ison_cran) {
       life <- Sys.Date() - as.Date(substr(pac_description(pac,
                                                    version = last_version,
                                                    lib.loc = lib.loc)[["Date/Publication"]], 1, 10))
       return(life)
+    } else {
+      return(NA)
     }
   }
-
-  ison_cran <- is_isin(pac, "https://cran.rstudio.com/")
 
   if (ison_cran) {
     if (is.null(version) && !is.null(at)) {

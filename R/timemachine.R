@@ -42,7 +42,7 @@ pac_timemachine <- function(pac,
   result <- pac_archived(pac)
   cran_page <- pac_cran_recent(pac)
 
-  if (is.null(result)) {
+  if (isNA(result)) {
     return(cran_page)
   }
 
@@ -135,7 +135,7 @@ pac_archived_raw <- function(pac) {
     result$Version <- pac_v
     result <- result[order(result$Released), ]
   } else {
-    result <- NULL
+    result <- NA
   }
 
   result

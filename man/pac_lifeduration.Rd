@@ -9,7 +9,7 @@ pac_lifeduration(
   version = NULL,
   at = NULL,
   lib.loc = NULL,
-  repos = biocran_repos()
+  repos = biocran_repos(version = pacs::bio_releases()$Release[1])
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ pac_lifeduration(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character vector base URLs of the repository to use. Default \code{biocran_repos()}}
+\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default \code{pacs::biocran_repos(version = pacs::bio_releases()$Release[1])}}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.
@@ -39,6 +39,7 @@ Results are cached for 1 hour with \code{memoise} package, memory cache.
 pac_lifeduration("memoise")
 pac_lifeduration("dplyr", version = "0.8.0")
 pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+# For Bioconductor packages will work only for the newest per R version and installed packages.
 pac_lifeduration("S4Vectors")
 }
 }

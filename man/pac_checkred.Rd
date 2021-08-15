@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{pac_checkred}
 \alias{pac_checkred}
-\title{Checking the package R CRAN check page status}
+\title{Checking the R CRAN package check page status}
 \usage{
 pac_checkred(pac, scope = c("ERROR", "FAIL"), flavors = NULL)
 }

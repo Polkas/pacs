@@ -4,16 +4,7 @@
 \alias{pac_islast}
 \title{Checking if a packge version is the most recent one}
 \usage{
-pac_islast(
-  pac,
-  version = NULL,
-  lib.loc = NULL,
-  repos = c("https://bioconductor.org/packages/3.13/bioc",
-    "https://bioconductor.org/packages/3.13/data/annotation",
-    "https://bioconductor.org/packages/3.13/data/experiment",
-    "https://bioconductor.org/packages/3.13/workflows",
-    "https://bioconductor.org/packages/3.13/books", "https://cloud.r-project.org")
-)
+pac_islast(pac, version = NULL, lib.loc = NULL, repos = biocran_repos())
 }
 \arguments{
 \item{pac}{character a package name.}
@@ -22,7 +13,7 @@ pac_islast(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
 
-\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and Bioconductor. Default \code{pacs::biocran_repos()}}
+\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 logical if a package is inside ropositories.
@@ -32,12 +23,13 @@ checking if a package version is the most recent one, by default the installed v
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.
+For Bioconductor if package is the newest one per R version.
 }
 \examples{
 \dontrun{
 pac_islast("memoise")
 pac_islast("dplyr", version = "1.0.0")
-pac_lifeduration("S4Vectors")
-pac_lifeduration("S4Vectors", version = pac_last("S4Vectors"))
+pac_islast("S4Vectors")
+pac_islast("S4Vectors", version = pac_last("S4Vectors"))
 }
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{pac_checkpage}
 \alias{pac_checkpage}
-\title{Retrieving the package R CRAN check page}
+\title{Retrieving the R CRAN package check page}
 \usage{
 pac_checkpage(pac)
 }

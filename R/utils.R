@@ -4,6 +4,10 @@ replaceNA <- function(vec, with) {
   vec
 }
 
+isNA <- function(x) {
+  isTRUE(length(x) == 1 && is.na(x))
+}
+
 #' Maximum version across the vector
 #' @description Reduce function over the `utils::compareVersion`
 #' @param vec character vector

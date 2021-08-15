@@ -9,7 +9,7 @@ pac_last(pac, repos = biocran_repos())
 \arguments{
 \item{pac}{character a package name.}
 
-\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and Bioconductor. Default \code{pacs::biocran_repos()}}
+\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 character most recent package version.
@@ -19,7 +19,9 @@ using \code{utils::available.packages} to get the newest package version.
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.
+For Bioconductor the newest one per R version.
 }
 \examples{
 pac_last("dplyr")
+pac_last("S4Vectors")
 }

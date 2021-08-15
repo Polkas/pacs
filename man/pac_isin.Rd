@@ -9,7 +9,7 @@ pac_isin(pac, repos = biocran_repos())
 \arguments{
 \item{pac}{character a package name.}
 
-\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and Bioconductor. Default \code{pacs::biocran_repos()}}
+\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 logical if a package is inside repositories.
@@ -22,6 +22,6 @@ Results are cached for 1 hour with \code{memoise} package.
 }
 \examples{
 pac_isin("dplyr")
-pac_isin("dplyr", "https://cran.rstudio.com/")
-pac_isin("dplyr", biocran_repos()[grep("Bio", names(biocran_repos()))])
+pac_isin("dplyr", repos = "https://cran.rstudio.com/")
+pac_isin("dplyr", repos = biocran_repos()[grep("Bio", names(biocran_repos()))])
 }

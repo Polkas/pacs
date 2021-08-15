@@ -20,7 +20,7 @@ read_checkpage_raw <- function(pac) {
 
 read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem(max_age = 60*60))
 
-#' Retrieving the package R CRAN check page
+#' Retrieving the R CRAN package check page
 #' @description Retrieving the R CRAN package check page.
 #' @param pac character a package name.
 #' @return data.frame.
@@ -40,7 +40,7 @@ pac_checkpage <- function(pac) {
   read_checkpage(pac)
 }
 
-#' Checking the package R CRAN check page status
+#' Checking the R CRAN package check page status
 #' @description using package R CRAN check page to validate if there are ANY errors and/or fails and/or warnings and/or notes.
 #' @param pac character a package name.
 #' @param scope character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")
@@ -194,26 +194,26 @@ bio_releases <- function() {
 #' CRAN and Bioconductor repositories
 #' @description CRAN and Bioconductor repositories.
 #' The newest Bioconductor release for the specific R version is assumed.
-#' @param bioversion character the Bioconductor release.
+#' @param version character the Bioconductor release.
 #' By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
 #' Available Bioconductor versions for your R version could be checked with `pacs::bio_releases()`. Default NULL
 #' @return named character vector of repositories.
 #' @export
 #' @examples
 #' biocran_repos()
-biocran_repos <- function(bioversion = NULL) {
+biocran_repos <- function(version = NULL) {
   Rv <- paste0(R.Version()$major, ".", stri_split_fixed(R.Version()$minor, ".")[[1]][1])
   bio_ok <- bio_releases()$Release[match(Rv, bio_releases()$R)]
-  stopifnot(is.null(bioversion) || (!is.null(bioversion) && isTRUE(bioversion %in% bio_ok)))
-  if (is.null(bioversion)) bioversion <- utils::head(bio_ok, 1)
-  if (is.na(bioversion)) {
+  stopifnot(is.null(version) || (!is.null(version) && isTRUE(version %in% bio_ok)))
+  if (is.null(version)) version <- utils::head(bio_ok, 1)
+  if (isNA(version)) {
     c(CRAN = "https://cran.rstudio.com/")
   } else {
-    c(BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", bioversion),
-      BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", bioversion) ,
-      BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", bioversion),
-      BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", bioversion),
-      BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", bioversion),
+    c(BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
+      BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version) ,
+      BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
+      BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
+      BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", version),
       CRAN = "https://cran.rstudio.com/")
   }
 }
