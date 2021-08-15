@@ -9,7 +9,7 @@ biocran_repos(bioversion = NULL)
 \arguments{
 \item{bioversion}{character the Bioconductor release.
 By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
-The maximum version could be checked with \code{pacs::bio_releases()}. Default NULL}
+Available Bioconductor versions for your R version could be checked with \code{pacs::bio_releases()}. Default NULL}
 }
 \value{
 named character vector of repositories.
