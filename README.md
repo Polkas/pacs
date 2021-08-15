@@ -35,11 +35,11 @@
 |`pac_islast`| Checking if a package version is the most recent one|
 |`pac_on`| Checking if a package is currently inside provided repositories|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
-|`pac_bioreleases`|Retrieving all Bioconductor releases|
 |`pac_checkpage` |   Retrieving the package R CRAN check page|
 |`checked_packages`| Retrieving all R CRAN packages check page statuses|
 |`cran_flavors`|  Retrieving all R CRAN servers flavors|
 |`biocran_repos`| Display current Bioconductor and CRAN repositories|
+|`bio_releases`|Retrieving all Bioconductor releases|
 
 **Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 

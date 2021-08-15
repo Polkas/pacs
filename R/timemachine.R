@@ -114,7 +114,6 @@ pac_archived_raw <- function(pac) {
   if (!inherits(rr, "try-error") && any(grepl(pac, rr))) {
     rr_range <- grep("</?table>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
-    # not use rvest as it is too big dependency
     header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
 
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr[2:length(rrr)], collapse = "\n")), "//td"))),

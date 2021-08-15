@@ -186,8 +186,8 @@ if (is_online()) {
     expect_true(is.data.frame(dplyr_checkpage))
   })
 
-  test_that("pacs::pac_bioreleases()", {
-    bioreleases <- pac_bioreleases()
+  test_that("pacs::bio_releases()", {
+    bioreleases <- bio_releases()
     expect_true(nrow(bioreleases) > 0)
     expect_true(is.data.frame(bioreleases))
     expect_identical(colnames(bioreleases), c("Release", "Date", "Software packages", "R"))

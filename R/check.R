@@ -3,9 +3,10 @@ read_checkpage_raw <- function(pac) {
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
-    header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
+    rrr_all <- paste(rrr, collapse = "\n")
+    header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
 
-    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr[2:length(rrr)], collapse = "\n")), "//td"))),
+    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(rrr_all), "//td"))),
                                        ncol = length(header),
                                        nrow = length(rrr) - 1, byrow = TRUE))
     colnames(result_raw) <- header
@@ -124,9 +125,10 @@ read_cran_flavours_raw <- function() {
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
-    header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
+    rrr_all <- paste(rrr, collapse = "\n")
+    header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
 
-    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr[2:length(rrr)], collapse = "\n")), "//td"))),
+    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(rrr_all), "//td"))),
                                        ncol = length(header),
                                        nrow = length(rrr) - 1, byrow = TRUE))
     colnames(result_raw) <- header
@@ -151,7 +153,6 @@ read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::c
 cran_flavors <- function() {
   read_cran_flavours()
 }
-
 
 read_bio_releases_raw <- function() {
   base_url <- "https://www.bioconductor.org/about/release-announcements/"
@@ -181,34 +182,34 @@ read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cac
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
-#' pac_bioreleases()
-pac_bioreleases <- function() {
+#' bio_releases()
+bio_releases <- function() {
   read_bio_releases()
 }
 
 #' CRAN and Bioconductor repositories
 #' @description CRAN and Bioconductor repositories.
 #' The newest Bioconductor release for the specific R version is assumed.
-#' @param version character the Bioconductor release.
+#' @param bioversion character the Bioconductor release.
 #' By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
-#' The maximum version could be checked with `pacs::pac_bioreleases()`. Default NULL
+#' The maximum version could be checked with `pacs::bio_releases()`. Default NULL
 #' @return named character vector of repositories.
 #' @export
 #' @examples
 #' biocran_repos()
-biocran_repos <- function(version = NULL) {
-  Rv <- paste0(R.Version()$major, ".", substr(R.Version()$minor, 1, 1))
-  bio_ok <- pac_bioreleases()$Release[match(Rv, pac_bioreleases()$R)]
-  stopifnot(is.null(version) || (!is.null(version) && isTRUE(version %in% bio_ok)))
-  if (is.null(version)) version <- utils::head(bio_ok, 1)
-  if (is.na(version)) {
+biocran_repos <- function(bioversion = NULL) {
+  Rv <- paste0(R.Version()$major, ".", stri_split_fixed(R.Version()$minor, ".")[[1]][1])
+  bio_ok <- bio_releases()$Release[match(Rv, bio_releases()$R)]
+  stopifnot(is.null(bioversion) || (!is.null(bioversion) && isTRUE(bioversion %in% bio_ok)))
+  if (is.null(bioversion)) bioversion <- utils::head(bio_ok, 1)
+  if (is.na(bioversion)) {
     c(CRAN = "https://cran.rstudio.com/")
   } else {
-    c(BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
-      BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version) ,
-      BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
-      BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
-      BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", version),
+    c(BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", bioversion),
+      BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", bioversion) ,
+      BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", bioversion),
+      BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", bioversion),
+      BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", bioversion),
       CRAN = "https://cran.rstudio.com/")
   }
 }
