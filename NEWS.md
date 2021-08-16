@@ -1,7 +1,7 @@
 # 0.3.3
 
-* `BiocManager` added to Imports, so all BioConductor repositories and its last release might be easily retrieved.
-* Default repositories now consists of not only CRAN as BioConductor is considered too.
+* Partly support BioConductor.
+* Default repositories mainly now consists of not only CRAN as BioConductor is considered too.
 * Fix `lib_validate` as it not take into account statuses for not fully performed tests, it was case for less than 1% of all packages.
 * Add note that `checked_packages` could return duplicated observations which is expected.
 * Improve merge in `lib_validate` to show non-CRAN packages too.
