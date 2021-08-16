@@ -35,7 +35,6 @@ test_that("pacs::pac_deps", {
   expect_true(ncol(stats_deps2) > 0)
   expect_true(length(stats_deps2$Package) > 0)
   expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)) == 2)
-  expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)) == 2)
 })
 
 test_that("pacs::dir_size", {
@@ -82,7 +81,9 @@ if (is_online()) {
   test_that("pacs::pac_deps_timemachine", {
     expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
   })
-
+  test_that("pacs::pac_deps", {
+    expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)) == 2)
+  })
   test_that("pacs::lib_validate", {
     expect_identical(
       sort(unique(rownames(installed_packages()))),
