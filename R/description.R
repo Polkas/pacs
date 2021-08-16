@@ -97,10 +97,10 @@ pac_description_dcf_raw <- function(pac, version, at) {
 
     download <- try(
       {
-        utils::download.file(d_url,
+        suppressWarnings(utils::download.file(d_url,
           destfile = temp_tar,
           quiet = TRUE
-        )
+        ))
       },
       silent = TRUE
     )

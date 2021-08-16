@@ -50,10 +50,10 @@ lib_validate <- function(lib.loc = NULL,
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
-    length(checkred) %in% c(1, 2) &&
+    (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
-    length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
-    is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor))
+    (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
+    (is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)))
   stopifnot(is.character(repos))
 
   installed_agg <- installed_agg_fun(lib.loc, fields)
@@ -180,10 +180,10 @@ pac_validate <- function(pac,
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
-    length(checkred) %in% c(1, 2) &&
+    (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
-    length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
-    is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor))
+    (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
+    (is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)))
   stopifnot(is.character(repos))
 
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
