@@ -21,5 +21,7 @@ If you need to check many packages at once then is recommended usage of \code{pa
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{
+\dontrun{
 pac_checkpage("dplyr")
+}
 }

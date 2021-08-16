@@ -17,5 +17,7 @@ The data is downloaded from \verb{https://cran.r-project.org/web/checks/check_fl
 Results are cached for 1 hour with \code{memoise} package.
 }
 \examples{
+\dontrun{
 cran_flavors()
+}
 }

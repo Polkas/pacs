@@ -19,5 +19,7 @@ CRAN and Bioconductor repositories.
 The newest Bioconductor release for the specific R version is assumed.
 }
 \examples{
+\dontrun{
 biocran_repos()
+}
 }

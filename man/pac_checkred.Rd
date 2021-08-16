@@ -26,6 +26,7 @@ The used repository \verb{https://cran.rstudio.com/}.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }
 \examples{
+\dontrun{
 pac_checkred("dplyr")
 pac_checkred("dplyr", scope = c("ERROR"))
 pac_checkred("dplyr",
@@ -35,4 +36,5 @@ pac_checkred("dplyr",
     "r-devel-linux-x86_64-debian-gcc"
   )
 )
+}
 }

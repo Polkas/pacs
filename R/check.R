@@ -32,7 +32,9 @@ read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_checkpage("dplyr")
+#' }
 pac_checkpage <- function(pac) {
   stopifnot((length(pac) == 1) && is.character(pac))
 
@@ -55,6 +57,7 @@ pac_checkpage <- function(pac) {
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_checkred("dplyr")
 #' pac_checkred("dplyr", scope = c("ERROR"))
 #' pac_checkred("dplyr",
@@ -64,6 +67,7 @@ pac_checkpage <- function(pac) {
 #'     "r-devel-linux-x86_64-debian-gcc"
 #'   )
 #' )
+#' }
 pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
   stopifnot(all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")))
   stopifnot((length(pac) == 1) && is.character(pac))
@@ -90,6 +94,10 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
 #' Some packages could be duplicated as not all tests are performed for a new version so two versions still coexists.
 #' Checks with asterisks (*) indicate that checking was not fully performed, this is a case for less than 1% of all packages.
 #' @export
+#' @examples
+#' \dontrun{
+#' checked_packages()
+#' }
 checked_packages <- function() {
   packages <- read_checkred_packages()
   if (is.data.frame(packages)) {
@@ -163,7 +171,9 @@ read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::c
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
+#' \dontrun{
 #' cran_flavors()
+#' }
 cran_flavors <- function() {
   read_cran_flavours()
 }
@@ -200,7 +210,9 @@ read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cac
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
+#' \dontrun{
 #' bio_releases()
+#' }
 bio_releases <- function() {
   read_bio_releases()
 }
@@ -214,7 +226,9 @@ bio_releases <- function() {
 #' @return named character vector of repositories.
 #' @export
 #' @examples
+#' \dontrun{
 #' biocran_repos()
+#' }
 biocran_repos <- function(version = NULL) {
   Rv <- paste0(R.Version()$major, ".", stri_split_fixed(R.Version()$minor, ".")[[1]][1])
   bio_ok <- bio_releases()$Release[match(Rv, bio_releases()$R)]

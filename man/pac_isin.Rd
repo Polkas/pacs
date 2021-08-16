@@ -21,7 +21,9 @@ using \code{utils::available.packages} to check if package is in repoitories.
 Results are cached for 1 hour with \code{memoise} package.
 }
 \examples{
+\dontrun{
 pac_isin("dplyr")
 pac_isin("dplyr", repos = "https://cran.rstudio.com/")
 pac_isin("dplyr", repos = biocran_repos()[grep("Bio", names(biocran_repos()))])
+}
 }

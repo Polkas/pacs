@@ -18,8 +18,10 @@ last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem
 #' For Bioconductor the newest one per R version.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_last("dplyr")
 #' pac_last("S4Vectors")
+#' }
 pac_last <- function(pac, repos = biocran_repos()) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.character(repos))
@@ -39,9 +41,11 @@ pac_last <- function(pac, repos = biocran_repos()) {
 #' @note Results are cached for 1 hour with `memoise` package.
 #' @export
 #' @examples
+#' \dontrun{
 #' pac_isin("dplyr")
 #' pac_isin("dplyr", repos = "https://cran.rstudio.com/")
 #' pac_isin("dplyr", repos = biocran_repos()[grep("Bio", names(biocran_repos()))])
+#' }
 pac_isin <- function(pac, repos = biocran_repos()) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.character(repos))

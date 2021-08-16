@@ -22,6 +22,8 @@ Results are cached for 1 hour with \code{memoise} package.
 For Bioconductor the newest one per R version.
 }
 \examples{
+\dontrun{
 pac_last("dplyr")
 pac_last("S4Vectors")
+}
 }

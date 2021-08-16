@@ -17,5 +17,7 @@ The data is downloaded from \verb{https://www.bioconductor.org/about/release-ann
 Results are cached for 1 hour with \code{memoise} package.
 }
 \examples{
+\dontrun{
 bio_releases()
+}
 }
