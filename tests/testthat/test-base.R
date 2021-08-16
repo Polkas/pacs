@@ -60,7 +60,7 @@ test_that("pacs::pacs_base", {
   expect_true(length(pacs_base()) >= length(pacs_base(startup = TRUE)))
 })
 
-# Turn off/on online demanding tests
+# Turn off/on online tests
 if (is_online() && TRUE) {
 
   aa1 <- suppressWarnings(available_packages())
@@ -70,14 +70,12 @@ if (is_online() && TRUE) {
   dplyr_checkpage <- suppressWarnings(pac_checkpage("dplyr"))
   bioreleases <- suppressWarnings(bio_releases())
 
-  if (any(c(isNA(aa1),
+  if (!any(c(isNA(aa1),
             isNA(aa2),
             isNA(checked),
             isNA(flavs),
             isNA(dplyr_checkpage),
             isNA(bioreleases)))) {
-    skip("Not stable internet connection, online tests are skipped")
-  }
 
   test_that("pacs::pac_compare_versions", {
     expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
@@ -225,4 +223,6 @@ if (is_online() && TRUE) {
     expect_true(length(biocran_repos()) > 0)
     expect_error(biocran_repos("4.3.3.3.3"))
   })
+
+  }
 }
