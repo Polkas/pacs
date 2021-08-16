@@ -162,7 +162,7 @@ installed_agg_fun <- memoise::memoise(installed_agg_fun_raw, cache = cachem::cac
 #' @description available_packages returns a matrix of details corresponding to packages currently available at one or more repositories. The current list of packages is downloaded over the internet (or copied from a local mirror).
 #' @param repos character vector, the base URL(s) of the repositories to use. Default `pacs::biocran_repos()`
 available_packages <- function(repos = biocran_repos()) {
-  available_packages_raw(repos = repos)
+  tryCatch(available_packages_raw(repos = repos), error = function(e) NA)
 }
 
 available_packages_raw <- memoise::memoise(utils::available.packages, cache = cachem::cache_mem(max_age = 60 * 60))

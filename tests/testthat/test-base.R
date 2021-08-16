@@ -61,7 +61,19 @@ test_that("pacs::pacs_base", {
 })
 
 # Turn off/on online demanding tests
-if (is_online() && FALSE) {
+if (is_online() && TRUE) {
+
+  aa1 <- suppressWarnings(available_packages())
+  aa2 <- suppressWarnings(available_packages(repos = "https://cran.rstudio.com/"))
+  checked <- suppressWarnings(checked_packages())
+  flavs <- suppressWarnings(cran_flavors())
+  dplyr_checkpage <- suppressWarnings(pac_checkpage("dplyr"))
+  bioreleases <- suppressWarnings(bio_releases())
+
+  if (any(is.na(c(aa1, aa2, checked, flavs, dplyr_checkpage, bioreleases)))) {
+    skip("Not stable internet connection, online tests are skipped")
+  }
+
   test_that("pacs::pac_compare_versions", {
     expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
     expect_true(suppressWarnings(any(duplicated(colnames(pac_compare_versions("memoise", "2.0.0", "2.0.0"))))))
@@ -180,33 +192,28 @@ if (is_online() && FALSE) {
     expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
   })
 
-  checked <- suppressWarnings(pacs::checked_packages())
-
   test_that("pacs::checked_packages", {
-    expect_true(isNA(checked) || (is.data.frame(checked) &&
+    expect_true(is.data.frame(checked) &&
       (nrow(checked) > 0) &&
-      all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked))))
+      all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked)))
   })
 
-  flavs <- pacs::cran_flavors()
   test_that("pacs::cran_flavors()", {
-    expect_true(isNA(flavs) || (is.data.frame(flavs) &&
+    expect_true(is.data.frame(flavs) &&
       any(flavs$Flavor %in% colnames(checked)) &&
-      (nrow(flavs) > 0)))
+      (nrow(flavs) > 0))
   })
 
   test_that("pacs::pac_checkpage", {
-    dplyr_checkpage <- pacs::pac_checkpage("dplyr")
-    expect_true(isNA(dplyr_checkpage) || (is.data.frame(dplyr_checkpage) &&
+    expect_true(is.data.frame(dplyr_checkpage) &&
       (nrow(dplyr_checkpage) > 0) &&
-      any(dplyr_checkpage$Flavor %in% flavs$Flavor)))
+      any(dplyr_checkpage$Flavor %in% flavs$Flavor))
   })
 
   test_that("pacs::bio_releases()", {
-    bioreleases <- bio_releases()
-    expect_true(isNA(bioreleases) || (is.data.frame(bioreleases) &&
+    expect_true(is.data.frame(bioreleases) &&
       (nrow(bioreleases) > 0) &&
-      all(colnames(bioreleases) %in% c("Release", "Date", "Software packages", "R"))))
+      all(colnames(bioreleases) %in% c("Release", "Date", "Software packages", "R")))
   })
 
   test_that("pacs::biocran_repos()", {
