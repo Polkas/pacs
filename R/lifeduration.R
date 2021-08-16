@@ -35,6 +35,7 @@ pac_lifeduration <- function(pac,
     return(NA)
   } else {
     last_version <- pac_last(pac, repos = repos)
+    last_version_cran <- pac_last(pac, repos = "https://cran.rstudio.com/")
   }
 
   if ((is.null(version) && is.null(at)) ||
@@ -48,7 +49,7 @@ pac_lifeduration <- function(pac,
       return(life)
     } else if (ison_cran) {
       life <- Sys.Date() - as.Date(substr(pac_description(pac,
-        version = last_version,
+        version = last_version_cran,
         lib.loc = lib.loc
       )[["Date/Publication"]], 1, 10))
       return(life)
@@ -59,14 +60,16 @@ pac_lifeduration <- function(pac,
 
   if (ison_cran) {
     if (is.null(version) && !is.null(at)) {
-      pac_tm <- utils::tail(pac_timemachine(pac, at = at), 1)
+      pac_tm <- pac_timemachine(pac, at = at)
+      if (isNA(pac_tm)) NA
+      pac_tm <- utils::tail(pac_tm, 1)
       return(pac_tm$LifeDuration)
     } else {
-      if (isTRUE(utils::compareVersion(version, last_version) == 1)) {
+      if (isTRUE(utils::compareVersion(version, last_version_cran) == 1)) {
         return(NA)
       }
       pac_tm <- pac_timemachine(pac)
-      if (isTRUE(all(vapply(pac_tm$Version, function(v) isFALSE(utils::compareVersion(v, version) == 0), logical(1))))) {
+      if (isNA(pac_tm) || isTRUE(all(vapply(pac_tm$Version, function(v) isFALSE(utils::compareVersion(v, version) == 0), logical(1))))) {
         return(NA)
       }
       pac_tm <- pac_tm[vapply(pac_tm$Version, function(v) isTRUE(utils::compareVersion(v, version) == 0), logical(1)), ]

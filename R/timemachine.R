@@ -46,6 +46,10 @@ pac_timemachine <- function(pac,
     return(cran_page)
   }
 
+  if (isNA(cran_page)) {
+    return(NA)
+  }
+
   result$Archived <- as.Date(c(result$Released[-1], cran_page$Released))
   result$LifeDuration <- result$Archived - result$Released
   f_cols <- c("Package", "Version", "Released", "Archived", "LifeDuration", "URL", "Size")
@@ -72,7 +76,7 @@ pac_timemachine <- function(pac,
 }
 
 pac_cran_recent_raw <- function(pac) {
-  cran_page <- try(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac), warn = FALSE), silent = TRUE)
+  cran_page <- try(suppressWarnings(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac), warn = FALSE)), silent = TRUE)
   if (!inherits(cran_page, "try-error") && any(grepl(pac, cran_page))) {
     cran_v <- utils::head(gsub("</?td>", "", cran_page[grep("Version:", cran_page) + 1]), 1)
     cran_released <- utils::head(gsub("</?td>", "", cran_page[grep("Published:", cran_page) + 1]), 1)
@@ -92,16 +96,7 @@ pac_cran_recent_raw <- function(pac) {
       stringsAsFactors = FALSE
     )
   } else {
-    data.frame(
-      Package = pac,
-      Version = NA,
-      Released = NA,
-      Archived = NA,
-      LifeDuration = NA,
-      URL = NA,
-      Size = NA,
-      stringsAsFactors = FALSE
-    )
+    NA
   }
 }
 
@@ -109,7 +104,7 @@ pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_m
 
 pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
-  rr <- try(readLines(paste0("https://cran.r-project.org", base_archive), warn = FALSE), silent = TRUE)
+  rr <- try(suppressWarnings(readLines(paste0("https://cran.r-project.org", base_archive), warn = FALSE)), silent = TRUE)
 
   if (!inherits(rr, "try-error") && any(grepl(pac, rr))) {
     rr_range <- grep("</?table>", rr)
