@@ -18,7 +18,7 @@ pac_health(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character version of package. Default: NULL}
+\item{version}{character package version, By default the newest version is taken. Default: NULL}
 
 \item{at}{Date old version of package. Default: NULL}
 

@@ -85,7 +85,7 @@ pac_lifeduration <- function(pac,
 #' A healthy package was published for more than x days, where default is 14 days.
 #' CRAN team gives around one/two week to resolved a package which gave errors under the check page.
 #' @param pac character a package name.
-#' @param version character version of package. Default: NULL
+#' @param version character package version, By default the newest version is taken. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @param limit numeric at least days to treat as healthy. Default: 14
 #' @param scope character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `c("ERROR", "FAIL")`
