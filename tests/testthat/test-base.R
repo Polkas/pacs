@@ -70,7 +70,12 @@ if (is_online() && TRUE) {
   dplyr_checkpage <- suppressWarnings(pac_checkpage("dplyr"))
   bioreleases <- suppressWarnings(bio_releases())
 
-  if (any(is.na(c(aa1, aa2, checked, flavs, dplyr_checkpage, bioreleases)))) {
+  if (any(c(isNA(aa1),
+            isNA(aa2),
+            isNA(checked),
+            isNA(flavs),
+            isNA(dplyr_checkpage),
+            isNA(bioreleases)))) {
     skip("Not stable internet connection, online tests are skipped")
   }
 
