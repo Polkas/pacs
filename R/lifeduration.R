@@ -142,7 +142,14 @@ pac_health <- function(pac,
 
   res <- isTRUE(life >= limit)
 
-  if (pac_islast(pac, version, at)) {
+  if (is.null(version) && !is.null(at)) {
+    pac_tm <- pac_timemachine(pac, at = at)
+    if (isNA(pac_tm)) NA
+    pac_tm <- utils::tail(pac_tm, 1)
+    vesion <- pac_tm$Version
+  }
+
+  if (pac_islast(pac, version)) {
     if (isTRUE(pac_checkred(pac, scope = scope, flavors = flavors))) FALSE else res
   } else {
     res
