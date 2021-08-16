@@ -60,7 +60,8 @@ test_that("pacs::pacs_base", {
   expect_true(length(pacs_base()) >= length(pacs_base(startup = TRUE)))
 })
 
-if (is_online()) {
+# Turn off/on online demanding tests
+if (is_online() && FALSE) {
   test_that("pacs::pac_compare_versions", {
     expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
     expect_true(suppressWarnings(any(duplicated(colnames(pac_compare_versions("memoise", "2.0.0", "2.0.0"))))))
