@@ -82,7 +82,6 @@ pac_compare_versions <- function(pac,
 #' @param lib.loc character. Default: NULL
 #' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with `c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")` slots, and added and removed ones for each of them.
-#' @note The comparison is only about exports.
 #' @export
 #' @examples
 #' \dontrun{

@@ -29,9 +29,6 @@ list with \code{c("imports", "exports", "exportPatterns", "importClasses", "impo
 \description{
 using the remote github CRAN mirror to compare NAMESPACE exports between specific packages versions.
 }
-\note{
-The comparison is only about exports.
-}
 \examples{
 \dontrun{
 pac_compare_namespace("shiny", "1.0.0", "1.6.0")

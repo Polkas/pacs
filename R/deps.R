@@ -72,7 +72,7 @@ pac_deps <- function(pac,
     }
 
     deps(pac, fields)
-    v_base <- installed_packages(lib.loc = lib.loc)
+    v_base <- installed_agg_fun(lib.loc, fields)
   } else {
     stopifnot(pac_isin(pac, repos))
     paks_global <- tools::package_dependencies(pac,
@@ -99,9 +99,9 @@ pac_deps <- function(pac,
 
   if (description_v) {
     if (local) {
-      res_df <- installed_descriptions(lib.loc, fields, if (recursive) c(res, pac) else pac)
+      res_df <- installed_descriptions(lib.loc, fields, if (recursive) unique(c(res, pac)) else pac)
     } else {
-      res_df <- available_descriptions(repos, fields, if (recursive) c(res, pac) else pac)
+      res_df <- available_descriptions(repos, fields, if (recursive) unique(c(res, pac)) else pac)
     }
     res_df <- res_df[res_df$Package %in% res, ]
   } else {

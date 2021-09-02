@@ -103,7 +103,7 @@ if (is_online() && TRUE) {
   test_that("pacs::lib_validate", {
     expect_identical(
       sort(unique(rownames(installed_packages()))),
-      sort(unique(setdiff(c(lib_validate()$Package, pacs_base()), "R")))
+      sort(unique(setdiff(c(lib_validate()[!is.na(lib_validate()$Version.have), ]$Package, pacs_base()), "R")))
     )
     expect_error(lib_validate(lib.loc = "wrong"))
     lib_res <- lib_validate()

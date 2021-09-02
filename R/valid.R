@@ -69,7 +69,7 @@ lib_validate <- function(lib.loc = NULL,
       )
     ),
     by = "Package",
-    all.y = TRUE,
+    all = TRUE,
     suffix = c(".expected.min", ".have")
   )
 

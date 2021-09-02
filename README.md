@@ -5,11 +5,10 @@
 
 [Supplementary Tools for R Packages Developers](https://polkas.github.io/pacs/index.html)
 
-- Supplementary utils for CRAN maintainers and R packages developers.
 - Validating the library or packages.
 - Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.
 - Assessing life duration of a specific package version.
-- Checking a package CRAN check page status for any errors and warnings.
+- Checking a CRAN package check page status for any errors and warnings.
 - Retrieving a DESCRIPTION or NAMESPACE file for any package version.
 - Comparing DESCRIPTION or NAMESPACE files between different package versions.
 - Getting a list of all releases for a specific package.
@@ -19,23 +18,23 @@
 |:------------------------------------|:-----------------------------------------------|
 |`lib_validate`                       | Validate the local library          |
 |`pac_validate`             | Validate a specific local package              |
-|`pac_deps`               |  CRAN package dependencies with installed or expected versions |
-|`pac_deps_timemachine`|  CRAN package dependencies for certain version or time point|
-|`pac_description` | CRAN package DESCRIPTION file at Date or for a certain version      |
-|`pac_namespace` | CRAN package NAMESPACE file at Date or for a certain version      |
+|`pac_deps`               |  R CRAN package dependencies with installed or expected versions |
+|`pac_deps_timemachine`|  R CRAN package dependencies for certain version or time point|
+|`pac_description` | R CRAN package DESCRIPTION file at Date or for a certain version      |
+|`pac_namespace` | R CRAN package NAMESPACE file at Date or for a certain version      |
 |`pac_lifeduration` | Package version life duration  |
-|`pac_health`           | CRAN package version health    |
+|`pac_health`           | R CRAN package version health    |
 |`pac_size`             | Size of the package                                       | 
-|`pac_timemachine` | CRAN package versions at a specific Date or a Date interval   |
-|`pac_compare_versions`               | Compare dependencies between different versions of a CRAN package          |
-|`pac_compare_namespace`               | Compare NAMESPACE fields between different versions of a CRAN package  |
-|`pac_true_size`                      | True size of the package (with dependencies)| 
-|`pacs_base`                          | R base packages                               |
+|`pac_timemachine` | R CRAN package versions at a specific Date or a Date interval   |
+|`pac_compare_versions` | Compare dependencies between different versions of a R CRAN package          |
+|`pac_compare_namespace`| Compare NAMESPACE fields between different versions of a R CRAN package  |
+|`pac_true_size`    | True size of the package (with dependencies)| 
+|`pacs_base`        | R base packages                               |
 |`pac_last`|The most recent package version|
 |`pac_islast`| Checking if a package version is the most recent one|
 |`pac_isin`| Checking if a package is currently inside provided repositories|
 |`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
-|`pac_checkpage` |   Retrieving the R CRAN package check page|
+|`pac_checkpage` | Retrieving the R CRAN package check page|
 |`checked_packages`| Retrieving all R CRAN packages check page statuses|
 |`cran_flavors`|  Retrieving all R CRAN servers flavors|
 |`biocran_repos`| Display current Bioconductor and CRAN repositories|
@@ -43,11 +42,11 @@
 
 **Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
 
-**Hint2**: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
+**Hint2**: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally, most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
 
 **Hint3**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous.
 
-**Hint4**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
+**Hint4**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
 
 ## Installation
 
@@ -74,7 +73,7 @@ Assessment of status on CRAN check pages takes only few additional seconds even 
 pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
 ```
 
-When `lifeduration` is triggered then assessment might takes even few minutes.
+When `lifeduration` is triggered then assessment might take even few minutes.
 
 ```r
 pacs::lib_validate(lifeduration = TRUE, 
@@ -97,7 +96,7 @@ pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"),
 pacs::checked_packages()
 ```
 
-Use `pacs::pac_checkpage("dplyr")` to get per package check page. However `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result is cached after the first invoke.
+Use `pacs::pac_checkpage("dplyr")` to get the check page per package. However `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result is cached after the first invoke.
 
 ## Time machine - Package version at Date or specific Date interval
 
@@ -113,8 +112,8 @@ pacs::pac_timemachine("dplyr", at = Sys.Date())
 
 ## Package health
 
-We could find out if a certain package version was lived more than 14 days (or other x limit days). 
-If not then we might assume something wrong was with it, as had to be quickly updated.
+We could find out if a certain package version lived more than 14 days (or other x limit days). 
+If not then we might assume something was wrong with it, as had to be quickly updated.
 
 e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could find out that it was published only for 1 day.
 
@@ -148,7 +147,7 @@ pacs::pac_description("dplyr", at = as.Date("2019-01-01"))
 
 ## Package NAMESPACE file
 
-Reading raw NAMESPACE files scrapped from the github CRAN mirror or if not worked from the CRAN website. 
+Reading raw NAMESPACE files scrapped from the github CRAN mirror or if it did not work from the CRAN website. 
 
 ```r
 pacs::pac_namespace("dplyr")
