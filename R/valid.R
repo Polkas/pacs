@@ -60,7 +60,8 @@ lib_validate <- function(lib.loc = NULL,
 
   res_agg <- installed_descriptions(lib.loc, fields)
 
-  result <- merge(res_agg,
+  result <- merge(
+    res_agg,
     rbind(
       installed_agg[, c("Package", "Version")],
       data.frame(
@@ -77,7 +78,8 @@ lib_validate <- function(lib.loc = NULL,
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
-  newest_df <- merge(installed_agg[, c("Package", "Version")],
+  newest_df <- merge(
+    installed_agg[, c("Package", "Version")],
     available_packages(repos = repos)[, c("Package", "Version")],
     by = "Package",
     all.x = TRUE,
@@ -86,7 +88,8 @@ lib_validate <- function(lib.loc = NULL,
 
   newest_df$newest <- as.character(newest_df$Version.x) == as.character(newest_df$Version.y)
 
-  result <- merge(result,
+  result <- merge(
+    result,
     newest_df[, c("Package", "newest")],
     by = "Package",
     sort = FALSE,
@@ -103,7 +106,8 @@ lib_validate <- function(lib.loc = NULL,
   cran_df$cran <- !is.na(cran_df$Version.y)
   cran_df$cran[is.na(cran_df$cran)] <- FALSE
 
-  result <- merge(result,
+  result <- merge(
+    result,
     cran_df[, c("Package", "cran")],
     by = "Package",
     sort = FALSE,
@@ -128,6 +132,11 @@ lib_validate <- function(lib.loc = NULL,
   if (lifeduration) {
     message("Please wait, Packages life durations are assessed.\n")
     result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
+  }
+
+  not_installed <- is.na(result$Version.have)
+  if (any(not_installed)) {
+    result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
   }
 
   result
@@ -189,7 +198,8 @@ pac_validate <- function(pac,
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
   installed_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields)
 
-  result <- merge(descriptions_pac,
+  result <- merge(
+    descriptions_pac,
     installed_pac,
     by = "Package",
     all = TRUE,
@@ -213,5 +223,11 @@ pac_validate <- function(pac,
       result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
     }
   }
+
+  not_installed <- is.na(result$Version.have)
+  if (any(not_installed)) {
+    result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
+  }
+
   result
 }

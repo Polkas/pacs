@@ -287,19 +287,3 @@ Might be useful to check the number of dependencies too:
 ```r
 pacs::pac_deps("devtools", local = TRUE)$Package
 ```
-
-## packages versions
-
-Small guide how to work with packages versions ("package_version" and "numeric_version" classes).
-
-```r
-# if you do not remember a calss name use class(packageVersion("base"))
-v1 <- `class<-`(list(c(1,1,1)), c("package_version", "numeric_version"))
-v2 <- `class<-`(list(c(1,0,0)), c("package_version", "numeric_version"))
-v1 > v2
-str(v1)
-# comparing with utils::compareVersion
-compareVersion("1.1.1", "1.0.0")
-# comparing versions vector with pacs::compareVersionsMax
-pacs::compareVersionsMax(c("1.1.1", "1.0.0", "3.3.3"))
-```

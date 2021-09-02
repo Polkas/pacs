@@ -1,8 +1,9 @@
 # 0.3.4
 
-* pac_deps might show duplicated values if package was installed under a few different `libPaths`, now it is fixed.
+* `pac_deps` might show duplicated values if package was installed under a few different `libPaths`, now it is fixed.
 * `lib_validate` will show packages which are required by DESCRIPTION file and not exist in `installed.packages`. This might occur when e.g. `install.packages` is corrupted. `pac_validate` already has such functionality.
 * Update `roxygen2` of `pac_comapre_namespace` as the note field wrongly suggested that it works only for exports.
+* remove "packages versions" section from README file.
 
 # 0.3.3
 
