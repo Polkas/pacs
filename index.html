@@ -17,7 +17,7 @@
   Validating the library or packages.
   Exploring a complexity of a specific package like evaluating sizes in bytes of all its dependencies.
   Assessing the life duration of a specific package version.
-  Checking a package CRAN check page status for any errors and warnings.
+  Checking a CRAN package check page status for any errors and warnings.
   Retrieving a DESCRIPTION or NAMESPACE file for any package version. 
   Comparing DESCRIPTION or NAMESPACE files between different package versions.
   Getting a list of all releases for a specific package.
@@ -360,21 +360,6 @@ cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")</co
 <p>Might be useful to check the number of dependencies too:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
-</div>
-<div id="packages-versions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#packages-versions" class="anchor" aria-hidden="true"></a>packages versions</h2>
-<p>Small guide how to work with packages versions (“package_version” and “numeric_version” classes).</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># if you do not remember a calss name use class(packageVersion("base"))</span>
-<span class="va">v1</span> <span class="op">&lt;-</span> <span class="fu">`class&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"package_version"</span>, <span class="st">"numeric_version"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">v2</span> <span class="op">&lt;-</span> <span class="fu">`class&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"package_version"</span>, <span class="st">"numeric_version"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">v1</span> <span class="op">&gt;</span> <span class="va">v2</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">v1</span><span class="op">)</span>
-<span class="co"># comparing with utils::compareVersion</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/compareVersion.html" class="external-link">compareVersion</a></span><span class="op">(</span><span class="st">"1.1.1"</span>, <span class="st">"1.0.0"</span><span class="op">)</span>
-<span class="co"># comparing versions vector with pacs::compareVersionsMax</span>
-<span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/compareVersionsMax.html">compareVersionsMax</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1.1.1"</span>, <span class="st">"1.0.0"</span>, <span class="st">"3.3.3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
   </div>
