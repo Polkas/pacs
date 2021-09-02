@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
       </span>
     </div>
 
@@ -80,11 +80,10 @@
 
 <p><a href="https://polkas.github.io/pacs/index.html" class="external-link">Supplementary Tools for R Packages Developers</a></p>
 <ul>
-<li>Supplementary utils for CRAN maintainers and R packages developers.</li>
 <li>Validating the library or packages.</li>
 <li>Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.</li>
 <li>Assessing life duration of a specific package version.</li>
-<li>Checking a package CRAN check page status for any errors and warnings.</li>
+<li>Checking a CRAN package check page status for any errors and warnings.</li>
 <li>Retrieving a DESCRIPTION or NAMESPACE file for any package version.</li>
 <li>Comparing DESCRIPTION or NAMESPACE files between different package versions.</li>
 <li>Getting a list of all releases for a specific package.</li>
@@ -110,19 +109,19 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>pac_deps</code></td>
-<td align="left">CRAN package dependencies with installed or expected versions</td>
+<td align="left">R CRAN package dependencies with installed or expected versions</td>
 </tr>
 <tr class="even">
 <td align="left"><code>pac_deps_timemachine</code></td>
-<td align="left">CRAN package dependencies for certain version or time point</td>
+<td align="left">R CRAN package dependencies for certain version or time point</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>pac_description</code></td>
-<td align="left">CRAN package DESCRIPTION file at Date or for a certain version</td>
+<td align="left">R CRAN package DESCRIPTION file at Date or for a certain version</td>
 </tr>
 <tr class="even">
 <td align="left"><code>pac_namespace</code></td>
-<td align="left">CRAN package NAMESPACE file at Date or for a certain version</td>
+<td align="left">R CRAN package NAMESPACE file at Date or for a certain version</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>pac_lifeduration</code></td>
@@ -130,7 +129,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>pac_health</code></td>
-<td align="left">CRAN package version health</td>
+<td align="left">R CRAN package version health</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>pac_size</code></td>
@@ -138,15 +137,15 @@
 </tr>
 <tr class="even">
 <td align="left"><code>pac_timemachine</code></td>
-<td align="left">CRAN package versions at a specific Date or a Date interval</td>
+<td align="left">R CRAN package versions at a specific Date or a Date interval</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>pac_compare_versions</code></td>
-<td align="left">Compare dependencies between different versions of a CRAN package</td>
+<td align="left">Compare dependencies between different versions of a R CRAN package</td>
 </tr>
 <tr class="even">
 <td align="left"><code>pac_compare_namespace</code></td>
-<td align="left">Compare NAMESPACE fields between different versions of a CRAN package</td>
+<td align="left">Compare NAMESPACE fields between different versions of a R CRAN package</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>pac_true_size</code></td>
@@ -195,9 +194,9 @@
 </tbody>
 </table>
 <p><strong>Hint1</strong>: <code>Version</code> variable is mostly a minimal required i.e. max(version1, version2 , …)</p>
-<p><strong>Hint2</strong>: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of <code><a href="reference/checked_packages.html">pacs::checked_packages()</a></code> over <code><a href="reference/pac_checkpage.html">pacs::pac_checkpage</a></code> (or <code><a href="reference/pac_checkred.html">pacs::pac_checkred</a></code>). Another example will be usage of <code><a href="https://rdrr.io/r/utils/available.packages.html" class="external-link">utils::available.packages</a></code> over <code><a href="reference/pac_last.html">pacs::pac_last</a></code>. Finally most important one will be <code><a href="reference/lib_validate.html">pacs::lib_validate</a></code> over <code><a href="reference/pac_validate.html">pacs::pac_validate</a></code> and <code><a href="reference/pac_checkred.html">pacs::pac_checkred</a></code> and others.</p>
+<p><strong>Hint2</strong>: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of <code><a href="reference/checked_packages.html">pacs::checked_packages()</a></code> over <code><a href="reference/pac_checkpage.html">pacs::pac_checkpage</a></code> (or <code><a href="reference/pac_checkred.html">pacs::pac_checkred</a></code>). Another example will be usage of <code><a href="https://rdrr.io/r/utils/available.packages.html" class="external-link">utils::available.packages</a></code> over <code><a href="reference/pac_last.html">pacs::pac_last</a></code>. Finally, most important one will be <code><a href="reference/lib_validate.html">pacs::lib_validate</a></code> over <code><a href="reference/pac_validate.html">pacs::pac_validate</a></code> and <code><a href="reference/pac_checkred.html">pacs::pac_checkred</a></code> and others.</p>
 <p><strong>Hint3</strong>: Almost all time consuming calculations are cached (for 1 hour) with <code><a href="https://rdrr.io/pkg/memoise/man/memoise.html" class="external-link">memoise::memoise</a></code> package, second invoke of the same call is instantaneous.</p>
-<p><strong>Hint4</strong>: Use <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> (Linux and Mac) or <code><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parallel::parLapply</a></code> (Windows, Linux and Mac) to speed up loop calculations. Nevertheless under <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> computation results are NOT cached with <code>memoise</code> package. Warning: Parallel computations might be unstable.</p>
+<p><strong>Hint4</strong>: Use <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> (Linux and Mac) or <code><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parallel::parLapply</a></code> (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> computation results are NOT cached with <code>memoise</code> package. Warning: Parallel computations might be unstable.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
@@ -216,7 +215,7 @@
 <p>Assessment of status on CRAN check pages takes only few additional seconds even for all R CRAN packages. <code><a href="reference/checked_packages.html">pacs::checked_packages()</a></code> is used to gather all packages check statuses for all CRAN servers.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span>checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>When <code>lifeduration</code> is triggered then assessment might takes even few minutes.</p>
+<p>When <code>lifeduration</code> is triggered then assessment might take even few minutes.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span>lifeduration <span class="op">=</span> <span class="cn">TRUE</span>, 
                    checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -231,7 +230,7 @@
 <p><code>checked_packages</code> was built to extend the <code>.packages</code> family functions, like <code><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">utils::installed.packages()</a></code> and <code><a href="https://rdrr.io/r/utils/available.packages.html" class="external-link">utils::available.packages()</a></code>. <code><a href="reference/checked_packages.html">pacs::checked_packages</a></code> retrieves all current packages checks from <a href="https://cran.r-project.org/web/checks/check_summary_by_package.html" class="external-link">CRAN webpage</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/checked_packages.html">checked_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Use <code>pacs::pac_checkpage("dplyr")</code> to get per package check page. However <code><a href="reference/checked_packages.html">pacs::checked_packages()</a></code> will be more efficient for many packages. Remember that <code><a href="reference/checked_packages.html">pacs::checked_packages()</a></code> result is cached after the first invoke.</p>
+<p>Use <code>pacs::pac_checkpage("dplyr")</code> to get the check page per package. However <code><a href="reference/checked_packages.html">pacs::checked_packages()</a></code> will be more efficient for many packages. Remember that <code><a href="reference/checked_packages.html">pacs::checked_packages()</a></code> result is cached after the first invoke.</p>
 </div>
 <div id="time-machine---package-version-at-date-or-specific-date-interval" class="section level2">
 <h2 class="hasAnchor">
@@ -247,7 +246,7 @@
 <div id="package-health" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-health" class="anchor" aria-hidden="true"></a>Package health</h2>
-<p>We could find out if a certain package version was lived more than 14 days (or other x limit days). If not then we might assume something wrong was with it, as had to be quickly updated.</p>
+<p>We could find out if a certain package version lived more than 14 days (or other x limit days). If not then we might assume something was wrong with it, as had to be quickly updated.</p>
 <p>e.g. <code>dplyr</code> under the “0.8.0” version seems to be a broken release, we could find out that it was published only for 1 day.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_lifeduration.html">pac_lifeduration</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"0.8.0"</span><span class="op">)</span></code></pre></div>
@@ -272,7 +271,7 @@
 <div id="package-namespace-file" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-namespace-file" class="anchor" aria-hidden="true"></a>Package NAMESPACE file</h2>
-<p>Reading raw NAMESPACE files scrapped from the github CRAN mirror or if not worked from the CRAN website.</p>
+<p>Reading raw NAMESPACE files scrapped from the github CRAN mirror or if it did not work from the CRAN website.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_namespace.html">pac_namespace</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span>
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_namespace.html">pac_namespace</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span><span class="op">)</span>
