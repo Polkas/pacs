@@ -34,7 +34,7 @@ pac_last <- function(pac, repos = biocran_repos()) {
 }
 
 #' Checking if a package is in repositories
-#' @description using `utils::available.packages` to check if package is in repoitories.
+#' @description using `utils::available.packages` to check if package is in repositories.
 #' @param pac character a package name.
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return logical if a package is inside repositories.
@@ -62,13 +62,13 @@ is_isin_raw <- function(pac, repos = biocran_repos()) {
 
 is_isin <- memoise::memoise(is_isin_raw)
 
-#' Checking if a packge version is the most recent one
+#' Checking if a package version is the most recent one
 #' @description checking if a package version is the most recent one, by default the installed version is compared.
 #' @param pac character a package name.
 #' @param version character package version, by default the installed version is taken. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default `pacs::biocran_repos()`
-#' @return logical if a package is inside ropositories.
+#' @return logical if a package is inside repositories.
 #' @note Results are cached for 1 hour with `memoise` package.
 #' For Bioconductor if package is the newest one per R version.
 #' @export

@@ -2,7 +2,7 @@
 % Please edit documentation in R/in_last.R
 \name{pac_islast}
 \alias{pac_islast}
-\title{Checking if a packge version is the most recent one}
+\title{Checking if a package version is the most recent one}
 \usage{
 pac_islast(pac, version = NULL, lib.loc = NULL, repos = biocran_repos())
 }
@@ -16,7 +16,7 @@ pac_islast(pac, version = NULL, lib.loc = NULL, repos = biocran_repos())
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-logical if a package is inside ropositories.
+logical if a package is inside repositories.
 }
 \description{
 checking if a package version is the most recent one, by default the installed version is compared.

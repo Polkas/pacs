@@ -15,7 +15,7 @@ pac_isin(pac, repos = biocran_repos())
 logical if a package is inside repositories.
 }
 \description{
-using \code{utils::available.packages} to check if package is in repoitories.
+using \code{utils::available.packages} to check if package is in repositories.
 }
 \note{
 Results are cached for 1 hour with \code{memoise} package.
