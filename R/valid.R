@@ -160,6 +160,7 @@ lib_validate <- function(lib.loc = NULL,
 #' \item{Version.have}{character installed package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
+#' \item{direct}{ logical if the package is the first layer depencency, direct depncencies for DESCRIPTION file.}
 #' \item{newest}{ logical if the installed version is the newest one.}
 #' \item{cran}{logical if the package is on CRAN, version is not taken into account here.}
 #' \item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page.}
@@ -196,6 +197,8 @@ pac_validate <- function(pac,
   stopifnot(is.character(repos))
 
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
+  descriptions_pac_direct <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE, recursive = FALSE)
+
   installed_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields)
 
   result <- merge(
@@ -207,9 +210,12 @@ pac_validate <- function(pac,
   )
 
   if (nrow(result)) {
+
     result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
 
     result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
+
+    result$direct <- result$Package %in% descriptions_pac_direct$Package
 
     result$newest <- apply(result, 1, function(x) isTRUE(pac_islast(x["Package"], version = x["Version.have"], repos = repos)))
 
@@ -222,11 +228,11 @@ pac_validate <- function(pac,
     if (lifeduration) {
       result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
     }
-  }
 
-  not_installed <- is.na(result$Version.have)
-  if (any(not_installed)) {
-    result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
+    not_installed <- is.na(result$Version.have)
+    if (any(not_installed)) {
+      result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
+    }
   }
 
   result
