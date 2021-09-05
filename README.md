@@ -87,6 +87,28 @@ pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"),
                    flavors = pacs::cran_flavors()$Flavor[1:2]))
 ```
 
+### Investigate by filtering
+
+Packages are not installed (and should be) or have too low version:
+
+```r
+lib <- pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
+# not installed or too low version
+lib[(lib$version_status == -1), ]
+# not installed and should be
+lib[is.na(lib$Version.have), ]
+# too low version
+lib[(!is.na(lib$Version.have)) & (lib$version_status == -1), ]
+```
+
+Packages which have at least one CRAN server which ERROR or FAIL:
+
+```r
+red <- lib[(!is.na(lib$checkred)) & (lib$checkred == TRUE), ]
+nrow(red)
+head(red)
+```
+
 ## R CRAN packages check page statuses
 
 `checked_packages` was built to extend the `.packages` family functions, like `utils::installed.packages()` and `utils::available.packages()`. 

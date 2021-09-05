@@ -5,6 +5,8 @@
 * Update `roxygen2` of `pac_comapre_namespace` as the note field wrongly suggested that it works only for exports.
 * remove "packages versions" section from README file.
 * `pac_validate` will return `data.frame` with additional column "direct", which will point the direct dependency from DESCRIPTION file.
+* Improve testthat tests for `pac_validate`.
+* Improve README file for `lib_validate`.
 
 # 0.3.3
 
