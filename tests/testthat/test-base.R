@@ -178,20 +178,11 @@ if (is_online() && TRUE) {
 
   test_that("pacs::pac_namespace", {
     expect_true(length(pac_namespace("dplyr", version = "0.8.0")) == 10)
-    expect_true(length(pac_namespace("shiny")) >= 0)
-    expect_true(length(pac_namespace("rlang")) >= 0)
-    expect_true(length(pac_namespace("sp")) >= 0)
-    expect_true(length(pac_namespace("Rcpp")) >= 0)
-    expect_true(length(pac_namespace("float")) >= 0)
-    expect_true(length(pac_namespace("xROI")) >= 0)
-    expect_true(length(pac_namespace("CNVScope")) >= 0)
-    expect_true(length(pac_namespace("GFORCE")) >= 0)
-    expect_true(length(pac_namespace("CrossValidate")) >= 0)
-    expect_true(length(pac_namespace("classGraph")) >= 0)
-    expect_true(length(pac_namespace("mi")) >= 0)
+    expect_true(length(pac_parse_namespace(readLines("files/NAMESPACE_joint.txt"), enc = "UTF-8")) == 10)
     expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
     expect_identical(suppressWarnings(pac_namespace("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
     expect_identical(pac_namespace("WRONG"), structure(list(), package = "WRONG"))
+    expect_identical(pac_namespace("WRONG", local = TRUE), structure(list(), package = "WRONG"))
     expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
   })
 
