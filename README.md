@@ -93,9 +93,9 @@ Packages are not installed (and should be) or have too low version:
 
 ```r
 lib <- pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
-# not installed or too low version
+# not installed (and should be) or too low version
 lib[(lib$version_status == -1), ]
-# not installed and should be
+# not installed (and should be)
 lib[is.na(lib$Version.have), ]
 # too low version
 lib[(!is.na(lib$Version.have)) & (lib$version_status == -1), ]
@@ -107,6 +107,24 @@ Packages which have at least one CRAN server which ERROR or FAIL:
 red <- lib[(!is.na(lib$checkred)) & (lib$checkred == TRUE), ]
 nrow(red)
 head(red)
+```
+
+Packages which are not a dependency of any other package:
+
+```r
+lib[is.na(lib$Version.expected.min), ]
+```
+
+Non-CRAN packages:
+
+```r
+lib[lib$cran == FALSE, ]
+```
+
+Not newest packages:
+
+```r
+lib[(!is.na(lib$newest)) & (lib$newest == FALSE), ]
 ```
 
 ## R CRAN packages check page statuses
