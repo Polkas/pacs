@@ -124,7 +124,7 @@ pac_compare_namespace <- function(pac,
   if (length(two_nam) == 0) stop(sprintf("Version %s is not exists for %s.", new, pac))
 
   for (f in fields) {
-    if ((f == "S3methods") && (nrow(one_nam[[f]]) > 0 || nrow(two_nam[[f]]) > 0)) {
+    if (f == "S3methods") {
       old_f <- as.data.frame(one_nam[[f]])
       old_f$id <- seq_len(nrow(old_f))
       new_f <- as.data.frame(two_nam[[f]])
