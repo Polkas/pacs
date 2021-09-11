@@ -148,6 +148,7 @@ pacs::pac_timemachine("dplyr", version = "0.8.0")
 pacs::pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 pacs::pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 pacs::pac_timemachine("dplyr", at = Sys.Date())
+pacs::pac_timemachine("tidyr", from = as.Date("2020-06-01"), to = Sys.Date())
 ```
 
 ## Package health

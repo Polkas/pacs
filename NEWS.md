@@ -1,3 +1,9 @@
+# 0.3.5
+
+* Fixed `pac_timemachine` when from and to arguments are used and to is bigger than last Archived Date.
+* `pac_timemachine` has a well ordered `rownames`.
+* Fixed `pac_compare_namespace` and how S3methods are handled.
+
 # 0.3.4
 
 * `pac_deps` might show duplicated values if package was installed under a few different `libPaths`, now it is fixed.

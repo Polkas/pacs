@@ -1,5 +1,5 @@
-#' Package version at a specific Date or a Date interval
-#' @description using CRAN website to get a package version/versions used at a specific Date or a Date interval.
+#' Package metadata for all releases
+#' @description Using CRAN website to get a package metadata used at a specific Date or a Date interval or for specific version.
 #' @param pac character a package name.
 #' @param at Date old version of package. Default: NULL
 #' @param from Date new version of package. Default: NULL
@@ -25,6 +25,7 @@
 #' pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 #' pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 #' pac_timemachine("dplyr", at = Sys.Date())
+#' pac_timemachine("tidyr", from = as.Date("2020-06-01"), to = Sys.Date())
 #' }
 pac_timemachine <- function(pac,
                             at = NULL,
@@ -55,6 +56,7 @@ pac_timemachine <- function(pac,
   f_cols <- c("Package", "Version", "Released", "Archived", "LifeDuration", "URL", "Size")
   result <- rbind(result[, f_cols], cran_page[, f_cols])
   result <- result[, f_cols]
+  rownames(result) <- NULL
 
   if (isTRUE(!is.null(at))) {
     if (isTRUE(all(at >= result$Released))) {
@@ -66,7 +68,7 @@ pac_timemachine <- function(pac,
     if (all(from >= result$Released)) {
       utils::tail(result, 1)
     } else {
-      result[to >= result$Released & from <= result$Archived, ]
+      result[(to >= result$Released) & (is.na(result$Archived) | from <= result$Archived), ]
     }
   } else if (isTRUE(!is.null(version))) {
     result[result$Version == version, ]

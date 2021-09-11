@@ -19,6 +19,7 @@
 #' \dontrun{
 #' pac_compare_versions("memoise", "0.2.1", "2.0.0")
 #' pac_compare_versions("memoise", "0.2.1")
+#' pac_compare_versions("memoise")
 #' }
 pac_compare_versions <- function(pac,
                                  old = NULL,
@@ -87,6 +88,7 @@ pac_compare_versions <- function(pac,
 #' \dontrun{
 #' pac_compare_namespace("shiny", "1.0.0", "1.6.0")
 #' pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
+#' pac_compare_namespace("shiny")
 #' }
 pac_compare_namespace <- function(pac,
                                   old = NULL,
@@ -120,10 +122,25 @@ pac_compare_namespace <- function(pac,
   if (length(two_nam) == 0) stop(sprintf("Version %s is not exists for %s.", new, pac))
 
   for (f in fields) {
-    old_f <- unlist(one_nam[[f]])
-    new_f <- unlist(two_nam[[f]])
+    if (f == "S3methods") {
+      old_f <- as.data.frame(one_nam[[f]])
+      old_f$id <- 1:nrow(old_f)
+      new_f <- as.data.frame(two_nam[[f]])
+      new_f$id <- 1:nrow(new_f)
 
-    result[[f]] <- list(removed = setdiff(old_f, new_f), added = setdiff(new_f, old_f))
+      merged <- merge(old_f, new_f, by = c("V1", "V2", "V3", "V4"), all = TRUE)
+      added <- merged[is.na(merged$id.x) & !is.na(merged$id.y), 1:4]
+      rownames(added) <- NULL
+      removed <- merged[!is.na(merged$id.x) & is.na(merged$id.y), 1:4]
+      rownames(removed) <- NULL
+
+      result[[f]] <- list(removed = removed, added = added)
+    } else {
+      old_f <- unlist(one_nam[[f]])
+      new_f <- unlist(two_nam[[f]])
+
+      result[[f]] <- list(removed = setdiff(old_f, new_f), added = setdiff(new_f, old_f))
+    }
   }
 
   structure(result, package = pac, old = old, new = new)
