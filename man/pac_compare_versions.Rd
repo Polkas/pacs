@@ -43,5 +43,7 @@ using the remote github CRAN mirror to compare DESCRIPTION files dependencies be
 \dontrun{
 pac_compare_versions("memoise", "0.2.1", "2.0.0")
 pac_compare_versions("memoise", "0.2.1")
+# local version to newest one
+pac_compare_versions("memoise")
 }
 }

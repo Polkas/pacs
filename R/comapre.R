@@ -19,6 +19,7 @@
 #' \dontrun{
 #' pac_compare_versions("memoise", "0.2.1", "2.0.0")
 #' pac_compare_versions("memoise", "0.2.1")
+#' # local version to newest one
 #' pac_compare_versions("memoise")
 #' }
 pac_compare_versions <- function(pac,
@@ -88,6 +89,7 @@ pac_compare_versions <- function(pac,
 #' \dontrun{
 #' pac_compare_namespace("shiny", "1.0.0", "1.6.0")
 #' pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
+#' # local version to newest one
 #' pac_compare_namespace("shiny")
 #' }
 pac_compare_namespace <- function(pac,
@@ -122,11 +124,11 @@ pac_compare_namespace <- function(pac,
   if (length(two_nam) == 0) stop(sprintf("Version %s is not exists for %s.", new, pac))
 
   for (f in fields) {
-    if (f == "S3methods") {
+    if ((f == "S3methods") && (nrow(one_nam[[f]]) > 0 || nrow(two_nam[[f]]) > 0)) {
       old_f <- as.data.frame(one_nam[[f]])
-      old_f$id <- 1:nrow(old_f)
+      old_f$id <- seq_len(nrow(old_f))
       new_f <- as.data.frame(two_nam[[f]])
-      new_f$id <- 1:nrow(new_f)
+      new_f$id <- seq_len(nrow(new_f))
 
       merged <- merge(old_f, new_f, by = c("V1", "V2", "V3", "V4"), all = TRUE)
       added <- merged[is.na(merged$id.x) & !is.na(merged$id.y), 1:4]

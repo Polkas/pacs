@@ -2,7 +2,7 @@
 % Please edit documentation in R/timemachine.R
 \name{pac_timemachine}
 \alias{pac_timemachine}
-\title{Package version at a specific Date or a Date interval}
+\title{Package metadata for all releases}
 \usage{
 pac_timemachine(pac, at = NULL, from = NULL, to = NULL, version = NULL)
 }
@@ -30,7 +30,7 @@ data.frame with 7 columns
 }
 }
 \description{
-using CRAN website to get a package version/versions used at a specific Date or a Date interval.
+Using CRAN website to get a package metadata used at a specific Date or a Date interval or for specific version.
 }
 \note{
 Function will scrap two CRAN URLS. Works only with CRAN packages.
@@ -43,5 +43,6 @@ Results are cached for 1 hour with \code{memoise} package.
 pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 pac_timemachine("dplyr", at = Sys.Date())
+pac_timemachine("tidyr", from = as.Date("2020-06-01"), to = Sys.Date())
 }
 }
