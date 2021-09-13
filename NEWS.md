@@ -3,7 +3,7 @@
 * Fixed `pac_timemachine` when from and to arguments are used and to is bigger than last Archived Date.
 * `pac_timemachine` has a well ordered `rownames` now.
 * Fixed `pac_compare_namespace`, how S3methods are handled.
-* 
+* Fixed `pac_health` and related when at argument is used and package is installed locally.
 
 # 0.3.4
 

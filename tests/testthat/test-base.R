@@ -62,7 +62,6 @@ test_that("pacs::pacs_base", {
 
 # Turn off/on online tests
 if (is_online() && TRUE) {
-
   aa1 <- suppressWarnings(available_packages())
   aa2 <- suppressWarnings(available_packages(repos = "https://cran.rstudio.com/"))
   checked <- suppressWarnings(checked_packages())
@@ -70,152 +69,152 @@ if (is_online() && TRUE) {
   dplyr_checkpage <- suppressWarnings(pac_checkpage("dplyr"))
   bioreleases <- suppressWarnings(bio_releases())
 
-  if (!any(c(isNA(aa1),
-            isNA(aa2),
-            isNA(checked),
-            isNA(flavs),
-            isNA(dplyr_checkpage),
-            isNA(bioreleases)))) {
+  if (!any(c(
+    isNA(aa1),
+    isNA(aa2),
+    isNA(checked),
+    isNA(flavs),
+    isNA(dplyr_checkpage),
+    isNA(bioreleases)
+  ))) {
+    test_that("pacs::pac_description", {
+      expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
+      expect_true(utils::compareVersion(
+        pac_description("memoise", local = TRUE)$Version,
+        pac_description("memoise", local = FALSE)$Version
+      ) %in% c(0, 1))
+      expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
+      expect_identical(pac_description("WRONG"), structure(list(), package = "WRONG"))
+      expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
+    })
 
-  test_that("pacs::pac_compare_versions", {
-    expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
-    expect_true(suppressWarnings(any(duplicated(colnames(pac_compare_versions("memoise", "2.0.0", "2.0.0"))))))
-    expect_error(suppressWarnings(pac_compare_versions("memoise", "2.0.0", "22.4.0")))
-    expect_error(pac_compare_versions("memoise", "22.8.0", "22.4.0"))
-  })
+    test_that("pacs::pac_compare_versions", {
+      expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
+      expect_true(suppressWarnings(any(duplicated(colnames(pac_compare_versions("memoise", "2.0.0", "2.0.0"))))))
+      expect_error(suppressWarnings(pac_compare_versions("memoise", "2.0.0", "22.4.0")))
+      expect_error(pac_compare_versions("memoise", "22.8.0", "22.4.0"))
+    })
 
-  test_that("pacs::pac_compare_namesapce", {
-    expect_true(length(pac_compare_namespace("dplyr", "0.7.1", "1.0.0")) == 10)
-    expect_true(length(pac_compare_namespace("shiny", "1.0.0", "1.5.0")) == 10)
-    expect_true(length(pac_compare_namespace("memoise", "0.2.1", "2.0.0")) == 10)
-    expect_identical(pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports$added, c(
-      "cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
-      "drop_cache", "has_cache", "timeout"
-    ))
-    expect_error(suppressWarnings(pac_compare_namespace("memoise", "2.0.0", "22.4.0")))
-    expect_error(pac_compare_namespace("memoise", "22.8.0", "22.4.0"))
-  })
+    test_that("pacs::pac_deps_timemachine", {
+      expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
+    })
+    test_that("pacs::pac_deps", {
+      expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)) == 2)
+    })
+    test_that("pacs::lib_validate", {
+      expect_identical(
+        sort(unique(rownames(installed_packages()))),
+        sort(unique(setdiff(c(lib_validate()[!is.na(lib_validate()$Version.have), ]$Package, pacs_base()), "R")))
+      )
+      expect_error(lib_validate(lib.loc = "wrong"))
+      lib_res <- lib_validate()
+      expect_true(inherits(lib_res, "data.frame"))
+      expect_error(lib_validate(checkred = TRUE))
+      expect_error(lib_validate(checkred = "ERROR"))
+      lib_res2 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
+      lib_res3 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
+      lib_res4 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN", "NOTE")))
+      expect_true(sum(lib_res3$checkred, na.rm = TRUE) >= sum(lib_res2$checkred, na.rm = TRUE))
+      expect_true(sum(lib_res4$checkred, na.rm = TRUE) >= sum(lib_res3$checkred, na.rm = TRUE))
+      lib_res_s1 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = cran_flavors()$Flavor[1]))
+      lib_res_s2 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = cran_flavors()$Flavor[1:4]))
+      expect_true(sum(lib_res_s2$checkred, na.rm = TRUE) >= sum(lib_res_s1$checkred, na.rm = TRUE))
+    })
 
-  test_that("pacs::pac_deps_timemachine", {
-    expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
-  })
-  test_that("pacs::pac_deps", {
-    expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)) == 2)
-  })
-  test_that("pacs::lib_validate", {
-    expect_identical(
-      sort(unique(rownames(installed_packages()))),
-      sort(unique(setdiff(c(lib_validate()[!is.na(lib_validate()$Version.have), ]$Package, pacs_base()), "R")))
-    )
-    expect_error(lib_validate(lib.loc = "wrong"))
-    lib_res <- lib_validate()
-    expect_true(inherits(lib_res, "data.frame"))
-    expect_error(lib_validate(checkred = TRUE))
-    expect_error(lib_validate(checkred = "ERROR"))
-    lib_res2 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
-    lib_res3 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
-    lib_res4 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN", "NOTE")))
-    expect_true(sum(lib_res3$checkred, na.rm = TRUE) >= sum(lib_res2$checkred, na.rm = TRUE))
-    expect_true(sum(lib_res4$checkred, na.rm = TRUE) >= sum(lib_res3$checkred, na.rm = TRUE))
-    lib_res_s1 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = cran_flavors()$Flavor[1]))
-    lib_res_s2 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = cran_flavors()$Flavor[1:4]))
-    expect_true(sum(lib_res_s2$checkred, na.rm = TRUE) >= sum(lib_res_s1$checkred, na.rm = TRUE))
-  })
+    test_that("pacs::pac_validate", {
+      expect_true(nrow(pac_validate("stats")) == 0)
+    })
 
-  test_that("pacs::pac_validate", {
-    expect_true(nrow(pac_validate("stats")) == 0)
-  })
+    test_that("pacs::pac_timemachine", {
+      expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"))$Version == "1.0.0")
+      expect_true(nrow(pac_timemachine("memoise", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 2)
+      expect_error(pac_timemachine("WRONG"))
+      expect_error(pac_timemachine("dplyr", version = 2))
+      expect_identical(nrow(pac_timemachine("dplyr", version = "999.1.1.1")), 0L)
+    })
 
-  test_that("pacs::pac_timemachine", {
-    expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"))$Version == "1.0.0")
-    expect_true(nrow(pac_timemachine("memoise", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 2)
-    expect_error(pac_timemachine("WRONG"))
-    expect_error(pac_timemachine("dplyr", version = 2))
-    expect_identical(nrow(pac_timemachine("dplyr", version = "999.1.1.1")), 0L)
-  })
+    test_that("pacs::pac_lifeduration", {
+      a <- pac_lifeduration("dplyr", version = "0.8.0")
+      b <- pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+      expect_true(a == 1)
+      expect_identical(a, b)
+      expect_true(is.na(pac_lifeduration("WRONGPACKAGE")))
+      expect_error(pac_lifeduration("dplyr", version = 1))
+      expect_error(pac_lifeduration("dplyr", version = 1))
+      expect_true(pac_lifeduration("memoise") > 0)
+    })
 
-  test_that("pacs::pac_lifeduration", {
-    a <- pac_lifeduration("dplyr", version = "0.8.0")
-    b <- pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
-    expect_true(a == 1)
-    expect_identical(a, b)
-    expect_true(is.na(pac_lifeduration("WRONGPACKAGE")))
-    expect_error(pac_lifeduration("dplyr", version = 1))
-    expect_error(pac_lifeduration("dplyr", version = 1))
-    expect_true(pac_lifeduration("memoise") > 0)
-  })
+    test_that("pacs::pac_health", {
+      expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")))
+      expect_true(is.logical(pac_health("dplyr")))
+      expect_true(is.na(pac_health("WRONG")))
+    })
 
-  test_that("pacs::pac_health", {
-    expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")))
-    expect_true(is.logical(pac_health("dplyr")))
-    expect_true(is.na(pac_health("WRONG")))
-  })
+    test_that("pacs::pac_last", {
+      expect_identical(
+        unname(utils::available.packages(repos = "https://cran.rstudio.com/", filters = list(
+          function(db) db[db[, "Package"] == "dplyr", ]
+        ))["Version"]),
+        pac_last("dplyr", repos = "https://cran.rstudio.com/")
+      )
+      expect_true(is.na(pac_last("WRONG")))
+    })
 
-  test_that("pacs::pac_description", {
-    expect_true(length(pac_description("dplyr", version = "0.8.0")) == 23)
-    expect_true(utils::compareVersion(
-      pac_description("memoise", local = TRUE)$Version,
-      pac_description("memoise", local = FALSE)$Version
-    ) %in% c(0, 1))
-    expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
-    expect_identical(pac_description("WRONG"), structure(list(), package = "WRONG"))
-    expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
-  })
+    test_that("pacs::pac_checkred", {
+      expect_true(is.logical(pac_checkred("dplyr")))
+      expect_true(is.na(pac_checkred("WRONG")))
+      expect_error(pac_checkred("dplyr", scope = ""))
+    })
 
-  test_that("pacs::pac_last", {
-    expect_identical(
-      unname(utils::available.packages(repos = "https://cran.rstudio.com/", filters = list(
-        function(db) db[db[, "Package"] == "dplyr", ]
-      ))["Version"]),
-      pac_last("dplyr", repos = "https://cran.rstudio.com/")
-    )
-    expect_true(is.na(pac_last("WRONG")))
-  })
+    test_that("pacs::pac_namespace", {
+      expect_true(length(pac_namespace("dplyr", version = "0.8.0")) == 10)
+      expect_true(length(pac_parse_namespace(readLines("files/NAMESPACE_joint.txt"), enc = "UTF-8")) == 10)
+      expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
+      expect_identical(suppressWarnings(pac_namespace("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
+      expect_identical(pac_namespace("WRONG"), structure(list(), package = "WRONG"))
+      expect_identical(pac_namespace("WRONG", local = TRUE), structure(list(), package = "WRONG"))
+      expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
+    })
 
-  test_that("pacs::pac_checkred", {
-    expect_true(is.logical(pac_checkred("dplyr")))
-    expect_true(is.na(pac_checkred("WRONG")))
-    expect_error(pac_checkred("dplyr", scope = ""))
-  })
+    test_that("pacs::pac_compare_namesapce", {
+      expect_true(length(pac_compare_namespace("dplyr", "0.7.1", "1.0.0")) == 10)
+      expect_true(length(pac_compare_namespace("shiny", "1.0.0", "1.5.0")) == 10)
+      expect_true(length(pac_compare_namespace("memoise", "0.2.1", "2.0.0")) == 10)
+      expect_identical(pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports$added, c(
+        "cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
+        "drop_cache", "has_cache", "timeout"
+      ))
+      expect_error(suppressWarnings(pac_compare_namespace("memoise", "2.0.0", "22.4.0")))
+      expect_error(pac_compare_namespace("memoise", "22.8.0", "22.4.0"))
+    })
 
-  test_that("pacs::pac_namespace", {
-    expect_true(length(pac_namespace("dplyr", version = "0.8.0")) == 10)
-    expect_true(length(pac_parse_namespace(readLines("files/NAMESPACE_joint.txt"), enc = "UTF-8")) == 10)
-    expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
-    expect_identical(suppressWarnings(pac_namespace("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
-    expect_identical(pac_namespace("WRONG"), structure(list(), package = "WRONG"))
-    expect_identical(pac_namespace("WRONG", local = TRUE), structure(list(), package = "WRONG"))
-    expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
-  })
+    test_that("pacs::checked_packages", {
+      expect_true(is.data.frame(checked) &&
+        (nrow(checked) > 0) &&
+        all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked)))
+    })
 
-  test_that("pacs::checked_packages", {
-    expect_true(is.data.frame(checked) &&
-      (nrow(checked) > 0) &&
-      all(c("Package", "Version", "Maintainer", "Priority") %in% colnames(checked)))
-  })
+    test_that("pacs::cran_flavors()", {
+      expect_true(is.data.frame(flavs) &&
+        any(flavs$Flavor %in% colnames(checked)) &&
+        (nrow(flavs) > 0))
+    })
 
-  test_that("pacs::cran_flavors()", {
-    expect_true(is.data.frame(flavs) &&
-      any(flavs$Flavor %in% colnames(checked)) &&
-      (nrow(flavs) > 0))
-  })
+    test_that("pacs::pac_checkpage", {
+      expect_true(is.data.frame(dplyr_checkpage) &&
+        (nrow(dplyr_checkpage) > 0) &&
+        any(dplyr_checkpage$Flavor %in% flavs$Flavor))
+    })
 
-  test_that("pacs::pac_checkpage", {
-    expect_true(is.data.frame(dplyr_checkpage) &&
-      (nrow(dplyr_checkpage) > 0) &&
-      any(dplyr_checkpage$Flavor %in% flavs$Flavor))
-  })
+    test_that("pacs::bio_releases()", {
+      expect_true(is.data.frame(bioreleases) &&
+        (nrow(bioreleases) > 0) &&
+        all(colnames(bioreleases) %in% c("Release", "Date", "Software packages", "R")))
+    })
 
-  test_that("pacs::bio_releases()", {
-    expect_true(is.data.frame(bioreleases) &&
-      (nrow(bioreleases) > 0) &&
-      all(colnames(bioreleases) %in% c("Release", "Date", "Software packages", "R")))
-  })
-
-  test_that("pacs::biocran_repos()", {
-    expect_true(length(biocran_repos()) > 0)
-    expect_error(biocran_repos("4.3.3.3.3"))
-  })
-
+    test_that("pacs::biocran_repos()", {
+      expect_true(length(biocran_repos()) > 0)
+      expect_error(biocran_repos("4.3.3.3.3"))
+    })
   }
 }

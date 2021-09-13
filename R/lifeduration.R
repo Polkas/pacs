@@ -146,7 +146,7 @@ pac_health <- function(pac,
     pac_tm <- pac_timemachine(pac, at = at)
     if (isNA(pac_tm)) NA
     pac_tm <- utils::tail(pac_tm, 1)
-    vesion <- pac_tm$Version
+    version <- pac_tm$Version
   }
 
   if (pac_islast(pac, version)) {
