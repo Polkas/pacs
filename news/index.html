@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -116,6 +116,165 @@
       <small>Source: <a href='https://github.com/Polkas/pacs/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="pacs-035" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.5">
+<a href="#pacs-035" class="anchor" aria-hidden="true"></a>pacs 0.3.5<small> Unreleased </small></h1>
+<ul><li>Fixed <code>pac_timemachine</code> when from and to arguments are used and to is bigger than last Archived Date.</li>
+<li>
+<code>pac_timemachine</code> has a well ordered <code>rownames</code> now.</li>
+<li>Fixed <code>pac_compare_namespace</code>, how S3methods are handled.</li>
+<li>Fixed <code>pac_health</code> and related when the at argument is used and a package is installed locally.</li>
+</ul></div>
+    <div id="pacs-034" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.4">
+<a href="#pacs-034" class="anchor" aria-hidden="true"></a>pacs 0.3.4<small> 2021-09-06 </small></h1>
+<ul><li>
+<code>pac_deps</code> might show duplicated values if package was installed under a few different <code>libPaths</code>, now it is fixed.</li>
+<li>
+<code>lib_validate</code> will show packages which are required by DESCRIPTION file and not exist in <code>installed.packages</code>. This might occur when e.g. <code>install.packages</code> is corrupted. <code>pac_validate</code> already has such functionality.</li>
+<li>Update <code>roxygen2</code> of <code>pac_comapre_namespace</code> as the note field wrongly suggested that it works only for exports.</li>
+<li>remove “packages versions” section from README file.</li>
+<li>
+<code>pac_validate</code> will return <code>data.frame</code> with additional column “direct”, which will point the direct dependency from DESCRIPTION file.</li>
+<li>Improve testthat tests for <code>pac_validate</code>.</li>
+<li>Improve README file for <code>lib_validate</code>.</li>
+</ul></div>
+    <div id="pacs-033" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.3">
+<a href="#pacs-033" class="anchor" aria-hidden="true"></a>pacs 0.3.3<small> 2021-08-17 </small></h1>
+<ul><li>Partly support BioConductor.</li>
+<li>Default repositories mainly now consists of not only CRAN as BioConductor is considered too.</li>
+<li>Fix <code>lib_validate</code> as it not take into account statuses for not fully performed tests, it was case for less than 1% of all packages.</li>
+<li>Add note that <code>checked_packages</code> could return duplicated observations which is expected.</li>
+<li>Improve merge in <code>lib_validate</code> to show non-CRAN packages too.</li>
+<li>Rewrite some tests as some R CRAN servers might shut down.</li>
+<li>Polishing code of <code>pac_lifeduration</code>.</li>
+</ul></div>
+    <div id="pacs-032" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.2">
+<a href="#pacs-032" class="anchor" aria-hidden="true"></a>pacs 0.3.2<small> 2021-08-10 </small></h1>
+<ul><li>New CRAN release.</li>
+<li>Added <code>\dontrun</code> to most of examples as <code><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">utils::installed.packages</a></code> consumes 30 seconds on win-builder.</li>
+</ul></div>
+    <div id="pacs-031" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.1">
+<a href="#pacs-031" class="anchor" aria-hidden="true"></a>pacs 0.3.1<small> Unreleased </small></h1>
+<ul><li>Small docs improvements.</li>
+<li>Additional tests, maintain coverage over 80%.</li>
+<li>Additional input validation.</li>
+<li>Added <code>xml2</code> to imports.</li>
+<li>Update <code>README</code> file.</li>
+</ul></div>
+    <div id="pacs-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#pacs-030" class="anchor" aria-hidden="true"></a>pacs 0.3.0<small> Unreleased </small></h1>
+<ul><li>Added <code>pac_checkpage</code> and <code>cran_flavors</code>.</li>
+<li>Added <code>flavors</code> argument to functions checking packages statuses so only specific server might be considered.</li>
+<li>New <code>checkred</code> argument definition for <code>validate</code> family functions.</li>
+<li>Remove <code>dontrun</code> from <code>lib_validate</code>.</li>
+<li>Improving docs and descriptions.</li>
+</ul></div>
+    <div id="pacs-0210" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.10">
+<a href="#pacs-0210" class="anchor" aria-hidden="true"></a>pacs 0.2.10<small> Unreleased </small></h1>
+<ul><li>Using <code>https://cran.r-project.org/web/checks/check_summary_by_package.html</code> to efficiently check the CRAN check pages globally. As a result <code>lib_validate</code> is hugely more efficient when <code>checkred</code> argument is triggered.</li>
+<li>Remove <code>mclapply</code> <code>README</code> examples, add notes that parallel computations might be unstable.</li>
+<li>Remove parallel computation from <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code> as might be unstable and is already optimized.</li>
+<li>Added <code><a href="../reference/checked_packages.html">checked_packages()</a></code> to retrieve the html table from <code>https://cran.r-project.org/web/checks/check_summary_by_package.html</code>, all CRAN checks.</li>
+<li>Removed <code>pac_comapre_exports</code> and replace with more general <code>pac_comapre_namespace</code>.</li>
+</ul></div>
+    <div id="pacs-029" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.9">
+<a href="#pacs-029" class="anchor" aria-hidden="true"></a>pacs 0.2.9<small> Unreleased </small></h1>
+<ul><li>Fixed <code>pac_lifeduration</code>, not work for old packages which do not have UTC in published Date.</li>
+<li>Added optional <code>FAIL</code> status when checking <code>CRAN</code> check pages.</li>
+<li>
+<code>checkred</code> argument from <code>lib_validate</code> will expecting any values from <code>c("ERROR", "FAIL", "WARN", "NOTE")</code> vector.</li>
+<li>Default <code>scope</code> for <code>pac_checkred</code> will be <code>c("ERROR", "FAIL")</code>.</li>
+<li>Improve <code>pac_compare_versions</code>, e.g. Default old version is the local one and the new one is the last release.</li>
+<li>Added <code>pac_comapre_exports</code> and <code>pac_namespace</code>.</li>
+</ul></div>
+    <div id="pacs-028" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.8">
+<a href="#pacs-028" class="anchor" aria-hidden="true"></a>pacs 0.2.8<small> 2021-07-31 </small></h1>
+<ul><li>Added <code>pac_last</code> to check the most recent package version.</li>
+<li>Added additional usage example <code><a href="../reference/pac_compare_versions.html">pacs::pac_compare_versions</a></code> in <code>README</code> file.</li>
+<li>CRAN version 0.2.8 .</li>
+</ul></div>
+    <div id="pacs-027" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.7">
+<a href="#pacs-027" class="anchor" aria-hidden="true"></a>pacs 0.2.7<small> Unreleased </small></h1>
+<ul><li>Removed all <code>pacs</code> functions, to give somebody the freedom of using different loop functions.</li>
+<li>Added a hint to use <code>mclapply</code> for non Windows users.</li>
+<li>Use <code>vapply</code> over the <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> to be sure about the result length.</li>
+<li>Added additional <code>as.Date</code> so on older R versions binding is correct.</li>
+</ul></div>
+    <div id="pacs-026" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.6">
+<a href="#pacs-026" class="anchor" aria-hidden="true"></a>pacs 0.2.6<small> Unreleased </small></h1>
+<ul><li>Replace <code>gregexec</code> with a <code>stringi</code> function, as not supported on older R versions.</li>
+<li>Improved performance of <code>lib_validate</code> function, under default arguments and whole R CRAN library will consume 2 seconds.</li>
+<li>Update <code>roxygen2</code> descriptions.</li>
+<li>Added <code>lib.loc</code> and <code>repos</code> arguments to more functions.</li>
+<li>
+<code>mclapply</code> under many functions.</li>
+</ul></div>
+    <div id="pacs-025" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.5">
+<a href="#pacs-025" class="anchor" aria-hidden="true"></a>pacs 0.2.5<small> 2021-07-29 </small></h1>
+<ul><li>Cache results only for 1 hour, could be important when run on servers.</li>
+<li>Add notice about caching results for 1 hour across all connected functions.</li>
+<li>Add additional description for validation function, result structure.</li>
+<li>Change the order in <code>README</code> file.</li>
+<li>Optional <code>lifeduration</code> and <code>checkred</code> for all validation functions.</li>
+</ul></div>
+    <div id="pacs-024" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.4">
+<a href="#pacs-024" class="anchor" aria-hidden="true"></a>pacs 0.2.4<small> Unreleased </small></h1>
+<ul><li>Polish descriptions.</li>
+<li>Deployment to R CRAN.</li>
+<li>Update <code>NEWS</code> file.</li>
+</ul></div>
+    <div id="pacs-023" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.3">
+<a href="#pacs-023" class="anchor" aria-hidden="true"></a>pacs 0.2.3<small> Unreleased </small></h1>
+<ul><li>Updated DESCRIPTION file description.</li>
+<li>Updated <code>README</code> file.</li>
+<li>Fixed <code>pac_true_size</code> with used <code>exclude_joint</code> argument, should not count checked package dependencies.</li>
+<li>Secured against duplicates in <code>pac_compare_versions</code>.</li>
+<li>Removed the “Description” column from a <code>pac_timemachine</code> result.</li>
+<li>Added the <code>reverse</code> argument for <code>pac_deps</code> which working for description versions too.</li>
+<li>Added the <code>repos</code> argument for <code>pac_deps</code>.</li>
+<li>Remove <code>base</code> argument in <code>pac_true_size</code>, as not see any value added.</li>
+<li>Add <code>checkred</code> variable for validation functions.</li>
+<li>
+<code>pac_health</code> for newest release younger than x days, checking if package is red labeled on CRAN checks pages.</li>
+<li>Default 14 days as limit for valid version, and non red check for the newest version.</li>
+<li>Added new functions <code>pac_checkred</code>/<code>pacs_checkred</code>.</li>
+</ul></div>
+    <div id="pacs-022" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.2">
+<a href="#pacs-022" class="anchor" aria-hidden="true"></a>pacs 0.2.2<small> Unreleased </small></h1>
+<ul><li>Fixed <code>pac_deps</code> when <code>description_v = TRUE</code>, minimal required versions were taken from all local DESCRIPTION files. This will fix <code>pac_validate</code>/<code>pacs_validate</code> too, which were to optimistic.</li>
+</ul></div>
+    <div id="pacs-021" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.1">
+<a href="#pacs-021" class="anchor" aria-hidden="true"></a>pacs 0.2.1<small> Unreleased </small></h1>
+<ul><li>Added <code>https</code> for all URL.</li>
+</ul></div>
+    <div id="pacs-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#pacs-020" class="anchor" aria-hidden="true"></a>pacs 0.2.0<small> Unreleased </small></h1>
+<ul><li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
+<li>Added useful connected packages to Suggests.</li>
+<li>Added <code>roxygen2</code> to all exported functions.</li>
+<li>Achieved 80% of coverage.</li>
+<li>Written a clear <code>README</code> file.</li>
+<li>Removed all Imports from the <code>DESCRIPTION</code> file.</li>
+<li>Added <code>memoise</code> dependency to reduce the number of web calls.</li>
+<li>Created a decent basket of <code>pac</code>/<code>pacs</code> prefix functions.</li>
+<li>Removed all <code>\dontrun</code> calls.</li>
+</ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
