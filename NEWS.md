@@ -1,11 +1,11 @@
-# 0.3.5
+# pacs 0.3.5
 
 * Fixed `pac_timemachine` when from and to arguments are used and to is bigger than last Archived Date.
 * `pac_timemachine` has a well ordered `rownames` now.
 * Fixed `pac_compare_namespace`, how S3methods are handled.
-* Fixed `pac_health` and related when at argument is used and package is installed locally.
+* Fixed `pac_health` and related when the at argument is used and a package is installed locally.
 
-# 0.3.4
+# pacs 0.3.4
 
 * `pac_deps` might show duplicated values if package was installed under a few different `libPaths`, now it is fixed.
 * `lib_validate` will show packages which are required by DESCRIPTION file and not exist in `installed.packages`. This might occur when e.g. `install.packages` is corrupted. `pac_validate` already has such functionality.
@@ -15,7 +15,7 @@
 * Improve testthat tests for `pac_validate`.
 * Improve README file for `lib_validate`.
 
-# 0.3.3
+# pacs 0.3.3
 
 * Partly support BioConductor.
 * Default repositories mainly now consists of not only CRAN as BioConductor is considered too.
@@ -25,12 +25,12 @@
 * Rewrite some tests as some R CRAN servers might shut down.
 * Polishing code of `pac_lifeduration`.
 
-# 0.3.2
+# pacs 0.3.2
 
 * New CRAN release.
 * Added `\dontrun` to most of examples as `utils::installed.packages` consumes 30 seconds on win-builder.
 
-# 0.3.1
+# pacs 0.3.1
 
 * Small docs improvements.
 * Additional tests, maintain coverage over 80%.
@@ -38,7 +38,7 @@
 * Added `xml2` to imports.
 * Update `README` file.
 
-# 0.3.0
+# pacs 0.3.0
 
 * Added `pac_checkpage` and `cran_flavors`.
 * Added `flavors` argument to functions checking packages statuses so only specific server might be considered.
@@ -46,7 +46,7 @@
 * Remove `dontrun` from `lib_validate`.
 * Improving docs and descriptions.
 
-# 0.2.10
+# pacs 0.2.10
 
 *  Using `https://cran.r-project.org/web/checks/check_summary_by_package.html` to efficiently check the CRAN check pages globally. As a result `lib_validate` is hugely more efficient when `checkred` argument is triggered.
 * Remove `mclapply` `README` examples, add notes that parallel computations might be unstable.
@@ -54,7 +54,7 @@
 * Added `checked_packages()` to retrieve the html table from `https://cran.r-project.org/web/checks/check_summary_by_package.html`, all CRAN checks.
 * Removed `pac_comapre_exports` and replace with more general `pac_comapre_namespace`.
 
-# 0.2.9
+# pacs 0.2.9
 
 * Fixed `pac_lifeduration`, not work for old packages which do not have UTC in published Date.
 * Added optional `FAIL` status when checking `CRAN` check pages.
@@ -63,20 +63,20 @@
 * Improve `pac_compare_versions`, e.g. Default old version is the local one and the new one is the last release.
 * Added `pac_comapre_exports` and `pac_namespace`.
 
-# 0.2.8
+# pacs 0.2.8
 
 * Added `pac_last` to check the most recent package version.
 * Added additional usage example `pacs::pac_compare_versions` in `README` file. 
 * CRAN version 0.2.8 .
 
-# 0.2.7
+# pacs 0.2.7
 
 * Removed all `pacs` functions, to give somebody the freedom of using different loop functions.
 * Added a hint to use `mclapply` for non Windows users.
 * Use `vapply` over the `parallel::mclapply` to be sure about the result length.
 * Added additional `as.Date` so on older R versions binding is correct.
 
-# 0.2.6
+# pacs 0.2.6
 
 * Replace `gregexec` with a `stringi` function, as not supported on older R versions.
 * Improved performance of `lib_validate` function, under default arguments and whole R CRAN library will consume 2 seconds.
@@ -84,7 +84,7 @@
 * Added `lib.loc` and `repos` arguments to more functions.
 * `mclapply` under many functions.
 
-# 0.2.5
+# pacs 0.2.5
 
 * Cache results only for 1 hour, could be important when run on servers.
 * Add notice about caching results for 1 hour across all connected functions.
@@ -92,13 +92,13 @@
 * Change the order in `README` file.
 * Optional `lifeduration` and `checkred` for all validation functions.
 
-# 0.2.4
+# pacs 0.2.4
 
 * Polish descriptions.
 * Deployment to R CRAN.
 * Update `NEWS` file.
 
-# 0.2.3
+# pacs 0.2.3
 
 * Updated DESCRIPTION file description.
 * Updated `README` file.
@@ -113,15 +113,15 @@
 * Default 14 days as limit for valid version, and non red check for the newest version.
 * Added new functions `pac_checkred`/`pacs_checkred`.
 
-# 0.2.2
+# pacs 0.2.2
 
 * Fixed `pac_deps` when `description_v = TRUE`, minimal required versions were taken from all local DESCRIPTION files. This will fix `pac_validate`/`pacs_validate` too, which were to optimistic.
 
-# 0.2.1
+# pacs 0.2.1
 
 * Added `https` for all URL.
 
-# 0.2.0
+# pacs 0.2.0
 
 * Added a `NEWS.md` file to track changes to the package.
 * Added useful connected packages to Suggests.
