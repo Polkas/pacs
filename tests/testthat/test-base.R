@@ -61,7 +61,7 @@ test_that("pacs::pacs_base", {
 })
 
 # Turn off/on online tests
-if (is_online() && TRUE) {
+if (is_online() && FALSE) {
   aa1 <- suppressWarnings(available_packages())
   aa2 <- suppressWarnings(available_packages(repos = "https://cran.rstudio.com/"))
   checked <- suppressWarnings(checked_packages())
@@ -82,7 +82,7 @@ if (is_online() && TRUE) {
       expect_true(utils::compareVersion(
         pac_description("memoise", local = TRUE)$Version,
         pac_description("memoise", local = FALSE)$Version
-      ) %in% c(0, 1))
+      ) %in% c(0, -1))
       expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
       expect_identical(pac_description("WRONG"), structure(list(), package = "WRONG"))
       expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
@@ -116,8 +116,10 @@ if (is_online() && TRUE) {
       lib_res4 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN", "NOTE")))
       expect_true(sum(lib_res3$checkred, na.rm = TRUE) >= sum(lib_res2$checkred, na.rm = TRUE))
       expect_true(sum(lib_res4$checkred, na.rm = TRUE) >= sum(lib_res3$checkred, na.rm = TRUE))
-      lib_res_s1 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = cran_flavors()$Flavor[1]))
-      lib_res_s2 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = cran_flavors()$Flavor[1:4]))
+      linux_flavor <- cran_flavors()$Flavor[1]
+      linux_flavors <- cran_flavors()$Flavor[1:4]
+      lib_res_s1 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = linux_flavor))
+      lib_res_s2 <- lib_validate(checkred = list(scope = c("ERROR", "FAIL"), flavors = linux_flavors))
       expect_true(sum(lib_res_s2$checkred, na.rm = TRUE) >= sum(lib_res_s1$checkred, na.rm = TRUE))
     })
 

@@ -1,6 +1,6 @@
 Package: pacs
 Title: Supplementary Tools for R Packages Developers
-Version: 0.3.5
+Version: 0.3.6
 Authors@R: 
     person(given = "Maciej",
            family = "Nasinski",
@@ -23,7 +23,7 @@ BugReports: https://github.com/Polkas/pacs/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Depends: R (>= 3.5.0)
 Suggests: 
     remotes,

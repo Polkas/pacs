@@ -1,3 +1,7 @@
+# pacs 0.3.6 
+
+* fix testthat tests.
+
 # pacs 0.3.5
 
 * Fixed `pac_timemachine` when from and to arguments are used and to is bigger than last Archived Date.
