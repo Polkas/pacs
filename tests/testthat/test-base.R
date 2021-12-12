@@ -61,7 +61,7 @@ test_that("pacs::pacs_base", {
 })
 
 # Turn off/on online tests
-if (is_online() && FALSE) {
+if (is_online() && TRUE) {
   aa1 <- suppressWarnings(available_packages())
   aa2 <- suppressWarnings(available_packages(repos = "https://cran.rstudio.com/"))
   checked <- suppressWarnings(checked_packages())
