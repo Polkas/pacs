@@ -1,7 +1,7 @@
 # pacs
 [![R build status](https://github.com/polkas/pacs/workflows/R-CMD-check/badge.svg)](https://github.com/polkas/pacs/actions)
 [![CRAN](https://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
-[![codecov](https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg)](https://codecov.io/gh/Polkas/pacs)
+[![codecov](https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Polkas/pacs)
 
 [Supplementary Tools for R Packages Developers](https://polkas.github.io/pacs/index.html)
 
@@ -14,39 +14,17 @@
 - Getting a list of all releases for a specific package.
 - The Bioconductor is partly supported.
 
-| Function                            | Description                                                 | 
-|:------------------------------------|:-----------------------------------------------|
-|`lib_validate`                       | Validate the local library          |
-|`pac_validate`             | Validate a specific local package              |
-|`pac_deps`               |  R CRAN package dependencies with installed or expected versions |
-|`pac_deps_timemachine`|  R CRAN package dependencies for certain version or time point|
-|`pac_description` | R CRAN package DESCRIPTION file at Date or for a certain version      |
-|`pac_namespace` | R CRAN package NAMESPACE file at Date or for a certain version      |
-|`pac_lifeduration` | Package version life duration  |
-|`pac_health`           | R CRAN package version health    |
-|`pac_size`             | Size of the package                                       | 
-|`pac_timemachine` | R CRAN package versions at a specific Date or a Date interval   |
-|`pac_compare_versions` | Compare dependencies between different versions of a R CRAN package          |
-|`pac_compare_namespace`| Compare NAMESPACE fields between different versions of a R CRAN package  |
-|`pac_true_size`    | True size of the package (with dependencies)| 
-|`pacs_base`        | R base packages                               |
-|`pac_last`|The most recent package version|
-|`pac_islast`| Checking if a package version is the most recent one|
-|`pac_isin`| Checking if a package is currently inside provided repositories|
-|`pac_checkred` | Checking the R CRAN package check page status for any errors and warnings|
-|`pac_checkpage` | Retrieving the R CRAN package check page|
-|`checked_packages`| Retrieving all R CRAN packages check page statuses|
-|`cran_flavors`|  Retrieving all R CRAN servers flavors|
-|`biocran_repos`| Display current Bioconductor and CRAN repositories|
-|`bio_releases`|Retrieving all Bioconductor releases|
+[Functions Reference](https://polkas.github.io/pacs/reference/index.html)
 
-**Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...)
+**Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...).
 
 **Hint2**: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally, most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
 
 **Hint3**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous.
 
 **Hint4**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
+
+**Hint5**: `withr` and `remotes` packages are a valuable addition.
 
 ## Installation
 
@@ -55,9 +33,16 @@
 remotes::install_github("polkas/pacs")
 ```
 
+or from CRAN:
+
+```r
+install.packages("pacs")
+```
+
 ## Validate the library
 
-This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library. Thus we could assess which packages require versions update.
+This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.  
+Thus we could assess which packages require versions update.
 
 Default validation of the library.
 
@@ -127,6 +112,19 @@ Not newest packages:
 lib[(!is.na(lib$newest)) & (lib$newest == FALSE), ]
 ```
 
+### renv
+
+When project is based on `renv` and all needed dependencies are installed (`options(renv.settings = list(snapshot.type = "all"))`).
+Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in `renv` library.
+Then we mostly want to validate only the isolated `renv` library.
+Please remember to limit the library path when using `pacs::lib_validate`, in such scenario.
+
+```r
+# options(renv.settings = list(snapshot.type = "all"))
+# renv::init()
+pacs::lib_validate(lib.loc = .libPaths()[1])
+```
+
 ## R CRAN packages check page statuses
 
 `checked_packages` was built to extend the `.packages` family functions, like `utils::installed.packages()` and `utils::available.packages()`. 
@@ -137,6 +135,29 @@ pacs::checked_packages()
 ```
 
 Use `pacs::pac_checkpage("dplyr")` to get the check page per package. However `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result is cached after the first invoke.
+
+## Simulate a package download with the withr package
+
+`withr` package is recommended for the isolated download process.  
+We could use a temporary library path (`withr::with_temp_libpaths`) to check if the process is as expected.
+
+Checking what packages are need to be installed/(optionally updated) parallel with a specific package, with `remotes` package.
+
+```r
+remotes::package_deps("keras")
+```
+
+Isolated download of a package and the validation.
+
+```r
+# restart of R session could be needed
+withr::with_temp_libpaths({install.packages("keras"); pacs::lib_validate()})
+```
+
+```r
+# restart of R session could be needed
+withr::with_temp_libpaths({install.packages("keras"); pacs::pac_validate("keras")})
+```
 
 ## Time machine - Package version at Date or specific Date interval
 
@@ -217,6 +238,7 @@ Versions might come form installed packages or DESCRIPTION files.
 
 `pac_deps` for an extremely fast retrieving of package dependencies, 
 packages versions might come from installed ones or from DESCRIPTION files (required minimum).
+The default setup is to show dependencies recursively, `recursive = TRUE`.
 
 ```r
 # Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
@@ -294,6 +316,15 @@ pacs::pac_compare_namespace("shiny", "1.0.0")
 
 Take into account that packages sizes are appropriate for your local system (`Sys.info()`).
 Installation with `install.packages` and some `devtools` functions might result in different packages sizes.
+
+If you do not want to install anything in your current library (`.libPaths()`) and still inspect a package size, then a usage of the `withr` package is recommended. `withr::with_temp_libpaths` is recommended to isolate the download process.
+
+```r
+# restart of R session could be needed
+withr::with_temp_libpaths({install.packages("devtools"); cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")})
+```
+
+Installation in your main library.
 
 ```r
 # if not have

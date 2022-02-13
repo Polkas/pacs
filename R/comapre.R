@@ -4,7 +4,7 @@
 #' @param old character an old version of package, default local version. Default: NULL
 #' @param new character a new version of package, default newest version. Default: NULL
 #' @param fields character a vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lib.loc character. Default: NULL
+#' @param lib.loc character vector. Default: `.libPaths()`
 #' @param repos character the base URL of the CRAN repository to use. Default "https://cran.rstudio.org"
 #' @return data.frame with 4 columns.
 #' \describe{
@@ -26,7 +26,7 @@ pac_compare_versions <- function(pac,
                                  old = NULL,
                                  new = NULL,
                                  fields = c("Imports", "Depends", "LinkingTo"),
-                                 lib.loc = NULL,
+                                 lib.loc = .libPaths(),
                                  repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(pac_isin(pac, repos))
@@ -34,7 +34,7 @@ pac_compare_versions <- function(pac,
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.character(repos))
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
@@ -81,7 +81,7 @@ pac_compare_versions <- function(pac,
 #' @param pac character a package name.
 #' @param old character an old version of package.
 #' @param new character a new version of package.
-#' @param lib.loc character. Default: NULL
+#' @param lib.loc character vector. Default:
 #' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with `c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")` slots, and added and removed ones for each of them.
 #' @export
@@ -95,14 +95,14 @@ pac_compare_versions <- function(pac,
 pac_compare_namespace <- function(pac,
                                   old = NULL,
                                   new = NULL,
-                                  lib.loc = NULL,
+                                  lib.loc = .libPaths(),
                                   repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(pac_isin(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(is.character(repos))
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))

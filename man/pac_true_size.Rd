@@ -7,7 +7,7 @@
 pac_true_size(
   pac,
   fields = c("Depends", "Imports", "LinkingTo"),
-  lib.loc = NULL,
+  lib.loc = .libPaths(),
   exclude_joint = 0L
 )
 }
@@ -16,7 +16,7 @@ pac_true_size(
 
 \item{fields}{character vector, Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{character vector, Default: NULL}
+\item{lib.loc}{character vector. Default: \code{.libPaths()}}
 
 \item{exclude_joint}{integer exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0}
 }

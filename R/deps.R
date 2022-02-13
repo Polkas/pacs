@@ -1,8 +1,8 @@
 #' package dependencies
 #' @description Package dependencies from DESCRIPTION files with installed or expected versions or newest released.
 #' @param pac character a package name.
-#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
+#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
 #' @param base logical if to add base packages too. Default: FALSE
 #' @param local logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE
 #' @param description_v if the dependencies version should be taken from description files, minimal required. Default: FALSE
@@ -25,7 +25,7 @@
 #' }
 pac_deps <- function(pac,
                      fields = c("Depends", "Imports", "LinkingTo"),
-                     lib.loc = NULL,
+                     lib.loc = .libPaths(),
                      base = FALSE,
                      local = TRUE,
                      description_v = FALSE,
@@ -33,12 +33,12 @@ pac_deps <- function(pac,
                      recursive = TRUE,
                      repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
+  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo", "Enhances")))
   stopifnot(is.logical(base))
   stopifnot(is.logical(attr))
   stopifnot(is.logical(recursive))
   stopifnot(is.character(repos))
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
 
   if (local) {
     stopifnot(pac %in% c(rownames(installed_packages(lib.loc = lib.loc)), pacs_base()))

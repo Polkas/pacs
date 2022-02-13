@@ -5,7 +5,7 @@
 \title{Validate the local library}
 \usage{
 lib_validate(
-  lib.loc = NULL,
+  lib.loc = .libPaths(),
   fields = c("Depends", "Imports", "LinkingTo"),
   lifeduration = FALSE,
   checkred = list(scope = character(0), flavors = NULL),
@@ -13,7 +13,7 @@ lib_validate(
 )
 }
 \arguments{
-\item{lib.loc}{character. Default: NULL}
+\item{lib.loc}{character vector. Default: \code{.libPaths()}}
 
 \item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 

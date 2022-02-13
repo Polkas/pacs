@@ -147,7 +147,7 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
 }
 
 installed_agg_fun_raw <- function(lib.loc = NULL, fields) {
-  installed_df <- as.data.frame(installed_packages(lib.loc = NULL))
+  installed_df <- as.data.frame(installed_packages(lib.loc = lib.loc))
   installed_agg <- stats::aggregate(
     installed_df[, c("Version", fields), drop = FALSE],
     list(Package = installed_df$Package),

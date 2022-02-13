@@ -1,17 +1,16 @@
 #' Size of the package
 #' @description size of package.
 #' @param pac character a package name.
-#' @param lib.loc character vector. Default: NULL
+#' @param lib.loc character vector. Default: `.libPaths()`
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
 #' \dontrun{
 #' cat(pacs::pac_size("stats") / 10**6, "MB")
 #' }
-pac_size <- function(pac,
-                     lib.loc = NULL) {
+pac_size <- function(pac, lib.loc = .libPaths()) {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
   found <- try(find.package(pac, lib.loc = lib.loc), silent = TRUE)
   if (inherits(found, "try-error")) {
@@ -25,7 +24,7 @@ pac_size <- function(pac,
 #' @description True size of the package as it takes into account its dependencies.
 #' @param pac character a package name.
 #' @param fields character vector, Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lib.loc character vector, Default: NULL
+#' @param lib.loc character vector. Default: `.libPaths()`
 #' @param exclude_joint integer exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0
 #' @note R base packages are not counted.
 #' @return numeric size in bytes, to get MB then divide by `10**6`.
@@ -37,9 +36,9 @@ pac_size <- function(pac,
 #' }
 pac_true_size <- function(pac,
                           fields = c("Depends", "Imports", "LinkingTo"),
-                          lib.loc = NULL,
+                          lib.loc = .libPaths(),
                           exclude_joint = 0L) {
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(all(fields %in% c("Depends", "Imports", "LinkingTo", "Suggests")))
   stopifnot(is.integer(exclude_joint))
 

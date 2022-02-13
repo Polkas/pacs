@@ -66,7 +66,7 @@ is_isin <- memoise::memoise(is_isin_raw)
 #' @description checking if a package version is the most recent one, by default the installed version is compared.
 #' @param pac character a package name.
 #' @param version character package version, by default the installed version is taken. Default: NULL
-#' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
+#' @param lib.loc character vector, it is omitted for non NULL version. Default: `.libPaths()`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default `pacs::biocran_repos()`
 #' @return logical if a package is inside repositories.
 #' @note Results are cached for 1 hour with `memoise` package.
@@ -79,7 +79,7 @@ is_isin <- memoise::memoise(is_isin_raw)
 #' pac_islast("S4Vectors")
 #' pac_islast("S4Vectors", version = pac_last("S4Vectors"))
 #' }
-pac_islast <- function(pac, version = NULL, lib.loc = NULL, repos = biocran_repos()) {
+pac_islast <- function(pac, version = NULL, lib.loc = .libPaths(), repos = biocran_repos()) {
   if (!pac_isin(pac, repos)) {
     return(NA)
   }

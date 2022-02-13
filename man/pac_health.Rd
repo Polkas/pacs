@@ -11,7 +11,7 @@ pac_health(
   limit = 14,
   scope = c("ERROR", "FAIL"),
   flavors = NULL,
-  lib.loc = NULL,
+  lib.loc = .libPaths(),
   repos = "https://cran.rstudio.com/"
 )
 }
@@ -28,7 +28,7 @@ pac_health(
 
 \item{flavors}{character vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default all CRAN machines are considered, NULL value. Default NULL}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
+\item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
 
 \item{repos}{character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"}
 }

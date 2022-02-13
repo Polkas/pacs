@@ -8,7 +8,7 @@ pac_compare_namespace(
   pac,
   old = NULL,
   new = NULL,
-  lib.loc = NULL,
+  lib.loc = .libPaths(),
   repos = "https://cran.rstudio.com/"
 )
 }
@@ -19,7 +19,7 @@ pac_compare_namespace(
 
 \item{new}{character a new version of package.}
 
-\item{lib.loc}{character. Default: NULL}
+\item{lib.loc}{character vector. Default:}
 
 \item{repos}{character the base URL of the CRAN repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }

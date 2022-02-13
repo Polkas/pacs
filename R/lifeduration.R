@@ -3,7 +3,7 @@
 #' @param pac character a package name.
 #' @param version character package version, By default the newest version is taken. Default: NULL
 #' @param at Date old version of package. Default: NULL
-#' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
+#' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default `pacs::biocran_repos()`
 #' @return `difftime`, number of days package version was the newest one.
 #' @note Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
@@ -21,11 +21,11 @@
 pac_lifeduration <- function(pac,
                              version = NULL,
                              at = NULL,
-                             lib.loc = NULL,
+                             lib.loc = .libPaths(),
                              repos = biocran_repos()) {
   stopifnot(length(pac) == 1 && is.character(pac))
   stopifnot(!all(c(!is.null(version), !is.null(at))))
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
@@ -90,7 +90,7 @@ pac_lifeduration <- function(pac,
 #' @param limit numeric at least days to treat as healthy. Default: 14
 #' @param scope character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `c("ERROR", "FAIL")`
 #' @param flavors character vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default all CRAN machines are considered, NULL value. Default NULL
-#' @param lib.loc character vector. Is omitted for non NULL version. Default: NULL
+#' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
 #' @param repos character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"
 #' @return logical if package is healthy.
 #' @note Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
@@ -110,7 +110,7 @@ pac_health <- function(pac,
                        limit = 14,
                        scope = c("ERROR", "FAIL"),
                        flavors = NULL,
-                       lib.loc = NULL,
+                       lib.loc = .libPaths(),
                        repos = "https://cran.rstudio.com/") {
   stopifnot(length(pac) == 1 && is.character(pac))
   stopifnot(!all(c(!is.null(version), !is.null(at))))

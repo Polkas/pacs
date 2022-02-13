@@ -3,7 +3,7 @@
 #' Checking if installed packages have correct versions taking into account all DESCRIPTION files requirements.
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each package.
-#' @param lib.loc character. Default: NULL
+#' @param lib.loc character vector. Default: `.libPaths()`
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
@@ -41,20 +41,24 @@
 #' # only R CRAN repository
 #' lib_validate(repos = "https://cran.rstudio.com/")
 #' }
-lib_validate <- function(lib.loc = NULL,
+lib_validate <- function(lib.loc = .libPaths(),
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
                          checkred = list(scope = character(0), flavors = NULL),
                          repos = biocran_repos()) {
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
     (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
     (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
-    (is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)))
+    (is.null(checkred$flavors) || all(checkred$flavors %in% read_cran_flavours_raw()$Flavor)))
   stopifnot(is.character(repos))
+
+  if (length(list.files(ifelse(isTRUE(is.null(lib.loc)), .libPaths(), lib.loc))) == 0) {
+    stop("The lib.loc paths are empty, there are no packages.")
+  }
 
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
@@ -148,7 +152,7 @@ lib_validate <- function(lib.loc = NULL,
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each dependency.
 #' @param pac character a package name.
-#' @param lib.loc character. Default: NULL
+#' @param lib.loc character vector. Default: `.libPaths()`
 #' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
@@ -180,12 +184,12 @@ lib_validate <- function(lib.loc = NULL,
 #' )
 #' }
 pac_validate <- function(pac,
-                         lib.loc = NULL,
+                         lib.loc = .libPaths(),
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
                          checkred = list(scope = character(0), flavors = NULL),
                          repos = biocran_repos()) {
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.logical(lifeduration))
@@ -193,7 +197,7 @@ pac_validate <- function(pac,
     (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
     (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
-    (is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)))
+    (is.null(checkred$flavors) || all(checkred$flavors %in% read_cran_flavours_raw()$Flavor)))
   stopifnot(is.character(repos))
 
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)

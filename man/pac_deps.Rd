@@ -7,7 +7,7 @@
 pac_deps(
   pac,
   fields = c("Depends", "Imports", "LinkingTo"),
-  lib.loc = NULL,
+  lib.loc = .libPaths(),
   base = FALSE,
   local = TRUE,
   description_v = FALSE,
@@ -19,9 +19,9 @@ pac_deps(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
+\item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
 
 \item{base}{logical if to add base packages too. Default: FALSE}
 

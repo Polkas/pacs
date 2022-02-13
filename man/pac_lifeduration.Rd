@@ -8,7 +8,7 @@ pac_lifeduration(
   pac,
   version = NULL,
   at = NULL,
-  lib.loc = NULL,
+  lib.loc = .libPaths(),
   repos = biocran_repos()
 )
 }
@@ -19,7 +19,7 @@ pac_lifeduration(
 
 \item{at}{Date old version of package. Default: NULL}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
+\item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
 
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default \code{pacs::biocran_repos()}}
 }

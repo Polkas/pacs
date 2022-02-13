@@ -1,6 +1,13 @@
+# pacs 0.3.7
+
+* fixed a bug for `lib_validate` when a custom library path is used.
+* updated the default value of the `lib.loc` argument from `NULL` to `.libPaths()`, as it will be more suited when using `withr` package. 
+* updated README file.
+* accepting `"Enhances"` field when checking dependencies.
+
 # pacs 0.3.6 
 
-* fix testthat tests.
+* fix testthat tests to be more stable when dependency packages are updated.
 
 # pacs 0.3.5
 

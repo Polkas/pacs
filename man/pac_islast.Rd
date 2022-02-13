@@ -4,14 +4,14 @@
 \alias{pac_islast}
 \title{Checking if a package version is the most recent one}
 \usage{
-pac_islast(pac, version = NULL, lib.loc = NULL, repos = biocran_repos())
+pac_islast(pac, version = NULL, lib.loc = .libPaths(), repos = biocran_repos())
 }
 \arguments{
 \item{pac}{character a package name.}
 
 \item{version}{character package version, by default the installed version is taken. Default: NULL}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version. Default: NULL}
+\item{lib.loc}{character vector, it is omitted for non NULL version. Default: \code{.libPaths()}}
 
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
 }

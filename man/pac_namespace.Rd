@@ -9,7 +9,7 @@ pac_namespace(
   version = NULL,
   at = NULL,
   local = FALSE,
-  lib.loc = NULL,
+  lib.loc = .libPaths(),
   repos = "https://cran.rstudio.com/"
 )
 }
@@ -22,7 +22,7 @@ pac_namespace(
 
 \item{local}{logical if to use local library. Default: FALSE}
 
-\item{lib.loc}{character used optionally when local is equal TRUE. Default: NULL}
+\item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
 
 \item{repos}{character the base URL of the CRAN repository to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }

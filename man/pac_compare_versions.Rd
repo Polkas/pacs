@@ -9,7 +9,7 @@ pac_compare_versions(
   old = NULL,
   new = NULL,
   fields = c("Imports", "Depends", "LinkingTo"),
-  lib.loc = NULL,
+  lib.loc = .libPaths(),
   repos = "https://cran.rstudio.com/"
 )
 }
@@ -22,7 +22,7 @@ pac_compare_versions(
 
 \item{fields}{character a vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{character. Default: NULL}
+\item{lib.loc}{character vector. Default: \code{.libPaths()}}
 
 \item{repos}{character the base URL of the CRAN repository to use. Default "https://cran.rstudio.org"}
 }

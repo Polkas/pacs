@@ -4,12 +4,12 @@
 \alias{pac_size}
 \title{Size of the package}
 \usage{
-pac_size(pac, lib.loc = NULL)
+pac_size(pac, lib.loc = .libPaths())
 }
 \arguments{
 \item{pac}{character a package name.}
 
-\item{lib.loc}{character vector. Default: NULL}
+\item{lib.loc}{character vector. Default: \code{.libPaths()}}
 }
 \value{
 numeric size in bytes, to get MB ten divide by \code{10**6}.

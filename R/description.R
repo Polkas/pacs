@@ -4,7 +4,7 @@
 #' @param version character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL
 #' @param at Date. Default: NULL
 #' @param local logical if to use local library. Default: FALSE
-#' @param lib.loc character used optionally when local is equal TRUE. Default: NULL
+#' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
 #' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with names proper for DESCRIPTION file fields.
 #' @note Results are cached for 1 hour with `memoise` package.
@@ -18,14 +18,14 @@ pac_description <- function(pac,
                             version = NULL,
                             at = NULL,
                             local = FALSE,
-                            lib.loc = NULL,
+                            lib.loc = .libPaths(),
                             repos = "https://cran.rstudio.com/") {
   stopifnot(isFALSE(local) ||
     (isTRUE(local) && (is.null(version) || isTRUE(utils::packageDescription(pac)$Version == version))))
   stopifnot(all(c(is.null(version), is.null(at))) || xor(!is.null(version), !is.null(at)))
   stopifnot(is.null(at) || inherits(at, "Date"))
   stopifnot(length(pac) == 1 && is.character(pac))
-  stopifnot(is.null(lib.loc) || all(lib.loc %in% .libPaths()))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
