@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.7</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_true_size</span><span class="op">(</span>
   <span class="va">pac</span>,
   fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span><span class="op">)</span>,
-  lib.loc <span class="op">=</span> <span class="cn">NULL</span>,
+  lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,
   exclude_joint <span class="op">=</span> <span class="fl">0L</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -68,7 +68,7 @@
 <dt>fields</dt>
 <dd><p>character vector, Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 <dt>lib.loc</dt>
-<dd><p>character vector, Default: NULL</p></dd>
+<dd><p>character vector. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 <dt>exclude_joint</dt>
 <dd><p>integer exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0</p></dd>
 </dl></div>
@@ -101,7 +101,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>

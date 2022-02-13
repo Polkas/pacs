@@ -19,7 +19,7 @@ Optionally we could add life duration and CRAN check page status for each depend
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.7</span>
       </span>
     </div>
 
@@ -59,7 +59,7 @@ Optionally we could add life duration and CRAN check page status for each depend
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_validate</span><span class="op">(</span>
   <span class="va">pac</span>,
-  lib.loc <span class="op">=</span> <span class="cn">NULL</span>,
+  lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,
   fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span><span class="op">)</span>,
   lifeduration <span class="op">=</span> <span class="cn">FALSE</span>,
   checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, flavors <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,
@@ -72,7 +72,7 @@ Optionally we could add life duration and CRAN check page status for each depend
     <dl><dt>pac</dt>
 <dd><p>character a package name.</p></dd>
 <dt>lib.loc</dt>
-<dd><p>character. Default: NULL</p></dd>
+<dd><p>character vector. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 <dt>fields</dt>
 <dd><p>character vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 <dt>lifeduration</dt>
@@ -145,7 +145,7 @@ Results are cached with <code>memoise</code> package, memory cache.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>

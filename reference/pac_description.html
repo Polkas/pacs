@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.7</span>
       </span>
     </div>
 
@@ -58,7 +58,7 @@
   version <span class="op">=</span> <span class="cn">NULL</span>,
   at <span class="op">=</span> <span class="cn">NULL</span>,
   local <span class="op">=</span> <span class="cn">FALSE</span>,
-  lib.loc <span class="op">=</span> <span class="cn">NULL</span>,
+  lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,
   repos <span class="op">=</span> <span class="st">"https://cran.rstudio.com/"</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -74,7 +74,7 @@
 <dt>local</dt>
 <dd><p>logical if to use local library. Default: FALSE</p></dd>
 <dt>lib.loc</dt>
-<dd><p>character used optionally when local is equal TRUE. Default: NULL</p></dd>
+<dd><p>character vector, used optionally when local is equal TRUE. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 <dt>repos</dt>
 <dd><p>character the base URL of the CRAN repository to use. Used only for the validation. Default <code>https://cran.rstudio.com/</code></p></dd>
 </dl></div>
@@ -107,7 +107,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>
