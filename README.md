@@ -45,7 +45,7 @@ This procedure will be crucial for R developers as clearly showing the possible 
 Thus we could assess which packages require versions update.
 
 Default validation of the library with the `pacs::lib_validate` function.  
-The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` on default as these are the dependencies installed when `install.packages` is used.
+The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by default as these are the dependencies installed when the `install.packages` function is used.
 
 ```r
 pacs::lib_validate()
@@ -266,6 +266,18 @@ Raw dependencies from DESCRIPTION file
 
 ```r
 pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
+```
+
+The `field` argument is used to change the scope of exploration.
+The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by default as these are the dependencies installed when the `install.packages` function is used.
+When the `field` argument is extended the number of dependencies will grow.
+Remember that we are looking for dependencies recursively by default.
+At the moment of writing it the first invoke returns 3 dependencies where as the second one 1405 and the last one 1427. It should be clear that when extending the scope (and recursively) with the `"Suggests"` field then the number of dependencies is exploding.
+
+```r
+nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo")))
+nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo", "Suggests")))
+nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
 ```
 
 Useful functions to get list of base packages. 
