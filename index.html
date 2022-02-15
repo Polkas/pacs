@@ -110,7 +110,8 @@
 </h2>
 <p>This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.<br>
 Thus we could assess which packages require versions update.</p>
-<p>Default validation of the library.</p>
+<p>Default validation of the library with the <code><a href="reference/lib_validate.html">pacs::lib_validate</a></code> function.<br>
+The <code>field</code> argument is equal to <code>c("Depends", "Imports", "LinkingTo")</code> on default as these are the dependencies installed when <code>install.packages</code> is used.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>The full library validation require activation of two additional arguments <code>lifeduration</code> and <code>checkred</code>. Additional arguments are on default turned off as are time consuming, for <code>lifeduration</code> assessment might take even few minutes for bigger libraries.</p>
@@ -142,7 +143,7 @@ Thus we could assess which packages require versions update.</p>
 <code class="sourceCode R"><span class="va">red</span> <span class="op">&lt;-</span> <span class="va">lib</span><span class="op">[</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lib</span><span class="op">$</span><span class="va">checkred</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">lib</span><span class="op">$</span><span class="va">checkred</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">red</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">red</span><span class="op">)</span></code></pre></div>
-<p>Packages which are not a dependency of any other package:</p>
+<p>Packages which are not a dependency (default Depends/Imports/LinkingTo) of any other package:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lib</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lib</span><span class="op">$</span><span class="va">Version.expected.min</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
 <p>Non-CRAN packages:</p>
@@ -155,7 +156,10 @@ Thus we could assess which packages require versions update.</p>
 <div class="section level3">
 <h3 id="renv">renv<a class="anchor" aria-label="anchor" href="#renv"></a>
 </h3>
-<p>When project is based on <code>renv</code> and all needed dependencies are installed (<code>options(renv.settings = list(snapshot.type = "all"))</code>). Warning, at least <code>rsconnect</code> (and its <code>packrat</code> connected dependencies) related packages could still not be in <code>renv</code> library. Then we mostly want to validate only the isolated <code>renv</code> library. Please remember to limit the library path when using <code><a href="reference/lib_validate.html">pacs::lib_validate</a></code>, in such scenario.</p>
+<p>When project is based on <code>renv</code> and all needed dependencies are installed (<code>options(renv.settings = list(snapshot.type = "all"))</code>).<br>
+Warning, at least <code>rsconnect</code> (and its <code>packrat</code> connected dependencies) related packages could still not be in <code>renv</code> library.<br>
+Then we mostly want to validate only the isolated <code>renv</code> library.<br>
+Please remember to limit the library path when using <code><a href="reference/lib_validate.html">pacs::lib_validate</a></code>, in such scenario.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># options(renv.settings = list(snapshot.type = "all"))</span>
 <span class="co"># renv::init()</span>
