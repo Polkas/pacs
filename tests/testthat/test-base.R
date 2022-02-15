@@ -98,14 +98,20 @@ if (is_online() && TRUE) {
     test_that("pacs::pac_deps_timemachine", {
       expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
     })
+
     test_that("pacs::pac_deps", {
       expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)) == 2)
     })
-    test_that("pacs::lib_validate", {
+
+    test_that("pacs::lib_validate all needed packages", {
+      skip_on_cran()
       expect_identical(
         sort(unique(rownames(installed_packages(lib.loc = .libPaths())))),
         sort(unique(setdiff(c(lib_validate()[!is.na(lib_validate()$Version.have), ]$Package, pacs_base()), "R")))
       )
+    })
+
+    test_that("pacs::lib_validate", {
       expect_error(lib_validate(lib.loc = "wrong"))
       lib_res <- lib_validate()
       expect_true(inherits(lib_res, "data.frame"))

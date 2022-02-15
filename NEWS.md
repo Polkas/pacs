@@ -1,8 +1,10 @@
-# pacs 0.3.7.9000
+# pacs 0.3.8
 
+* fix testthat tests.
+* skip an unstable test on CRAN, a new package could be installed on the server during the check is running.
 * accepting `"Enhances"` field in all related functions.
 * improve the code for reading html tables.
-* fix testthat tests.
+* updated README file.
 
 # pacs 0.3.7
 
