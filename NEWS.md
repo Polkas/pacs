@@ -1,3 +1,8 @@
+# pacs 0.3.7.9000
+
+* accepting `"Enhances"` field in all related functions.
+* improve the code for reading html tables.
+
 # pacs 0.3.7
 
 * fixed a bug for `lib_validate` when a custom library path is used.

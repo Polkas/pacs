@@ -7,11 +7,11 @@ read_checkpage_raw <- function(pac) {
     }
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
-    header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
-
-    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(rrr_all), "//td"))),
+    rrr_html <- read_html(rrr_all)
+    header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
+    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
       ncol = length(header),
-      nrow = length(rrr) - 1, byrow = TRUE
+      byrow = TRUE
     ))
     colnames(result_raw) <- header
     result_raw$Flavor <- gsub("\\+", "_", result_raw$Flavor)
@@ -110,7 +110,6 @@ checked_packages <- function() {
 
 read_checkred_packages_raw <- function() {
   rr <- try(readLines("https://cran.r-project.org/web/checks/check_summary_by_package.html", warn = FALSE), silent = TRUE)
-
   if (!inherits(rr, "try-error")) {
     length_rr <- length(rr)
     rr_range <- grep("</?table[^>]*>", rr)
@@ -118,15 +117,16 @@ read_checkred_packages_raw <- function() {
       return(NA)
     }
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
-    header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
-    header_machines <- trimws(gsub("check_flavors.html#", "", xml_attr(xml_find_all(read_html(rrr[1]), "//th/a"), "href")))
-    header[3:(length(header_machines) + 2)] <- header_machines
+    header_raw <- xml_find_all(read_html(rrr[1]), "//th")
+    header <- trimws(xml_text(header_raw))
+    header_machines <- trimws(gsub("check_flavors.html#", "", xml_attr(xml_find_all(header_raw, "//a"), "href")))
+    which_machines <- grep("r-", header)
+    header[which_machines] <- header_machines
     length_rrr <- length(rrr)
     result_raw <- matrix(trimws(xml_text(xml_find_all(read_html(paste0(rrr[2:length_rrr], collapse = "\n")), "/html/body//tr/td"))),
       ncol = length(header),
-      nrow = length_rrr - 1, byrow = TRUE
+      byrow = TRUE
     )
-
     result_raw <- as.data.frame(result_raw)
     colnames(result_raw) <- header
   } else {
@@ -138,8 +138,7 @@ read_checkred_packages_raw <- function() {
 read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
 read_cran_flavours_raw <- function() {
-  base_url <- "https://cran.r-project.org/web/checks/check_flavors.html"
-  rr <- try(readLines(base_url, warn = FALSE), silent = TRUE)
+  rr <- try(readLines("https://cran.r-project.org/web/checks/check_flavors.html", warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
     if (length(rr_range) != 2) {
@@ -147,11 +146,11 @@ read_cran_flavours_raw <- function() {
     }
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
-    header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
-
-    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(rrr_all), "//td"))),
+    rrr_html <- read_html(rrr_all)
+    header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
+    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
       ncol = length(header),
-      nrow = length(rrr) - 1, byrow = TRUE
+      byrow = TRUE
     ))
     colnames(result_raw) <- header
     result_raw$Flavor <- gsub("\\+", "_", result_raw$Flavor)
@@ -179,8 +178,7 @@ cran_flavors <- function() {
 }
 
 read_bio_releases_raw <- function() {
-  base_url <- "https://www.bioconductor.org/about/release-announcements/"
-  rr <- try(readLines(base_url, warn = FALSE), silent = TRUE)
+  rr <- try(readLines("https://www.bioconductor.org/about/release-announcements/", warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
     rr_range <- grep("</?table[^>]*>", rr)
     if (length(rr_range) != 2) {
@@ -188,8 +186,9 @@ read_bio_releases_raw <- function() {
     }
     rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
     rrr_all <- paste(rrr, collapse = "\n")
-    header <- trimws(xml_text(xml_find_all(read_html(rrr_all), "//th")))
-    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr_all, collapse = "\n")), "//td"))),
+    rrr_html <- read_html(rrr_all)
+    header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
+    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
       ncol = length(header), byrow = TRUE
     ))
     colnames(result_raw) <- header
