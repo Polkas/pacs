@@ -46,7 +46,7 @@ pac_deps <- function(pac,
     paks_global <- NULL
     pac_v <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
 
-    deps <- function(pak, fileds) {
+    deps <- function(pak, fields) {
       pks <- pac_description(pak, local = TRUE, lib.loc = lib.loc)
       ff <- paste(unlist(pks[fields]), collapse = ", ")
       fff <- strsplit(trimws(strsplit(ff, ",")[[1]]), "[ \n\\(]")

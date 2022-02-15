@@ -15,7 +15,7 @@ lib_validate(
 \arguments{
 \item{lib.loc}{character vector. Default: \code{.libPaths()}}
 
-\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lifeduration}{logical if to add life duration column, might take some time. Default: FALSE}
 

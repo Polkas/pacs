@@ -14,7 +14,7 @@ pac_true_size(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{fields}{character vector, Default: \code{c("Depends", "Imports", "LinkingTo")}}
+\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{character vector. Default: \code{.libPaths()}}
 

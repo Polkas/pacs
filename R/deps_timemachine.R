@@ -1,7 +1,7 @@
 #' R CRAN package dependencies for a certain version or time point
 #' @description Package dependencies from DESCRIPTION files retrieved recursively for certain version or time point.
 #' @param pac character a package name.
-#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param version character version of package. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
@@ -19,7 +19,7 @@ pac_deps_timemachine <- function(pac,
                                  fields = c("Depends", "Imports", "LinkingTo"),
                                  recursive = TRUE) {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo")))
+  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "Enhances", "LinkingTo")))
   stopifnot(xor(!is.null(version), !is.null(at)))
   stopifnot(is.logical(recursive))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))

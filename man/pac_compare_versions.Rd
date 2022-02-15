@@ -20,7 +20,7 @@ pac_compare_versions(
 
 \item{new}{character a new version of package, default newest version. Default: NULL}
 
-\item{fields}{character a vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{character vector. Default: \code{.libPaths()}}
 

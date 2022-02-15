@@ -23,7 +23,7 @@ pac_size <- function(pac, lib.loc = .libPaths()) {
 #' True size of the package
 #' @description True size of the package as it takes into account its dependencies.
 #' @param pac character a package name.
-#' @param fields character vector, Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector. Default: `.libPaths()`
 #' @param exclude_joint integer exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0
 #' @note R base packages are not counted.
@@ -39,7 +39,7 @@ pac_true_size <- function(pac,
                           lib.loc = .libPaths(),
                           exclude_joint = 0L) {
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
-  stopifnot(all(fields %in% c("Depends", "Imports", "LinkingTo", "Suggests")))
+  stopifnot(all(fields %in% c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
   stopifnot(is.integer(exclude_joint))
 
   pacs_all <- pac_deps(pac, fields = fields, lib.loc = lib.loc, attr = FALSE, base = FALSE)$Package
