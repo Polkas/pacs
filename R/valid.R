@@ -220,9 +220,7 @@ pac_validate <- function(pac,
     result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
 
     result$direct <- result$Package %in% descriptions_pac_direct$Package
-
     result$newest <- apply(result, 1, function(x) isTRUE(pac_islast(x["Package"], version = x["Version.have"], repos = repos)))
-
     result$cran <- apply(result, 1, function(x) isTRUE(pac_isin(x["Package"], "https://cran.rstudio.com/")))
 
     if (length(checkred$scope)) {

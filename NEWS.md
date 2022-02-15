@@ -2,6 +2,7 @@
 
 * accepting `"Enhances"` field in all related functions.
 * improve the code for reading html tables.
+* improve testthat tests.
 
 # pacs 0.3.7
 

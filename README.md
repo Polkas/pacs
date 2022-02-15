@@ -44,7 +44,8 @@ install.packages("pacs")
 This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.  
 Thus we could assess which packages require versions update.
 
-Default validation of the library.
+Default validation of the library with the `pacs::lib_validate` function.  
+The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` on default as these are the dependencies installed when `install.packages` is used.
 
 ```r
 pacs::lib_validate()
@@ -94,7 +95,7 @@ nrow(red)
 head(red)
 ```
 
-Packages which are not a dependency of any other package:
+Packages which are not a dependency (default Depends/Imports/LinkingTo) of any other package:
 
 ```r
 lib[is.na(lib$Version.expected.min), ]
@@ -114,9 +115,9 @@ lib[(!is.na(lib$newest)) & (lib$newest == FALSE), ]
 
 ### renv
 
-When project is based on `renv` and all needed dependencies are installed (`options(renv.settings = list(snapshot.type = "all"))`).
-Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in `renv` library.
-Then we mostly want to validate only the isolated `renv` library.
+When project is based on `renv` and all needed dependencies are installed (`options(renv.settings = list(snapshot.type = "all"))`).  
+Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in `renv` library.  
+Then we mostly want to validate only the isolated `renv` library.  
 Please remember to limit the library path when using `pacs::lib_validate`, in such scenario.
 
 ```r
