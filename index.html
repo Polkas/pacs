@@ -111,7 +111,7 @@
 <p>This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.<br>
 Thus we could assess which packages require versions update.</p>
 <p>Default validation of the library with the <code><a href="reference/lib_validate.html">pacs::lib_validate</a></code> function.<br>
-The <code>field</code> argument is equal to <code>c("Depends", "Imports", "LinkingTo")</code> on default as these are the dependencies installed when <code>install.packages</code> is used.</p>
+The <code>field</code> argument is equal to <code>c("Depends", "Imports", "LinkingTo")</code> by default as these are the dependencies installed when the <code>install.packages</code> function is used.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>The full library validation require activation of two additional arguments <code>lifeduration</code> and <code>checkred</code>. Additional arguments are on default turned off as are time consuming, for <code>lifeduration</code> assessment might take even few minutes for bigger libraries.</p>
@@ -267,8 +267,13 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 <p>Raw dependencies from DESCRIPTION file</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, description_v <span class="op">=</span> <span class="cn">TRUE</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>Useful functions to get list of base packages. You might want to exclude them from final results.</p>
+<p>The <code>field</code> argument is used to change the scope of exploration. The <code>field</code> argument is equal to <code>c("Depends", "Imports", "LinkingTo")</code> by default as these are the dependencies installed when the <code>install.packages</code> function is used. When the <code>field</code> argument is extended the number of dependencies will grow. Remember that we are looking for dependencies recursively by default. At the moment of writing it the first invoke returns 3 dependencies where as the second one 1405 and the last one 1427. It should be clear that when extending the scope (and recursively) with the <code>"Suggests"</code> field then the number of dependencies is exploding.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span>, <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span>, <span class="st">"Suggests"</span>, <span class="st">"Enhances"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Useful functions to get list of base packages. You might want to exclude them from final results.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pacs_base.html">pacs_base</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># start up loaded, base packages</span>
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pacs_base.html">pacs_base</a></span><span class="op">(</span>startup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -277,20 +282,20 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 <h2 id="comparing-description-or-namespace-files-between-different-package-versions">Comparing DESCRIPTION or NAMESPACE files between different package versions<a class="anchor" aria-label="anchor" href="#comparing-description-or-namespace-files-between-different-package-versions"></a>
 </h2>
 <p>Comparing DESCRIPTION file dependencies between local and newest package. We will get duplicated columns if the local version is the newest one.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
 <p>Comparing DESCRIPTION file dependencies between package versions.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.4.0"</span>, <span class="st">"1.5.0"</span><span class="op">)</span>
 
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.4.0"</span>, <span class="st">"1.6.0"</span><span class="op">)</span>
 <span class="co"># to newest release</span>
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.4.0"</span><span class="op">)</span></code></pre></div>
 <p>Comparing NAMESPACE between local and newest package.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_namespace.html">pac_compare_namespace</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
 <p>Comparing NAMESPACE between package versions.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_namespace.html">pac_compare_namespace</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.0.0"</span>, <span class="st">"1.5.0"</span><span class="op">)</span>
 <span class="co"># e.g. only exports </span>
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_namespace.html">pac_compare_namespace</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.0.0"</span>, <span class="st">"1.5.0"</span><span class="op">)</span><span class="op">$</span><span class="va">exports</span>
@@ -304,25 +309,25 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 </h2>
 <p>Take into account that packages sizes are appropriate for your local system (<code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>). Installation with <code>install.packages</code> and some <code>devtools</code> functions might result in different packages sizes.</p>
 <p>If you do not want to install anything in your current library (<code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>) and still inspect a package size, then a usage of the <code>withr</code> package is recommended. <code><a href="https://withr.r-lib.org/reference/with_temp_libpaths.html" class="external-link">withr::with_temp_libpaths</a></code> is recommended to isolate the download process.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># restart of R session could be needed</span>
 <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_temp_libpaths.html" class="external-link">with_temp_libpaths</a></span><span class="op">(</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>Installation in your main library.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># if not have</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
 <p>Size of the <code>devtools</code> package:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_size.html">pac_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
 <p>True size of the package as taking into account its dependencies. At the time of writing it, it is <code>113MB</code> for <code>devtools</code> without base packages (<code>Mac OS arm64</code>).</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
 <p>A reasonable assumption might be to count only dependencies which are not used by any other package. Then we could use <code>exclude_joint</code> argument to limit them. However hard to assume if your local installation is a reasonable proxy for an average user.</p>
 <pre><code><span class="co"># exclude packages if at least one other package use it too</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span>, exclude_joint <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre>
 <p>Might be useful to check the number of dependencies too:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
 </div>
 </div>
