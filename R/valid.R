@@ -214,7 +214,6 @@ pac_validate <- function(pac,
   )
 
   if (nrow(result)) {
-
     result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
 
     result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
