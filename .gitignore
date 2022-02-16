@@ -43,3 +43,4 @@ vignettes/*.pdf
 /renv
 renv.lock
 .Rprofile
+inst/doc

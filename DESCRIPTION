@@ -1,6 +1,6 @@
 Package: pacs
 Title: Supplementary Tools for R Packages Developers
-Version: 0.3.8
+Version: 0.3.8.9000
 Authors@R: 
     person(given = "Maciej",
            family = "Nasinski",
@@ -28,9 +28,12 @@ Depends: R (>= 3.5.0)
 Suggests: 
     remotes,
     withr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
 Imports:
     memoise,
     stringi,
     xml2
+VignetteBuilder: knitr
