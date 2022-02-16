@@ -5,6 +5,8 @@
 
 [Supplementary Tools for R Packages Developers](https://polkas.github.io/pacs/index.html)
 
+**For more information please visit the package vignette: [Getting Started](https://polkas.github.io/pacs/articles/GettingStarted.html).**
+
 - Validating the library or packages.
 - Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.
 - Assessing life duration of a specific package version.
@@ -13,6 +15,21 @@
 - Comparing DESCRIPTION or NAMESPACE files between different package versions.
 - Getting a list of all releases for a specific package.
 - The Bioconductor is partly supported.
+
+## Installation
+
+```r
+# install.packages("remotes")
+remotes::install_github("polkas/pacs")
+```
+
+or from CRAN:
+
+```r
+install.packages("pacs")
+```
+
+## Functions Reference
 
 [Functions Reference](https://polkas.github.io/pacs/reference/index.html)
 
@@ -41,18 +58,3 @@
 |`cran_flavors`|  Retrieving all R CRAN servers flavors|
 |`biocran_repos`| Display current Bioconductor and CRAN repositories|
 |`bio_releases`| Retrieving all Bioconductor releases|
-
-## Installation
-
-```r
-# install.packages("remotes")
-remotes::install_github("polkas/pacs")
-```
-
-or from CRAN:
-
-```r
-install.packages("pacs")
-```
-
-For more information please visit the package vignette.
