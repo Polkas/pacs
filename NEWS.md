@@ -2,7 +2,6 @@
 
 * "getting started" vignette instead of the long README.
 * get back functions reference table in the README.
-* 
 
 # pacs 0.3.8
 
