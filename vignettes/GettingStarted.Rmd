@@ -1,24 +1,24 @@
 ---
 title: "Supplementary Tools for R Packages Developers"
 output:
-    rmarkdown::html_document:
-        theme: "spacelab"
-        highlight: "kate"
-        toc: true
-        toc_float: true
+    rmarkdown::html_document:
+        theme: "spacelab"
+        highlight: "kate"
+        toc: true
+        toc_float: true
 vignette: >
-    %\VignetteIndexEntry{Supplementary Tools for R Packages Developers}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
+    %\VignetteIndexEntry{Supplementary Tools for R Packages Developers}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
 editor_options:
-    markdown: 
-        wrap: 72
+    markdown: 
+        wrap: 72
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+  collapse = TRUE,
+  comment = "#>"
 )
 ```
 
@@ -46,10 +46,10 @@ library(remotes)
 pacs::lib_validate()
 ```
 
-This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.  
+This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.  
 Thus we could assess which packages require versions to update.
 
-Default validation of the library with the `pacs::lib_validate` function.  
+Default validation of the library with the `pacs::lib_validate` function.  
 The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by default as these are the dependencies installed when the `install.packages` function is used.
 
 The full library validation requires activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, for `lifeduration` assessment might take even a few minutes for bigger libraries.
@@ -64,14 +64,14 @@ When `lifeduration` is triggered then assessment might take even few minutes.
 
 ```r
 pacs::lib_validate(lifeduration = TRUE, 
-                   checkred = list(scope = c("ERROR", "FAIL")))
+                   checkred = list(scope = c("ERROR", "FAIL")))
 ```
 
-Not only `scope` field inside `checkred` list could be updated, to remind any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify `flavors` field inside the  `checkred` list argument and narrow the tested machines. The full list of CRAN servers (flavors) might be get with `pacs::cran_flavors()$Flavor`.
+Not only `scope` field inside `checkred` list could be updated, to remind any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify `flavors` field inside the  `checkred` list argument and narrow the tested machines. The full list of CRAN servers (flavors) might be get with `pacs::cran_flavors()$Flavor`.
 
 ```r
 pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"), 
-                   flavors = pacs::cran_flavors()$Flavor[1:2]))
+                   flavors = pacs::cran_flavors()$Flavor[1:2]))
 ```
 
 ### Investigate by filtering
@@ -122,25 +122,25 @@ The core idea behind the function is coming from proper processing of the `insta
 # aggregate function is needed as we could have different versions
 # installed under different `.libPaths()`.
 installed_packages_unique <- stats::aggregate(
-  installed.packages()[, c("Version", "Depends", "Imports", "LinkingTo")], 
-  list(Package = installed.packages()[, "Package"]), 
-  function(x) x[1]
+  installed.packages()[, c("Version", "Depends", "Imports", "LinkingTo")], 
+  list(Package = installed.packages()[, "Package"]), 
+  function(x) x[1]
 )
 # installed_descriptions function transforms direct dependencies DESCRIPTION file fields
 # installed_packages_unique[, c("Depends", "Imports", "LinkingTo")] 
 # to the two column data.frame with Package name 
 # and minimum required Version i.e. max(version1, version2 , ...).
 installed_descriptions <- pacs:::installed_descriptions(
-  lib.loc = .libPaths(), 
-  fields = c("Depends", "Imports", "LinkingTo")
+  lib.loc = .libPaths(), 
+  fields = c("Depends", "Imports", "LinkingTo")
 )
 
 merge(
-  installed_descriptions,
-  installed_packages_unique[, c("Package", "Version")],
-  by = "Package",
-  all = TRUE,
-  suffix = c(".expected.min", ".have")
+  installed_descriptions,
+  installed_packages_unique[, c("Package", "Version")],
+  by = "Package",
+  all = TRUE,
+  suffix = c(".expected.min", ".have")
 )
 ```
 
@@ -155,7 +155,7 @@ Please remember to limit the library path when using `pacs::lib_validate`, to li
 pacs::lib_validate(lib.loc = .libPaths()[1])
 ```
 
-Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in the `renv` library.  
+Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in the `renv` library.  
 
 ### R CRAN packages check page statuses
 
@@ -190,12 +190,12 @@ For the newest package we will check the CRAN check page too, the scope might be
 ```r
 pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"))
 pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"), 
-                 flavors = pacs::cran_flavors()$Flavor[1])
+                 flavors = pacs::cran_flavors()$Flavor[1])
 ```
 
 ### Simulate a package download with the withr package
 
-`withr` package is recommended for the isolated download process.  
+`withr` package is recommended for the isolated download process.  
 We could use a temporary library path (`withr::with_temp_libpaths`) to check if the process is as expected.
 
 Checking what packages need to be installed/(optionally updated) parallel with a specific package, with `remotes` package.
