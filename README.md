@@ -3,7 +3,7 @@
 [![CRAN](https://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
 [![codecov](https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Polkas/pacs)
 
-[Supplementary Tools for R Packages Developers](https://polkas.github.io/pacs/index.html)
+[pkgdown: Supplementary Tools for R Packages Developers](https://polkas.github.io/pacs/index.html)
 
 **For more information please visit the package vignette: [Getting Started](https://polkas.github.io/pacs/articles/GettingStarted.html).**
 

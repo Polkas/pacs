@@ -1,24 +1,24 @@
 ---
 title: "Supplementary Tools for R Packages Developers"
 output:
-    rmarkdown::html_document:
-        theme: "spacelab"
-        highlight: "kate"
-        toc: true
-        toc_float: true
+    rmarkdown::html_document:
+        theme: "spacelab"
+        highlight: "kate"
+        toc: true
+        toc_float: true
 vignette: >
-    %\VignetteIndexEntry{Supplementary Tools for R Packages Developers}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
+    %\VignetteIndexEntry{Supplementary Tools for R Packages Developers}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
 editor_options:
-    markdown: 
-        wrap: 72
+    markdown: 
+        wrap: 72
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+  collapse = TRUE,
+  comment = "#>"
 )
 ```
 
@@ -32,9 +32,9 @@ library(remotes)
 
 **Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...).
 
-**Hint2**: When working with many packages it is recommended to use global functions, which retrieving data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally, most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
+**Hint2**: When working with many packages it is recommended to use global functions, which retrieves data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally, most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
 
-**Hint3**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, second invoke of the same call is instantaneous.
+**Hint3**: Almost all time consuming calculations are cached (for 1 hour) with `memoise::memoise` package, and the second invoke of the same call is instantaneous.
 
 **Hint4**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
 
@@ -46,15 +46,15 @@ library(remotes)
 pacs::lib_validate()
 ```
 
-This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.  
-Thus we could assess which packages require versions update.
+This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.  
+Thus we could assess which packages require versions to update.
 
-Default validation of the library with the `pacs::lib_validate` function.  
+Default validation of the library with the `pacs::lib_validate` function.  
 The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by default as these are the dependencies installed when the `install.packages` function is used.
 
-The full library validation require activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, for `lifeduration` assessment might take even few minutes for bigger libraries.
+The full library validation requires activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, for `lifeduration` assessment might take even a few minutes for bigger libraries.
 
-Assessment of status on CRAN check pages takes only few additional seconds even for all R CRAN packages. `pacs::checked_packages()` is used to gather all packages check statuses for all CRAN servers.
+Assessment of status on CRAN check pages takes only a few additional seconds even for all R CRAN packages. `pacs::checked_packages()` is used to gather all package check statuses for all CRAN servers.
 
 ```r
 pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
@@ -64,14 +64,14 @@ When `lifeduration` is triggered then assessment might take even few minutes.
 
 ```r
 pacs::lib_validate(lifeduration = TRUE, 
-                   checkred = list(scope = c("ERROR", "FAIL")))
+                   checkred = list(scope = c("ERROR", "FAIL")))
 ```
 
-Not only `scope` field inside `checkred` list could be updated, to remind any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify `flavors` field inside the  `checkred` list argument and narrow the tested machines. The full list of CRAN servers (flavors) might be get with `pacs::cran_flavors()$Flavor`.
+Not only `scope` field inside `checkred` list could be updated, to remind any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify `flavors` field inside the  `checkred` list argument and narrow the tested machines. The full list of CRAN servers (flavors) might be get with `pacs::cran_flavors()$Flavor`.
 
 ```r
 pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"), 
-                   flavors = pacs::cran_flavors()$Flavor[1:2]))
+                   flavors = pacs::cran_flavors()$Flavor[1:2]))
 ```
 
 ### Investigate by filtering
@@ -119,35 +119,35 @@ lib[(!is.na(lib$newest)) & (lib$newest == FALSE), ]
 The core idea behind the function is coming from proper processing of the `installed.packages` function result.
 
 ```r
-# aggragate function is needed as we could have different versions
+# aggregate function is needed as we could have different versions
 # installed under different `.libPaths()`.
 installed_packages_unique <- stats::aggregate(
-  installed.packages()[, c("Version", "Depends", "Imports", "LinkingTo")], 
-  list(Package = installed.packages()[, "Package"]), 
-  function(x) x[1]
+  installed.packages()[, c("Version", "Depends", "Imports", "LinkingTo")], 
+  list(Package = installed.packages()[, "Package"]), 
+  function(x) x[1]
 )
 # installed_descriptions function transforms direct dependencies DESCRIPTION file fields
 # installed_packages_unique[, c("Depends", "Imports", "LinkingTo")] 
 # to the two column data.frame with Package name 
 # and minimum required Version i.e. max(version1, version2 , ...).
 installed_descriptions <- pacs:::installed_descriptions(
-  lib.loc = .libPaths(), 
-  fields = c("Depends", "Imports", "LinkingTo")
+  lib.loc = .libPaths(), 
+  fields = c("Depends", "Imports", "LinkingTo")
 )
 
 merge(
-  installed_descriptions,
-  installed_packages_unique[, c("Package", "Version")],
-  by = "Package",
-  all = TRUE,
-  suffix = c(".expected.min", ".have")
+  installed_descriptions,
+  installed_packages_unique[, c("Package", "Version")],
+  by = "Package",
+  all = TRUE,
+  suffix = c(".expected.min", ".have")
 )
 ```
 
 ### renv
 
-When project is based on `renv` and all needed dependencies are installed in the `renv` directory then we mostly want to validate only the isolated `renv` library.
-In the new `renv` versions the `.libPaths()` is contains the main library path too (`renv` library and the main library).
+When a project is based on `renv` and all needed dependencies are installed in the `renv` directory then we mostly want to validate only the isolated `renv` library.
+In the new `renv` versions the `.libPaths()` contains the main library path too (`renv` library and the main library).
 Please remember to limit the library path when using `pacs::lib_validate`, to limit the validation to only `renv` library.
 
 ```r
@@ -155,7 +155,7 @@ Please remember to limit the library path when using `pacs::lib_validate`, to li
 pacs::lib_validate(lib.loc = .libPaths()[1])
 ```
 
-Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in `renv` library.  
+Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in the `renv` library.  
 
 ### R CRAN packages check page statuses
 
@@ -168,7 +168,7 @@ pacs::checked_packages()
 
 Use `pacs::pac_checkpage("dplyr")` to get the check page per package. However `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result is cached after the first invoke.
 
-### Package health and lifeduration
+### Package health and life duration
 
 We could find out if a certain package version lived more than 14 days (or other x limit days). 
 If not then we might assume something was wrong with it, as had to be quickly updated.
@@ -179,7 +179,7 @@ e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could fi
 pacs::pac_lifeduration("dplyr", "0.8.0")
 ```
 
-With 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages we are checking if there are any red messages on CRAN check pages too, specify with a `scope` argument.
+With a 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages we are checking if there are any red messages on CRAN check pages too, specified with a `scope` argument.
 
 ```r
 pacs::pac_health("dplyr", version = "0.8.0", limit = 14)
@@ -190,15 +190,15 @@ For the newest package we will check the CRAN check page too, the scope might be
 ```r
 pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"))
 pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"), 
-                 flavors = pacs::cran_flavors()$Flavor[1])
+                 flavors = pacs::cran_flavors()$Flavor[1])
 ```
 
 ### Simulate a package download with the withr package
 
-`withr` package is recommended for the isolated download process.  
+`withr` package is recommended for the isolated download process.  
 We could use a temporary library path (`withr::with_temp_libpaths`) to check if the process is as expected.
 
-Checking what packages are need to be installed/(optionally updated) parallel with a specific package, with `remotes` package.
+Checking what packages need to be installed/(optionally updated) parallel with a specific package, with `remotes` package.
 
 ```r
 remotes::package_deps("keras")
@@ -234,7 +234,7 @@ pacs::pac_timemachine("tidyr", from = as.Date("2020-06-01"), to = Sys.Date())
 ### Package dependencies
 
 One of the main functionality is to get versions for all package dependencies. 
-Versions might come form installed packages or DESCRIPTION files.
+Versions might come from installed packages or DESCRIPTION files.
 
 `pac_deps` for an extremely fast retrieving of package dependencies, 
 packages versions might come from installed ones or from DESCRIPTION files (required minimum).
@@ -271,7 +271,7 @@ The `field` argument is used to change the scope of exploration.
 The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by default as these are the dependencies installed when the `install.packages` function is used.
 When the `field` argument is extended the number of dependencies will grow.
 Remember that we are looking for dependencies recursively by default.
-At the moment of writing it the first invoke returns 3 dependencies where as the second one 1405 and the last one 1427. It should be clear that when extending the scope (and recursively) with the `"Suggests"` field then the number of dependencies is exploding.
+At the moment of writing it the first invoke returns 3 dependencies whereas the second one 1405 and the last one 1427. It should be clear that when extending the scope (and recursively) with the `"Suggests"` field then the number of dependencies is exploding.
 
 ```r
 nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo")))
@@ -309,7 +309,7 @@ pacs::pac_namespace("dplyr", at = as.Date("2019-01-01"))
 
 ### Comparing DESCRIPTION files between different package versions
 
-Comparing DESCRIPTION file dependencies between local and newest package.
+Comparing DESCRIPTION file dependencies between local and the newest package.
 We will get duplicated columns if the local version is the newest one.
 
 ```r
@@ -328,7 +328,7 @@ pacs::pac_compare_versions("shiny", "1.4.0")
 
 ### Comparing NAMESPACE files between different package versions
 
-Comparing NAMESPACE between local and newest package.
+Comparing NAMESPACE between local and the newest package.
 
 ```r
 pacs::pac_compare_namespace("shiny")
@@ -395,7 +395,7 @@ pacs::pac_deps("devtools", local = TRUE)$Package
 
 ## Base packages 
 
-Useful functions to get list of base packages. 
+Useful functions to get a list of base packages. 
 You might want to exclude them from final results.
 
 ```r
@@ -403,4 +403,3 @@ pacs::pacs_base()
 # start up loaded, base packages
 pacs::pacs_base(startup = TRUE)
 ```
-
