@@ -100,7 +100,7 @@ shiny_app_deps <- function(path = ".", recursive = TRUE) {
 shiny_app_size <- function(path = ".") {
   stopifnot(dir.exists(path))
   app_deps_recursive <- shiny_app_deps(path, recursive = TRUE)$Package
-  if (length(app_deps_recursive) > 0) {
+  if (length(app_deps_recursive) > 0 && is.character(app_deps_recursive)) {
     sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
   } else {
     dir_size(path)
