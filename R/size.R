@@ -52,41 +52,6 @@ pac_true_size <- function(pac,
   sum(vapply(unique(c(pac, setdiff(pacs_all, "R"))), function(x) pac_size(x, lib.loc = lib.loc), numeric(1)))
 }
 
-#' The shiny app dependencies
-#' @description the shiny app dependencies packages are checked recursively.
-#' The `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are check recursively.
-#' The required dependencies have to be installed in the local repository.
-#' @param path path to the shiny app. Default: `"."`
-#' @param recursive logical if to assess the dependencies recursively. Default: TRUE
-#' @return character vector with dependency packages or data.frame when checking recursively.
-#' @note the base packages are not taken into account.
-#' @export
-#' @examples
-#' \dontrun{
-#' # Please update the path to the custom shiny app
-#' app_path <- system.file("examples/04_mpg", package = "shiny")
-#' pacs::app_deps(app_path)
-#' pacs::app_deps(app_path, recursive = FALSE)
-#' }
-app_deps <- function(path = ".", recursive = TRUE) {
-  stopifnot(dir.exists(path))
-  stopifnot(is.logical(recursive))
-  app_deps <- setdiff(renv::dependencies(path, progress = FALSE)$Package, c(pacs_base(), "R"))
-  if (length(app_deps) == 0) return(data.frame(Package = NA, Version = NA, Direct = NA)[0, ])
-  not_installed <- setdiff(app_deps, rownames(installed_packages(lib.loc = .libPaths())))
-  if (length(not_installed)) {
-    stop(sprintf("Some of the dependency packages are not installed, %s", paste(not_installed, collapse = "; ")))
-  }
-  if (recursive) {
-    app_deps_recursive <- do.call(rbind, lapply(app_deps, function(x) pac_deps(x, attr = FALSE)))
-    app_deps_recursive$Package <- as.character(app_deps_recursive$Package)
-    app_deps_recursive$Direct <- app_deps_recursive$Package %in% app_deps
-    return(app_deps_recursive)
-  } else {
-    return(data.frame(Package = app_deps, Version = "", Direct = TRUE, stringsAsFactors = FALSE))
-  }
-}
-
 #' Size of the shiny app
 #' @description The size of shiny app is a sum of dependencies packages and the app directory.
 #' The app dependencies packages are checked recursively.
