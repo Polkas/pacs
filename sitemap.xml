@@ -43,6 +43,9 @@
     <loc>/reference/cran_flavors.html</loc>
   </url>
   <url>
+    <loc>/reference/dir_size.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -101,5 +104,11 @@
   </url>
   <url>
     <loc>/reference/pacs_base.html</loc>
+  </url>
+  <url>
+    <loc>/reference/shiny_app_deps.html</loc>
+  </url>
+  <url>
+    <loc>/reference/shiny_app_size.html</loc>
   </url>
 </urlset>
