@@ -393,6 +393,28 @@ Might be useful to check the number of dependencies too:
 pacs::pac_deps("devtools", local = TRUE)$Package
 ```
 
+## shiny app utils
+
+The shiny app dependencies packages are checked recursively.
+The `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are check recursively.
+The required dependencies have to be installed in the local repository.
+
+```r
+pacs::shiny_app_deps(system.file("examples/04_mpg", package = "shiny"))
+```
+
+When we want to check only direct dependencies, `recursive` argument has to be set to `FALSE`.
+
+```r
+pacs::shiny_app_deps(system.file("examples/04_mpg", package = "shiny"), recursive = FALSE)
+```
+
+The size of shiny app is a sum of dependencies packages and the app directory. The app dependencies packages are checked recursively.
+
+```r
+cat(pacs::shiny_app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
+```
+
 ## Base packages 
 
 Useful functions to get a list of base packages. 

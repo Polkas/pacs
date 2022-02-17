@@ -13,8 +13,7 @@ shiny_app_size(path = ".")
 numeric size in bytes, to get MB ten divide by \code{10**6}.
 }
 \description{
-size of the shiny app dependencies packages and the app directory.
-The app dependencies packages are checked recursively.
+Size of the shiny app
 }
 \examples{
 \dontrun{

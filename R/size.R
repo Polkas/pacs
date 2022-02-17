@@ -75,19 +75,20 @@ shiny_app_deps <- function(path = ".", recursive = TRUE) {
   if (length(app_deps) == 0) return(data.frame(Package = NA, Version = NA, Direct = NA)[0, ])
   not_installed <- setdiff(app_deps, rownames(installed_packages(lib.loc = .libPaths())))
   if (length(not_installed)) {
-    stop(sprintf("Some of the dependency packages are not installed, %s", not_installed))
+    stop(sprintf("Some of the dependency packages are not installed, %s", paste(not_installed, collapse = "; ")))
   }
   if (recursive) {
     app_deps_recursive <- do.call(rbind, lapply(app_deps, function(x) pac_deps(x, attr = FALSE)))
+    app_deps_recursive$Package <- as.character(app_deps_recursive$Package)
     app_deps_recursive$Direct <- app_deps_recursive$Package %in% app_deps
     return(app_deps_recursive)
   } else {
-    return(data.frame(Package = app_deps, Version = "", Direct = TRUE))
+    return(data.frame(Package = app_deps, Version = "", Direct = TRUE, stringsAsFactors = FALSE))
   }
 }
 
 #' Size of the shiny app
-#' @description size of the shiny app dependencies packages and the app directory.
+#' @descriptionThe size of shiny app is a sum of dependencies packages and the app directory.
 #' The app dependencies packages are checked recursively.
 #' @param path path to the shiny app. Default: `"."`
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
@@ -99,8 +100,9 @@ shiny_app_deps <- function(path = ".", recursive = TRUE) {
 #' }
 shiny_app_size <- function(path = ".") {
   stopifnot(dir.exists(path))
-  app_deps_recursive <- shiny_app_deps(path, recursive = TRUE)$Package
-  if (length(app_deps_recursive) > 0 && is.character(app_deps_recursive)) {
+  # as.character for older R versions, stringAsFactors
+  app_deps_recursive <- as.character(shiny_app_deps(path, recursive = TRUE)$Package)
+  if (length(app_deps_recursive) > 0) {
     sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
   } else {
     dir_size(path)

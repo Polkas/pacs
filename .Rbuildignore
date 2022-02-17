@@ -3,6 +3,7 @@
 ^\.github$
 ^\.pre-commit-config\.yaml$
 ^cran-comments\.md$
+^inst/WORDLIST$
 ^pacs\.Rproj$
 ^renv$
 ^renv\.lock$
