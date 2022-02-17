@@ -65,10 +65,10 @@ pac_true_size <- function(pac,
 #' \dontrun{
 #' # Please update the path to the custom shiny app
 #' app_path <- system.file("examples/04_mpg", package = "shiny")
-#' pacs::shiny_app_deps(app_path)
-#' pacs::shiny_app_deps(app_path, recursive = FALSE)
+#' pacs::app_deps(app_path)
+#' pacs::app_deps(app_path, recursive = FALSE)
 #' }
-shiny_app_deps <- function(path = ".", recursive = TRUE) {
+app_deps <- function(path = ".", recursive = TRUE) {
   stopifnot(dir.exists(path))
   stopifnot(is.logical(recursive))
   app_deps <- setdiff(renv::dependencies(path, progress = FALSE)$Package, c(pacs_base(), "R"))
@@ -88,7 +88,7 @@ shiny_app_deps <- function(path = ".", recursive = TRUE) {
 }
 
 #' Size of the shiny app
-#' @descriptionThe size of shiny app is a sum of dependencies packages and the app directory.
+#' @description The size of shiny app is a sum of dependencies packages and the app directory.
 #' The app dependencies packages are checked recursively.
 #' @param path path to the shiny app. Default: `"."`
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
@@ -96,12 +96,12 @@ shiny_app_deps <- function(path = ".", recursive = TRUE) {
 #' @examples
 #' \dontrun{
 #' # Please update the path to the shiny app
-#' cat(pacs::shiny_app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
+#' cat(pacs::app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
 #' }
-shiny_app_size <- function(path = ".") {
+app_size <- function(path = ".") {
   stopifnot(dir.exists(path))
   # as.character for older R versions, stringAsFactors
-  app_deps_recursive <- as.character(shiny_app_deps(path, recursive = TRUE)$Package)
+  app_deps_recursive <- as.character(app_deps(path, recursive = TRUE)$Package)
   if (length(app_deps_recursive) > 0) {
     sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
   } else {

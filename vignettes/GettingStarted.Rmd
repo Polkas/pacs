@@ -400,19 +400,19 @@ The `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are check re
 The required dependencies have to be installed in the local repository.
 
 ```r
-pacs::shiny_app_deps(system.file("examples/04_mpg", package = "shiny"))
+pacs::app_deps(system.file("examples/04_mpg", package = "shiny"))
 ```
 
 When we want to check only direct dependencies, `recursive` argument has to be set to `FALSE`.
 
 ```r
-pacs::shiny_app_deps(system.file("examples/04_mpg", package = "shiny"), recursive = FALSE)
+pacs::app_deps(system.file("examples/04_mpg", package = "shiny"), recursive = FALSE)
 ```
 
 The size of shiny app is a sum of dependencies packages and the app directory. The app dependencies packages are checked recursively.
 
 ```r
-cat(pacs::shiny_app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
+cat(pacs::app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
 ```
 
 ## Base packages 

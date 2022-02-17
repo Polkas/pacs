@@ -37,14 +37,14 @@ test_that("pacs::pac_deps", {
   expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)) == 2)
 })
 
-test_that("pacs::shiny_app_deps", {
-  rec_deps <- nrow(pacs::shiny_app_deps("files/shiny_app"))
-  direct_deps <- nrow(pacs::shiny_app_deps("files/shiny_app", recursive = FALSE))
+test_that("pacs::app_deps", {
+  rec_deps <- nrow(pacs::app_deps("files/shiny_app"))
+  direct_deps <- nrow(pacs::app_deps("files/shiny_app", recursive = FALSE))
   expect_true(rec_deps > 0)
   expect_true(direct_deps > 0)
   expect_true(rec_deps >= direct_deps)
-  expect_error(pacs::shiny_app_deps("WRONG"))
-  expect_error(pacs::shiny_app_deps("files/shiny_app", 12))
+  expect_error(pacs::app_deps("WRONG"))
+  expect_error(pacs::app_deps("files/shiny_app", 12))
 })
 
 test_that("pacs::dir_size", {
@@ -65,9 +65,9 @@ test_that("pacs::pac_true_size", {
   expect_error(pac_true_size("WRONG"))
 })
 
-test_that("pacs::shiny_app_size", {
-  expect_true(pacs::shiny_app_size("files/shiny_app") > 1)
-  expect_error(pacs::shiny_app_size("WRONG"))
+test_that("pacs::app_size", {
+  expect_true(pacs::app_size("files/shiny_app") > 1)
+  expect_error(pacs::app_size("WRONG"))
 })
 
 test_that("pacs::pacs_base", {
