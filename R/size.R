@@ -71,7 +71,8 @@ pac_true_size <- function(pac,
 shiny_app_deps <- function(path = ".", recursive = TRUE) {
   stopifnot(dir.exists(path))
   stopifnot(is.logical(recursive))
-  app_deps <- setdiff(renv::dependencies(path, progress = FALSE)$Package, pacs_base())
+  app_deps <- setdiff(renv::dependencies(path, progress = FALSE)$Package, c(pacs_base(), "R"))
+  if (length(app_deps) == 0) return(data.frame(Package = NA, Version = NA, Direct = NA)[0, ])
   not_installed <- setdiff(app_deps, rownames(installed_packages(lib.loc = .libPaths())))
   if (length(not_installed)) {
     stop(sprintf("Some of the dependency packages are not installed, %s", not_installed))
@@ -99,5 +100,9 @@ shiny_app_deps <- function(path = ".", recursive = TRUE) {
 shiny_app_size <- function(path = ".") {
   stopifnot(dir.exists(path))
   app_deps_recursive <- shiny_app_deps(path, recursive = TRUE)$Package
-  sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
+  if (length(app_deps_recursive) > 0) {
+    sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
+  } else {
+    dir_size(path)
+  }
 }
