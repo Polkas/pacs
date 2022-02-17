@@ -1,6 +1,7 @@
 ^LICENSE\.md$
 ^\.Rproj\.user$
 ^\.github$
+^\.pre-commit-config\.yaml$
 ^cran-comments\.md$
 ^pacs\.Rproj$
 ^renv$
