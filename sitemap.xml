@@ -22,6 +22,12 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/app_deps.html</loc>
+  </url>
+  <url>
+    <loc>/reference/app_size.html</loc>
+  </url>
+  <url>
     <loc>/reference/available_packages.html</loc>
   </url>
   <url>
