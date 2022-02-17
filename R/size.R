@@ -51,3 +51,53 @@ pac_true_size <- function(pac,
 
   sum(vapply(unique(c(pac, setdiff(pacs_all, "R"))), function(x) pac_size(x, lib.loc = lib.loc), numeric(1)))
 }
+
+#' The shiny app dependencies
+#' @description the shiny app dependencies packages are checked recursively.
+#' The `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are check recursively.
+#' The required dependencies have to be installed in the local repository.
+#' @param path path to the shiny app. Default: `"."`
+#' @param recursive logical if to assess the dependencies recursively. Default: TRUE
+#' @return character vector with dependency packages or data.frame when checking recursively.
+#' @note the base packages are not taken into account.
+#' @export
+#' @examples
+#' \dontrun{
+#' # Please update the path to the custom shiny app
+#' app_path <- system.file("examples/04_mpg", package = "shiny")
+#' pacs::shiny_app_deps(app_path)
+#' pacs::shiny_app_deps(app_path, recursive = FALSE)
+#' }
+shiny_app_deps <- function(path = ".", recursive = TRUE) {
+  stopifnot(dir.exists(path))
+  stopifnot(is.logical(recursive))
+  app_deps <- setdiff(renv::dependencies(path, progress = FALSE)$Package, pacs_base())
+  not_installed <- setdiff(app_deps, rownames(installed_packages(lib.loc = .libPaths())))
+  if (length(not_installed)) {
+    stop(sprintf("Some of the dependency packages are not installed, %s", not_installed))
+  }
+  if (recursive) {
+    app_deps_recursive <- do.call(rbind, lapply(app_deps, function(x) pac_deps(x, attr = FALSE)))
+    app_deps_recursive$Direct <- app_deps_recursive$Package %in% app_deps
+    return(app_deps_recursive)
+  } else {
+    return(data.frame(Package = app_deps, Version = "", Direct = TRUE))
+  }
+}
+
+#' Size of the shiny app
+#' @description size of the shiny app dependencies packages and the app directory.
+#' The app dependencies packages are checked recursively.
+#' @param path path to the shiny app. Default: `"."`
+#' @return numeric size in bytes, to get MB ten divide by `10**6`.
+#' @export
+#' @examples
+#' \dontrun{
+#' # Please update the path to the shiny app
+#' cat(pacs::shiny_app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
+#' }
+shiny_app_size <- function(path = ".") {
+  stopifnot(dir.exists(path))
+  app_deps_recursive <- shiny_app_deps(path, recursive = TRUE)$Package
+  sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
+}

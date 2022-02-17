@@ -982,11 +982,11 @@ useDynLib(sp,
 	tList
 )
 
-importFrom(graphics, plot, hist, polygon, par, polypath, lines, strheight, 
-	text, contour, axTicks, axis, rasterImage, image, box, plot.new, 
+importFrom(graphics, plot, hist, polygon, par, polypath, lines, strheight,
+	text, contour, axTicks, axis, rasterImage, image, box, plot.new,
 	plot.window, rect, segments, points, locator, identify, title,
 	layout, lcm)
-importFrom(stats, aggregate, na.omit, aggregate.data.frame, complete.cases, 
+importFrom(stats, aggregate, na.omit, aggregate.data.frame, complete.cases,
 	quantile, as.formula, dist, runif, model.frame, na.fail)
 import(utils)
 importFrom(grid, grid.polygon, grid.path, grid.rect, polygonGrob, gpar,
@@ -1023,7 +1023,7 @@ export(
 	set_ReplCRS_warn,
 	get_Polypath,
 	set_Polypath,
-	get_PolypathRule, 
+	get_PolypathRule,
 	set_PolypathRule,
 	set_col_regions,
 	get_col_regions,
@@ -1033,7 +1033,7 @@ export(
 	dimensions,
 
 	Spatial,
- 
+
 	SpatialPoints,
 	SpatialPointsDataFrame,
 
@@ -1076,7 +1076,7 @@ export(
 	as.image.SpatialGridDataFrame,
 	image2Grid,
 	imageScale,
-	
+
 	gridparameters,
 	SpatialPixels,
 	SpatialPixelsDataFrame,
@@ -1090,7 +1090,7 @@ export(
 	gridIndex2nb,
 
 	getSLlinesSlot,
-	getLinesLinesSlot, 
+	getLinesLinesSlot,
 	getLinesIDSlot,
 	getSLLinesIDSlots,
 
@@ -1118,19 +1118,19 @@ export(
   # as.SpatialPolygonsDataFrame.SpatialPolygons, -> use coerce()
 
   # DMS:
-	dd2dms, 
-	print.DMS, 
-	char2dms, 
+	dd2dms,
+	print.DMS,
+	char2dms,
 	as.character.DMS,
-	as.double.DMS, 
+	as.double.DMS,
 	as.numeric.DMS,
 
 	# is coerce, but needed to add proj4string:
-	as.SpatialPolygons.GridTopology, 
+	as.SpatialPolygons.GridTopology,
 
 	# as.SpatialPolygons.SpatialPixels, -> is a coerce(), but plotKML uses it
-	IDvaluesGridTopology, 
-	IDvaluesSpatialPixels, 
+	IDvaluesGridTopology,
+	IDvaluesSpatialPixels,
 	HexPoints2SpatialPolygons,
 
 	flipHorizontal,
@@ -1142,7 +1142,7 @@ export(
 
 	overDF_for_rgeos, # for rgeos only!
 
-	read.asciigrid, 
+	read.asciigrid,
 
 	Polygon,
 	Polygons,
@@ -1150,9 +1150,9 @@ export(
 	cbind.Spatial,
 
 	rbind.SpatialPoints,
-	rbind.SpatialPointsDataFrame, 
+	rbind.SpatialPointsDataFrame,
 	rbind.SpatialMultiPoints,
-	rbind.SpatialMultiPointsDataFrame, 
+	rbind.SpatialMultiPointsDataFrame,
 	rbind.SpatialPixels,
 	rbind.SpatialPixelsDataFrame,
 	rbind.SpatialPolygons,
@@ -1179,44 +1179,44 @@ export(
 
 exportClasses(
 	DMS,
-	CRS, 
+	CRS,
 	GridTopology,
-	Line, 
+	Line,
 	Lines,
-	Polygon, 
-	Polygons, 
-	Spatial, 
-	SpatialGrid, 
+	Polygon,
+	Polygons,
+	Spatial,
+	SpatialGrid,
 	SpatialGridDataFrame,
-	SpatialLines, 
+	SpatialLines,
 	SpatialLinesDataFrame,
-	SpatialPixels, 
+	SpatialPixels,
 	SpatialPixelsDataFrame,
-	SpatialPoints, 
- 	SpatialPointsDataFrame, 
-	SpatialMultiPoints, 
- 	SpatialMultiPointsDataFrame, 
-	SpatialPolygons, 
+	SpatialPoints,
+ 	SpatialPointsDataFrame,
+	SpatialMultiPoints,
+ 	SpatialMultiPointsDataFrame,
+	SpatialPolygons,
 	SpatialPolygonsDataFrame,
 	# spatstat classes:
 	ppp, im, owin, psp
 )
 
 exportMethods(
-	"[", "[[", "$", "$<-", 
+	"[", "[[", "$", "$<-",
 	addAttrToGeom,
-	bbox, 
-	coerce, 
-	coordinates, 
+	bbox,
+	coerce,
+	coordinates,
 	"coordinates<-",
-	coordnames, 
-	"coordnames<-", 
-	dimensions, 
+	coordnames,
+	"coordnames<-",
+	dimensions,
 	disaggregate,
 	fullgrid,
 	"fullgrid<-",
-	geometry, 
-	"geometry<-", 
+	geometry,
+	"geometry<-",
 	gridded,
 	"gridded<-",
 	is.projected,
@@ -1224,13 +1224,13 @@ exportMethods(
 	over,
 	# overlay,
 	plot,
-	polygons, 
+	polygons,
 	"polygons<-",
 	proj4string,
 	"proj4string<-",
         wkt,
 	recenter,
-	show, 
+	show,
 	spChFIDs,
 	"spChFIDs<-",
 	split,
@@ -1238,7 +1238,7 @@ exportMethods(
 	spplot,
 	spsample,
 	summary,
-	surfaceArea, 
+	surfaceArea,
 	spTransform,
         rebuild_CRS
 )
@@ -1860,11 +1860,11 @@ importFrom(Matrix, image)
 importFrom(stats4, coef, plot, summary, vcov)
 import(methods)
 exportClassPattern("^[[:alpha:]]+")
-exportMethods(change, change_family, change_link, change_model, change_imputation_method, 
+exportMethods(change, change_family, change_link, change_model, change_imputation_method,
               change_size, change_transformation, change_type,
-              complete, fit_model, get_parameters, hist, image, 
+              complete, fit_model, get_parameters, hist, image,
               mi, missing_data.frame, missing_variable, plot)
-export(display, mi2BUGS, mi2stata, mipply, multinomial, pool, 
+export(display, mi2BUGS, mi2stata, mipply, multinomial, pool,
        .prune, .possible_missing_variable, Rhats, rdata.frame)
 
 S3method(as.double, missing_variable)

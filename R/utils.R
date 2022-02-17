@@ -68,7 +68,17 @@ compareVersionsMin <- function(vec, na.rm = TRUE) {
   )
 }
 
-dir_size <- function(path, recursive = TRUE) {
+#' Size of the package
+#' @description size of package.
+#' @param path path to the directory. Default: `"."`
+#' @param recursive logical if to assess the dependencies recursively. Default: TRUE
+#' @return numeric size in bytes, to get MB ten divide by `10**6`.
+#' @export
+#' @examples
+#' \dontrun{
+#' cat(pacs::dir_size(system.file(package = "stats")) / 10**6, "MB")
+#' }
+dir_size <- function(path = ".", recursive = TRUE) {
   stopifnot(is.character(path))
   files <- list.files(path, full.names = T, recursive = recursive)
   vect_size <- sapply(files, function(x) file.size(x))

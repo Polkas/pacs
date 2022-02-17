@@ -30,6 +30,7 @@ repos:
           .*\.py|
           .*\.RData|
           .*\.txt|
+          .*\.csv|
           .*\.Rds|
           .*\.rds|
           .*\.Rproj|

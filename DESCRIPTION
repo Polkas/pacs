@@ -35,5 +35,6 @@ Config/testthat/edition: 3
 Imports:
     memoise,
     stringi,
-    xml2
+    xml2,
+    renv
 VignetteBuilder: knitr

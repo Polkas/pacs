@@ -43,11 +43,14 @@ install.packages("pacs")
 |`pac_namespace` | R CRAN package NAMESPACE file at Date or for a certain version      |
 |`pac_lifeduration` | Package version life duration  |
 |`pac_health`           | R CRAN package version health    |
-|`pac_size`             | Size of the package                                       | 
 |`pac_timemachine` | R CRAN package versions at a specific Date or a Date interval   |
 |`pac_compare_versions` | Compare dependencies between different versions of a R CRAN package          |
 |`pac_compare_namespace`| Compare NAMESPACE fields between different versions of a R CRAN package  |
+|`dir_size`             | Size of the directory                               |
+|`pac_size`             | Size of the package                                       |
 |`pac_true_size`    | True size of the package (with dependencies)| 
+|`shiny_app_size`    | True size of the shiny app (with packages dependencies and the dir size)| 
+|`shiny_app_deps`    | the shiny app dependencies| 
 |`pacs_base`        | R base packages                               |
 |`pac_last`| The most recent package version|
 |`pac_islast`| Checking if a package version is the most recent one|

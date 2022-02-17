@@ -2,6 +2,9 @@
 
 * "getting started" vignette instead of the long README.
 * get back functions reference table in the README.
+* expose the `dir_size` function.
+* add new functions `shiny_app_size` and `shiny_app_deps`.
+* new Imports dependency `renv`.
 
 # pacs 0.3.8
 
