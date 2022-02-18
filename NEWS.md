@@ -1,3 +1,7 @@
+# pacs 0.4.0.9000
+
+* `pacs::biocran_repos` not includes the `BioCbooks` field for `Bioc` versions smaller than "3.12".
+
 # pacs 0.4.0
 
 * `pac_deps` fully depends on `tools::package_dependencies`.

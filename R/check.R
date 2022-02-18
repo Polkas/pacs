@@ -241,7 +241,7 @@ biocran_repos <- function(version = NULL) {
       BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version),
       BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
       BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
-      BioCbooks = sprintf("https://bioconductor.org/packages/%s/books", version),
+      BioCbooks = if (utils::compareVersion(version, "3.12") >= 0) sprintf("https://bioconductor.org/packages/%s/books", version) else NULL,
       CRAN = "https://cran.rstudio.com/"
     )
   }
