@@ -31,7 +31,7 @@ pac_deps(
 
 \item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
 
-\item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
+\item{recursive}{logical If to assess the dependencies recursively. Default: TRUE}
 
 \item{repos}{character the base URL of the CRAN repository to use. Used only for the validation. Default \code{pacs::biocran_repos()}}
 }

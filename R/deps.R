@@ -7,7 +7,7 @@
 #' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param description_v if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE
 #' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
-#' @param recursive logical if to assess the dependencies recursively. Default: TRUE
+#' @param recursive logical If to assess the dependencies recursively. Default: TRUE
 #' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `pacs::biocran_repos()`
 #' @return data.frame with packages and their versions. Versions are taken from `installed.packages` or newest released.
 #' @note When function is invoked in the loop afterwards binded results could be aggregated like,

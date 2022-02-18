@@ -115,38 +115,49 @@ if (is_online() && TRUE) {
     })
 
     test_that("pacs::pac_deps cols", {
-      expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)) == 2)
+      expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE, repos = "https://cran.rstudio.com/")) == 2)
     })
 
     test_that("pacs::pac_deps", {
       deps1 <- pacs::pac_deps("memoise",
                               description_v = TRUE,
                               recursive = FALSE,
-                              local = FALSE)
+                              local = FALSE,
+                              repos = "https://cran.rstudio.com/")
       deps2 <- setdiff(tools::package_dependencies("memoise",
-                                                   db = available_packages(),
-                                                   recursive = FALSE)[[1]], pacs::pacs_base())
+                                                   db = available_packages(repos = "https://cran.rstudio.com/"),
+                                                   recursive = FALSE)[[1]],
+                       pacs::pacs_base())
 
+      expect_true(nrow(deps1) == length(deps2))
+    })
+
+    test_that("pacs::pac_deps recursive", {
       deps1_recursive <- pacs::pac_deps("memoise",
                                         description_v = TRUE,
                                         recursive = TRUE,
-                                        local = FALSE)
+                                        local = FALSE,
+                                        repos = "https://cran.rstudio.com/")
       deps2_recursive <- setdiff(tools::package_dependencies("memoise",
-                                                             db = available_packages(),
-                                                             recursive = TRUE)[[1]], pacs::pacs_base())
+                                                             db = available_packages(repos = "https://cran.rstudio.com/"),
+                                                             recursive = TRUE)[[1]],
+                                 pacs::pacs_base())
+      expect_true(nrow(deps1_recursive) == length(deps2_recursive))
+})
 
+    test_that("pacs::pac_deps recursive long field", {
       deps3_recursive <- pacs::pac_deps("memoise",
                                         description_v = FALSE,
                                         fields = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances"),
                                         recursive = TRUE,
-                                        local = FALSE)
+                                        local = FALSE,
+                                        repos = "https://cran.rstudio.com/")
       deps4_recursive <- setdiff(tools::package_dependencies("memoise",
                                                              which = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances"),
-                                                             db = available_packages(),
-                                                             recursive = TRUE)[[1]], pacs::pacs_base())
+                                                             db = available_packages(repos = "https://cran.rstudio.com/"),
+                                                             recursive = TRUE)[[1]],
+                                 pacs::pacs_base())
 
-      expect_true(nrow(deps1) == length(deps2))
-      expect_true(nrow(deps1_recursive) == length(deps2_recursive))
       expect_true(nrow(deps3_recursive) == length(deps4_recursive))
     })
 

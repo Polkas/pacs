@@ -239,7 +239,7 @@ available_descriptions <- function(repos, fields, deps = NULL) {
   res_agg
 }
 
-available_agg_fun_raw <- function(repos = "https://cran.rstudio.com/", fields) {
+available_agg_fun_raw <- function(repos, fields) {
   available_df <- as.data.frame(available_packages(repos = repos))
   available_agg <- stats::aggregate(
     available_df[, c("Version", fields), drop = FALSE],

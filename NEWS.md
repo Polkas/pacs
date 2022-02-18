@@ -1,6 +1,7 @@
 # pacs 0.4.0.9000
 
 * `pacs::biocran_repos` not includes the `BioCbooks` field for `Bioc` versions smaller than "3.12".
+* The `pacs::pac_deps` recursive option is fully supported only on the R version ">=4.1", added a validation.
 
 # pacs 0.4.0
 
