@@ -193,6 +193,8 @@ read_bio_releases_raw <- function() {
     ))
     colnames(result_raw) <- header
     result_raw$Date <- as.Date(result_raw$Date, format = "%B %d, %Y")
+    result_raw$Release <- as.character(result_raw$Release)
+    result_raw$R <- as.character(result_raw$R)
   } else {
     result_raw <- NA
   }
