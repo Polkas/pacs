@@ -55,7 +55,13 @@ pac_true_size <- function(pac,
 #' Size of the shiny app
 #' @description The size of shiny app is a sum of dependencies packages and the app directory.
 #' The app dependencies packages are checked recursively.
+#' The default arguments setup is recommended.
 #' @param path path to the shiny app. Default: `"."`
+#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Most probably you do not want to update the defaults. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
+#' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
+#' @param recursive logical if to assess the dependencies recursively. Default: TRUE
+#' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `pacs::biocran_repos()`
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
@@ -63,10 +69,15 @@ pac_true_size <- function(pac,
 #' # Please update the path to the shiny app
 #' cat(pacs::app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
 #' }
-app_size <- function(path = ".") {
+app_size <- function(path = ".",
+                     fields = c("Depends", "Imports", "LinkingTo"),
+                     lib.loc = .libPaths(),
+                     local = TRUE,
+                     recursive = TRUE,
+                     repos = biocran_repos()) {
   stopifnot(dir.exists(path))
   # as.character for older R versions, stringAsFactors
-  app_deps_recursive <- as.character(app_deps(path, recursive = TRUE)$Package)
+  app_deps_recursive <- as.character(app_deps(path, fields = fields, lib.loc = lib.loc, local = local, recursive = recursive, repos = repos)$Package)
   if (length(app_deps_recursive) > 0) {
     sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
   } else {

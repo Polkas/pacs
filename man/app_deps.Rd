@@ -4,12 +4,30 @@
 \alias{app_deps}
 \title{The shiny app dependencies}
 \usage{
-app_deps(path = ".", recursive = TRUE)
+app_deps(
+  path = ".",
+  fields = c("Depends", "Imports", "LinkingTo"),
+  lib.loc = .libPaths(),
+  local = TRUE,
+  description_v = FALSE,
+  recursive = TRUE,
+  repos = biocran_repos()
+)
 }
 \arguments{
 \item{path}{path to the shiny app. Default: \code{"."}}
 
+\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}. Most probably you do not want to update the defaults. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+
+\item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
+
+\item{local}{logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE}
+
+\item{description_v}{if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE}
+
 \item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
+
+\item{repos}{character the base URL of the CRAN repository to use. Used only for the validation. Default \code{pacs::biocran_repos()}}
 }
 \value{
 character vector with dependency packages or data.frame when checking recursively.
@@ -18,6 +36,7 @@ character vector with dependency packages or data.frame when checking recursivel
 the shiny app dependencies packages are checked recursively.
 The \code{c("Depends", "Imports", "LinkingTo")} DESCRIPTION files fields are check recursively.
 The required dependencies have to be installed in the local repository.
+The default arguments setup is recommended.
 }
 \note{
 the base packages are not taken into account.

@@ -242,7 +242,7 @@ The default setup is to show dependencies recursively, `recursive = TRUE`.
 
 ```r
 # Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
-# pacs::package_deps is providing the min required version for each package
+# pacs::pac_deps is providing the min required version for each package
 # Use it to answer what we should have
 res <- pacs::pac_deps("shiny", description_v = TRUE)
 res

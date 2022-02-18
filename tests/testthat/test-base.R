@@ -114,8 +114,40 @@ if (is_online() && TRUE) {
       expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
     })
 
-    test_that("pacs::pac_deps", {
+    test_that("pacs::pac_deps cols", {
       expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)) == 2)
+    })
+
+    test_that("pacs::pac_deps", {
+      deps1 <- pacs::pac_deps("memoise",
+                              description_v = TRUE,
+                              recursive = FALSE,
+                              local = FALSE)
+      deps2 <- setdiff(tools::package_dependencies("memoise",
+                                                   db = available_packages(),
+                                                   recursive = FALSE)[[1]], pacs::pacs_base())
+
+      deps1_recursive <- pacs::pac_deps("memoise",
+                                        description_v = TRUE,
+                                        recursive = TRUE,
+                                        local = FALSE)
+      deps2_recursive <- setdiff(tools::package_dependencies("memoise",
+                                                             db = available_packages(),
+                                                             recursive = TRUE)[[1]], pacs::pacs_base())
+
+      deps3_recursive <- pacs::pac_deps("memoise",
+                                        description_v = FALSE,
+                                        fields = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances"),
+                                        recursive = TRUE,
+                                        local = FALSE)
+      deps4_recursive <- setdiff(tools::package_dependencies("memoise",
+                                                             which = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances"),
+                                                             db = available_packages(),
+                                                             recursive = TRUE)[[1]], pacs::pacs_base())
+
+      expect_true(nrow(deps1) == length(deps2))
+      expect_true(nrow(deps1_recursive) == length(deps2_recursive))
+      expect_true(nrow(deps3_recursive) == length(deps4_recursive))
     })
 
     test_that("pacs::lib_validate all needed packages", {
