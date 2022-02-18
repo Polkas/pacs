@@ -81,7 +81,9 @@
 <dt>at</dt>
 <dd><p>Date old version of package. Default: NULL</p></dd>
 <dt>fields</dt>
-<dd><p>character vector with possible values <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>. Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
+<dd><p>a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 <dt>recursive</dt>
 <dd><p>logical if to assess the dependencies recursively. Default: TRUE</p></dd>
 </dl></div>
