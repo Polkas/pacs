@@ -393,23 +393,23 @@ Might be useful to check the number of dependencies too:
 pacs::pac_deps("devtools", local = TRUE)$Package
 ```
 
-## shiny app utils
+## The shiny app utils
 
-The shiny app dependencies packages are checked recursively.
-The `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are check recursively.
+The shiny app dependencies packages are checked.
+By default the `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are check recursively for each package recognized with the `renv::dependencies` function.
 The required dependencies have to be installed in the local repository.
 
 ```r
 pacs::app_deps(system.file("examples/04_mpg", package = "shiny"))
 ```
 
-When we want to check only direct dependencies, `recursive` argument has to be set to `FALSE`.
+When we want to check only direct dependencies, `recursive` argument has to be set to `FALSE`. Then you could use the `renv::dependencies` function directly.
 
 ```r
 pacs::app_deps(system.file("examples/04_mpg", package = "shiny"), recursive = FALSE)
 ```
 
-The size of shiny app is a sum of dependencies packages and the app directory. The app dependencies packages are checked recursively.
+The size of shiny app is a sum of dependencies and the app directory. The app dependencies (packages) are checked recursively.
 
 ```r
 cat(pacs::app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")

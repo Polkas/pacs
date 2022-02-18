@@ -18,12 +18,14 @@
 
 ## Installation
 
+Development version:
+
 ```r
 # install.packages("remotes")
 remotes::install_github("polkas/pacs")
 ```
 
-or from CRAN:
+CRAN:
 
 ```r
 install.packages("pacs")
@@ -49,8 +51,8 @@ install.packages("pacs")
 |`dir_size`             | Size of the directory                               |
 |`pac_size`             | Size of the package                                       |
 |`pac_true_size`    | True size of the package (with dependencies)| 
-|`app_size`    | True size of the shiny app (with packages dependencies and the dir size)| 
-|`app_deps`    | the shiny app dependencies| 
+|`app_size`    | True size of the shiny app (with dependencies and the dir size)| 
+|`app_deps`    | The shiny app dependencies| 
 |`pacs_base`        | R base packages                               |
 |`pac_last`| The most recent package version|
 |`pac_islast`| Checking if a package version is the most recent one|
