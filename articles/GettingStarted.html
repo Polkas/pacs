@@ -250,7 +250,7 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 <p><code>pac_deps</code> for an extremely fast retrieving of package dependencies, packages versions might come from installed ones or from DESCRIPTION files (required minimum). The default setup is to show dependencies recursively, <code>recursive = TRUE</code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Providing more than tools::package_dependencies and packrat:::recursivePackageVersion</span>
-<span class="co"># pacs::package_deps is providing the min required version for each package</span>
+<span class="co"># pacs::pac_deps is providing the min required version for each package</span>
 <span class="co"># Use it to answer what we should have</span>
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"shiny"</span>, description_v <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">res</span>

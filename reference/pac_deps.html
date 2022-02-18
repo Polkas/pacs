@@ -72,7 +72,7 @@
   description_v <span class="op">=</span> <span class="cn">FALSE</span>,
   attr <span class="op">=</span> <span class="cn">TRUE</span>,
   recursive <span class="op">=</span> <span class="cn">TRUE</span>,
-  repos <span class="op">=</span> <span class="st">"https://cran.rstudio.com/"</span>
+  repos <span class="op">=</span> <span class="fu"><a href="biocran_repos.html">biocran_repos</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -87,15 +87,15 @@
 <dt>base</dt>
 <dd><p>logical if to add base packages too. Default: FALSE</p></dd>
 <dt>local</dt>
-<dd><p>logical if to use newest CRAN packages, where by default local ones are used. Default: TRUE</p></dd>
+<dd><p>logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE</p></dd>
 <dt>description_v</dt>
-<dd><p>if the dependencies version should be taken from description files, minimal required. Default: FALSE</p></dd>
+<dd><p>if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE</p></dd>
 <dt>attr</dt>
 <dd><p>logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE</p></dd>
 <dt>recursive</dt>
 <dd><p>logical if to assess the dependencies recursively. Default: TRUE</p></dd>
 <dt>repos</dt>
-<dd><p>character the base URL of the CRAN repository to use. Used only for the validation. Default <code>https://cran.rstudio.com/</code></p></dd>
+<dd><p>character the base URL of the CRAN repository to use. Used only for the validation. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
