@@ -1,4 +1,4 @@
-# pacs 0.3.8.9000
+# pacs 0.4.0
 
 * `pac_deps` fully depends on `tools::package_dependencies`.
 * fix `pac_deps` problems when Suggests field is used, showed only installed packages.
