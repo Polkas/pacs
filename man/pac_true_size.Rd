@@ -14,7 +14,9 @@ pac_true_size(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+\item{fields}{a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{character vector. Default: \code{.libPaths()}}
 
@@ -24,10 +26,10 @@ pac_true_size(
 numeric size in bytes, to get MB then divide by \code{10**6}.
 }
 \description{
-True size of the package as it takes into account its dependencies.
+True size of the package as it takes into account its all dependencies, recursively.
 }
 \note{
-R base packages are not counted.
+R base packages are not counted. The default value of \code{fields} should be suited for almost all scenarios.
 }
 \examples{
 \dontrun{

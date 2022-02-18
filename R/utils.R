@@ -250,3 +250,19 @@ available_agg_fun_raw <- function(repos, fields) {
 }
 
 available_agg_fun <- memoise::memoise(available_agg_fun_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+
+expand_dependency <- function (x) {
+  if (length(x) == 1) {
+    stopifnot(all(x %in% c("strong", "all", "most")))
+    switch(
+      x,
+      strong = c("Depends", "Imports", "LinkingTo"),
+      most = c("Depends", "Imports", "LinkingTo", "Suggests"),
+      all = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances"),
+      c("Depends", "Imports", "LinkingTo")
+    )
+  } else {
+    stopifnot(all(x %in% c("Depends", "Imports", "Suggests", "LinkingTo", "Enhances")))
+    x
+  }
+}

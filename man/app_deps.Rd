@@ -17,7 +17,9 @@ app_deps(
 \arguments{
 \item{path}{path to the shiny app. Default: \code{"."}}
 
-\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}. Most probably you do not want to update the defaults. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+\item{fields}{a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
 

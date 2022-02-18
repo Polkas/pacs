@@ -21,12 +21,14 @@ pac_size <- function(pac, lib.loc = .libPaths()) {
 }
 
 #' True size of the package
-#' @description True size of the package as it takes into account its dependencies.
+#' @description True size of the package as it takes into account its all dependencies, recursively.
 #' @param pac character a package name.
-#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+#' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector. Default: `.libPaths()`
 #' @param exclude_joint integer exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0
-#' @note R base packages are not counted.
+#' @note R base packages are not counted. The default value of `fields` should be suited for almost all scenarios.
 #' @return numeric size in bytes, to get MB then divide by `10**6`.
 #' @export
 #' @examples
@@ -38,8 +40,8 @@ pac_true_size <- function(pac,
                           fields = c("Depends", "Imports", "LinkingTo"),
                           lib.loc = .libPaths(),
                           exclude_joint = 0L) {
+  fields <- expand_dependency(fields)
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
-  stopifnot(all(fields %in% c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
   stopifnot(is.integer(exclude_joint))
 
   pacs_all <- pac_deps(pac, fields = fields, lib.loc = lib.loc, attr = FALSE, base = FALSE)$Package
@@ -57,7 +59,9 @@ pac_true_size <- function(pac,
 #' The app dependencies packages are checked recursively.
 #' The default arguments setup is recommended.
 #' @param path path to the shiny app. Default: `"."`
-#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Most probably you do not want to update the defaults. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+#' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
 #' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
@@ -75,6 +79,7 @@ app_size <- function(path = ".",
                      local = TRUE,
                      recursive = TRUE,
                      repos = biocran_repos()) {
+  fields <- expand_dependency(fields)
   stopifnot(dir.exists(path))
   # as.character for older R versions, stringAsFactors
   app_deps_recursive <- as.character(app_deps(path, fields = fields, lib.loc = lib.loc, local = local, recursive = recursive, repos = repos)$Package)

@@ -3,7 +3,9 @@
 #' @param pac character a package name.
 #' @param old character an old version of package, default local version. Default: NULL
 #' @param new character a new version of package, default newest version. Default: NULL
-#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+#' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector. Default: `.libPaths()`
 #' @param repos character the base URL of the CRAN repository to use. Default "https://cran.rstudio.org"
 #' @return data.frame with 4 columns.
@@ -28,11 +30,11 @@ pac_compare_versions <- function(pac,
                                  fields = c("Imports", "Depends", "LinkingTo"),
                                  lib.loc = .libPaths(),
                                  repos = "https://cran.rstudio.com/") {
+  fields <- expand_dependency(fields)
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(pac_isin(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
-  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "Enhances", "LinkingTo")))
   stopifnot(is.character(repos))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
 

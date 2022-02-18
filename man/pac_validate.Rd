@@ -18,7 +18,9 @@ pac_validate(
 
 \item{lib.loc}{character vector. Default: \code{.libPaths()}}
 
-\item{fields}{character vector with possible values \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}. Default: \code{c("Depends", "Imports", "LinkingTo")}}
+\item{fields}{a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lifeduration}{logical if to add life duration column, might take some time. Default: FALSE}
 

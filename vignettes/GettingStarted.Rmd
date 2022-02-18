@@ -271,7 +271,7 @@ The `field` argument is used to change the scope of exploration.
 The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by default as these are the dependencies installed when the `install.packages` function is used.
 When the `field` argument is extended the number of dependencies will grow.
 Remember that we are looking for dependencies recursively by default.
-At the moment of writing it the first invoke returns 3 dependencies whereas the second one 1405 and the last one 1427. It should be clear that when extending the scope (and recursively) with the `"Suggests"` field then the number of dependencies is exploding.
+At the moment of writing it the first invoke returns 3 dependencies whereas the second one 1746 and the last one 1795. It should be clear that when extending the scope (and recursively) with the `"Suggests"` field then the number of dependencies is exploding.
 
 ```r
 nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo")))
@@ -400,7 +400,7 @@ By default the `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields a
 The required dependencies have to be installed in the local repository.
 
 ```r
-pacs::app_deps(system.file("examples/04_mpg", package = "shiny"))
+pacs::app_deps(system.file("examples/04_mpg", package = "shiny"), description_v = TRUE)
 ```
 
 When we want to check only direct dependencies, `recursive` argument has to be set to `FALSE`. Then you could use the `renv::dependencies` function directly.

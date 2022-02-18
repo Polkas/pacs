@@ -20,6 +20,11 @@ test_that("pacs::compareVersionsMin", {
   expect_true(pacs::compareVersionsMin("1.1.1") == "1.1.1")
 })
 
+test_that("expand_dependency", {
+  expect_identical(expand_dependency("strong"), c("Depends", "Imports", "LinkingTo"))
+  expect_identical(expand_dependency(c("Depends", "Imports", "LinkingTo")), c("Depends", "Imports", "LinkingTo"))
+})
+
 test_that("pacs::pac_deps", {
   stats_deps <- pacs::pac_deps("stats", base = TRUE)
   stats_deps_tools <- tools::package_dependencies("stats",

@@ -4,7 +4,9 @@
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each package.
 #' @param lib.loc character vector. Default: `.libPaths()`
-#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+#' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
@@ -46,8 +48,8 @@ lib_validate <- function(lib.loc = .libPaths(),
                          lifeduration = FALSE,
                          checkred = list(scope = character(0), flavors = NULL),
                          repos = biocran_repos()) {
+  fields <- expand_dependency(fields)
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
-  stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "Enhances", "LinkingTo")))
   stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
     (length(checkred) %in% c(1, 2)) &&
@@ -153,7 +155,9 @@ lib_validate <- function(lib.loc = .libPaths(),
 #' Optionally we could add life duration and CRAN check page status for each dependency.
 #' @param pac character a package name.
 #' @param lib.loc character vector. Default: `.libPaths()`
-#' @param fields character vector with possible values `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`. Default: `c("Depends", "Imports", "LinkingTo")`
+#' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+#' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
@@ -189,8 +193,8 @@ pac_validate <- function(pac,
                          lifeduration = FALSE,
                          checkred = list(scope = character(0), flavors = NULL),
                          repos = biocran_repos()) {
+  fields <- expand_dependency(fields)
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
-  stopifnot(all(fields %in% c("Depends", "Imports", "Enhances", "Suggests", "Enhances", "LinkingTo")))
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
