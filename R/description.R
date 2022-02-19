@@ -30,6 +30,7 @@ pac_description <- function(pac,
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
 
+  # NOT INSTALLED AND (NOT IN REPO OR (VERSION HIGER THAN LAST)
   if (!is_installed && (!pac_isin(pac, repos) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
     return(structure(list(), package = pac, version = version))
   }
@@ -55,6 +56,7 @@ pac_description <- function(pac,
 pac_description_dcf_raw <- function(pac, version, at) {
   if (!is.null(at)) {
     tt <- pac_timemachine(pac, at = at)
+    if (isTRUE(is.na(tt))) return(NA)
     version <- utils::tail(tt[order(tt$LifeDuration), ], 1)$Version
   }
 

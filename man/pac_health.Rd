@@ -22,7 +22,7 @@ pac_health(
 
 \item{at}{Date old version of package. Default: NULL}
 
-\item{limit}{numeric at least days to treat as healthy. Default: 14}
+\item{limit}{numeric at least days to treat as healthy, ">=limit". Default: 14}
 
 \item{scope}{character vector scope of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. Default \code{c("ERROR", "FAIL")}}
 
@@ -50,6 +50,7 @@ Results are cached for 1 hour with \code{memoise} package, memory cache.
 \dontrun{
 pac_health("memoise")
 pac_health("dplyr", version = "0.8.0", limit = 14)
+pac_health("dplyr", at = as.Date("2019-02-14"))
 pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
 }
 }

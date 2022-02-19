@@ -145,6 +145,8 @@ lib_validate <- function(lib.loc = .libPaths(),
     if (any(not_installed)) {
       result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
     }
+  } else {
+    warning("There is no Internet connection.")
   }
 
   result
@@ -241,6 +243,8 @@ pac_validate <- function(pac,
       if (any(not_installed)) {
         result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
       }
+    } else {
+      warning("There is no Internet connection.")
     }
   }
 

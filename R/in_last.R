@@ -81,8 +81,8 @@ is_isin <- memoise::memoise(is_isin_raw, cache = cachem::cache_mem(max_age = 60 
 #' pac_islast("S4Vectors", version = pac_last("S4Vectors"))
 #' }
 pac_islast <- function(pac, version = NULL, lib.loc = .libPaths(), repos = biocran_repos()) {
-  if (!pac_isin(pac, repos)) {
-    return(NA)
+  if (isFALSE(pac_isin(pac, repos))) {
+    return(FALSE)
   }
 
   last_version <- pac_last(pac, repos = repos)

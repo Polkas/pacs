@@ -28,11 +28,13 @@ pac_deps_timemachine <- function(pac,
 
   if (is.null(version)) {
     health <- pac_health(pac, at = at)
-    if (!isTRUE(health)) stop("not healthy version, live less than 14 days.")
+    if (isTRUE(is.na(health))) return(NA)
+    if (isFALSE(health)) stop("not healthy version, live less than 14 days.")
     pac_d <- pac_description(pac, at = at, local = FALSE)
     pac_v <- pac_d$Version
   } else {
     health <- pac_health(pac, version = version)
+    if (isTRUE(is.na(health))) return(NA)
     if (!isTRUE(health)) stop("not healthy version, live less than 14 days.")
     pac_d <- pac_description(pac, version = version, local = FALSE)
     pac_v <- pac_d$Version

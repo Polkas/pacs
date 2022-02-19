@@ -27,7 +27,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
 
-  if (!is_installed && (!pac_isin(pac, repos) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
+  if (!is_installed && (isFALSE(pac_isin(pac, repos)) || (!is.null(version) && isTRUE(utils::compareVersion(version, pac_last(pac)) == 1)))) {
     return(structure(list(), package = pac, version = version))
   }
 
@@ -36,7 +36,8 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
       return(structure(list(), package = pac, version = version))
     }
     namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"), warn = FALSE)
-    version <- pac_description(pac, local = TRUE)$Version
+    desc <- pac_description(pac, local = TRUE)
+    version <- desc$Version
   } else {
     namespace_lines <- pac_readnamespace(pac, version, at)
     if (length(namespace_lines) == 0 && is_installed && is.null(version)) {
@@ -48,8 +49,15 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
     }
   }
 
-  enc <- suppressWarnings(pacs::pac_description(pac = pac, version = version, at = at, lib.loc = lib.loc, repos = repos)$Encoding)
-  if (is.null(enc) || is.na(enc)) enc <- "UTF-8"
+  if (isTRUE(is.na(namespace_lines))) return(NA)
+
+  desc <- pacs::pac_description(pac = pac, version = version, at = at, lib.loc = lib.loc, repos = repos)
+  if (isFALSE(is.na(desc))) {
+    enc <- suppressWarnings(desc$Encoding)
+    if (is.null(enc) || is.na(enc)) enc <- "UTF-8"
+  } else {
+    enc <- "UTF-8"
+  }
 
   result <- pac_parse_namespace(namespace_lines, enc)
 
@@ -59,6 +67,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
 pac_readnamespace_raw <- function(pac, version, at) {
   if (!is.null(at)) {
     tt <- pac_timemachine(pac, at = at)
+    if (isTRUE(is.na(tt))) return(NA)
     version <- utils::tail(tt[order(tt$LifeDuration), ], 1)$Version
   }
 

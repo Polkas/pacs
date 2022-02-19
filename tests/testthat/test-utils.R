@@ -27,6 +27,6 @@ test_that("expand_dependency", {
 
 test_that("pac_islast", {
   skip_if_offline()
-  expect_identical(pac_islast("WRONG"), NA)
+  expect_identical(pac_islast("WRONG"), FALSE)
   expect_true(is.logical(pac_islast("memoise")))
 })

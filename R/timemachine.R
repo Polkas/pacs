@@ -32,13 +32,14 @@ pac_timemachine <- function(pac,
                             from = NULL,
                             to = NULL,
                             version = NULL) {
-  stopifnot(pac_isin(pac, "https://cran.rstudio.com/"))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),
     !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)
   ) ||
     all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1 && is.character(version)))
+
+  if (isFALSE(pac_isin(pac, "https://cran.rstudio.com/"))) return(NA)
 
   result <- pac_archived(pac)
   cran_page <- pac_cran_recent(pac)

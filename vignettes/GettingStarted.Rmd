@@ -74,8 +74,9 @@ pacs::lib_validate(lifeduration = TRUE,
 Not only `scope` field inside `checkred` list could be updated, to remind any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify `flavors` field inside the  `checkred` list argument and narrow the tested machines. The full list of CRAN servers (flavors) might be get with `pacs::cran_flavors()$Flavor`.
 
 ```r
+flavs <- pacs::cran_flavors()$Flavor[1:2]
 pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"), 
-                   flavors = pacs::cran_flavors()$Flavor[1:2]))
+                   flavors = flavs))
 ```
 
 ### Investigate by filtering
