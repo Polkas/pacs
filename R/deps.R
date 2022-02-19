@@ -85,7 +85,11 @@ pac_deps <- function(pac,
     } else {
       res_df <- available_descriptions(repos, fields, if (recursive) unique(c(res, pac)) else pac)
     }
-    res_df <- rbind(data.frame(Package = pac, Version = pac_v, stringsAsFactors = FALSE), res_df)
+    res_df <- rbind(
+      data.frame(Package = pac, Version = pac_v, stringsAsFactors = FALSE),
+      res_df
+    )
+    res_df <- res_df[order(res_df$Package), ]
     lack_packages <- setdiff(res, res_df$Package)
     res_df_f <- res_df[res_df$Package %in% res, ]
   } else {
@@ -93,8 +97,11 @@ pac_deps <- function(pac,
     res_df_f <- as.data.frame(v_base[v_base[, "Package"] %in% res, c("Package", "Version"), drop = FALSE])
   }
 
-  if (length(setdiff(lack_packages, pac)) > 0) {
-    res_df_f <- rbind(res_df_f, data.frame(Package = lack_packages, Version = NA, stringsAsFactors = FALSE))
+  if (length(lack_packages) > 0) {
+    res_df_f <- rbind(
+      res_df_f,
+      data.frame(Package = lack_packages, Version = NA, stringsAsFactors = FALSE)
+    )
   }
 
   if (attr) {
@@ -108,7 +115,7 @@ pac_deps <- function(pac,
 
 #' The shiny app dependencies
 #' @description the shiny app dependencies packages are checked recursively.
-#' The `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are check recursively.
+#' The `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are checked recursively.
 #' The required dependencies have to be installed in the local repository.
 #' The default arguments setup is recommended.
 #' @param path path to the shiny app. Default: `"."`

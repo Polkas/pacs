@@ -225,26 +225,33 @@ bio_releases <- function() {
 #' By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
 #' Available Bioconductor versions for your R version could be checked with `pacs::bio_releases()`. Default NULL
 #' @return named character vector of repositories.
+#' @note The internet connection is needed to get Bioconductor repositories.
 #' @export
 #' @examples
 #' \dontrun{
 #' biocran_repos()
 #' }
 biocran_repos <- function(version = NULL) {
-  Rv <- paste0(R.Version()$major, ".", stri_split_fixed(R.Version()$minor, ".")[[1]][1])
-  bio_ok <- bio_releases()$Release[match(Rv, bio_releases()$R)]
-  stopifnot(is.null(version) || (!is.null(version) && isTRUE(version %in% bio_ok)))
-  if (is.null(version)) version <- utils::head(bio_ok, 1)
-  if (isNA(version)) {
-    c(CRAN = "https://cran.rstudio.com/")
+  if (is_online()) {
+    Rv <- paste0(R.Version()$major, ".", stri_split_fixed(R.Version()$minor, ".")[[1]][1])
+    bio_ok <- bio_releases()$Release[match(Rv, bio_releases()$R)]
+    if (!(is.null(version) || (!is.null(version) && isTRUE(version %in% bio_ok)))) {
+      return(c(CRAN = "https://cran.rstudio.com/"))
+    }
+    if (is.null(version)) version <- utils::head(bio_ok, 1)
+    if (isNA(version)) {
+      c(CRAN = "https://cran.rstudio.com/")
+    } else {
+      c(
+        BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
+        BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version),
+        BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
+        BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
+        BioCbooks = if (utils::compareVersion(version, "3.12") >= 0) sprintf("https://bioconductor.org/packages/%s/books", version) else NULL,
+        CRAN = "https://cran.rstudio.com/"
+      )
+    }
   } else {
-    c(
-      BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
-      BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version),
-      BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
-      BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
-      BioCbooks = if (utils::compareVersion(version, "3.12") >= 0) sprintf("https://bioconductor.org/packages/%s/books", version) else NULL,
-      CRAN = "https://cran.rstudio.com/"
-    )
+    c(CRAN = "https://cran.rstudio.com/")
   }
 }

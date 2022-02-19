@@ -2,7 +2,7 @@
 
 * `pacs::biocran_repos` not includes the `BioCbooks` field for `Bioc` versions smaller than "3.12".
 * improve `pac_deps`, NA versions for not installed packages.
-* updated fields argument of the`pac_deps` function, now has the same shape as `which` argument in the `tools::package_dependencies` function.
+* updated `fields` argument of the`pac_deps` function, now has the same shape as `which` argument in the `tools::package_dependencies` function.
 
 # pacs 0.4.0
 
@@ -12,7 +12,7 @@
 * add new functions `app_size` and `app_deps`.
 * "getting started" vignette instead of the long README.
 * get back functions reference table in the README.
-* new Imports dependency `renv`.
+* new Imports dependency, `renv`.
 
 # pacs 0.3.8
 

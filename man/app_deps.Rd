@@ -36,7 +36,7 @@ character vector with dependency packages or data.frame when checking recursivel
 }
 \description{
 the shiny app dependencies packages are checked recursively.
-The \code{c("Depends", "Imports", "LinkingTo")} DESCRIPTION files fields are check recursively.
+The \code{c("Depends", "Imports", "LinkingTo")} DESCRIPTION files fields are checked recursively.
 The required dependencies have to be installed in the local repository.
 The default arguments setup is recommended.
 }

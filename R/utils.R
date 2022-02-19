@@ -156,7 +156,7 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
   res_agg[!is.na(res_agg$Package), ]
 }
 
-installed_agg_fun_raw <- function(lib.loc = NULL, fields) {
+installed_agg_fun_raw <- function(lib.loc = .libPaths(), fields) {
   installed_df <- as.data.frame(installed_packages(lib.loc = lib.loc))
   installed_agg <- stats::aggregate(
     installed_df[, c("Version", fields), drop = FALSE],
@@ -177,7 +177,7 @@ available_packages <- function(repos = biocran_repos()) {
 
 available_packages_raw <- memoise::memoise(utils::available.packages, cache = cachem::cache_mem(max_age = 60 * 60))
 
-installed_packages <- function(lib.loc = NULL, priority = NULL) {
+installed_packages <- function(lib.loc = .libPaths(), priority = NULL) {
   installed_packages_raw(lib.loc = lib.loc, priority = priority)
 }
 

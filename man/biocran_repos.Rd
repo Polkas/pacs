@@ -18,6 +18,9 @@ named character vector of repositories.
 CRAN and Bioconductor repositories.
 The newest Bioconductor release for the specific R version is assumed.
 }
+\note{
+The internet connection is needed to get Bioconductor repositories.
+}
 \examples{
 \dontrun{
 biocran_repos()

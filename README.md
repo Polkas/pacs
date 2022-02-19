@@ -8,7 +8,8 @@
 **For more information please visit the package vignette: [Getting Started](https://polkas.github.io/pacs/articles/GettingStarted.html).**
 
 - Validating the library or packages.
-- Exploring complexity of a certain package like evaluating sizes in bytes of all its dependencies.
+- Exploring complexity of a certain package like evaluating its size in bytes with dependencies.
+- The shiny app complexity could be explored too.
 - Assessing life duration of a specific package version.
 - Checking a CRAN package check page status for any errors and warnings.
 - Retrieving a DESCRIPTION or NAMESPACE file for any package version.
