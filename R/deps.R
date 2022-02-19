@@ -42,6 +42,7 @@ pac_deps <- function(pac,
   stopifnot(is.logical(recursive))
   stopifnot(is.character(repos))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
+  stopifnot(is.logical(local))
 
   if (local) {
     stopifnot(pac %in% c(rownames(installed_packages(lib.loc = lib.loc)), pacs_base()))
@@ -146,6 +147,7 @@ app_deps <- function(path = ".",
                      repos = biocran_repos()) {
   fields <- expand_dependency(fields)
   stopifnot(dir.exists(path))
+  stopifnot(is.logical(local))
   stopifnot(is.logical(recursive))
   stopifnot(is.character(repos))
   stopifnot(is.logical(description_v))
@@ -156,11 +158,11 @@ app_deps <- function(path = ".",
     return(data.frame(Package = NA, Version = NA, Direct = NA)[0, ])
   }
   not_installed <- setdiff(app_deps, rownames(installed_packages(lib.loc = .libPaths())))
-  if (length(not_installed)) {
+  if (length(not_installed) && local) {
     stop(sprintf("Some of the dependency packages are not installed, %s", paste(not_installed, collapse = "; ")))
   }
   if (recursive) {
-    app_deps_recursive <- do.call(rbind, lapply(app_deps, function(x) pac_deps(x, repos = repos, lib.loc = lib.loc, fields = fields, description_v = description_v, attr = FALSE)))
+    app_deps_recursive <- do.call(rbind, lapply(app_deps, function(x) pac_deps(x, repos = repos, lib.loc = lib.loc, local = local, fields = fields, description_v = description_v, attr = FALSE)))
     app_deps_recursive$Package <- as.character(app_deps_recursive$Package)
     app_deps_recursive$Direct <- app_deps_recursive$Package %in% app_deps
     return(app_deps_recursive)

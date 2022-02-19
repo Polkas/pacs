@@ -17,6 +17,8 @@
 - Getting a list of all releases for a specific package.
 - The Bioconductor is partly supported.
 
+**Internet connection is needed to use most of the functions.**
+
 ## Installation
 
 Development version:

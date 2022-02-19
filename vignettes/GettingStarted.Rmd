@@ -30,6 +30,8 @@ library(remotes)
 
 ## Hints
 
+**Hint0**: Internet connection is needed to use most of the functions.
+
 **Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...).
 
 **Hint2**: When working with many packages it is recommended to use global functions, which retrieves data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally, most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
@@ -40,7 +42,7 @@ library(remotes)
 
 **Hint5**: Character string "all" is shorthand for the `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")` vector, character string "most" for the same vector without "Enhances", character string "strong" (default setup) for the first three elements of that vector.
 
-**Hint5**: `withr` and `remotes` packages are a valuable addition.
+**Hint6**: `withr` and `remotes` packages are a valuable addition.
 
 ## Validate the library
 

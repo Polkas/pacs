@@ -8,9 +8,7 @@ app_size(
   path = ".",
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = .libPaths(),
-  local = TRUE,
-  recursive = TRUE,
-  repos = biocran_repos()
+  recursive = TRUE
 )
 }
 \arguments{
@@ -22,18 +20,14 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
 
-\item{local}{logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE}
-
 \item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
-
-\item{repos}{character the base URL of the CRAN repository to use. Used only for the validation. Default \code{pacs::biocran_repos()}}
 }
 \value{
 numeric size in bytes, to get MB ten divide by \code{10**6}.
 }
 \description{
 The size of shiny app is a sum of dependencies packages and the app directory.
-The app dependencies packages are checked recursively.
+The app dependencies packages are checked recursively, and only in local repository.
 The default arguments setup is recommended.
 }
 \examples{

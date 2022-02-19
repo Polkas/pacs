@@ -80,6 +80,7 @@ compareVersionsMin <- function(vec, na.rm = TRUE) {
 #' }
 dir_size <- function(path = ".", recursive = TRUE) {
   stopifnot(is.character(path))
+  stopifnot(is.logical(recursive))
   files <- list.files(path, full.names = T, recursive = recursive)
   vect_size <- sapply(files, function(x) file.size(x))
   size_files <- sum(vect_size)
@@ -117,7 +118,7 @@ pacs_base <- function(startup = FALSE) {
 }
 
 pacs_base_all_raw <- function() {
-  rownames(installed_packages(priority = "base"))
+  rownames(installed_packages(lib.loc = NULL, priority = "base"))
 }
 
 pacs_base_all <- memoise::memoise(pacs_base_all_raw)
@@ -156,7 +157,7 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
   res_agg[!is.na(res_agg$Package), ]
 }
 
-installed_agg_fun_raw <- function(lib.loc = .libPaths(), fields) {
+installed_agg_fun_raw <- function(lib.loc, fields) {
   installed_df <- as.data.frame(installed_packages(lib.loc = lib.loc))
   installed_agg <- stats::aggregate(
     installed_df[, c("Version", fields), drop = FALSE],
@@ -171,13 +172,13 @@ installed_agg_fun <- memoise::memoise(installed_agg_fun_raw, cache = cachem::cac
 #' List Available Packages at CRAN-like Repositories
 #' @description available_packages returns a matrix of details corresponding to packages currently available at one or more repositories. The current list of packages is downloaded over the internet (or copied from a local mirror).
 #' @param repos character vector, the base URL(s) of the repositories to use. Default `pacs::biocran_repos()`
-available_packages <- function(repos = biocran_repos()) {
+available_packages <- function(repos) {
   tryCatch(available_packages_raw(repos = repos), error = function(e) NA)
 }
 
 available_packages_raw <- memoise::memoise(utils::available.packages, cache = cachem::cache_mem(max_age = 60 * 60))
 
-installed_packages <- function(lib.loc = .libPaths(), priority = NULL) {
+installed_packages <- function(lib.loc, priority = NULL) {
   installed_packages_raw(lib.loc = lib.loc, priority = priority)
 }
 
@@ -251,7 +252,7 @@ available_agg_fun_raw <- function(repos, fields) {
 
 available_agg_fun <- memoise::memoise(available_agg_fun_raw, cache = cachem::cache_mem(max_age = 60 * 60))
 
-expand_dependency <- function (x) {
+expand_dependency <- function(x) {
   if (length(x) == 1) {
     stopifnot(all(x %in% c("strong", "all", "most")))
     switch(

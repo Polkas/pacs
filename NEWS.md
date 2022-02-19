@@ -3,6 +3,7 @@
 * `pacs::biocran_repos` not includes the `BioCbooks` field for `Bioc` versions smaller than "3.12".
 * improve `pac_deps`, NA versions for not installed packages.
 * updated `fields` argument of the`pac_deps` function, now has the same shape as `which` argument in the `tools::package_dependencies` function.
+* more tests, 90 percent coverage.
 
 # pacs 0.4.0
 

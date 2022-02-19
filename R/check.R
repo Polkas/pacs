@@ -225,7 +225,7 @@ bio_releases <- function() {
 #' By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
 #' Available Bioconductor versions for your R version could be checked with `pacs::bio_releases()`. Default NULL
 #' @return named character vector of repositories.
-#' @note The internet connection is needed to get Bioconductor repositories.
+#' @note The Internet connection is needed to get Bioconductor repositories.
 #' @export
 #' @examples
 #' \dontrun{

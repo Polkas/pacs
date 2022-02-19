@@ -17,7 +17,7 @@
 #' pac_namespace("memoise", local = TRUE)
 #' }
 pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc = .libPaths(), repos = "https://cran.rstudio.com/") {
-  stopifnot(isFALSE(local) ||
+  stopifnot((isFALSE(local)) ||
     (isTRUE(local) && (is.null(version) || isTRUE(utils::packageDescription(pac, lib.loc = lib.loc)$Version == version))))
   stopifnot(all(c(is.null(version), is.null(at))) || xor(!is.null(version), !is.null(at)))
   stopifnot(is.null(at) || inherits(at, "Date"))

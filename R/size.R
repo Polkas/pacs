@@ -56,16 +56,14 @@ pac_true_size <- function(pac,
 
 #' Size of the shiny app
 #' @description The size of shiny app is a sum of dependencies packages and the app directory.
-#' The app dependencies packages are checked recursively.
+#' The app dependencies packages are checked recursively, and only in local repository.
 #' The default arguments setup is recommended.
 #' @param path path to the shiny app. Default: `"."`
 #' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
-#' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
-#' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `pacs::biocran_repos()`
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
@@ -76,13 +74,14 @@ pac_true_size <- function(pac,
 app_size <- function(path = ".",
                      fields = c("Depends", "Imports", "LinkingTo"),
                      lib.loc = .libPaths(),
-                     local = TRUE,
-                     recursive = TRUE,
-                     repos = biocran_repos()) {
+                     recursive = TRUE) {
   fields <- expand_dependency(fields)
   stopifnot(dir.exists(path))
+  stopifnot(is.logical(recursive))
+  stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
+
   # as.character for older R versions, stringAsFactors
-  app_deps_recursive <- as.character(app_deps(path, fields = fields, lib.loc = lib.loc, local = local, recursive = recursive, repos = repos)$Package)
+  app_deps_recursive <- as.character(app_deps(path, fields = fields, lib.loc = lib.loc, local = TRUE, recursive = recursive)$Package)
   if (length(app_deps_recursive) > 0) {
     sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
   } else {

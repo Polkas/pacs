@@ -4,7 +4,7 @@
 \alias{available_packages}
 \title{List Available Packages at CRAN-like Repositories}
 \usage{
-available_packages(repos = biocran_repos())
+available_packages(repos)
 }
 \arguments{
 \item{repos}{character vector, the base URL(s) of the repositories to use. Default \code{pacs::biocran_repos()}}

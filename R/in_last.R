@@ -7,7 +7,7 @@ last_version_raw <- function(pac, repos) {
   }
 }
 
-last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem(max_age = 60 * 1))
 
 #' Getting the most recent package version
 #' @description using `utils::available.packages` to get the newest package version.
@@ -49,6 +49,7 @@ pac_last <- function(pac, repos = biocran_repos()) {
 pac_isin <- function(pac, repos = biocran_repos()) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.character(repos))
+
   is_isin(pac, repos = repos)
 }
 
@@ -60,7 +61,7 @@ is_isin_raw <- function(pac, repos = biocran_repos()) {
   }
 }
 
-is_isin <- memoise::memoise(is_isin_raw)
+is_isin <- memoise::memoise(is_isin_raw, cache = cachem::cache_mem(max_age = 60 * 1))
 
 #' Checking if a package version is the most recent one
 #' @description checking if a package version is the most recent one, by default the installed version is compared.
