@@ -7,6 +7,7 @@ test_that("pacs::pac_compare_versions", {
 test_that("pacs::pac_compare_versions online", {
   skip_if_offline()
   expect_true(nrow(pac_compare_versions("memoise", "0.2.1", "2.0.0")) == 3)
+  expect_true(suppressWarnings(nrow(pac_compare_versions("memoise")) > 0))
   expect_true(suppressWarnings(any(duplicated(colnames(pac_compare_versions("memoise", "2.0.0", "2.0.0"))))))
 })
 
@@ -29,4 +30,5 @@ test_that("pacs::pac_compare_namesapce online", {
     "cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
     "drop_cache", "has_cache", "timeout"
   ))
+  expect_true(suppressWarnings(length(pac_compare_namespace("memoise")) == 10))
 })
