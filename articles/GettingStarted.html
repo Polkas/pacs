@@ -95,12 +95,13 @@
 <div class="section level2">
 <h2 id="hints">Hints<a class="anchor" aria-label="anchor" href="#hints"></a>
 </h2>
+<p><strong>Hint0</strong>: Internet connection is needed to use most of the functions.</p>
 <p><strong>Hint1</strong>: <code>Version</code> variable is mostly a minimal required i.e. max(version1, version2 , …).</p>
 <p><strong>Hint2</strong>: When working with many packages it is recommended to use global functions, which retrieves data for many packages at once. An example will be usage of <code><a href="../reference/checked_packages.html">pacs::checked_packages()</a></code> over <code><a href="../reference/pac_checkpage.html">pacs::pac_checkpage</a></code> (or <code><a href="../reference/pac_checkred.html">pacs::pac_checkred</a></code>). Another example will be usage of <code><a href="https://rdrr.io/r/utils/available.packages.html" class="external-link">utils::available.packages</a></code> over <code><a href="../reference/pac_last.html">pacs::pac_last</a></code>. Finally, most important one will be <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code> over <code><a href="../reference/pac_validate.html">pacs::pac_validate</a></code> and <code><a href="../reference/pac_checkred.html">pacs::pac_checkred</a></code> and others.</p>
 <p><strong>Hint3</strong>: Almost all time consuming calculations are cached (for 1 hour) with <code><a href="https://memoise.r-lib.org/reference/memoise.html" class="external-link">memoise::memoise</a></code> package, and the second invoke of the same call is instantaneous.</p>
 <p><strong>Hint4</strong>: Use <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> (Linux and Mac) or <code><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parallel::parLapply</a></code> (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> computation results are NOT cached with <code>memoise</code> package. Warning: Parallel computations might be unstable.</p>
 <p><strong>Hint5</strong>: Character string “all” is shorthand for the <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code> vector, character string “most” for the same vector without “Enhances”, character string “strong” (default setup) for the first three elements of that vector.</p>
-<p><strong>Hint5</strong>: <code>withr</code> and <code>remotes</code> packages are a valuable addition.</p>
+<p><strong>Hint6</strong>: <code>withr</code> and <code>remotes</code> packages are a valuable addition.</p>
 </div>
 <div class="section level2">
 <h2 id="validate-the-library">Validate the library<a class="anchor" aria-label="anchor" href="#validate-the-library"></a>
