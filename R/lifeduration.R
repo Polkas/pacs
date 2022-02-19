@@ -30,6 +30,7 @@ pac_lifeduration <- function(pac,
 
   ison_cran <- is_isin(pac, "https://cran.rstudio.com/")
   last_version <- pac_last(pac, repos = repos)
+  if(isTRUE(is.na(last_version))) return(NA)
 
   version <- if (!is.null(version)) {
     version

@@ -32,11 +32,14 @@ pac_compare_versions <- function(pac,
                                  repos = "https://cran.rstudio.com/") {
   fields <- expand_dependency(fields)
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(pac_isin(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(is.character(repos))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
+
+  if (isFALSE(pac_isin(pac, repos))) {
+    return(NA)
+  }
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
@@ -100,11 +103,14 @@ pac_compare_namespace <- function(pac,
                                   lib.loc = .libPaths(),
                                   repos = "https://cran.rstudio.com/") {
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(pac_isin(pac, repos))
   stopifnot(is.null(old) || (length(old) == 1) && is.character(old))
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(is.character(repos))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
+
+  if (isFALSE(pac_isin(pac, repos))) {
+    return(NA)
+  }
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))

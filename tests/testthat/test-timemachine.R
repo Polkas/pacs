@@ -1,5 +1,5 @@
 test_that("pacs::pac_timemachine", {
-  expect_identical(pac_timemachine("WRONG"), NA)
+  expect_identical(suppressWarnings(pac_timemachine("WRONG")), NA)
   expect_error(pac_timemachine("dplyr", version = 2))
 })
 

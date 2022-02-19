@@ -406,6 +406,7 @@ The required dependencies have to be installed in the local repository.
 
 ```r
 pacs::app_deps(system.file("examples/04_mpg", package = "shiny"), description_v = TRUE)
+pacs::app_deps(system.file("examples/04_mpg", package = "shiny"), description_v = TRUE, local = FALSE)
 ```
 
 When we want to check only direct dependencies, `recursive` argument has to be set to `FALSE`. Then you could use the `renv::dependencies` function directly.
