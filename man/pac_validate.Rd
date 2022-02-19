@@ -29,7 +29,7 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-data.frame with 5/6/7 columns.
+data.frame with 5/7/8/9 columns.
 \describe{
 \item{Package}{character a package name.}
 \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
@@ -37,10 +37,10 @@ data.frame with 5/6/7 columns.
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 \item{direct}{ logical if the package is in the first depencency layer, direct depencencies from DESCRIPTION file.}
-\item{newest}{ logical if the installed version is the newest one.}
-\item{cran}{logical if the package is on CRAN, version is not taken into account here.}
-\item{checkred}{(Optional) logical if the NEWEST package contains any specified statuses on CRAN check page.}
-\item{lifeduration}{(Optional) integer number of days a package was released.}
+\item{newest}{ logical (Internet needed) if the installed version is the newest one.}
+\item{cran}{logical (Internet needed) if the package is on CRAN, version is not taken into account here.}
+\item{checkred}{(Optional) (Internet needed) logical if the NEWEST package contains any specified statuses on CRAN check page.}
+\item{lifeduration}{(Optional) (Internet needed) integer number of days a package was released.}
 }
 }
 \description{
