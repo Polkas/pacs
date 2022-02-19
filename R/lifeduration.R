@@ -60,7 +60,7 @@ pac_lifeduration <- function(pac,
     )))
   } else if (ison_cran) {
     life <- pac_timemachine(pac, version = version)
-    if (nrow(life) == 0) {
+    if (is.na(life) || (nrow(life) == 0)) {
       return(NA)
     }
     return(structure(life$LifeDuration, class = "difftime"))
@@ -129,7 +129,7 @@ pac_health <- function(pac,
   }
   res <- life >= limit
 
-  if ((length(scope) > 0) && pac_islast(pac, version)) {
+  if ((length(scope) > 0) && identical(last_version, version)) {
     if (isTRUE(pac_checkred(pac, scope = scope, flavors = flavors))) FALSE else res
   } else {
     res

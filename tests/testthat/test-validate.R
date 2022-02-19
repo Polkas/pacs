@@ -54,7 +54,6 @@ test_that("pacs::pac_lifeduration online", {
 })
 
 test_that("pacs::pac_health", {
-  skip_if_offline()
   expect_true(is.logical(pac_health("stats")))
   expect_true(is.na(pac_health("WRONG")))
   expect_true(is.na(pac_health("dplyr", "0.0.0.1")))
@@ -63,6 +62,7 @@ test_that("pacs::pac_health", {
 test_that("pacs::pac_health online", {
   skip_if_offline()
   expect_true(is.logical(pac_health("dplyr")))
+  expect_true(is.logical(pac_health("dplyr", scope = c("ERROR"))))
   expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")))
   expect_true(isFALSE(pac_health("dplyr", at = as.Date("2019-02-14"))))
 })
