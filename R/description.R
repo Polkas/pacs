@@ -21,7 +21,7 @@ pac_description <- function(pac,
                             lib.loc = .libPaths(),
                             repos = "https://cran.rstudio.com/") {
   stopifnot(isFALSE(local) ||
-    (isTRUE(local) && (is.null(version) || isTRUE(utils::packageDescription(pac)$Version == version))))
+    (isTRUE(local) && (is.null(version) || isTRUE(utils::packageDescription(pac, lib.loc = lib.loc)$Version == version))))
   stopifnot(all(c(is.null(version), is.null(at))) || xor(!is.null(version), !is.null(at)))
   stopifnot(is.null(at) || inherits(at, "Date"))
   stopifnot(length(pac) == 1 && is.character(pac))
@@ -34,7 +34,7 @@ pac_description <- function(pac,
     return(structure(list(), package = pac, version = version))
   }
 
-  if ((local) && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac)$Version == version)))) {
+  if ((local) && (is.null(version) || (!is.null(version) && isTRUE(utils::packageDescription(pac, lib.loc = lib.loc)$Version == version)))) {
     if (!is_installed) {
       return(structure(list(), package = pac, version = version))
     }

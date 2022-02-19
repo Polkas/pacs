@@ -18,7 +18,7 @@
 #' }
 pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc = .libPaths(), repos = "https://cran.rstudio.com/") {
   stopifnot(isFALSE(local) ||
-    (isTRUE(local) && (is.null(version) || isTRUE(utils::packageDescription(pac)$Version == version))))
+    (isTRUE(local) && (is.null(version) || isTRUE(utils::packageDescription(pac, lib.loc = lib.loc)$Version == version))))
   stopifnot(all(c(is.null(version), is.null(at))) || xor(!is.null(version), !is.null(at)))
   stopifnot(is.null(at) || inherits(at, "Date"))
   stopifnot(length(pac) == 1 && is.character(pac))
@@ -31,7 +31,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
     return(structure(list(), package = pac, version = version))
   }
 
-  if ((local) && (is.null(version) || (!is.null(version) && isTRUE(is_installed && utils::packageDescription(pac)$Version == version)))) {
+  if ((local) && (is.null(version) || (!is.null(version) && isTRUE(is_installed && utils::packageDescription(pac, lib.loc = lib.loc)$Version == version)))) {
     if (!is_installed) {
       return(structure(list(), package = pac, version = version))
     }
@@ -41,7 +41,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
     namespace_lines <- pac_readnamespace(pac, version, at)
     if (length(namespace_lines) == 0 && is_installed && is.null(version)) {
       namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"), warn = FALSE)
-      version <- pac_description(pac, local = TRUE)$Version
+      version <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
     } else if (length(namespace_lines) == 0) {
       version <- attr(namespace_lines, "version")
       return(structure(list(), package = pac, version = version))

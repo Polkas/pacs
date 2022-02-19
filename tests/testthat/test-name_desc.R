@@ -6,6 +6,9 @@ test_that("pacs::pac_namespace", {
   expect_identical(suppressWarnings(pac_namespace("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
   expect_identical(pac_namespace("WRONG"), structure(list(), package = "WRONG"))
   expect_identical(pac_namespace("WRONG", local = TRUE), structure(list(), package = "WRONG"))
+  expect_silent(pac_namespace("xml2"))
+  expect_silent(pac_namespace("xml2", at = NULL, version = NULL))
+  expect_silent(pac_namespace("xml2", version = NULL, at = as.Date("2021-01-01")))
   expect_identical(suppressWarnings(pac_namespace("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
 })
 
