@@ -35,7 +35,7 @@ pac_lifeduration <- function(pac,
   version <- if (!is.null(version)) {
     version
   } else if (!is.null(at)) {
-    tail(pac_timemachine(pac, at = at)$Version, 1)
+    utils::tail(pac_timemachine(pac, at = at)$Version, 1)
   } else {
     last_version
   }
@@ -53,7 +53,7 @@ pac_lifeduration <- function(pac,
   } else if (ison_cran && is_the_last_version) {
     return(Sys.Date() - as.Date(substr(
       pac_description(pac,
-        version = last_version_cran,
+        version = last_version,
         lib.loc = lib.loc
       )[["Date/Publication"]],
       1, 10
@@ -115,7 +115,7 @@ pac_health <- function(pac,
   version <- if (!is.null(version)) {
     version
   } else if (!is.null(at)) {
-    tail(pac_timemachine(pac, at = at)$Version, 1)
+    utils::tail(pac_timemachine(pac, at = at)$Version, 1)
   } else {
     last_version
   }
