@@ -1,5 +1,6 @@
 test_that("pacs::pac_namespace", {
   skip_if_offline()
+  expect_warning(pac_readnamespace_raw("dplyr", "0.0.0.0.1", NULL))
   expect_true(length(pac_namespace("dplyr", version = "0.8.0")) == 10)
   expect_true(length(pac_parse_namespace(readLines("files/NAMESPACE_joint.txt"), enc = "UTF-8")) == 10)
   expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
@@ -21,4 +22,5 @@ test_that("pacs::pac_description", {
   expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
   expect_identical(pac_description("WRONG"), structure(list(), package = "WRONG"))
   expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
+  expect_silent(pac_description("dplyr", version = pac_last("dplyr")))
 })

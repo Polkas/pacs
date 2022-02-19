@@ -113,7 +113,7 @@ pac_description_dcf_raw <- function(pac, version, at) {
     utils::untar(temp_tar, exdir = temp_dir)
     # tabs are not acceptable
     result <- as.list(read.dcf(file.path(temp_dir, pac, "DESCRIPTION"))[1, ])
-    unlink("temp_dir", recursive = TRUE)
+    unlink(temp_dir, recursive = TRUE)
   } else {
     result <- as.list(read.dcf(ee)[1, ])
     unlink(ee)
