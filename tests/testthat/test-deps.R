@@ -15,17 +15,6 @@ test_that("pacs::pac_deps", {
   expect_true(ncol(pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)) == 2)
 })
 
-test_that("pacs::app_deps", {
-  rec_deps <- nrow(pacs::app_deps("files/shiny_app"))
-  direct_deps <- nrow(pacs::app_deps("files/shiny_app", recursive = FALSE))
-  expect_true(rec_deps > 0)
-  expect_true(direct_deps > 0)
-  expect_true(rec_deps >= direct_deps)
-  expect_error(pacs::app_deps("WRONG"))
-  expect_error(pacs::app_deps("files/shiny_app", 12))
-})
-
-
 test_that("pacs::pac_deps cols online", {
   skip_if_offline()
   expect_true(ncol(pacs::pac_deps("memoise",
@@ -91,4 +80,26 @@ test_that("pacs::pac_deps recursive long field", {
     pacs::pacs_base()
   )
   expect_true(nrow(deps3_recursive) == length(deps4_recursive))
+})
+
+test_that("pacs::pac_timemachine", {
+  expect_error(pac_timemachine("WRONG"))
+  expect_error(pac_timemachine("dplyr", version = 2))
+})
+
+test_that("pacs::pac_timemachine", {
+  skip_if_offline()
+  expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"))$Version == "1.0.0")
+  expect_true(nrow(pac_timemachine("memoise", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))) == 2)
+  expect_identical(nrow(pac_timemachine("dplyr", version = "999.1.1.1")), 0L)
+})
+
+test_that("pacs::app_deps", {
+  rec_deps <- nrow(pacs::app_deps("files/shiny_app"))
+  direct_deps <- nrow(pacs::app_deps("files/shiny_app", recursive = FALSE))
+  expect_true(rec_deps > 0)
+  expect_true(direct_deps > 0)
+  expect_true(rec_deps >= direct_deps)
+  expect_error(pacs::app_deps("WRONG"))
+  expect_error(pacs::app_deps("files/shiny_app", 12))
 })

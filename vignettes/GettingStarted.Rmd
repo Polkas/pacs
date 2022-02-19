@@ -38,6 +38,8 @@ library(remotes)
 
 **Hint4**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
 
+**Hint5**: Character string "all" is shorthand for the `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")` vector, character string "most" for the same vector without "Enhances", character string "strong" (default setup) for the first three elements of that vector.
+
 **Hint5**: `withr` and `remotes` packages are a valuable addition.
 
 ## Validate the library
