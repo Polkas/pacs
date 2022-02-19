@@ -30,6 +30,11 @@ test_that("pacs::lib_validate online", {
 test_that("pacs::pac_validate", {
   skip_if_offline()
   expect_true(nrow(pac_validate("stats")) == 0)
+  pac_valid_full <- pac_validate("memoise",
+    lifeduration = TRUE,
+    checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+  )
+  expect_true(inherits(pac_valid_full, "data.frame"))
 })
 
 test_that("pacs::pac_lifeduration", {
@@ -39,23 +44,27 @@ test_that("pacs::pac_lifeduration", {
   expect_true(pac_lifeduration("memoise") > 0)
 })
 
-test_that("pacs::pac_lifeduration", {
+test_that("pacs::pac_lifeduration online", {
   skip_if_offline()
   a <- pac_lifeduration("dplyr", version = "0.8.0")
   b <- pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
   expect_true(a == 1)
   expect_identical(a, b)
+  expect_true(is.na(pac_lifeduration("edgeR")) || inherits(pac_lifeduration("edgeR"), "difftimes"))
 })
 
 test_that("pacs::pac_health", {
   skip_if_offline()
-  expect_true(is.logical(pac_health("dplyr")))
+  expect_true(is.logical(pac_health("stats")))
   expect_true(is.na(pac_health("WRONG")))
+  expect_true(is.na(pac_health("dplyr", "0.0.0.1")))
 })
 
 test_that("pacs::pac_health online", {
   skip_if_offline()
+  expect_true(is.logical(pac_health("dplyr")))
   expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")))
+  expect_true(isFALSE(pac_health("dplyr", at = as.Date("2019-02-14"))))
 })
 
 test_that("pacs::pac_checkred", {

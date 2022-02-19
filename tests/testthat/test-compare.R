@@ -18,8 +18,13 @@ test_that("pacs::pac_compare_namesapce", {
 test_that("pacs::pac_compare_namesapce online", {
   skip_if_offline()
   expect_true(length(pac_compare_namespace("dplyr", "0.7.1", "1.0.0")) == 10)
-  expect_true(length(pac_compare_namespace("shiny", "1.0.0", "1.5.0")) == 10)
-  expect_true(length(pac_compare_namespace("memoise", "0.2.1", "2.0.0")) == 10)
+  expect_identical(
+    pac_compare_namespace("shiny", "1.0.0", "1.5.0")$exports$removed,
+    c(
+      "knit_print.html", "knit_print.reactive", "knit_print.shiny.appobj",
+      "knit_print.shiny.render.function", "knit_print.shiny.tag", "knit_print.shiny.tag.list"
+    )
+  )
   expect_identical(pac_compare_namespace("memoise", "0.2.1", "2.0.0")$exports$added, c(
     "cache_filesystem", "cache_gcs", "cache_memory", "cache_s3",
     "drop_cache", "has_cache", "timeout"
