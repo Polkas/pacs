@@ -1,3 +1,8 @@
+# 0.4.1.9000
+
+* fix one of the validation of the `lib_validate` function.
+* small README update.
+
 # pacs 0.4.1
 
 * `pacs::biocran_repos` not includes the `BioCbooks` field for `Bioc` versions smaller than "3.12".

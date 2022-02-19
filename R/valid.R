@@ -58,10 +58,6 @@ lib_validate <- function(lib.loc = .libPaths(),
               (is.null(checkred$flavors) || all(checkred$flavors %in% read_cran_flavours_raw()$Flavor)))
   stopifnot(is.character(repos))
 
-  if (length(list.files(ifelse(isTRUE(is.null(lib.loc)), .libPaths(), lib.loc))) == 0) {
-    stop("The lib.loc paths are empty, there are no packages.")
-  }
-
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
   res_agg <- installed_descriptions(lib.loc, fields)
