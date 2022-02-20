@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
 <h2 id="hints">Hints<a class="anchor" aria-label="anchor" href="#hints"></a>
 </h2>
 <p><strong>Hint0</strong>: An Internet connection is required to take full advantage of most of the features.</p>
-<p><strong>Hint1</strong>: Almost all calls requiring an Internet connection are buffered (for 30 minutes) by the <code>memoise</code> package, so the second invocation of the same command (and arguments) is immediate. Restart the R session if you want to clear cached data.</p>
+<p><strong>Hint1</strong>: Almost all calls which requiring an Internet connection are cached (for 30 minutes) by the <code>memoise</code> package, so the second invocation of the same command (and arguments) is immediate. Restart the R session if you want to clear cached data.</p>
 <p><strong>Hint2</strong>: <code>Version</code> variable is mostly a minimal required i.e. max(version1, version2 , …).</p>
 <p><strong>Hint3</strong>: When working with many packages it is recommended to use global functions, which retrieves data for many packages at once. An example will be usage of <code><a href="../reference/checked_packages.html">pacs::checked_packages()</a></code> over <code><a href="../reference/pac_checkpage.html">pacs::pac_checkpage</a></code> (or <code><a href="../reference/pac_checkred.html">pacs::pac_checkred</a></code>). Another example will be usage of <code><a href="https://rdrr.io/r/utils/available.packages.html" class="external-link">utils::available.packages</a></code> over <code><a href="../reference/pac_last.html">pacs::pac_last</a></code>. Finally, most important one will be <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code> over <code><a href="../reference/pac_validate.html">pacs::pac_validate</a></code> and <code><a href="../reference/pac_checkred.html">pacs::pac_checkred</a></code> and others.</p>
 <p><strong>Hint4</strong>: Character string “all” is shorthand for the <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code> vector, character string “most” for the same vector without “Enhances”, character string “strong” (default setup) for the first three elements of that vector.</p>
