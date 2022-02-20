@@ -1,8 +1,8 @@
-# 0.4.1.9000
+# pacs 0.4.2
 
 * fix one of the validation of the `lib_validate` function.
+* cache results with `memoise` for 30 minutes, not 1 hour.
 * small README update.
-* cache results only for 30 minutes, could be important when run on servers.
 
 # pacs 0.4.1
 

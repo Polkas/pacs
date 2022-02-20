@@ -15,7 +15,8 @@ pac_lifeduration(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character package version, By default the newest version is taken. Default: NULL}
+\item{version}{character package version, By default the newest version is taken.
+The local repository has priority, it version is available. Default: NULL}
 
 \item{at}{Date old version of package. Default: NULL}
 

@@ -67,7 +67,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
 pac_readnamespace_raw <- function(pac, version, at) {
   if (!is.null(at)) {
     tt <- pac_timemachine(pac, at = at)
-    if (isTRUE(is.na(tt))) return(NA)
+    if (isNA(tt)) return(NA)
     version <- utils::tail(tt[order(tt$LifeDuration), ], 1)$Version
   }
 

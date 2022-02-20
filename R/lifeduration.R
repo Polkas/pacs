@@ -1,7 +1,8 @@
 #' Package version life duration at specific Date or for a specific version
 #' @description using CRAN website to get a package life duration for certain version or at a specific Date.
 #' @param pac character a package name.
-#' @param version character package version, By default the newest version is taken. Default: NULL
+#' @param version character package version, By default the newest version is taken.
+#' The local repository has priority, it version is available. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default `pacs::biocran_repos()`
@@ -30,8 +31,14 @@ pac_lifeduration <- function(pac,
 
   ison_cran <- is_isin(pac, "https://cran.rstudio.com/")
   last_version <- pac_last(pac, repos = repos)
-  if(isTRUE(is.na(last_version))) return(NA)
+  if(isNA(last_version)) return(NA)
 
+  is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
+  version_installed <- if (is_installed) {
+    pac_description(pac, local = TRUE)$Version
+  } else {
+    NA
+  }
   version <- if (!is.null(version)) {
     version
   } else if (!is.null(at)) {
@@ -40,10 +47,10 @@ pac_lifeduration <- function(pac,
     last_version
   }
 
-  is_the_last_version <- pac_islast(pac, version, repos = repos)
-  is_installed_package <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
+  is_the_last_version <- isTRUE(utils::compareVersion(version, last_version) == 0)
+  is_the_installed_version <- isTRUE(utils::compareVersion(version, version_installed) == 0)
 
-  if (is_installed_package && (is_the_last_version || utils::compareVersion(version, last_version) == 1)) {
+  if (is_installed && is_the_installed_version && is_the_last_version) {
     descr <- utils::packageDescription(pac, lib.loc = lib.loc)
     date_start <- descr[["Date/Publication"]]
     if (is.null(date_start)) {
@@ -60,7 +67,7 @@ pac_lifeduration <- function(pac,
     )))
   } else if (ison_cran) {
     life <- pac_timemachine(pac, version = version)
-    if (is.na(life) || (nrow(life) == 0)) {
+    if (isNA(life) || isTRUE(nrow(life) == 0)) {
       return(NA)
     }
     return(structure(life$LifeDuration, class = "difftime"))
@@ -119,12 +126,12 @@ pac_health <- function(pac,
   } else {
     last_version
   }
-  if (isTRUE(is.na(version)) || length(version) == 0) {
+  if (isTRUE(is.na(version)) || isTRUE(length(version) == 0)) {
     return(NA)
   }
 
   life <- pac_lifeduration(pac, version = version, lib.loc = lib.loc, repos = repos)
-  if (isTRUE(is.na(life))) {
+  if (isNA(life)) {
     return(NA)
   }
   res <- life >= limit
