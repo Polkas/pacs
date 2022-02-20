@@ -103,7 +103,7 @@ pac_cran_recent_raw <- function(pac) {
   }
 }
 
-pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_mem(max_age = 15 * 60))
+pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
 pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
@@ -142,4 +142,4 @@ pac_archived_raw <- function(pac) {
   result
 }
 
-pac_archived <- memoise::memoise(pac_archived_raw, cache = cachem::cache_mem(max_age = 15 * 60))
+pac_archived <- memoise::memoise(pac_archived_raw, cache = cachem::cache_mem(max_age = 30 * 60))

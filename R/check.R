@@ -21,7 +21,7 @@ read_checkpage_raw <- function(pac) {
   }
 }
 
-read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem(max_age = 15 * 60))
+read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
 #' Retrieving the R CRAN package check page
 #' @description Retrieving the R CRAN package check page.
@@ -135,7 +135,7 @@ read_checkred_packages_raw <- function() {
   result_raw
 }
 
-read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = cachem::cache_mem(max_age = 15 * 60))
+read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
 read_cran_flavours_raw <- function() {
   rr <- try(readLines("https://cran.r-project.org/web/checks/check_flavors.html", warn = FALSE), silent = TRUE)
@@ -161,7 +161,7 @@ read_cran_flavours_raw <- function() {
   result_raw
 }
 
-read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::cache_mem(max_age = 15 * 60))
+read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
 #' Retrieving all R CRAN servers flavors
 #' @description Retrieving all R CRAN servers flavors.
@@ -202,7 +202,7 @@ read_bio_releases_raw <- function() {
   result_raw
 }
 
-read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cache_mem(max_age = 15 * 60))
+read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
 #' Retrieving all Bioconductor releases
 #' @description Retrieving all Bioconductor releases.

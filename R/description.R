@@ -92,7 +92,7 @@ pac_description_dcf_raw <- function(pac, version, at, repos) {
   structure(result, package = pac, version = version)
 }
 
-pac_description_dcf <- memoise::memoise(pac_description_dcf_raw, cache = cachem::cache_mem(max_age = 15 * 60))
+pac_description_dcf <- memoise::memoise(pac_description_dcf_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
 cran_archive_description <- function(pac, version, repos) {
   last_version <- pac_last(pac, repos)

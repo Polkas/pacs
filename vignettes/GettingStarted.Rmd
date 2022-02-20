@@ -30,17 +30,17 @@ library(remotes)
 
 ## Hints
 
-**Hint0**: Internet connection is needed to use most of the functions.
+**Hint0**: An Internet connection is required to take full advantage of most of the features.
 
-**Hint1**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...).
+**Hint1**: Almost all calls requiring an Internet connection are buffered (for 30 minutes) by the `memoise` package, so the second invocation of the same command (and arguments) is immediate. Restart the R session if you want to clear cached data.
 
-**Hint2**: When working with many packages it is recommended to use global functions, which retrieves data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally, most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
+**Hint2**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...).
 
-**Hint3**: Almost all time consuming calculations are cached (for 30 minutes) with `memoise::memoise` package, and the second invoke of the same call is instantaneous. Please restart the R session if you want to clear the cached data.
+**Hint3**: When working with many packages it is recommended to use global functions, which retrieves data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally, most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
 
-**Hint4**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
+**Hint4**: Character string "all" is shorthand for the `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")` vector, character string "most" for the same vector without "Enhances", character string "strong" (default setup) for the first three elements of that vector.
 
-**Hint5**: Character string "all" is shorthand for the `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")` vector, character string "most" for the same vector without "Enhances", character string "strong" (default setup) for the first three elements of that vector.
+**Hint5**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
 
 **Hint6**: `withr` and `remotes` packages are a valuable addition.
 

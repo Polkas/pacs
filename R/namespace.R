@@ -135,7 +135,7 @@ pac_readnamespace_raw <- function(pac, version, at) {
   structure(result, package = pac, version = version)
 }
 
-pac_readnamespace <- memoise::memoise(pac_readnamespace_raw, cache = cachem::cache_mem(max_age = 15 * 60))
+pac_readnamespace <- memoise::memoise(pac_readnamespace_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
 pac_parse_namespace <- function(lines, enc) {
   directives <- if (!is.na(enc) && !Sys.getlocale("LC_CTYPE") %in%
