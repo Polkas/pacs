@@ -126,12 +126,10 @@ pac_readnamespace_raw <- function(pac, version, at) {
     utils::untar(temp_tar, exdir = temp_dir)
     # tabs are not acceptable
     result <- readLines(file.path(temp_dir, pac, "NAMESPACE"), warn = FALSE)
-    unlink(temp_dir, recursive = TRUE)
   } else {
     result <- readLines(ee, warn = FALSE)
-    unlink(ee)
   }
-
+  unlink(temp_tar)
   structure(result, package = pac, version = version)
 }
 
