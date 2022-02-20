@@ -7,7 +7,7 @@
 #' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
 #' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with names proper for NAMESPACE file, the same as format as returned by `base::parseNamespaceFile`.
-#' @note Results are cached for 1 hour with `memoise` package.
+#' @note Results are cached for 30 minutes with `memoise` package.
 #' This function is mainly built under source code from `base::parseNamespaceFile`.
 #' @export
 #' @examples
@@ -135,7 +135,7 @@ pac_readnamespace_raw <- function(pac, version, at) {
   structure(result, package = pac, version = version)
 }
 
-pac_readnamespace <- memoise::memoise(pac_readnamespace_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+pac_readnamespace <- memoise::memoise(pac_readnamespace_raw, cache = cachem::cache_mem(max_age = 15 * 60))
 
 pac_parse_namespace <- function(lines, enc) {
   directives <- if (!is.na(enc) && !Sys.getlocale("LC_CTYPE") %in%

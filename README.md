@@ -19,6 +19,8 @@
 
 **An Internet connection is required to take full advantage of most of the features.**
 
+**Almost all time consuming calculations are cached (for 30 minutes) with the `memoise` package, so the second invoke of the same call is immediate. Restart the R session if you want to clear cached data.**
+
 ## Installation
 
 Development version:

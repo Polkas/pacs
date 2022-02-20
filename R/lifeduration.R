@@ -8,7 +8,7 @@
 #' @return `difftime`, number of days package version was the newest one.
 #' @note Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' Results are cached for 1 hour with `memoise` package, memory cache.
+#' Results are cached for 30 minutes with `memoise` package, memory cache.
 #' @export
 #' @examples
 #' \dontrun{
@@ -81,11 +81,11 @@ pac_lifeduration <- function(pac,
 #' @param flavors character vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default all CRAN machines are considered, NULL value. Default NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
 #' @param repos character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"
-#' @return logical if package is healthy.
+#' @return logical if a package is healthy.
 #' @note Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
 #' The newest release are checked for warnings/errors on R CRAN check page.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-#' Results are cached for 1 hour with `memoise` package, memory cache.
+#' Results are cached for 30 minutes with `memoise` package, memory cache.
 #' @export
 #' @examples
 #' \dontrun{

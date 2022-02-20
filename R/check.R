@@ -21,13 +21,13 @@ read_checkpage_raw <- function(pac) {
   }
 }
 
-read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem(max_age = 15 * 60))
 
 #' Retrieving the R CRAN package check page
 #' @description Retrieving the R CRAN package check page.
 #' @param pac character a package name.
 #' @return data.frame.
-#' @note Results are cached for 1 hour with `memoise` package.
+#' @note Results are cached for 30 minutes with `memoise` package.
 #' If you need to check many packages at once then is recommended usage of `pacs::checked_packages`.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 #' @export
@@ -51,7 +51,7 @@ pac_checkpage <- function(pac) {
 #' @param scope character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")
 #' @param flavors character vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default all CRAN machines are considered, NULL value. Default NULL
 #' @return logical if the package fail under specified criteria.
-#' @note Results are cached for 1 hour with `memoise` package.
+#' @note Results are cached for 30 minutes with `memoise` package.
 #' If you need to check many packages at once then is recommended usage of `pacs::checked_packages`.
 #' The used repository `https://cran.rstudio.com/`.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
@@ -90,7 +90,7 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
 #' @description Retrieving all R CRAN packages check pages statuses.
 #' The data is downloaded from `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
 #' @return data.frame with the same structure as the html table on `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
-#' @note Results are cached for 1 hour with `memoise` package.
+#' @note Results are cached for 30 minutes with `memoise` package.
 #' Some packages could be duplicated as not all tests are performed for a new version so two versions still coexists.
 #' Checks with asterisks (*) indicate that checking was not fully performed, this is a case for less than 1% of all packages.
 #' @export
@@ -135,7 +135,7 @@ read_checkred_packages_raw <- function() {
   result_raw
 }
 
-read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = cachem::cache_mem(max_age = 15 * 60))
 
 read_cran_flavours_raw <- function() {
   rr <- try(readLines("https://cran.r-project.org/web/checks/check_flavors.html", warn = FALSE), silent = TRUE)
@@ -161,13 +161,13 @@ read_cran_flavours_raw <- function() {
   result_raw
 }
 
-read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::cache_mem(max_age = 15 * 60))
 
 #' Retrieving all R CRAN servers flavors
 #' @description Retrieving all R CRAN servers flavors.
 #' The data is downloaded from `https://cran.r-project.org/web/checks/check_flavors.html`.
 #' @return data.frame with the same structure as the html table on `https://cran.r-project.org/web/checks/check_flavors.html`.
-#' @note Results are cached for 1 hour with `memoise` package.
+#' @note Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples
 #' \dontrun{
@@ -202,13 +202,13 @@ read_bio_releases_raw <- function() {
   result_raw
 }
 
-read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cache_mem(max_age = 15 * 60))
 
 #' Retrieving all Bioconductor releases
 #' @description Retrieving all Bioconductor releases.
 #' The data is downloaded from `https://www.bioconductor.org/about/release-announcements/`.
 #' @return data.frame with the same structure as the html table on `https://www.bioconductor.org/about/release-announcements/`.
-#' @note Results are cached for 1 hour with `memoise` package.
+#' @note Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples
 #' \dontrun{

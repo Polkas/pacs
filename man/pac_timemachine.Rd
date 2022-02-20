@@ -36,7 +36,7 @@ Using CRAN website to get a package metadata used at a specific Date or a Date i
 Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 The base part of URL in the result is \verb{https://cran.r-project.org/src/contrib/}.
-Results are cached for 1 hour with \code{memoise} package.
+Results are cached for 30 minutes with \code{memoise} package.
 }
 \examples{
 \dontrun{

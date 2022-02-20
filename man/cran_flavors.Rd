@@ -14,7 +14,7 @@ Retrieving all R CRAN servers flavors.
 The data is downloaded from \verb{https://cran.r-project.org/web/checks/check_flavors.html}.
 }
 \note{
-Results are cached for 1 hour with \code{memoise} package.
+Results are cached for 30 minutes with \code{memoise} package.
 }
 \examples{
 \dontrun{

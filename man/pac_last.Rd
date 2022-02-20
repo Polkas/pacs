@@ -18,7 +18,7 @@ character most recent package version.
 using \code{utils::available.packages} to get the newest package version.
 }
 \note{
-Results are cached for 1 hour with \code{memoise} package.
+Results are cached for 30 minutes with \code{memoise} package.
 For Bioconductor the newest one per R version.
 }
 \examples{

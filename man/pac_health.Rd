@@ -33,7 +33,7 @@ pac_health(
 \item{repos}{character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"}
 }
 \value{
-logical if package is healthy.
+logical if a package is healthy.
 }
 \description{
 using CRAN website to get a package version/versions used at a specific Date interval.
@@ -44,7 +44,7 @@ CRAN team gives around one/two week to resolved a package which gave errors unde
 Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
 The newest release are checked for warnings/errors on R CRAN check page.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 1 hour with \code{memoise} package, memory cache.
+Results are cached for 30 minutes with \code{memoise} package, memory cache.
 }
 \examples{
 \dontrun{

@@ -7,7 +7,7 @@
 #' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
 #' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with names proper for DESCRIPTION file fields.
-#' @note Results are cached for 1 hour with `memoise` package.
+#' @note Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples
 #' \dontrun{
@@ -92,7 +92,7 @@ pac_description_dcf_raw <- function(pac, version, at, repos) {
   structure(result, package = pac, version = version)
 }
 
-pac_description_dcf <- memoise::memoise(pac_description_dcf_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+pac_description_dcf <- memoise::memoise(pac_description_dcf_raw, cache = cachem::cache_mem(max_age = 15 * 60))
 
 cran_archive_description <- function(pac, version, repos) {
   last_version <- pac_last(pac, repos)

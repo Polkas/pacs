@@ -18,7 +18,7 @@
 #' @note Function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 #' The base part of URL in the result is `https://cran.r-project.org/src/contrib/`.
-#' Results are cached for 1 hour with `memoise` package.
+#' Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples
 #' \dontrun{
@@ -103,7 +103,7 @@ pac_cran_recent_raw <- function(pac) {
   }
 }
 
-pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_mem(max_age = 15 * 60))
 
 pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
@@ -142,4 +142,4 @@ pac_archived_raw <- function(pac) {
   result
 }
 
-pac_archived <- memoise::memoise(pac_archived_raw, cache = cachem::cache_mem(max_age = 60 * 60))
+pac_archived <- memoise::memoise(pac_archived_raw, cache = cachem::cache_mem(max_age = 15 * 60))

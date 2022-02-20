@@ -16,7 +16,7 @@ data.frame.
 Retrieving the R CRAN package check page.
 }
 \note{
-Results are cached for 1 hour with \code{memoise} package.
+Results are cached for 30 minutes with \code{memoise} package.
 If you need to check many packages at once then is recommended usage of \code{pacs::checked_packages}.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 }

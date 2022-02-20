@@ -47,7 +47,7 @@ Optionally we could add life duration and CRAN check page status for each packag
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 When turn on the \code{lifeduration} options, calculations might be time consuming.
-Results are cached for 1 hour with \code{memoise} package.
+Results are cached for 30 minutes with \code{memoise} package.
 \code{BioConductor} packages are tested only in available scope, \code{checkred} is not assessed for them.
 }
 \examples{

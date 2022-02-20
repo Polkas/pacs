@@ -24,7 +24,7 @@
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 #' When turn on the `lifeduration` options, calculations might be time consuming.
-#' Results are cached for 1 hour with `memoise` package.
+#' Results are cached for 30 minutes with `memoise` package.
 #' `BioConductor` packages are tested only in available scope, `checkred` is not assessed for them.
 #' @export
 #' @examples

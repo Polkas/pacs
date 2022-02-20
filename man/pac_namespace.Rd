@@ -33,7 +33,7 @@ list with names proper for NAMESPACE file, the same as format as returned by \co
 CRAN package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 }
 \note{
-Results are cached for 1 hour with \code{memoise} package.
+Results are cached for 30 minutes with \code{memoise} package.
 This function is mainly built under source code from \code{base::parseNamespaceFile}.
 }
 \examples{

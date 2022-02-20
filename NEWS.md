@@ -2,6 +2,7 @@
 
 * fix one of the validation of the `lib_validate` function.
 * small README update.
+* cache results only for 30 minutes, could be important when run on servers.
 
 # pacs 0.4.1
 
