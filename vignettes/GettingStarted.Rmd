@@ -119,7 +119,7 @@ Not newest packages:
 lib[(!is.na(lib$newest)) & (lib$newest == FALSE), ]
 ```
 
-### Core idea behinde lib_validate
+### Core idea behind lib_validate
 
 The core idea behind the function is coming from proper processing of the `installed.packages` function result.
 
