@@ -316,7 +316,7 @@ read_html_table <- function(table) {
   if (length(rr_range) != 2) {
     return(NA)
   }
-  rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
+  rrr <- table[(rr_range[1] + 1):(rr_range[2] - 1)]
   rrr_all <- paste(rrr, collapse = "\n")
   rrr_html <- read_html(rrr_all)
   rrr_html
