@@ -267,7 +267,6 @@ expand_dependency <- function(x) {
   }
 }
 
-
 cran_archive_file <- function(pac, version, repos, file) {
   last_version <- pac_last(pac, repos)
 
@@ -310,4 +309,15 @@ cran_archive_file <- function(pac, version, repos, file) {
   }
   unlink(temp_tar)
   result
+}
+
+read_html_table <- function(table) {
+  rr_range <- grep("</?table[^>]*>", table)
+  if (length(rr_range) != 2) {
+    return(NA)
+  }
+  rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
+  rrr_all <- paste(rrr, collapse = "\n")
+  rrr_html <- read_html(rrr_all)
+  rrr_html
 }

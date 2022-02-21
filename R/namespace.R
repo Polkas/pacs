@@ -39,7 +39,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
     desc <- pac_description(pac, local = TRUE)
     version <- desc$Version
   } else {
-    namespace_lines <- pac_readnamespace(pac, version, at)
+    namespace_lines <- pac_readnamespace(pac, version, at, repos)
     if (length(namespace_lines) == 0 && is_installed && is.null(version)) {
       namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"), warn = FALSE)
       version <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version

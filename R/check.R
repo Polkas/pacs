@@ -1,13 +1,7 @@
 read_checkpage_raw <- function(pac) {
   rr <- try(readLines(sprintf("https://cran.r-project.org/web/checks/check_results_%s.html", pac), warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
-    rr_range <- grep("</?table[^>]*>", rr)
-    if (length(rr_range) != 2) {
-      return(NA)
-    }
-    rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
-    rrr_all <- paste(rrr, collapse = "\n")
-    rrr_html <- read_html(rrr_all)
+    rrr_html <- read_html_table(rr)
     header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
       ncol = length(header),
@@ -140,13 +134,7 @@ read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = c
 read_cran_flavours_raw <- function() {
   rr <- try(readLines("https://cran.r-project.org/web/checks/check_flavors.html", warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
-    rr_range <- grep("</?table[^>]*>", rr)
-    if (length(rr_range) != 2) {
-      return(NA)
-    }
-    rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
-    rrr_all <- paste(rrr, collapse = "\n")
-    rrr_html <- read_html(rrr_all)
+    rrr_html <- read_html_table(rr)
     header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
       ncol = length(header),
@@ -180,13 +168,7 @@ cran_flavors <- function() {
 read_bio_releases_raw <- function() {
   rr <- try(readLines("https://www.bioconductor.org/about/release-announcements/", warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
-    rr_range <- grep("</?table[^>]*>", rr)
-    if (length(rr_range) != 2) {
-      return(NA)
-    }
-    rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
-    rrr_all <- paste(rrr, collapse = "\n")
-    rrr_html <- read_html(rrr_all)
+    rrr_html <- read_html_table(rr)
     header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
       ncol = length(header), byrow = TRUE

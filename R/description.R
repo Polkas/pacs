@@ -86,8 +86,8 @@ pac_description_dcf_raw <- function(pac, version, at, repos = "https://cran.rstu
     result <- cran_archive_file(pac, version, repos, "DESCRIPTION")
   } else {
     result <- as.list(read.dcf(ee)[1, ])
-    unlink(ee)
   }
+  unlink(ee)
 
   structure(result, package = pac, version = version)
 }

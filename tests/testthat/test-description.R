@@ -1,4 +1,4 @@
-test_that("cran_archive_description", {
+test_that("cran_archive_file", {
   skip_if_offline()
   expect_true(length(cran_archive_file("dplyr", "1.0.0", "https://cran.rstudio.com/", "DESCRIPTION")) == 22)
   expect_identical(

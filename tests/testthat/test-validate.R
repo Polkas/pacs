@@ -29,6 +29,7 @@ test_that("pacs::lib_validate online", {
 
 test_that("pacs::pac_validate", {
   skip_if_offline()
+  skip_if(isNA(checked_packages()))
   expect_true(nrow(pac_validate("stats")) == 0)
   pac_valid_full <- pac_validate("memoise",
     lifeduration = TRUE,
@@ -61,12 +62,13 @@ test_that("pacs::pac_health", {
 
 test_that("pacs::pac_health online", {
   skip_if_offline()
+  skip_if(isNA(checked_packages()))
   expect_true(is.logical(pac_health("dplyr")))
   expect_true(is.logical(pac_health("dplyr", scope = c("ERROR"))))
   expect_true(isFALSE(pac_health("dplyr", version = "0.8.0")) ||
-                isNA(pac_health("dplyr", version = "0.8.0")))
+    isNA(pac_health("dplyr", version = "0.8.0")))
   expect_true(isFALSE(pac_health("dplyr", at = as.Date("2019-02-14"))) ||
-                isNA(pac_health("dplyr", at = as.Date("2019-02-14"))))
+    isNA(pac_health("dplyr", at = as.Date("2019-02-14"))))
 })
 
 test_that("pacs::pac_checkred", {
@@ -75,6 +77,7 @@ test_that("pacs::pac_checkred", {
 
 test_that("pacs::pac_checkred online", {
   skip_if_offline()
+  skip_if(isNA(checked_packages()))
   expect_true(is.logical(pac_checkred("dplyr")))
   expect_true(is.na(pac_checkred("WRONG")))
 })
