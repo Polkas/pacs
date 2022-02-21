@@ -64,7 +64,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
   structure(result, package = pac, version = version)
 }
 
-pac_readnamespace_raw <- function(pac, version, at) {
+pac_readnamespace_raw <- function(pac, version, at, repos = "https://cran.rstudio.com/") {
   if (!is.null(at)) {
     tt <- pac_timemachine(pac, at = at)
     if (isNA(tt)) return(NA)
@@ -72,7 +72,6 @@ pac_readnamespace_raw <- function(pac, version, at) {
   }
 
   ee <- tempfile()
-
   last_version <- pac_last(pac)
 
   if (is.null(version)) {
@@ -94,42 +93,12 @@ pac_readnamespace_raw <- function(pac, version, at) {
     silent = TRUE
   )
   if (inherits(tt, "try-error")) {
-    temp_tar <- tempfile(fileext = "tar.gz")
-    if (isTRUE(!is.null(version) && version != last_version)) {
-      base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)
-    } else {
-      base_url <- "https://cran.r-project.org/src/contrib"
-      version <- last_version
-    }
-    d_url <- sprintf(
-      "%s/%s_%s.tar.gz",
-      base_url,
-      pac,
-      version
-    )
-
-    download <- try(
-      {
-        utils::download.file(d_url,
-          destfile = temp_tar,
-          quiet = TRUE
-        )
-      },
-      silent = TRUE
-    )
-
-    if (inherits(download, "try-error")) {
-      return(structure(list(), package = pac, version = version))
-    }
-
-    temp_dir <- tempdir(check = TRUE)
-    utils::untar(temp_tar, exdir = temp_dir)
-    # tabs are not acceptable
-    result <- readLines(file.path(temp_dir, pac, "NAMESPACE"), warn = FALSE)
+    result <- cran_archive_file(pac, version, repos, "NAMESPACE")
   } else {
     result <- readLines(ee, warn = FALSE)
+    unlink(ee)
   }
-  unlink(temp_tar)
+
   structure(result, package = pac, version = version)
 }
 

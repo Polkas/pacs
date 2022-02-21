@@ -53,7 +53,7 @@ pac_description <- function(pac,
   }
 }
 
-pac_description_dcf_raw <- function(pac, version, at, repos) {
+pac_description_dcf_raw <- function(pac, version, at, repos = "https://cran.rstudio.com/") {
   if (!is.null(at)) {
     tt <- pac_timemachine(pac, at = at)
     if (isTRUE(is.na(tt))) return(NA)
@@ -83,7 +83,7 @@ pac_description_dcf_raw <- function(pac, version, at, repos) {
     silent = TRUE
   )
   if (inherits(tt, "try-error")) {
-    result <- cran_archive_description(pac, version, repos)
+    result <- cran_archive_file(pac, version, repos, "DESCRIPTION")
   } else {
     result <- as.list(read.dcf(ee)[1, ])
     unlink(ee)
@@ -93,43 +93,3 @@ pac_description_dcf_raw <- function(pac, version, at, repos) {
 }
 
 pac_description_dcf <- memoise::memoise(pac_description_dcf_raw, cache = cachem::cache_mem(max_age = 30 * 60))
-
-cran_archive_description <- function(pac, version, repos) {
-  last_version <- pac_last(pac, repos)
-
-  temp_tar <- tempfile(fileext = ".tar.gz")
-
-  if (isTRUE(!is.null(version) && version != last_version)) {
-    base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)
-  } else {
-    base_url <- "https://cran.r-project.org/src/contrib"
-    version <- last_version
-  }
-  d_url <- sprintf(
-    "%s/%s_%s.tar.gz",
-    base_url,
-    pac,
-    version
-  )
-
-  download <- try(
-    {
-      suppressWarnings(utils::download.file(d_url,
-                                            destfile = temp_tar,
-                                            quiet = TRUE
-      ))
-    },
-    silent = TRUE
-  )
-
-  if (inherits(download, "try-error")) {
-    result <- structure(list(), package = pac, version = version)
-  } else {
-    temp_dir <- tempdir()
-    utils::untar(temp_tar, exdir = temp_dir)
-    # tabs are not acceptable
-    result <- as.list(read.dcf(file.path(temp_dir, pac, "DESCRIPTION"))[1, ])
-  }
-  unlink(temp_tar)
-  result
-}
