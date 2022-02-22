@@ -1,12 +1,18 @@
+S3method(`::`, "function")
+
+exportPattern(".*")
+
 `if`(TRUE, S3method(bindCache,"function"), S3method(bindCache,"function"))
 `{`(S3method("$",mockclientdata))
 `=`(a, S3method("$",mockclientdata))
 `<-`(a, S3method("$",mockclientdata))
 
+
 S3method("$", tt::mockclientdata)
 
 useDynLib(rlang, .registration = TRUE, .fixes = TRUE)
-
+useDynLib(rlang, .registration = TRUE, .registration = TRUE)
+useDynLib(rlang, .registration = TRUE, TRUE)
 
 S3method("$",mockclientdata)
 S3method("$",reactivevalues)
@@ -2103,7 +2109,8 @@ importFrom(stats,median)
 importFrom(stats,quantile)
 importFrom(utils,adist)
 importFrom(utils,str)
-useDynLib(sp,
+useDynLib(
+  sp,
   sp,
 	bboxCalcR_c,
 	pointsInBox,
