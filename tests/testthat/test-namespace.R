@@ -1,9 +1,16 @@
+test_that("pac_parse_namespace", {
+  expect_true(length(pac_parse_namespace(readLines("files/NAMESPACE_joint.txt"), enc = "UTF-8")) == 10)
+  expect_warning(pac_parse_namespace(readLines("files/NAMESPACE_dupfield.txt"), enc = "UTF-8"), 'duplicate symbol')
+  expect_error(pac_parse_namespace(readLines("files/NAMESPACE_wrongfield.txt"), enc = "UTF-8"), "unknown namespace directive")
+  expect_error(pac_parse_namespace(readLines("files/NAMESPACE_wrongparam.txt"), enc = "UTF-8"), "empty name in directive 'exportPattern' in 'NAMESPACE' file")
+})
+
+
 test_that("pacs::pac_namespace", {
   skip_if_offline()
   expect_identical(pac_readnamespace_raw("dplyr", "0.0.0.0.1", NULL), structure(list(), package = "dplyr", version = "0.0.0.0.1"))
   expect_true(length(cran_archive_file("dplyr", "0.8.0", repos = "https://cran.rstudio.com/", "NAMESPACE")) == 498)
   expect_true(length(pac_namespace("dplyr", version = "0.8.0")) == 10)
-  expect_true(suppressWarnings(length(pac_parse_namespace(readLines("files/NAMESPACE_joint.txt"), enc = "UTF-8"))) == 10)
   expect_identical(sort(pac_namespace("memoise", local = TRUE)$exports), sort(base::getNamespaceExports("memoise")))
   expect_identical(suppressWarnings(pac_namespace("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
   expect_identical(pac_namespace("WRONG"), structure(list(), package = "WRONG"))

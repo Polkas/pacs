@@ -270,14 +270,13 @@ expand_dependency <- function(x) {
 cran_archive_file <- function(pac, version, repos, file) {
   last_version <- pac_last(pac, repos)
 
-  temp_tar <- tempfile(fileext = ".tar.gz")
-
   if (isTRUE(!is.null(version) && version != last_version)) {
     base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)
   } else {
     base_url <- "https://cran.r-project.org/src/contrib"
     version <- last_version
   }
+
   d_url <- sprintf(
     "%s/%s_%s.tar.gz",
     base_url,
@@ -285,12 +284,13 @@ cran_archive_file <- function(pac, version, repos, file) {
     version
   )
 
+  temp_tar <- tempfile(fileext = ".tar.gz")
+
   download <- try(
     {
       suppressWarnings(utils::download.file(d_url,
                                             destfile = temp_tar,
-                                            quiet = TRUE
-      ))
+                                            quiet = TRUE))
     },
     silent = TRUE
   )
@@ -303,7 +303,7 @@ cran_archive_file <- function(pac, version, repos, file) {
     # tabs are not acceptable
     result <- switch(
       file,
-      DESCRIPTION = as.list(read.dcf(file.path(temp_dir, pac, file))[1, ]),
+      DESCRIPTION = as.list(read.dcf(file.path(temp_dir, pac, "DESCRIPTION"))[1, ]),
       NAMESPACE = readLines(file.path(temp_dir, pac, "NAMESPACE"), warn = FALSE)
     )
   }
