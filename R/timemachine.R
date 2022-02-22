@@ -134,6 +134,7 @@ pac_archived_raw <- function(pac) {
     result$URL <- paste0(sprintf("Archive/%s/", pac), result$Package)
     result$Package <- pac_name
     result$Version <- pac_v
+    result <- result[!is.na(result$Version), ]
     result <- result[order(result$Released), ]
   } else {
     result <- NA

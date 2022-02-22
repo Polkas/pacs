@@ -134,7 +134,11 @@ lib_validate <- function(lib.loc = .libPaths(),
 
     if (lifeduration) {
       message("Please wait, Packages life durations are assessed.\n")
-      result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
+      result$lifeduration <- vapply(seq_len(nrow(result)), function(x)
+        pac_lifeduration(result[x, "Package", drop = TRUE],
+                         `if`(isNA(as.character(result[x, "Version.have", drop = TRUE])), NULL, as.character(result[x, "Version.have", drop = TRUE])),
+                         repos = repos,
+                         lib.loc = lib.loc), numeric(1))
     }
 
     not_installed <- is.na(result$Version.have)
@@ -232,7 +236,12 @@ pac_validate <- function(pac,
       }
 
       if (lifeduration) {
-        result$lifeduration <- vapply(seq_len(nrow(result)), function(x) pac_lifeduration(result[x, "Package", drop = TRUE], as.character(result[x, "Version.have", drop = TRUE]), repos = repos, lib.loc = lib.loc), numeric(1))
+        result$lifeduration <- vapply(seq_len(nrow(result)),
+                                      function(x) pac_lifeduration(
+                                        result[x, "Package", drop = TRUE],
+                                        `if`(isNA(as.character(result[x, "Version.have", drop = TRUE])), NULL, as.character(result[x, "Version.have", drop = TRUE])),
+                                        repos = repos,
+                                        lib.loc = lib.loc), numeric(1))
       }
 
       not_installed <- is.na(result$Version.have)
