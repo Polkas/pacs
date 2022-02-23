@@ -18,6 +18,8 @@ repos:
           - xml2
           - memoise
           - stringi
+          - renv
+          - curl
       - id: spell-check
         name: Check spelling with `spelling`
         exclude: >

@@ -38,5 +38,6 @@ Imports:
     stringi,
     xml2,
     renv,
-    jsonlite
+    jsonlite,
+    curl
 VignetteBuilder: knitr

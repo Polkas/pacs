@@ -57,7 +57,7 @@ pac_deps <- function(pac,
 
     v_base <- installed_agg_fun(lib.loc, fields)
   } else {
-    if (isFALSE(pac_isin(pac, repos))) return(NA)
+    if (!is_online() || isFALSE(pac_isin(pac, repos))) return(NA)
     paks_global <- tools::package_dependencies(pac,
       db = available_packages(repos),
       which = fields,

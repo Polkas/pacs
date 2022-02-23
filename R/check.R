@@ -31,6 +31,9 @@ read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem
 #' }
 pac_checkpage <- function(pac) {
   stopifnot((length(pac) == 1) && is.character(pac))
+  if (!is_online()) {
+    return(NA)
+  }
 
   if (!pac_isin(pac, "https://cran.rstudio.com/")) {
     return(NA)
@@ -67,6 +70,9 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(length(scope) == 0 || all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
     is.null(flavors) || all(flavors %in% cran_flavors()$Flavor))
+  if (!is_online()) {
+    return(NA)
+  }
 
   if (!pac_isin(pac, "https://cran.rstudio.com/")) {
     return(NA)
@@ -93,6 +99,9 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
 #' checked_packages()
 #' }
 checked_packages <- function() {
+  if (!is_online()) {
+    return(NA)
+  }
   packages <- read_checkred_packages()
   if (is.data.frame(packages)) {
     result <- packages

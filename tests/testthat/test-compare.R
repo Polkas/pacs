@@ -1,7 +1,7 @@
 test_that("pacs::pac_compare_versions", {
   skip_if_offline()
   expect_error(suppressWarnings(pac_compare_versions("memoise", "2.0.0", "22.4.0")))
-  expect_error(pac_compare_versions("memoise", "22.8.0", "22.4.0"))
+  expect_error(pac_compare_versions("memoise", "22.8.0", "22.4.0"), "utils::compareVersion\\(new, old\\) >= 0 is not TRUE")
 })
 
 test_that("pacs::pac_compare_versions online", {

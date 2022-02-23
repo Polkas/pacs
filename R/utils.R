@@ -86,14 +86,8 @@ dir_size <- function(path = ".", recursive = TRUE) {
   size_files
 }
 
-is_online <- function(site = "https://example.com/") {
-  tryCatch(
-    {
-      suppressWarnings(readLines(site, n = 1, warn = FALSE))
-      TRUE
-    },
-    error = function(e) FALSE
-  )
+is_online <- function(site = "r-project.org") {
+  isTRUE(!is.null(curl::nslookup(site, error = FALSE)))
 }
 
 #' List of base R packages

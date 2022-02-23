@@ -40,8 +40,8 @@ pac_timemachine <- function(pac,
     !is.null(from) && !is.null(to) && from <= to && inherits(from, "Date") && inherits(to, "Date") && is.null(at) && is.null(version)
   ) ||
     all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1 && is.character(version)))
-
   source <- match.arg(source)
+  if (!is_online()) return(NA)
 
   if (isFALSE(pac_isin(pac, "https://cran.rstudio.com/"))) {
     return(NA)

@@ -25,16 +25,23 @@ pac_deps_timemachine <- function(pac,
   stopifnot(xor(!is.null(version), !is.null(at)))
   stopifnot(is.logical(recursive))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
+  if (!is_online()) {
+    return(NA)
+  }
 
   if (is.null(version)) {
     health <- pac_health(pac, at = at)
-    if (isNA(health)) return(NA)
+    if (isNA(health)) {
+      return(NA)
+    }
     if (isFALSE(health)) stop("not healthy version, live less than 14 days.")
     pac_d <- pac_description(pac, at = at, local = FALSE)
     pac_v <- pac_d$Version
   } else {
     health <- pac_health(pac, version = version)
-    if (isNA(health)) return(NA)
+    if (isNA(health)) {
+      return(NA)
+    }
     if (!isTRUE(health)) stop("not healthy version, live less than 14 days.")
     pac_d <- pac_description(pac, version = version, local = FALSE)
     pac_v <- pac_d$Version

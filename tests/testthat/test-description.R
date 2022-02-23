@@ -14,8 +14,8 @@ test_that("pacs::pac_description", {
     pac_description("memoise", local = TRUE)$Version,
     pac_description("memoise", local = FALSE)$Version
   ) %in% c(0, -1))
-  expect_identical(suppressWarnings(pac_description("dplyr", "1.1.1.1")), structure(list(), package = "dplyr", version = "1.1.1.1"))
-  expect_identical(pac_description("WRONG"), structure(list(), package = "WRONG"))
-  expect_identical(suppressWarnings(pac_description("dplyr", "0.0.0.1")), structure(list(), package = "dplyr", version = "0.0.0.1"))
+  expect_identical(pac_description("dplyr", "1.1.1.1"), NA)
+  expect_identical(pac_description("WRONG"), NA)
+  expect_identical(pac_description("dplyr", "0.0.0.1"), NA)
   expect_silent(pac_description("dplyr", version = pac_last("dplyr")))
 })

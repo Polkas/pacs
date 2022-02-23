@@ -16,7 +16,7 @@ pac_description(
 \arguments{
 \item{pac}{character a package name.}
 
-\item{version}{character package version, By default the newest version in taken if failed tried to give local one if installed. Default: NULL}
+\item{version}{character package version, by default the is_installed version. Default: NULL}
 
 \item{at}{Date. Default: NULL}
 

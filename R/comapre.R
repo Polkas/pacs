@@ -36,6 +36,7 @@ pac_compare_versions <- function(pac,
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(is.character(repos))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
+  stopifnot(is_online())
 
   if (isFALSE(pac_isin(pac, repos))) {
     return(NA)
@@ -53,7 +54,7 @@ pac_compare_versions <- function(pac,
   stopifnot(utils::compareVersion(new, old) >= 0)
 
   one_desc <- pac_description(pac, version = old, lib.loc = lib.loc, repos = repos)
-  if (length(one_desc) == 0) stop(sprintf("Version %s is not exists for %s.", old, pac))
+  if (length(one_desc) == 0 || isNA(one_desc)) stop(sprintf("Version %s is not exists for %s.", old, pac))
   one_base <- paste(Filter(function(x) length(x) > 0, one_desc[fields]), collapse = ",")
   one_e <- extract_deps(one_base)
   s_remote <- unique(data.frame(
@@ -62,7 +63,7 @@ pac_compare_versions <- function(pac,
   ))
 
   two_desc <- pac_description(pac, version = new, lib.loc = lib.loc, repos = repos)
-  if (length(two_desc) == 0) stop(sprintf("Version %s is not exists for %s.", new, pac))
+  if (length(two_desc) == 0 || isNA(two_desc)) stop(sprintf("Version %s is not exists for %s.", new, pac))
   two_base <- paste(Filter(function(x) length(x) > 0, two_desc[fields]), collapse = ",")
   two_e <- extract_deps(two_base)
   s_remote2 <- unique(data.frame(
@@ -107,6 +108,7 @@ pac_compare_namespace <- function(pac,
   stopifnot(is.null(new) || (length(new) == 1) && is.character(new))
   stopifnot(is.character(repos))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
+  stopifnot(is_online())
 
   if (isFALSE(pac_isin(pac, repos))) {
     return(NA)
@@ -127,9 +129,9 @@ pac_compare_namespace <- function(pac,
   fields <- c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")
 
   one_nam <- pac_namespace(pac, old, lib.loc = lib.loc, repos = repos)
-  if (length(one_nam) == 0) stop(sprintf("Version %s is not exists for %s.", old, pac))
+  if (length(one_nam) == 0 || isNA(one_nam)) stop(sprintf("Version %s is not exists for %s.", old, pac))
   two_nam <- pac_namespace(pac, new, lib.loc = lib.loc, repos = repos)
-  if (length(two_nam) == 0) stop(sprintf("Version %s is not exists for %s.", new, pac))
+  if (length(two_nam) == 0 || isNA(two_nam)) stop(sprintf("Version %s is not exists for %s.", new, pac))
 
   for (f in fields) {
     if (f == "S3methods") {

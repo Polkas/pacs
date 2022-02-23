@@ -30,6 +30,7 @@ pac_lifeduration <- function(pac,
   stopifnot(!all(c(!is.null(version), !is.null(at))))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
+  if (!is_online()) return(NA)
 
   source <- match.arg(source)
 
@@ -119,6 +120,7 @@ pac_health <- function(pac,
   stopifnot(!all(c(!is.null(version), !is.null(at))))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(length(repos) == 1 && is.character(repos))
+  if (!is_online()) return(NA)
 
   source <- match.arg(source)
 
