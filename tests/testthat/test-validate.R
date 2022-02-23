@@ -88,4 +88,11 @@ test_that("pacs::pac_checkred online", {
   skip_if(isNA(checked_packages()))
   expect_true(is.logical(pac_checkred("dplyr")))
   expect_true(is.na(pac_checkred("WRONG")))
+  expect_true(isNA(loc <- pac_checkred("dplyr",
+    scope = c("ERROR", "FAIL", "WARN"),
+    flavors = c(
+      "r-devel-linux-x86_64-debian-clang",
+      "r-devel-linux-x86_64-debian-gcc"
+    )
+  )) || is.logical(loc))
 })

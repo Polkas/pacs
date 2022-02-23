@@ -22,11 +22,22 @@ test_that("pacs::compareVersionsMin", {
 
 test_that("expand_dependency", {
   expect_identical(expand_dependency("strong"), c("Depends", "Imports", "LinkingTo"))
+  expect_identical(expand_dependency("all"), c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances"))
+  expect_identical(expand_dependency("most"), c("Depends", "Imports", "LinkingTo", "Suggests"))
   expect_identical(expand_dependency(c("Depends", "Imports", "LinkingTo")), c("Depends", "Imports", "LinkingTo"))
+  expect_error(expand_dependency("WRONG"))
 })
 
 test_that("pac_islast", {
   skip_if_offline()
   expect_identical(pac_islast("WRONG"), FALSE)
   expect_true(is.logical(pac_islast("memoise")))
+})
+
+test_that("pac_checkpage", {
+  expect_true(isNA(pac_checkpage("WRONG")))
+})
+
+test_that("biocran_repos", {
+  expect_identical(biocran_repos(NA), c(CRAN = "https://cran.rstudio.com/"))
 })

@@ -251,19 +251,17 @@ available_agg_fun_raw <- function(repos, fields) {
 
 available_agg_fun <- memoise::memoise(available_agg_fun_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
-expand_dependency <- function(x) {
-  if (length(x) == 1) {
-    stopifnot(all(x %in% c("strong", "all", "most")))
-    switch(
-      x,
+expand_dependency <- function(fields) {
+  if (length(fields) == 1) {
+    stopifnot(all(fields %in% c("strong", "all", "most")))
+    switch(fields,
       strong = c("Depends", "Imports", "LinkingTo"),
       most = c("Depends", "Imports", "LinkingTo", "Suggests"),
-      all = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances"),
-      c("Depends", "Imports", "LinkingTo")
+      all = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")
     )
   } else {
-    stopifnot(all(x %in% c("Depends", "Imports", "Suggests", "LinkingTo", "Enhances")))
-    x
+    stopifnot(all(fields %in% c("Depends", "Imports", "Suggests", "LinkingTo", "Enhances")))
+    fields
   }
 }
 
@@ -289,8 +287,9 @@ cran_archive_file <- function(pac, version, repos, file) {
   download <- try(
     {
       suppressWarnings(utils::download.file(d_url,
-                                            destfile = temp_tar,
-                                            quiet = TRUE))
+        destfile = temp_tar,
+        quiet = TRUE
+      ))
     },
     silent = TRUE
   )
@@ -301,8 +300,7 @@ cran_archive_file <- function(pac, version, repos, file) {
     temp_dir <- tempdir()
     utils::untar(temp_tar, exdir = temp_dir)
     # tabs are not acceptable
-    result <- switch(
-      file,
+    result <- switch(file,
       DESCRIPTION = as.list(read.dcf(file.path(temp_dir, pac, "DESCRIPTION"))[1, ]),
       NAMESPACE = readLines(file.path(temp_dir, pac, "NAMESPACE"), warn = FALSE)
     )
