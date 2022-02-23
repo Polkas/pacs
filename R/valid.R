@@ -7,7 +7,7 @@
 #' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
+#' @param lifeduration character one of `c("none", "metadb", "cran")`. Using the `MEATCRAN` DB or the direct web page download from CRAN for `lifeduration` option. Default: `"metadb"`
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return data.frame with 4/6/7/8 columns.
@@ -45,18 +45,22 @@
 #' }
 lib_validate <- function(lib.loc = .libPaths(),
                          fields = c("Depends", "Imports", "LinkingTo"),
-                         lifeduration = FALSE,
+                         lifeduration = c("none", "metadb", "cran"),
                          checkred = list(scope = character(0), flavors = NULL),
                          repos = biocran_repos()) {
   fields <- expand_dependency(fields)
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
-  stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
               (length(checkred) %in% c(1, 2)) &&
               (c("scope") %in% names(checkred)) &&
               (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
               (is.null(checkred$flavors) || all(checkred$flavors %in% read_cran_flavours_raw()$Flavor)))
   stopifnot(is.character(repos))
+
+  if (is.logical(lifeduration)) {
+    lifeduration <- if (isTRUE(lifeduration)) "metadb" else "none"
+  }
+  source <- match.arg(lifeduration)
 
   installed_agg <- installed_agg_fun(lib.loc, fields)
 
@@ -132,13 +136,23 @@ lib_validate <- function(lib.loc = .libPaths(),
       }
     }
 
-    if (lifeduration) {
+    if (source != "none") {
       message("Please wait, Packages life durations are assessed.\n")
-      result$lifeduration <- vapply(seq_len(nrow(result)), function(x)
-        pac_lifeduration(result[x, "Package", drop = TRUE],
-                         `if`(isNA(version_p <- as.character(result[x, "Version.have", drop = TRUE])), NULL, version_p),
-                         repos = repos,
-                         lib.loc = lib.loc), numeric(1))
+      result$lifeduration <- vapply(
+        seq_len(nrow(result)),
+        function(x) {
+          if (!isNA(version_p <- as.character(result[x, "Version.have", drop = TRUE]))) {
+            pac_lifeduration(result[x, "Package", drop = TRUE],
+              version_p,
+              repos = repos,
+              lib.loc = lib.loc,
+              source = source
+            )
+          } else {
+            NA
+          }
+        }, numeric(1)
+      )
     }
 
     not_installed <- is.na(result$Version.have)
@@ -162,7 +176,7 @@ lib_validate <- function(lib.loc = .libPaths(),
 #' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lifeduration logical if to add life duration column, might take some time. Default: FALSE
+#' @param lifeduration character one of `c("none", "metadb", "cran")`. Using the `MEATCRAN` DB or the direct web page download from CRAN for `lifeduration` option. Default: `"metadb"`
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return data.frame with 5/7/8/9 columns.
@@ -194,19 +208,22 @@ lib_validate <- function(lib.loc = .libPaths(),
 pac_validate <- function(pac,
                          lib.loc = .libPaths(),
                          fields = c("Depends", "Imports", "LinkingTo"),
-                         lifeduration = FALSE,
+                         lifeduration = c("none", "metadb", "cran"),
                          checkred = list(scope = character(0), flavors = NULL),
                          repos = biocran_repos()) {
   fields <- expand_dependency(fields)
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(is.logical(lifeduration))
   stopifnot(is.list(checkred) &&
               (length(checkred) %in% c(1, 2)) &&
               (c("scope") %in% names(checkred)) &&
               (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
               (is.null(checkred$flavors) || all(checkred$flavors %in% read_cran_flavours_raw()$Flavor)))
   stopifnot(is.character(repos))
+  if (is.logical(lifeduration)) {
+    lifeduration <- if (isTRUE(lifeduration)) "metadb" else "none"
+  }
+  source <- match.arg(lifeduration)
 
   descriptions_pac <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE)
   descriptions_pac_direct <- pac_deps(pac, lib.loc = lib.loc, fields = fields, description_v = TRUE, recursive = FALSE)
@@ -235,13 +252,14 @@ pac_validate <- function(pac,
         result$checkred <- vapply(seq_len(nrow(result)), function(x) isTRUE(result$newest[x] && result$cran[x] && pac_checkred(result$Package[x], scope = checkred$scope, flavors = checkred$flavors)), logical(1))
       }
 
-      if (lifeduration) {
+      if (source != "none") {
         result$lifeduration <- vapply(seq_len(nrow(result)),
                                       function(x) pac_lifeduration(
                                         result[x, "Package", drop = TRUE],
-                                        `if`(isNA(version_p <- as.character(result[x, "Version.have", drop = TRUE])), NULL, version_p),
+                                        if (!isNA(version_p <- as.character(result[x, "Version.have", drop = TRUE]))) version_p,
                                         repos = repos,
-                                        lib.loc = lib.loc), numeric(1))
+                                        lib.loc = lib.loc,
+                                        source = source), numeric(1))
       }
 
       not_installed <- is.na(result$Version.have)

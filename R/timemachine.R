@@ -5,6 +5,7 @@
 #' @param from Date new version of package. Default: NULL
 #' @param version character version of package. Default: NULL
 #' @param to Date CRAN URL. Default: NULL
+#' @param source character one of `c("metadb", "cran")`. Using the `MEATCRAN` DB or the direct web page download from CRAN. Default: `"metadb"`
 #' @return data.frame with 7 columns
 #' \describe{
 #' \item{Package}{character package name.}
@@ -31,7 +32,8 @@ pac_timemachine <- function(pac,
                             at = NULL,
                             from = NULL,
                             to = NULL,
-                            version = NULL) {
+                            version = NULL,
+                            source = c("metadb", "cran")) {
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),
@@ -39,25 +41,13 @@ pac_timemachine <- function(pac,
   ) ||
     all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1 && is.character(version)))
 
-  if (isFALSE(pac_isin(pac, "https://cran.rstudio.com/"))) return(NA)
+  source <- match.arg(source)
 
-  result <- pac_archived(pac)
-  cran_page <- pac_cran_recent(pac)
-
-  if (isNA(result)) {
-    return(cran_page)
-  }
-
-  if (isNA(cran_page)) {
+  if (isFALSE(pac_isin(pac, "https://cran.rstudio.com/"))) {
     return(NA)
   }
 
-  result$Archived <- as.Date(c(result$Released[-1], cran_page$Released))
-  result$LifeDuration <- result$Archived - result$Released
-  f_cols <- c("Package", "Version", "Released", "Archived", "LifeDuration", "URL", "Size")
-  result <- rbind(result[, f_cols], cran_page[, f_cols])
-  result <- result[, f_cols]
-  rownames(result) <- NULL
+  result <- pac_timemachine_table(pac, source = source)
 
   if (isTRUE(!is.null(at))) {
     if (isTRUE(all(at >= result$Released))) {
@@ -144,3 +134,34 @@ pac_archived_raw <- function(pac) {
 }
 
 pac_archived <- memoise::memoise(pac_archived_raw, cache = cachem::cache_mem(max_age = 30 * 60))
+
+pac_timemachine_table <- function(pac, source) {
+  f_cols <- c("Package", "Version", "Released", "Archived", "LifeDuration", "URL", "Size")
+  if (source == "cran") {
+    result <- pac_archived(pac)
+    cran_page <- pac_cran_recent(pac)
+    if (isNA(result)) {
+      return(cran_page)
+    }
+
+    result$Archived <- as.Date(c(result$Released[-1], cran_page$Released))
+    result$LifeDuration <- result$Archived - result$Released
+    result <- rbind(result[, f_cols], cran_page[, f_cols])
+  } else if (source == "metadb") {
+    result_json <- jsonlite::read_json(sprintf("https://crandb.r-pkg.org/-/allall?start_key=%%22%s%%22&limit=1", pac))
+    result <- data.frame(
+      Package = pac,
+      Released = unlist(result_json[[pac]]$timeline),
+      Archived = c(utils::tail(unlist(result_json[[pac]]$timeline), -1), NA),
+      Version = names(result_json[[pac]]$timeline)
+    )
+    result$Released <- as.Date(substr(result$Released, 1, 10))
+    result$Archived <- as.Date(substr(result$Archived, 1, 10))
+    result$LifeDuration <- result$Archived - result$Released
+    result$URL <- NA
+    result$Size <- NA
+  }
+  result <- result[, f_cols]
+  rownames(result) <- NULL
+  result
+}

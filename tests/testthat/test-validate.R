@@ -27,6 +27,13 @@ test_that("pacs::lib_validate online", {
   expect_true(sum(lib_res_s2$checkred, na.rm = TRUE) >= sum(lib_res_s1$checkred, na.rm = TRUE))
 })
 
+test_that("lib_validate lifedurations", {
+  skip_if(nrow(installed_packages(lib.loc = .libPaths())) > 200)
+  skip_if_offline()
+  lib_res <- lib_validate(lifeduration = TRUE)
+  expect_true(inherits(lib_res, "data.frame"))
+})
+
 test_that("pacs::pac_validate", {
   skip_if_offline()
   skip_if(isNA(checked_packages()))
@@ -51,6 +58,7 @@ test_that("pacs::pac_lifeduration online", {
   b <- pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
   expect_true(a == 1)
   expect_identical(a, b)
+  expect_true(is.na(pac_lifeduration("edgeR")) || inherits(pac_lifeduration("edgeR"), "difftimes"))
   expect_true(is.na(pac_lifeduration("edgeR")) || inherits(pac_lifeduration("edgeR"), "difftimes"))
 })
 

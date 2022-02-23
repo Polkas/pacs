@@ -8,7 +8,7 @@ pac_validate(
   pac,
   lib.loc = .libPaths(),
   fields = c("Depends", "Imports", "LinkingTo"),
-  lifeduration = FALSE,
+  lifeduration = c("none", "metadb", "cran"),
   checkred = list(scope = character(0), flavors = NULL),
   repos = biocran_repos()
 )
@@ -22,7 +22,7 @@ pac_validate(
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lifeduration}{logical if to add life duration column, might take some time. Default: FALSE}
+\item{lifeduration}{character one of \code{c("none", "metadb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN for \code{lifeduration} option. Default: \code{"metadb"}}
 
 \item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. \code{flavor} vector of machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines. Default \code{list(scope = character(0), flavor = NULL)}}
 

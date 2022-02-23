@@ -4,7 +4,14 @@
 \alias{pac_timemachine}
 \title{Package metadata for all releases}
 \usage{
-pac_timemachine(pac, at = NULL, from = NULL, to = NULL, version = NULL)
+pac_timemachine(
+  pac,
+  at = NULL,
+  from = NULL,
+  to = NULL,
+  version = NULL,
+  source = c("metadb", "cran")
+)
 }
 \arguments{
 \item{pac}{character a package name.}
@@ -16,6 +23,8 @@ pac_timemachine(pac, at = NULL, from = NULL, to = NULL, version = NULL)
 \item{to}{Date CRAN URL. Default: NULL}
 
 \item{version}{character version of package. Default: NULL}
+
+\item{source}{character one of \code{c("metadb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"metadb"}}
 }
 \value{
 data.frame with 7 columns

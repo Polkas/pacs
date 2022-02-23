@@ -311,12 +311,12 @@ cran_archive_file <- function(pac, version, repos, file) {
   result
 }
 
-read_html_table <- function(table) {
-  rr_range <- grep("</?table[^>]*>", table)
+read_html_table <- function(table_lines) {
+  rr_range <- grep("</?table[^>]*>", table_lines)
   if (length(rr_range) != 2) {
     return(NA)
   }
-  rrr <- table[(rr_range[1] + 1):(rr_range[2] - 1)]
+  rrr <- table_lines[(rr_range[1] + 1):(rr_range[2] - 1)]
   rrr_all <- paste(rrr, collapse = "\n")
   rrr_html <- read_html(rrr_all)
   rrr_html

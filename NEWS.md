@@ -1,5 +1,10 @@
 # pacs 0.4.2.9000
 
+* added an additional source for getting all releases of packages, the `metacran` db (new default).
+* `lifeduration` changed definition in `lib_validate` and `pac_validate` functions, old values are still supported.
+* more elegant separation of the code.
+* more testthat tests.
+
 # pacs 0.4.2
 
 * fix one of the validation of the `lib_validate` function.

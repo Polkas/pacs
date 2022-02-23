@@ -12,7 +12,8 @@ pac_health(
   scope = c("ERROR", "FAIL"),
   flavors = NULL,
   lib.loc = .libPaths(),
-  repos = "https://cran.rstudio.com/"
+  repos = "https://cran.rstudio.com/",
+  source = c("metadb", "cran")
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ pac_health(
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
 
 \item{repos}{character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"}
+
+\item{source}{character one of \code{c("metadb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"metadb"}}
 }
 \value{
 logical if a package is healthy.
