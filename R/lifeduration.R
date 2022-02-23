@@ -71,7 +71,7 @@ pac_lifeduration <- function(pac,
       1, 10
     )))
   } else if (ison_cran) {
-    life <- pac_timemachine(pac, version = version)
+    life <- pac_timemachine(pac, version = version, source = source)
     if (isNA(life) || isTRUE(nrow(life) == 0)) {
       return(NA)
     }
@@ -128,25 +128,13 @@ pac_health <- function(pac,
     return(TRUE)
   }
 
-  last_version <- pac_last(pac, repos = repos)
-  version <- if (!is.null(version)) {
-    version
-  } else if (!is.null(at)) {
-    utils::tail(pac_timemachine(pac, at = at)$Version, 1)
-  } else {
-    last_version
-  }
-  if (isTRUE(is.na(version)) || isTRUE(length(version) == 0)) {
-    return(NA)
-  }
-
-  life <- pac_lifeduration(pac, version = version, lib.loc = lib.loc, repos = repos)
+  life <- pac_lifeduration(pac, version = version, at = at, lib.loc = lib.loc, source = source, repos = repos)
   if (isNA(life)) {
     return(NA)
   }
   res <- life >= limit
 
-  if ((length(scope) > 0) && identical(last_version, version)) {
+  if ((length(scope) > 0) && identical(pac_last(pac, repos = repos), version)) {
     if (isTRUE(pac_checkred(pac, scope = scope, flavors = flavors))) FALSE else res
   } else {
     res

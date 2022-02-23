@@ -153,7 +153,8 @@ pac_timemachine_table <- function(pac, source) {
       Package = pac,
       Released = unlist(result_json[[pac]]$timeline),
       Archived = c(utils::tail(unlist(result_json[[pac]]$timeline), -1), NA),
-      Version = names(result_json[[pac]]$timeline)
+      Version = names(result_json[[pac]]$timeline),
+      stringsAsFactors = FALSE
     )
     result$Released <- as.Date(substr(result$Released, 1, 10))
     result$Archived <- as.Date(substr(result$Archived, 1, 10))
