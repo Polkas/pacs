@@ -75,7 +75,8 @@ CRAN team gives around one/two week to resolved a package which gave errors unde
   scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>,
   flavors <span class="op">=</span> <span class="cn">NULL</span>,
   lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,
-  repos <span class="op">=</span> <span class="st">"https://cran.rstudio.com/"</span>
+  repos <span class="op">=</span> <span class="st">"https://cran.rstudio.com/"</span>,
+  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"metadb"</span>, <span class="st">"cran"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -97,6 +98,8 @@ CRAN team gives around one/two week to resolved a package which gave errors unde
 <dd><p>character vector. Is omitted for non NULL version. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 <dt>repos</dt>
 <dd><p>character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"</p></dd>
+<dt>source</dt>
+<dd><p>character one of <code>c("metadb", "cran")</code>. Using the <code>MEATCRAN</code> DB or the direct web page download from CRAN. Default: <code>"metadb"</code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

@@ -63,7 +63,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_timemachine</span><span class="op">(</span><span class="va">pac</span>, at <span class="op">=</span> <span class="cn">NULL</span>, from <span class="op">=</span> <span class="cn">NULL</span>, to <span class="op">=</span> <span class="cn">NULL</span>, version <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_timemachine</span><span class="op">(</span>
+  <span class="va">pac</span>,
+  at <span class="op">=</span> <span class="cn">NULL</span>,
+  from <span class="op">=</span> <span class="cn">NULL</span>,
+  to <span class="op">=</span> <span class="cn">NULL</span>,
+  version <span class="op">=</span> <span class="cn">NULL</span>,
+  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"metadb"</span>, <span class="st">"cran"</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,6 +85,8 @@
 <dd><p>Date CRAN URL. Default: NULL</p></dd>
 <dt>version</dt>
 <dd><p>character version of package. Default: NULL</p></dd>
+<dt>source</dt>
+<dd><p>character one of <code>c("metadb", "cran")</code>. Using the <code>MEATCRAN</code> DB or the direct web page download from CRAN. Default: <code>"metadb"</code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
