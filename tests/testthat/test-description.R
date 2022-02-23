@@ -18,4 +18,5 @@ test_that("pacs::pac_description", {
   expect_identical(pac_description("WRONG"), NA)
   expect_identical(pac_description("dplyr", "0.0.0.1"), NA)
   expect_silent(pac_description("dplyr", version = pac_last("dplyr")))
+  expect_true(as.Date(pac_description("memoise", at = as.Date("2019-01-01"))[["Date/Publication"]]) <= as.Date("2019-01-01"))
 })

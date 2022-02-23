@@ -44,11 +44,13 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
     version <- if (!version_null) {
       version
     } else if (!is.null(at)) {
-      utils::tail(pac_timemachine(pac, at = at)$Version, 1)
+      vv <- utils::tail(pac_timemachine(pac, at = at)$Version, 1)
+      if (isNA(vv) || is.null(vv)) return(NA)
+      vv
     } else {
       pac_last(pac, repos = repos)
     }
-    namespace_lines <- pac_readnamespace(pac, version, NULL, repos)
+    namespace_lines <- pac_readnamespace(pac, version, repos)
     desc <- pac_description(pac, version = version)
     if (isTRUE(is.na(namespace_lines))) {
       return(NA)
@@ -66,21 +68,8 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
   structure(result, package = pac, version = version)
 }
 
-pac_readnamespace_raw <- function(pac, version, at, repos = "https://cran.rstudio.com/") {
-  if (!is.null(at)) {
-    tt <- pac_timemachine(pac, at = at)
-    if (isNA(tt)) {
-      return(NA)
-    }
-    version <- utils::tail(tt[order(tt$LifeDuration), ], 1)$Version
-  }
-
+pac_readnamespace_raw <- function(pac, version, repos = "https://cran.rstudio.com/") {
   ee <- tempfile()
-  last_version <- pac_last(pac)
-
-  if (is.null(version)) {
-    version <- last_version
-  }
 
   d_url <- sprintf(
     "https://raw.githubusercontent.com/cran/%s/%s/NAMESPACE",

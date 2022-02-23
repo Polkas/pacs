@@ -43,14 +43,17 @@ pac_description <- function(pac,
   if (local && is_installed && is.null(at) && (version_null || isTRUE(utils::compareVersion(version, version_installed) == 0))) {
     result <- utils::packageDescription(pac, lib.loc)
   } else if (isTRUE(is_isin(pac, "https://cran.rstudio.com/"))) {
+    last_version <- pac_last(pac, repos = repos)
     version <- if (!version_null) {
       version
     } else if (!is.null(at)) {
-      utils::tail(pac_timemachine(pac, at = at)$Version, 1)
+      version <- utils::tail(pac_timemachine(pac, at = at)$Version, 1)
+      if (isNA(version) || is.null(version)) return(NA)
+      version
     } else {
-      pac_last(pac, repos = repos)
+      last_version
     }
-    result <- pac_description_dcf(pac, version, NULL, repos)
+    result <- pac_description_dcf(pac, version, repos)
     if (isTRUE(is.na(result))) {
       return(NA)
     }
@@ -63,22 +66,8 @@ pac_description <- function(pac,
   result
 }
 
-pac_description_dcf_raw <- function(pac, version, at, repos = "https://cran.rstudio.com/") {
-  if (!is.null(at)) {
-    tt <- pac_timemachine(pac, at = at)
-    if (isTRUE(is.na(tt))) {
-      return(NA)
-    }
-    version <- utils::tail(tt[order(tt$LifeDuration), ], 1)$Version
-  }
-
+pac_description_dcf_raw <- function(pac, version, repos = "https://cran.rstudio.com/") {
   ee <- tempfile()
-
-  last_version <- pac_last(pac, repos)
-
-  if (is.null(version)) {
-    version <- last_version
-  }
 
   d_url <- sprintf(
     "https://raw.githubusercontent.com/cran/%s/%s/DESCRIPTION",
