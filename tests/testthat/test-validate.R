@@ -28,15 +28,15 @@ test_that("pacs::lib_validate online", {
 })
 
 test_that("pacs::lock_validate", {
-  expect_error(lock_validate(path = "file/wrong.lock"))
-  expect_error(lock_validate(path = "files/renv.lock", checkred = "STH"))
-  expect_error(lock_validate(path = "files/renv.lock", checkred = list(scope = "ERROR"), lifeduration = "None"))
+  expect_error(lock_validate(path = "files/wrong.lock"))
+  expect_error(lock_validate(path = "files/renv_test.lock", checkred = "STH"))
+  expect_error(lock_validate(path = "files/renv_test.lock", checkred = list(scope = "ERROR"), lifeduration = "None"))
 })
 
 test_that("pacs::lock_validate", {
   skip_if_offline()
-  expect_true(is.data.frame(lock_validate(path = "files/renv.lock")))
-  expect_true(is.data.frame(lock_validate(path = "files/renv.lock", checkred = list(scope = "ERROR"), lifeduration = TRUE)))
+  expect_true(is.data.frame(lock_validate(path = "files/renv_test.lock")))
+  expect_true(is.data.frame(lock_validate(path = "files/renv_test.lock", checkred = list(scope = "ERROR"), lifeduration = TRUE)))
 })
 
 test_that("lib_validate lifedurations", {

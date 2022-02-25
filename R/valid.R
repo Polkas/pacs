@@ -331,7 +331,7 @@ lock_validate <- function(path,
                           lifeduration = FALSE,
                           checkred = list(scope = character(0), flavors = NULL),
                           repos = biocran_repos()) {
-  stopifnot(dir.exists(dirname(path)))
+  stopifnot(file.exists(path))
   stopifnot(is.list(checkred) &&
     (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
