@@ -314,22 +314,22 @@ read_html_table <- function(table_lines) {
   rrr_html
 }
 
-crandb_json_raw <- function(pacs) {
+crandb_json_raw <- function(packages) {
   if (!is_online()) NA
   jsonlite::read_json(
     sprintf(
       'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=100000',
-      paste(pacs, collapse = '","')
+      paste(packages, collapse = '","')
     )
   )
 }
 
 crandb_json <- memoise::memoise(crandb_json_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
-get_crandb_lifedurations <- function(pacs, versions) {
-  result <- rep(NA, length(pacs))
-  if (!length(pacs) == length(versions)) return(result)
-  meta <- crandb_json(pacs)
+get_crandb_lifedurations <- function(packages, versions) {
+  result <- rep(NA, length(packages))
+  if (!length(packages) == length(versions)) return(result)
+  meta <- crandb_json(packages)
   ll <- lapply(names(meta), function(x) {
     tl <- meta[[x]]$timeline
     res <- data.frame(Package = x, Version = names(tl), Released = as.Date(substr(tl, 1, 10)), stringsAsFactors = FALSE)
@@ -340,8 +340,28 @@ get_crandb_lifedurations <- function(pacs, versions) {
   names(ll) <- names(meta)
 
   ld <- sapply(names(ll), function(x) {
-    if (!isNA(vv <- versions[pacs == x])) ll[[x]][ll[[x]]$Version == vv, "LifeDuration"][1] else NA
+    if (!isNA(vv <- versions[packages == x])) ll[[x]][ll[[x]]$Version == vv, "LifeDuration"][1] else NA
   })
 
   data.frame(Package = names(meta), lifeduration = ld, stringsAsFactors = FALSE)
 }
+
+get_lifedurations_vec <- function(packages, versions, source, lib.loc = .libPaths(), repos = biocran_repos()) {
+  if (length(packages) != length(versions)) return(rep(NA, length(packages)))
+  vapply(
+    seq_along(packages),
+    function(x) {
+      if (!isNA(version_p <- versions[x])) {
+        pac_lifeduration(packages[x],
+                         version_p,
+                         repos = repos,
+                         lib.loc = lib.loc,
+                         source = source
+        )
+      } else {
+        NA
+      }
+    }, numeric(1)
+  )
+}
+

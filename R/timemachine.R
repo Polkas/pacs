@@ -160,6 +160,7 @@ pac_timemachine_table <- function(pac, source) {
     )
     result$Released <- as.Date(substr(result$Released, 1, 10))
     result$Archived <- as.Date(substr(result$Archived, 1, 10))
+    result <- result[order(result$Released), ]
     result$LifeDuration <- result$Archived - result$Released
     result$URL <- NA
     result$Size <- NA

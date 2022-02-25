@@ -70,8 +70,8 @@ test_that("pacs::pac_lifeduration online", {
   b <- pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
   expect_true(a == 1)
   expect_identical(a, b)
-  expect_true(is.na(pac_lifeduration("edgeR")) || inherits(pac_lifeduration("edgeR"), "difftimes"))
-  expect_true(is.na(pac_lifeduration("edgeR")) || inherits(pac_lifeduration("edgeR"), "difftimes"))
+  expect_true(isNA(pac_lifeduration("edgeR")) || inherits(pac_lifeduration("edgeR"), "difftime"))
+  expect_true(isNA(pac_lifeduration("edgeR")) || inherits(pac_lifeduration("edgeR"), "difftime"))
 })
 
 test_that("pacs::pac_health", {

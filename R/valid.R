@@ -133,23 +133,9 @@ lib_validate <- function(lib.loc = .libPaths(),
       }
     }
 
-    if (lifeduration && (nrow(installed_packages(lib.loc = lib.loc)) >= 500)) {
+    if (lifeduration && (nrow(result) >= 500)) {
       message("Please wait, Packages life durations are assessed.\n")
-      result$lifeduration <- vapply(
-        seq_len(nrow(result)),
-        function(x) {
-          if (!isNA(version_p <- as.character(result[x, "Version.have", drop = TRUE]))) {
-            pac_lifeduration(result[x, "Package", drop = TRUE],
-              version_p,
-              repos = repos,
-              lib.loc = lib.loc,
-              source = "cran"
-            )
-          } else {
-            NA
-          }
-        }, numeric(1)
-      )
+      result$lifeduration <- get_lifedurations_vec(result$Package, result$Version.have, "crandb")
     } else if (lifeduration) {
       ld <- get_crandb_lifedurations(result$Package, result$Version.have)
       result <- merge(result, ld, by = "Package", all.x = TRUE)
@@ -264,21 +250,7 @@ pac_validate <- function(pac,
 
       if (lifeduration && (nrow(result) >= 500)) {
         message("Please wait, Packages life durations are assessed.\n")
-        result$lifeduration <- vapply(
-          seq_len(nrow(result)),
-          function(x) {
-            if (!isNA(version_p <- as.character(result[x, "Version.have", drop = TRUE]))) {
-              pac_lifeduration(result[x, "Package", drop = TRUE],
-                version_p,
-                repos = repos,
-                lib.loc = lib.loc,
-                source = "cran"
-              )
-            } else {
-              NA
-            }
-          }, numeric(1)
-        )
+        result$lifeduration <- get_lifedurations_vec(result$Package, result$Version.have, "crandb")
       } else if (lifeduration) {
         ld <- get_crandb_lifedurations(result$Package, result$Version.have)
         result <- merge(result, ld, by = "Package", all.x = TRUE)
@@ -418,21 +390,7 @@ lock_validate <- function(path,
 
     if (lifeduration && (nrow(result) >= 500)) {
       message("Please wait, Packages life durations are assessed.\n")
-      result$lifeduration <- vapply(
-        seq_len(nrow(result)),
-        function(x) {
-          if (!isNA(version_p <- as.character(result[x, "Version.expected", drop = TRUE]))) {
-            pac_lifeduration(result[x, "Package", drop = TRUE],
-              version_p,
-              repos = repos,
-              lib.loc = .libPaths(),
-              source = "cran"
-            )
-          } else {
-            NA
-          }
-        }, numeric(1)
-      )
+      result$lifeduration <- get_lifedurations_vec(result$Package, result$Version.expected, "crandb")
     } else if (lifeduration) {
       ld <- get_crandb_lifedurations(result$Package, result$Version.expected)
       result <- merge(result, ld, by = "Package", all.x = TRUE)
