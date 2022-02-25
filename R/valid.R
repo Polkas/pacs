@@ -82,69 +82,7 @@ lib_validate <- function(lib.loc = .libPaths(),
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
   if (is_online()) {
-    newest_df <- merge(
-      installed_agg[, c("Package", "Version")],
-      available_packages(repos = repos)[, c("Package", "Version")],
-      by = "Package",
-      all.x = TRUE,
-      sort = FALSE
-    )
-
-    newest_df$newest <- as.character(newest_df$Version.x) == as.character(newest_df$Version.y)
-
-    result <- merge(
-      result,
-      newest_df[, c("Package", "newest")],
-      by = "Package",
-      sort = FALSE,
-      all.x = TRUE
-    )
-
-    cran_df <- merge(installed_agg[, c("Package", "Version")],
-      available_packages(repos = "https://cloud.r-project.org")[, c("Package", "Version")],
-      by = "Package",
-      all.x = TRUE,
-      sort = FALSE
-    )
-
-    cran_df$cran <- !is.na(cran_df$Version.y)
-    cran_df$cran[is.na(cran_df$cran)] <- FALSE
-
-    result <- merge(
-      result,
-      cran_df[, c("Package", "cran")],
-      by = "Package",
-      sort = FALSE,
-      all.x = TRUE
-    )
-
-    if (length(checkred$scope)) {
-      checkred_all <- checked_packages()
-      if (is.data.frame(checkred_all)) {
-        flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
-        scope_final <- c(checkred$scope, paste0(checkred$scope, "*"))
-        checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
-        checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
-        result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
-        result$checkred[is.na(result$newest) | !result$cran] <- NA
-      } else {
-        message("Failed to retrieve packages statuses with the checked_packages() function.")
-        result$checkred <- NA
-      }
-    }
-
-    if (lifeduration && (nrow(result) >= 500)) {
-      message("Please wait, Packages life durations are assessed.\n")
-      result$lifeduration <- get_lifedurations_vec(result$Package, result$Version.have, "crandb")
-    } else if (lifeduration) {
-      ld <- get_crandb_lifedurations(result$Package, result$Version.have)
-      result <- merge(result, ld, by = "Package", all.x = TRUE)
-    }
-
-    not_installed <- is.na(result$Version.have)
-    if (any(not_installed)) {
-      result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
-    }
+    result <- get_validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
   } else {
     warning("There is no Internet connection.")
   }
@@ -224,42 +162,13 @@ pac_validate <- function(pac,
   )
 
   if (nrow(result)) {
+
     result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
-
-    result <- result[!is.na(result$Package) & !(result$Package %in% c("NA", pacs_base())), ]
-
+    result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
     result$direct <- result$Package %in% descriptions_pac_direct$Package
+
     if (is_online()) {
-      result$newest <- apply(result, 1, function(x) isTRUE(pac_islast(x["Package"], version = x["Version.have"], repos = repos)))
-      result$cran <- apply(result, 1, function(x) isTRUE(pac_isin(x["Package"], "https://cran.rstudio.com/")))
-
-      if (length(checkred$scope)) {
-        checkred_all <- checked_packages()
-        if (is.data.frame(checkred_all)) {
-          flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
-          scope_final <- c(checkred$scope, paste0(checkred$scope, "*"))
-          checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
-          checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
-          result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
-          result$checkred[is.na(result$newest) | !result$cran] <- NA
-        } else {
-          message("Failed to retrieve packages statuses with the checked_packages() function.")
-          result$checkred <- NA
-        }
-      }
-
-      if (lifeduration && (nrow(result) >= 500)) {
-        message("Please wait, Packages life durations are assessed.\n")
-        result$lifeduration <- get_lifedurations_vec(result$Package, result$Version.have, "crandb")
-      } else if (lifeduration) {
-        ld <- get_crandb_lifedurations(result$Package, result$Version.have)
-        result <- merge(result, ld, by = "Package", all.x = TRUE)
-      }
-
-      not_installed <- is.na(result$Version.have)
-      if (any(not_installed)) {
-        result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
-      }
+      result <- get_validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
     } else {
       warning("There is no Internet connection.")
     }
@@ -271,7 +180,7 @@ pac_validate <- function(pac,
 #' Validate a specific renv lock file
 #' @description
 #' This function will be especially useful when renv lock file is built manually.
-#' Checking if installed package dependencies have correct versions taking into account their DESCRIPTION files requirements.
+#' Checking if packages in the lock file have correct versions taking into account their DESCRIPTION files requirements (`c("Depends", "Imports", "LinkingTo")`).
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each dependency.
 #' @param path character a path to the `renv` lock file.
@@ -334,75 +243,81 @@ lock_validate <- function(path,
     function(x) utils::compareVersion(result$Version.expected[x], result$Version.expected.min[x]),
     numeric(1)
   )
-  result <- result[!result$Package %in% pacs_base(), ]
+  result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
   if (is_online()) {
-    newest_df <- merge(
-      result,
-      available_packages(repos = repos)[, c("Package", "Version")],
-      by = "Package",
-      all.x = TRUE,
-      sort = FALSE
-    )
-
-    newest_df$newest <- as.character(newest_df$Version.expected) == as.character(newest_df$Version)
-
-    result <- merge(
-      result,
-      newest_df[, c("Package", "newest")],
-      by = "Package",
-      sort = FALSE,
-      all.x = TRUE
-    )
-
-    cran_df <- merge(result[, c("Package", "Version.expected")],
-      available_packages(repos = "https://cloud.r-project.org")[, c("Package", "Version")],
-      by = "Package",
-      all.x = TRUE,
-      sort = FALSE
-    )
-
-    cran_df$cran <- !is.na(cran_df$Version)
-    cran_df$cran[is.na(cran_df$cran)] <- FALSE
-
-    result <- merge(
-      result,
-      cran_df[, c("Package", "cran")],
-      by = "Package",
-      sort = FALSE,
-      all.x = TRUE
-    )
-
-    if (length(checkred$scope)) {
-      checkred_all <- checked_packages()
-      if (is.data.frame(checkred_all)) {
-        flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
-        scope_final <- c(checkred$scope, paste0(checkred$scope, "*"))
-        checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
-        checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
-        result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
-        result$checkred[is.na(result$newest) | !result$cran] <- NA
-      } else {
-        message("Failed to retrieve packages statuses with the checked_packages() function.")
-        result$checkred <- NA
-      }
-    }
-
-    if (lifeduration && (nrow(result) >= 500)) {
-      message("Please wait, Packages life durations are assessed.\n")
-      result$lifeduration <- get_lifedurations_vec(result$Package, result$Version.expected, "crandb")
-    } else if (lifeduration) {
-      ld <- get_crandb_lifedurations(result$Package, result$Version.expected)
-      result <- merge(result, ld, by = "Package", all.x = TRUE)
-    }
-
-    not_installed <- is.na(result$Version.expected)
-    if (any(not_installed)) {
-      result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
-    }
-
-    result
+    get_validate_online(result, "Version.expected", lifeduration, checkred, repos)
   } else {
     warning("There is no Internet connection.")
   }
+
+  result
+}
+
+get_validate_online <- function(result, version_name_new = "Version.expected", lifeduration, checkred, repos, lib.loc = .libPaths()) {
+  stopifnot(identical(colnames(result), c("Package", "Version.expected.min", version_name_new, "version_status")))
+  newest_df <- merge(
+    result,
+    available_packages(repos = repos)[, c("Package", "Version")],
+    by = "Package",
+    all.x = TRUE,
+    sort = FALSE
+  )
+
+  newest_df$newest <- as.character(newest_df[[version_name_new]]) == as.character(newest_df$Version)
+
+  result <- merge(
+    result,
+    newest_df[, c("Package", "newest")],
+    by = "Package",
+    sort = FALSE,
+    all.x = TRUE
+  )
+
+  cran_df <- merge(result[, c("Package", version_name_new)],
+                   available_packages(repos = "https://cloud.r-project.org")[, c("Package", "Version")],
+                   by = "Package",
+                   all.x = TRUE,
+                   sort = FALSE
+  )
+
+  cran_df$cran <- !is.na(cran_df$Version)
+  cran_df$cran[is.na(cran_df$cran)] <- FALSE
+
+  result <- merge(
+    result,
+    cran_df[, c("Package", "cran")],
+    by = "Package",
+    sort = FALSE,
+    all.x = TRUE
+  )
+
+  if (length(checkred$scope)) {
+    checkred_all <- checked_packages()
+    if (is.data.frame(checkred_all)) {
+      flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
+      scope_final <- c(checkred$scope, paste0(checkred$scope, "*"))
+      checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
+      checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
+      result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
+      result$checkred[is.na(result$newest) | !result$cran] <- NA
+    } else {
+      message("Failed to retrieve packages statuses with the checked_packages() function.")
+      result$checkred <- NA
+    }
+  }
+
+  if (lifeduration && (nrow(result) >= 500)) {
+    message("Please wait, Packages life durations are assessed.\n")
+    result$lifeduration <- get_lifedurations_vec(result$Package, result[[version_name_new]], "crandb", lib.loc, repos)
+  } else if (lifeduration) {
+    ld <- get_crandb_lifedurations(result$Package, result[[version_name_new]])
+    result <- merge(result, ld, by = "Package", all.x = TRUE)
+  }
+
+  not_installed <- is.na(result[[version_name_new]])
+  if (any(not_installed)) {
+    result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
+  }
+  result
 }

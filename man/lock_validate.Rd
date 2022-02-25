@@ -37,7 +37,7 @@ data.frame with 5/7/8/9 columns.
 }
 \description{
 This function will be especially useful when renv lock file is built manually.
-Checking if installed package dependencies have correct versions taking into account their DESCRIPTION files requirements.
+Checking if packages in the lock file have correct versions taking into account their DESCRIPTION files requirements (\code{c("Depends", "Imports", "LinkingTo")}).
 Moreover identifying which packages are newest releases.
 Optionally we could add life duration and CRAN check page status for each dependency.
 }

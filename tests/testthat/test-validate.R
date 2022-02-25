@@ -44,6 +44,7 @@ test_that("lib_validate lifedurations", {
   skip_if_offline()
   lib_res <- lib_validate(lifeduration = TRUE)
   expect_true(inherits(lib_res, "data.frame"))
+  expect_true(all(is.na(lib_res$lifeduration) | (lib_res$lifeduration >= 0)))
 })
 
 test_that("pacs::pac_validate", {
