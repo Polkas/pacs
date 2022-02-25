@@ -69,7 +69,7 @@
   from <span class="op">=</span> <span class="cn">NULL</span>,
   to <span class="op">=</span> <span class="cn">NULL</span>,
   version <span class="op">=</span> <span class="cn">NULL</span>,
-  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"metadb"</span>, <span class="st">"cran"</span><span class="op">)</span>
+  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"crandb"</span>, <span class="st">"cran"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -86,7 +86,7 @@
 <dt>version</dt>
 <dd><p>character version of package. Default: NULL</p></dd>
 <dt>source</dt>
-<dd><p>character one of <code>c("metadb", "cran")</code>. Using the <code>MEATCRAN</code> DB or the direct web page download from CRAN. Default: <code>"metadb"</code></p></dd>
+<dd><p>character one of <code>c("crandb", "cran")</code>. Using the <code>MEATCRAN</code> DB or the direct web page download from CRAN. Default: <code>"crandb"</code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -118,7 +118,9 @@
     <p>Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 The base part of URL in the result is <code>https://cran.r-project.org/src/contrib/</code>.
-Results are cached for 30 minutes with <code>memoise</code> package.</p>
+Results are cached for 30 minutes with <code>memoise</code> package.
+The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:
+Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.</p>
     </div>
 
     <div id="ref-examples">

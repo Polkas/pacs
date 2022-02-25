@@ -70,7 +70,7 @@ Optionally we could add life duration and CRAN check page status for each packag
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lib_validate</span><span class="op">(</span>
   lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,
   fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span><span class="op">)</span>,
-  lifeduration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"metadb"</span>, <span class="st">"cran"</span><span class="op">)</span>,
+  lifeduration <span class="op">=</span> <span class="cn">FALSE</span>,
   checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, flavors <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,
   repos <span class="op">=</span> <span class="fu"><a href="biocran_repos.html">biocran_repos</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
@@ -85,7 +85,7 @@ Optionally we could add life duration and CRAN check page status for each packag
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 <dt>lifeduration</dt>
-<dd><p>character one of <code>c("none", "metadb", "cran")</code>. Using the <code>MEATCRAN</code> DB or the direct web page download from CRAN for <code>lifeduration</code> option. Default: <code>"metadb"</code></p></dd>
+<dd><p>logical if to assess life duration for each package in the library. <code>MEATCRAN CRANDB</code> is used for libraries with less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE</p></dd>
 <dt>checkred</dt>
 <dd><p>list with two named fields, <code>scope</code> and <code>flavor</code>. <code>scope</code> of R CRAN check pages statuses to consider, any of <code>c("ERROR", "FAIL", "WARN", "NOTE")</code>. <code>flavor</code> is a vector of CRAN machines to consider, which might be retrieved with <code>pacs::cran_flavors()$Flavor</code>. By default an empty scope field deactivated assessment for <code>checkred</code> column, and NULL flavor will results in checking all machines. Default <code>list(scope = character(0), flavor = NULL)</code></p></dd>
 <dt>repos</dt>
@@ -125,7 +125,9 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
 When turn on the <code>lifeduration</code> options, calculations might be time consuming.
 Results are cached for 30 minutes with <code>memoise</code> package.
-<code>BioConductor</code> packages are tested only in available scope, <code>checkred</code> is not assessed for them.</p>
+<code>BioConductor</code> packages are tested only in available scope, <code>checkred</code> is not assessed for them.
+The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:
+Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.</p>
     </div>
 
     <div id="ref-examples">

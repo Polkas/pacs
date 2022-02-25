@@ -69,7 +69,7 @@
   at <span class="op">=</span> <span class="cn">NULL</span>,
   lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,
   repos <span class="op">=</span> <span class="fu"><a href="biocran_repos.html">biocran_repos</a></span><span class="op">(</span><span class="op">)</span>,
-  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"metadb"</span>, <span class="st">"cran"</span><span class="op">)</span>
+  source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"crandb"</span>, <span class="st">"cran"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -87,7 +87,7 @@ The local repository has priority, it version is available. Default: NULL</p></d
 <dt>repos</dt>
 <dd><p>character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
 <dt>source</dt>
-<dd><p>character one of <code>c("metadb", "cran")</code>. Using the <code>MEATCRAN</code> DB or the direct web page download from CRAN. Default: <code>"metadb"</code></p></dd>
+<dd><p>character one of <code>c("crandb", "cran")</code>. Using the <code>MEATCRAN  CRANDB</code> or the direct web page download from CRAN. Default: <code>"crandb"</code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -97,7 +97,9 @@ The local repository has priority, it version is available. Default: NULL</p></d
     <h2>Note</h2>
     <p>Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 30 minutes with <code>memoise</code> package, memory cache.</p>
+Results are cached for 30 minutes with <code>memoise</code> package, memory cache.
+The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:
+Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.</p>
     </div>
 
     <div id="ref-examples">
