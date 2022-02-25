@@ -33,3 +33,9 @@ test_that("pacs::pac_compare_namesapce online", {
   ))
   expect_true(suppressWarnings(length(pac_compare_namespace("memoise")) == 10))
 })
+
+test_that("pacs::pac_comapre_namespace offline", {
+  pac_compare_namespace_offline <- pac_compare_namespace
+  mockery::stub(pac_compare_namespace_offline, "is_online", FALSE)
+  expect_error(pac_compare_namespace_offline("memoise", "0.2.1", "2.0.0"), "is_online\\(\\) is not TRUE")
+})

@@ -7,7 +7,7 @@
 lib_validate(
   lib.loc = .libPaths(),
   fields = c("Depends", "Imports", "LinkingTo"),
-  lifeduration = c("none", "metadb", "cran"),
+  lifeduration = FALSE,
   checkred = list(scope = character(0), flavors = NULL),
   repos = biocran_repos()
 )
@@ -19,7 +19,7 @@ lib_validate(
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lifeduration}{character one of \code{c("none", "metadb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN for \code{lifeduration} option. Default: \code{"metadb"}}
+\item{lifeduration}{logical if to assess life duration for each package in the library. \verb{MEATCRAN CRANDB} is used for libraries with less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE}
 
 \item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. \code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines. Default \code{list(scope = character(0), flavor = NULL)}}
 
@@ -49,6 +49,8 @@ Version.expected.min column not count packages which are not a dependency for an
 When turn on the \code{lifeduration} options, calculations might be time consuming.
 Results are cached for 30 minutes with \code{memoise} package.
 \code{BioConductor} packages are tested only in available scope, \code{checkred} is not assessed for them.
+The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
+Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
 }
 \examples{
 \dontrun{

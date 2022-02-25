@@ -313,3 +313,35 @@ read_html_table <- function(table_lines) {
   rrr_html <- read_html(rrr_all)
   rrr_html
 }
+
+crandb_json_raw <- function(pacs) {
+  if (!is_online()) NA
+  jsonlite::read_json(
+    sprintf(
+      'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=100000',
+      paste(pacs, collapse = '","')
+    )
+  )
+}
+
+crandb_json <- memoise::memoise(crandb_json_raw, cache = cachem::cache_mem(max_age = 30 * 60))
+
+get_crandb_lifedurations <- function(pacs, versions) {
+  result <- rep(NA, length(pacs))
+  if (!length(pacs) == length(versions)) return(result)
+  meta <- crandb_json(pacs)
+  ll <- lapply(names(meta), function(x) {
+    tl <- meta[[x]]$timeline
+    res <- data.frame(Package = x, Version = names(tl), Released = as.Date(substr(tl, 1, 10)), stringsAsFactors = FALSE)
+    res <- res[order(res$Released), ]
+    res$LifeDuration <- diff(c(res$Released, Sys.Date()))
+    res
+  })
+  names(ll) <- names(meta)
+
+  ld <- sapply(names(ll), function(x) {
+    if (!isNA(vv <- versions[pacs == x])) ll[[x]][ll[[x]]$Version == vv, "LifeDuration"][1] else NA
+  })
+
+  data.frame(Package = names(meta), lifeduration = ld, stringsAsFactors = FALSE)
+}

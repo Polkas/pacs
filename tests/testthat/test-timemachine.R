@@ -3,7 +3,7 @@ test_that("pacs::pac_timemachine", {
   expect_error(pac_timemachine("dplyr", version = 2))
 })
 
-test_that("pacs::pac_timemachine", {
+test_that("pacs::pac_timemachine online", {
   skip_if_offline()
   expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"))$Version == "1.0.0")
   expect_true(pac_timemachine("memoise", at = as.Date("2017-02-02"), source = "cran")$Version == "1.0.0")
@@ -14,4 +14,10 @@ test_that("pacs::pac_timemachine", {
   expect_true(nrow(pac_timemachine("memoise", at = as.Date("2100-01-01"))) == 1)
   expect_true(nrow(pac_timemachine("memoise", from = as.Date("2100-01-01"), to = as.Date("2200-01-01"))) == 1)
   expect_true(isNA(pac_archived_raw("WRONG")))
+})
+
+test_that("pacs::pac_timemachine offline", {
+pac_timemachine_offline <- pac_timemachine
+mockery::stub(pac_timemachine_offline, "is_online", FALSE)
+expect_true(isNA(pac_timemachine_offline("dplyr")))
 })

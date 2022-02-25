@@ -5,7 +5,7 @@
 #' @param from Date new version of package. Default: NULL
 #' @param version character version of package. Default: NULL
 #' @param to Date CRAN URL. Default: NULL
-#' @param source character one of `c("metadb", "cran")`. Using the `MEATCRAN` DB or the direct web page download from CRAN. Default: `"metadb"`
+#' @param source character one of `c("crandb", "cran")`. Using the `MEATCRAN` DB or the direct web page download from CRAN. Default: `"crandb"`
 #' @return data.frame with 7 columns
 #' \describe{
 #' \item{Package}{character package name.}
@@ -20,6 +20,8 @@
 #' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 #' The base part of URL in the result is `https://cran.r-project.org/src/contrib/`.
 #' Results are cached for 30 minutes with `memoise` package.
+#' The `crandb` R packages database is a part of `METACRAN` project, source:
+#' Csárdi G, Salmon M (2022). `pkgsearch`: Search and Query CRAN R Packages. `https://github.com/r-hub/pkgsearch`, `https://r-hub.github.io/pkgsearch/`.
 #' @export
 #' @examples
 #' \dontrun{
@@ -33,7 +35,7 @@ pac_timemachine <- function(pac,
                             from = NULL,
                             to = NULL,
                             version = NULL,
-                            source = c("metadb", "cran")) {
+                            source = c("crandb", "cran")) {
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(xor(
     !is.null(at) && inherits(at, "Date") && is.null(version),
@@ -147,8 +149,8 @@ pac_timemachine_table <- function(pac, source) {
     result$Archived <- as.Date(c(result$Released[-1], cran_page$Released))
     result$LifeDuration <- result$Archived - result$Released
     result <- rbind(result[, f_cols], cran_page[, f_cols])
-  } else if (source == "metadb") {
-    result_json <- jsonlite::read_json(sprintf("https://crandb.r-pkg.org/-/allall?start_key=%%22%s%%22&limit=1", pac))
+  } else if (source == "crandb") {
+    result_json <- crandb_json(pac)
     result <- data.frame(
       Package = pac,
       Released = unlist(result_json[[pac]]$timeline),

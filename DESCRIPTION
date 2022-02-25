@@ -29,6 +29,8 @@ Depends: R (>= 3.5.0)
 Suggests: 
     remotes,
     withr,
+    pkgsearch,
+    mockery,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown

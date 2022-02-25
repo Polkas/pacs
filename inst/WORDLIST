@@ -104,6 +104,7 @@ copyrightable
 cpp
 cppFunction
 cran
+crandb
 createChromosomalMatrixSet
 createRenderFunction
 createWebDependency
@@ -112,6 +113,7 @@ CrossVal
 CrossValidate
 CrossValSummary
 CRS
+Csárdi
 csv
 ctxt
 cv
@@ -329,6 +331,7 @@ integerish
 interp
 inv
 invalidateLater
+io
 isClassDef
 isfinite
 isinfinite
@@ -379,6 +382,7 @@ matmult
 matrixStats
 mday
 mdf
+MEATCRAN
 memoryCache
 Merc
 MERCHANTABILITY
@@ -444,6 +448,7 @@ passwordInput
 PECOK
 pfround
 pkgdown
+pkgsearch
 placeGrob
 plotCLArray
 plotJPEG
@@ -674,6 +679,7 @@ testthat
 textAreaInput
 textInput
 textOutput
+THis
 tidyr
 titlePanel
 tList

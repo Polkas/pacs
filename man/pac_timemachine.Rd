@@ -10,7 +10,7 @@ pac_timemachine(
   from = NULL,
   to = NULL,
   version = NULL,
-  source = c("metadb", "cran")
+  source = c("crandb", "cran")
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ pac_timemachine(
 
 \item{version}{character version of package. Default: NULL}
 
-\item{source}{character one of \code{c("metadb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"metadb"}}
+\item{source}{character one of \code{c("crandb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"crandb"}}
 }
 \value{
 data.frame with 7 columns
@@ -46,6 +46,8 @@ Function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 The base part of URL in the result is \verb{https://cran.r-project.org/src/contrib/}.
 Results are cached for 30 minutes with \code{memoise} package.
+The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
+Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
 }
 \examples{
 \dontrun{

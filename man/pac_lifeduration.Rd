@@ -10,7 +10,7 @@ pac_lifeduration(
   at = NULL,
   lib.loc = .libPaths(),
   repos = biocran_repos(),
-  source = c("metadb", "cran")
+  source = c("crandb", "cran")
 )
 }
 \arguments{
@@ -25,7 +25,7 @@ The local repository has priority, it version is available. Default: NULL}
 
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default \code{pacs::biocran_repos()}}
 
-\item{source}{character one of \code{c("metadb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"metadb"}}
+\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN  CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.
@@ -37,6 +37,8 @@ using CRAN website to get a package life duration for certain version or at a sp
 Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 Results are cached for 30 minutes with \code{memoise} package, memory cache.
+The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
+Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
 }
 \examples{
 \dontrun{

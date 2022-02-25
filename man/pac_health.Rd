@@ -13,7 +13,7 @@ pac_health(
   flavors = NULL,
   lib.loc = .libPaths(),
   repos = "https://cran.rstudio.com/",
-  source = c("metadb", "cran")
+  source = c("crandb", "cran")
 )
 }
 \arguments{
@@ -33,7 +33,7 @@ pac_health(
 
 \item{repos}{character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"}
 
-\item{source}{character one of \code{c("metadb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"metadb"}}
+\item{source}{character one of \code{c("crandb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"crandb"}}
 }
 \value{
 logical if a package is healthy.
@@ -48,6 +48,8 @@ Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
 The newest release are checked for warnings/errors on R CRAN check page.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
 Results are cached for 30 minutes with \code{memoise} package, memory cache.
+The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
+Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
 }
 \examples{
 \dontrun{
