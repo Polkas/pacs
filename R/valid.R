@@ -325,13 +325,13 @@ pac_validate <- function(pac,
 #' @export
 #' @examples
 #' \dontrun{
-#'
+#'  lock_validate("PATH/file.lock")
 #' }
 lock_validate <- function(path,
                           lifeduration = FALSE,
                           checkred = list(scope = character(0), flavors = NULL),
                           repos = biocran_repos()) {
-  stopifnot(file.exists(path))
+  stopifnot(dir.exists(dirname(path)))
   stopifnot(is.list(checkred) &&
     (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
