@@ -255,7 +255,7 @@ lock_validate <- function(path,
 }
 
 get_validate_online <- function(result, version_name_new = "Version.expected", lifeduration, checkred, repos, lib.loc = .libPaths()) {
-  stopifnot(identical(colnames(result), c("Package", "Version.expected.min", version_name_new, "version_status")))
+  stopifnot(c("Package", version_name_new) %in% colnames(result))
   newest_df <- merge(
     result,
     available_packages(repos = repos)[, c("Package", "Version")],
