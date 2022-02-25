@@ -262,7 +262,7 @@ pac_validate <- function(pac,
         }
       }
 
-      if (lifeduration && (nrow(installed_packages(lib.loc = lib.loc)) >= 500)) {
+      if (lifeduration && (nrow(result) >= 500)) {
         message("Please wait, Packages life durations are assessed.\n")
         result$lifeduration <- vapply(
           seq_len(nrow(result)),
@@ -310,7 +310,7 @@ pac_validate <- function(pac,
 #' \describe{
 #' \item{Package}{character a package name.}
 #' \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
-#' \item{Version.have}{character installed package version.}
+#' \item{Version.expected}{character package version in the renv lock file.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 #' \item{direct}{ logical if the package is in the first depencency layer, direct depencencies from DESCRIPTION file.}
@@ -356,10 +356,10 @@ lock_validate <- function(path,
   depends_df$Version <- gsub("[ \n]", "", gsub(">=", "", gsub("\\*", "", depends_df$Version)))
   result_deps <- stats::aggregate(depends_df[, c("Version"), drop = FALSE], list(Package = depends_df$Package), pacs::compareVersionsMax)
 
-  result <- merge(result_deps, result_renv, by = "Package", all = TRUE, suffixes = c(".expected.min", ".have"))
+  result <- merge(result_deps, result_renv, by = "Package", all = TRUE, suffixes = c(".expected.min", ".expected"))
   result$version_status <- vapply(
     seq_len(nrow(result)),
-    function(x) utils::compareVersion(result$Version.have[x], result$Version.expected.min[x]),
+    function(x) utils::compareVersion(result$Version.expected[x], result$Version.expected.min[x]),
     numeric(1)
   )
   result <- result[!result$Package %in% pacs_base(), ]
@@ -373,7 +373,7 @@ lock_validate <- function(path,
       sort = FALSE
     )
 
-    newest_df$newest <- as.character(newest_df$Version.have) == as.character(newest_df$Version)
+    newest_df$newest <- as.character(newest_df$Version.expected) == as.character(newest_df$Version)
 
     result <- merge(
       result,
@@ -383,7 +383,7 @@ lock_validate <- function(path,
       all.x = TRUE
     )
 
-    cran_df <- merge(result[, c("Package", "Version.have")],
+    cran_df <- merge(result[, c("Package", "Version.expected")],
       available_packages(repos = "https://cloud.r-project.org")[, c("Package", "Version")],
       by = "Package",
       all.x = TRUE,
@@ -416,16 +416,16 @@ lock_validate <- function(path,
       }
     }
 
-    if (lifeduration && (nrow(installed_packages(lib.loc = lib.loc)) >= 500)) {
+    if (lifeduration && (nrow(result) >= 500)) {
       message("Please wait, Packages life durations are assessed.\n")
       result$lifeduration <- vapply(
         seq_len(nrow(result)),
         function(x) {
-          if (!isNA(version_p <- as.character(result[x, "Version.have", drop = TRUE]))) {
+          if (!isNA(version_p <- as.character(result[x, "Version.expected", drop = TRUE]))) {
             pac_lifeduration(result[x, "Package", drop = TRUE],
               version_p,
               repos = repos,
-              lib.loc = lib.loc,
+              lib.loc = .libPaths(),
               source = "cran"
             )
           } else {
@@ -434,11 +434,11 @@ lock_validate <- function(path,
         }, numeric(1)
       )
     } else if (lifeduration) {
-      ld <- get_crandb_lifedurations(result$Package, result$Version.have)
+      ld <- get_crandb_lifedurations(result$Package, result$Version.expected)
       result <- merge(result, ld, by = "Package", all.x = TRUE)
     }
 
-    not_installed <- is.na(result$Version.have)
+    not_installed <- is.na(result$Version.expected)
     if (any(not_installed)) {
       result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
     }

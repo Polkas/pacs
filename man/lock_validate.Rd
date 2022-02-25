@@ -25,7 +25,7 @@ data.frame with 5/7/8/9 columns.
 \describe{
 \item{Package}{character a package name.}
 \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
-\item{Version.have}{character installed package version.}
+\item{Version.expected}{character package version in the renv lock file.}
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 \item{direct}{ logical if the package is in the first depencency layer, direct depencencies from DESCRIPTION file.}

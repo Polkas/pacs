@@ -27,6 +27,18 @@ test_that("pacs::lib_validate online", {
   expect_true(sum(lib_res_s2$checkred, na.rm = TRUE) >= sum(lib_res_s1$checkred, na.rm = TRUE))
 })
 
+test_that("pacs::lock_validate", {
+  expect_error(lock_validate(path = "wrong"))
+  expect_error(lock_validate(path = "tests/testthat/files/renv.lock", checkred = "STH"))
+  expect_error(lock_validate(path = "tests/testthat/files/renv.lock", checkred = list(scope = "ERROR"), lifeduration = "None"))
+})
+
+test_that("pacs::lock_validate", {
+  skip_if_offline()
+  expect_true(is.data.frame(lock_validate(path = "files/renv.lock")))
+  expect_true(is.data.frame(lock_validate(path = "files/renv.lock", checkred = list(scope = "ERROR"), lifeduration = TRUE)))
+})
+
 test_that("lib_validate lifedurations", {
   skip_if(nrow(installed_packages(lib.loc = .libPaths())) > 200)
   skip_if_offline()
