@@ -206,7 +206,9 @@ pac_validate <- function(pac,
 #' @export
 #' @examples
 #' \dontrun{
-#' lock_validate("https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock")
+#' # path or url
+#' url <- "https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"
+#' lock_validate(url)
 #' }
 lock_validate <- function(path,
                           lifeduration = FALSE,
@@ -317,10 +319,10 @@ validate_online <- function(result,
 
   if (lifeduration && (nrow(result) >= 500)) {
     message("Please wait, Packages life durations are assessed.\n")
-    ld <- pacs_lifedurations(result$Package, result[[version_name_new]], "loop_crandb", lib.loc, repos)
+    ld <- pacs_lifeduration(result$Package, result[[version_name_new]], "loop_crandb", lib.loc, repos)
     result <- merge(result, ld, by = "Package", all.x = TRUE)
   } else if (lifeduration) {
-    ld <- pacs_lifedurations(result$Package, result[[version_name_new]])
+    ld <- pacs_lifeduration(result$Package, result[[version_name_new]])
     result <- merge(result, ld, by = "Package", all.x = TRUE)
   }
 

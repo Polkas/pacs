@@ -154,7 +154,12 @@ pac_health <- function(pac,
 #' Packages life duration for a specific version
 #' @description using CRAN website to get a package life duration for certain version or at a specific Date.
 #' @param pacs character vector packages names.
-pacs_lifedurations <- function(pacs, versions, source = c("crandb", "loop_crandb", "loop_cran"), lib.loc = .libPaths(), repos = biocran_repos()) {
+#' @param versions character vector packages versions.
+#' @param source character one of `c("crandb", "loop_crandb", "loop_cran")`. Default: `"crandb"`
+#' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
+#' @param repos character the base CRAN URL of the repository to use. Default `"https://cran.rstudio.org"`
+#' @param pacs character vector packages names.
+pacs_lifeduration <- function(pacs, versions, source = c("crandb", "loop_crandb", "loop_cran"), lib.loc = .libPaths(), repos = biocran_repos()) {
   if (length(pacs) != length(versions)) {
     return(rep(NA, length(pacs)))
   }

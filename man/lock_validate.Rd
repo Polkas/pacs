@@ -49,6 +49,8 @@ Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. 
 }
 \examples{
 \dontrun{
-lock_validate("https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock")
+# path or url
+url <- "https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"
+lock_validate(url)
 }
 }
