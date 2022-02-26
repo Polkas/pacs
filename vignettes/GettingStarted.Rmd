@@ -149,7 +149,7 @@ merge(
 )
 ```
 
-### renv
+### renv library
 
 When a project is based on `renv` and all needed dependencies are installed in the `renv` directory then we mostly want to validate only the isolated `renv` library.
 In the new `renv` versions the `.libPaths()` contains the main library path too (`renv` library and the main library).
@@ -160,7 +160,16 @@ Please remember to limit the library path when using `pacs::lib_validate`, to li
 pacs::lib_validate(lib.loc = .libPaths()[1])
 ```
 
-Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in the `renv` library.  
+Warning, at least `rsconnect` (and its `packrat` connected dependencies) related packages could still not be in the `renv` library. 
+
+### renv lock file
+
+There is a way to validate the `renv` lock file in the same way the local library or packages are validated.
+
+```r
+# Path has to be updated 
+pacs::lock_validate("path/renv.lock")
+```
 
 ### R CRAN packages check page statuses
 

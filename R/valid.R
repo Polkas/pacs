@@ -56,7 +56,7 @@ lib_validate <- function(lib.loc = .libPaths(),
     (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
     (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
-    (is.null(checkred$flavors) || all(checkred$flavors %in% read_cran_flavours_raw()$Flavor)))
+    (is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)))
   stopifnot(is.character(repos))
   stopifnot(is.logical(lifeduration))
 
@@ -144,7 +144,7 @@ pac_validate <- function(pac,
     (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
     (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
-    (is.null(checkred$flavors) || all(checkred$flavors %in% read_cran_flavours_raw()$Flavor)))
+    (is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)))
   stopifnot(is.character(repos))
   stopifnot(is.logical(lifeduration))
 
@@ -162,7 +162,6 @@ pac_validate <- function(pac,
   )
 
   if (nrow(result)) {
-
     result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
     result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
     result$direct <- result$Package %in% descriptions_pac_direct$Package
@@ -206,7 +205,7 @@ pac_validate <- function(pac,
 #' @export
 #' @examples
 #' \dontrun{
-#'  lock_validate("PATH/file.lock")
+#' lock_validate("PATH/file.lock")
 #' }
 lock_validate <- function(path,
                           lifeduration = FALSE,
@@ -217,7 +216,7 @@ lock_validate <- function(path,
     (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
     (length(checkred$scope) == 0 || all(checkred$scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))) &&
-    (is.null(checkred$flavors) || all(checkred$flavors %in% read_cran_flavours_raw()$Flavor)))
+    (is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)))
   stopifnot(is.character(repos))
   stopifnot(is.logical(lifeduration))
 
@@ -275,10 +274,10 @@ get_validate_online <- function(result, version_name_new = "Version.expected", l
   )
 
   cran_df <- merge(result[, c("Package", version_name_new)],
-                   available_packages(repos = "https://cloud.r-project.org")[, c("Package", "Version")],
-                   by = "Package",
-                   all.x = TRUE,
-                   sort = FALSE
+    available_packages(repos = "https://cloud.r-project.org")[, c("Package", "Version")],
+    by = "Package",
+    all.x = TRUE,
+    sort = FALSE
   )
 
   cran_df$cran <- !is.na(cran_df$Version)

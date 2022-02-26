@@ -48,6 +48,6 @@ Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. 
 }
 \examples{
 \dontrun{
- lock_validate("PATH/file.lock")
+lock_validate("PATH/file.lock")
 }
 }
