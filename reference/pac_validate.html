@@ -129,7 +129,7 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
     <div id="note">
     <h2>Note</h2>
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-When turn on the <code>lifeduration</code> option, calculations might be time consuming.
+When turn on the <code>lifeduration</code> option, calculations might be time consuming when there is more than 500 packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with <code>lifeduration</code> or <code>checkred</code> turned on.
 Results are cached with <code>memoise</code> package, memory cache.
 The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:

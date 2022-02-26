@@ -123,7 +123,7 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
     <div id="note">
     <h2>Note</h2>
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-When turn on the <code>lifeduration</code> options, calculations might be time consuming.
+When turn on the <code>lifeduration</code> options, calculations might be time consuming for libraries bigger than 500 packages.
 Results are cached for 30 minutes with <code>memoise</code> package.
 <code>BioConductor</code> packages are tested only in available scope, <code>checkred</code> is not assessed for them.
 The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:

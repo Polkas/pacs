@@ -80,7 +80,7 @@ Optionally we could add life duration and CRAN check page status for each depend
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path</dt>
-<dd><p>character a path to the <code>renv</code> lock file.</p></dd>
+<dd><p>character a path to the <code>renv</code> lock file, or url.</p></dd>
 <dt>lifeduration</dt>
 <dd><p>logical if to assess life duration for each package in the library. <code>MEATCRAN CRANDB</code> is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE</p></dd>
 <dt>checkred</dt>
@@ -123,6 +123,7 @@ Optionally we could add life duration and CRAN check page status for each depend
     <div id="note">
     <h2>Note</h2>
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+When turn on the <code>lifeduration</code> option, calculations might be time consuming when there is more than 500 packages.
 The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:
 Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.</p>
     </div>
@@ -130,7 +131,7 @@ Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Pack
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">lock_validate</span><span class="op">(</span><span class="st">"PATH/file.lock"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">lock_validate</span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
