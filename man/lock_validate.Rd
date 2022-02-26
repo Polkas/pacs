@@ -12,7 +12,7 @@ lock_validate(
 )
 }
 \arguments{
-\item{path}{character a path to the \code{renv} lock file.}
+\item{path}{character a path to the \code{renv} lock file, or url.}
 
 \item{lifeduration}{logical if to assess life duration for each package in the library. \verb{MEATCRAN CRANDB} is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE}
 
@@ -49,6 +49,6 @@ Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. 
 }
 \examples{
 \dontrun{
-lock_validate("PATH/file.lock")
+lock_validate("https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock")
 }
 }

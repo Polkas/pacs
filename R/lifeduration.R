@@ -32,13 +32,17 @@ pac_lifeduration <- function(pac,
   stopifnot(!all(c(!is.null(version), !is.null(at))))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
-  if (!is_online()) return(NA)
+  if (!is_online()) {
+    return(NA)
+  }
 
   source <- match.arg(source)
 
   ison_cran <- is_isin(pac, "https://cran.rstudio.com/")
   last_version <- pac_last(pac, repos = repos)
-  if(isNA(last_version)) return(NA)
+  if (isNA(last_version)) {
+    return(NA)
+  }
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
   version_installed <- if (is_installed) {
@@ -124,7 +128,9 @@ pac_health <- function(pac,
   stopifnot(!all(c(!is.null(version), !is.null(at))))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(length(repos) == 1 && is.character(repos))
-  if (!is_online()) return(NA)
+  if (!is_online()) {
+    return(NA)
+  }
 
   source <- match.arg(source)
 
@@ -143,4 +149,51 @@ pac_health <- function(pac,
   } else {
     res
   }
+}
+
+#' Packages life duration for a specific version
+#' @description using CRAN website to get a package life duration for certain version or at a specific Date.
+#' @param pacs character vector packages names.
+pacs_lifedurations <- function(pacs, versions, source = c("crandb", "loop_crandb", "loop_cran"), lib.loc = .libPaths(), repos = biocran_repos()) {
+  if (length(pacs) != length(versions)) {
+    return(rep(NA, length(pacs)))
+  }
+  source <- match.arg(source)
+
+  if (source == "crandb") {
+    meta <- crandb_json(pacs)
+    ll <- lapply(names(meta), function(x) {
+      tl <- meta[[x]]$timeline
+      res <- data.frame(Package = x, Version = names(tl), Released = as.Date(substr(tl, 1, 10)), stringsAsFactors = FALSE)
+      res <- res[order(res$Released), ]
+      res$LifeDuration <- diff(c(res$Released, Sys.Date()))
+      res
+    })
+    names(ll) <- names(meta)
+
+    ld <- sapply(names(ll), function(x) {
+      if (!isNA(vv <- versions[pacs == x])) ll[[x]][ll[[x]]$Version == vv, "LifeDuration"][1] else NA
+    })
+
+    result <- data.frame(Package = names(meta), lifeduration = ld, stringsAsFactors = FALSE)
+  } else {
+    ld <- vapply(
+      seq_along(pacs),
+      function(x) {
+        if (!isNA(version_p <- versions[x])) {
+          pac_lifeduration(pacs[x],
+            version_p,
+            repos = repos,
+            lib.loc = lib.loc,
+            source = `if`(source == "loop_crandb", "crandb", "cran")
+          )
+        } else {
+          NA
+        }
+      }, numeric(1)
+    )
+    result <- data.frame(Package = pacs, lifeduration = ld, stringsAsFactors = FALSE)
+  }
+  rownames(result) <- NULL
+  result
 }

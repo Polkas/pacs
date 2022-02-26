@@ -82,7 +82,7 @@ lib_validate <- function(lib.loc = .libPaths(),
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
   if (is_online()) {
-    result <- get_validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
+    result <- validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
   } else {
     warning("There is no Internet connection.")
   }
@@ -167,7 +167,7 @@ pac_validate <- function(pac,
     result$direct <- result$Package %in% descriptions_pac_direct$Package
 
     if (is_online()) {
-      result <- get_validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
+      result <- validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
     } else {
       warning("There is no Internet connection.")
     }
@@ -182,7 +182,7 @@ pac_validate <- function(pac,
 #' Checking if packages in the lock file have correct versions taking into account their DESCRIPTION files requirements (`c("Depends", "Imports", "LinkingTo")`).
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each dependency.
-#' @param path character a path to the `renv` lock file.
+#' @param path character a path to the `renv` lock file, or url.
 #' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
@@ -206,7 +206,7 @@ pac_validate <- function(pac,
 #' @export
 #' @examples
 #' \dontrun{
-#' lock_validate("PATH/file.lock")
+#' lock_validate("https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock")
 #' }
 lock_validate <- function(path,
                           lifeduration = FALSE,
@@ -245,7 +245,7 @@ lock_validate <- function(path,
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
   if (is_online()) {
-    result <- get_validate_online(result, "Version.expected", lifeduration, checkred, repos)
+    result <- validate_online(result, "Version.expected", lifeduration, checkred, repos)
   } else {
     warning("There is no Internet connection.")
   }
@@ -253,7 +253,16 @@ lock_validate <- function(path,
   result
 }
 
-get_validate_online <- function(result, version_name_new = "Version.expected", lifeduration, checkred, repos, lib.loc = .libPaths()) {
+#' Append a data.frame with online attributes
+#' @description internal function to append a data.frame with an online related sources.
+#' The input data.frame has a specific structure, such contain `c("Package", version_name_new)` columns.
+#' @keywords internal
+validate_online <- function(result,
+                            version_name_new = "Version.expected",
+                            lifeduration,
+                            checkred,
+                            repos,
+                            lib.loc = .libPaths()) {
   stopifnot(c("Package", version_name_new) %in% colnames(result))
   newest_df <- merge(
     result,
@@ -308,9 +317,10 @@ get_validate_online <- function(result, version_name_new = "Version.expected", l
 
   if (lifeduration && (nrow(result) >= 500)) {
     message("Please wait, Packages life durations are assessed.\n")
-    result$lifeduration <- get_lifedurations_vec(result$Package, result[[version_name_new]], "crandb", lib.loc, repos)
+    ld <- pacs_lifedurations(result$Package, result[[version_name_new]], "loop_crandb", lib.loc, repos)
+    result <- merge(result, ld, by = "Package", all.x = TRUE)
   } else if (lifeduration) {
-    ld <- get_crandb_lifedurations(result$Package, result[[version_name_new]])
+    ld <- pacs_lifedurations(result$Package, result[[version_name_new]])
     result <- merge(result, ld, by = "Package", all.x = TRUE)
   }
 

@@ -28,7 +28,7 @@ test_that("pacs::lib_validate online", {
 })
 
 test_that("pacs::lock_validate", {
-  expect_error(lock_validate(path = "files/wrong.lock"))
+  expect_error(suppressWarnings(lock_validate(path = "files/wrong.lock")))
   expect_error(lock_validate(path = "files/renv_test.lock", checkred = "STH"))
   expect_error(lock_validate(path = "files/renv_test.lock", checkred = list(scope = "ERROR"), lifeduration = "None"))
 })
