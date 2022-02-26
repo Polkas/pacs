@@ -168,7 +168,7 @@ There is a way to validate the `renv` lock file in the same way the local librar
 
 ```r
 # Path has to be updated 
-pacs::lock_validate("path/renv.lock")
+pacs::lock_validate("https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock")
 ```
 
 ### R CRAN packages check page statuses

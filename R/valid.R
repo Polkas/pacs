@@ -23,7 +23,7 @@
 #' \item{lifeduration}{(Optional) (Internet needed) integer number of days a package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-#' When turn on the `lifeduration` options, calculations might be time consuming.
+#' When turn on the `lifeduration` options, calculations might be time consuming for libraries bigger than 500 packages.
 #' Results are cached for 30 minutes with `memoise` package.
 #' `BioConductor` packages are tested only in available scope, `checkred` is not assessed for them.
 #' The `crandb` R packages database is a part of `METACRAN` project, source:
@@ -117,7 +117,7 @@ lib_validate <- function(lib.loc = .libPaths(),
 #' \item{lifeduration}{(Optional) (Internet needed) integer number of days a package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-#' When turn on the `lifeduration` option, calculations might be time consuming.
+#' When turn on the `lifeduration` option, calculations might be time consuming when there is more than 500 packages.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with `lifeduration` or `checkred` turned on.
 #' Results are cached with `memoise` package, memory cache.
 #' The `crandb` R packages database is a part of `METACRAN` project, source:
@@ -200,6 +200,7 @@ pac_validate <- function(pac,
 #' \item{lifeduration}{(Optional) (Internet needed) integer number of days a package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+#' When turn on the `lifeduration` option, calculations might be time consuming when there is more than 500 packages.
 #' The `crandb` R packages database is a part of `METACRAN` project, source:
 #' Csárdi G, Salmon M (2022). `pkgsearch`: Search and Query CRAN R Packages. `https://github.com/r-hub/pkgsearch`, `https://r-hub.github.io/pkgsearch/`.
 #' @export
@@ -211,7 +212,6 @@ lock_validate <- function(path,
                           lifeduration = FALSE,
                           checkred = list(scope = character(0), flavors = NULL),
                           repos = biocran_repos()) {
-  stopifnot(file.exists(path))
   stopifnot(is.list(checkred) &&
     (length(checkred) %in% c(1, 2)) &&
     (c("scope") %in% names(checkred)) &&
@@ -245,7 +245,7 @@ lock_validate <- function(path,
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
   if (is_online()) {
-    get_validate_online(result, "Version.expected", lifeduration, checkred, repos)
+    result <- get_validate_online(result, "Version.expected", lifeduration, checkred, repos)
   } else {
     warning("There is no Internet connection.")
   }

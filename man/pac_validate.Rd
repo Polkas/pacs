@@ -50,7 +50,7 @@ Optionally we could add life duration and CRAN check page status for each depend
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
-When turn on the \code{lifeduration} option, calculations might be time consuming.
+When turn on the \code{lifeduration} option, calculations might be time consuming when there is more than 500 packages.
 Please as a courtesy to the R CRAN, don't overload their server by constantly using this function with \code{lifeduration} or \code{checkred} turned on.
 Results are cached with \code{memoise} package, memory cache.
 The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
