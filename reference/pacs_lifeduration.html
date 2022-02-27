@@ -79,7 +79,9 @@
 <dt>versions</dt>
 <dd><p>character vector packages versions.</p></dd>
 <dt>source</dt>
-<dd><p>character one of <code>c("crandb", "loop_crandb", "loop_cran")</code>. Default: <code>"crandb"</code></p></dd>
+<dd><p>character one of <code>c("crandb", "loop_crandb", "loop_cran")</code>.
+The <code>"crandb"</code> works if less than <code>getOption("pacs.crandb_limit")</code> (currently 500) packages are looked for.
+Default: <code>"crandb"</code></p></dd>
 <dt>lib.loc</dt>
 <dd><p>character vector. Is omitted for non NULL version. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 <dt>repos</dt>
