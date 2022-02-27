@@ -84,7 +84,7 @@ test_that("pacs::pac_deps recursive long field", {
 
 test_that("pacs::pac_deps_timemachine", {
   skip_if_offline()
-  expect_error(pac_deps_timemachine("WRONG", "0.8.0"))
+  expect_identical(pac_deps_timemachine("WRONG", "0.8.0"), NA)
   expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
   expect_true(length(pac_deps_timemachine("memoise", at = as.Date("2019-01-01"))) == 1)
 })
