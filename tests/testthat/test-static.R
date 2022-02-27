@@ -38,6 +38,10 @@ test_that("pacs::pac_checkpage offline", {
   expect_identical(pac_checkpage_offline("dplyr"), NA)
 })
 
+test_that("pac_checkpage", {
+  expect_true(isNA(pac_checkpage("WRONG")))
+})
+
 test_that("pacs::bio_releases()", {
   skip_if_offline()
   expect_true(
@@ -60,4 +64,8 @@ test_that("pacs::biocran_repos() offline", {
   biocran_repos_offline <- biocran_repos
   mockery::stub(biocran_repos_offline, "is_online", FALSE)
   expect_identical(biocran_repos_offline(), c(CRAN = "https://cran.rstudio.com/"))
+})
+
+test_that("biocran_repos", {
+  expect_identical(biocran_repos(NA), c(CRAN = "https://cran.rstudio.com/"))
 })
