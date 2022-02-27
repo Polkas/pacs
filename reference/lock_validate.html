@@ -73,6 +73,7 @@ Optionally we could add life duration and CRAN check page status for each depend
   <span class="va">path</span>,
   lifeduration <span class="op">=</span> <span class="cn">FALSE</span>,
   checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, flavors <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,
+  lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,
   repos <span class="op">=</span> <span class="fu"><a href="biocran_repos.html">biocran_repos</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -85,22 +86,24 @@ Optionally we could add life duration and CRAN check page status for each depend
 <dd><p>logical if to assess life duration for each package in the library. <code>MEATCRAN CRANDB</code> is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE</p></dd>
 <dt>checkred</dt>
 <dd><p>list with two named fields, <code>scope</code> and <code>flavor</code>. <code>scope</code> of R CRAN check pages statuses to consider, any of <code>c("ERROR", "FAIL", "WARN", "NOTE")</code>. <code>flavor</code> vector of machines to consider, which might be retrieved with <code>pacs::cran_flavors()$Flavor</code>. By default an empty scope field deactivated assessment for <code>checkred</code> column, and NULL flavor will results in checking all machines. Default <code>list(scope = character(0), flavor = NULL)</code></p></dd>
+<dt>lib.loc</dt>
+<dd><p>character vector. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 <dt>repos</dt>
 <dd><p>character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.frame with 5/7/8/9 columns.</p><dl><dt>Package</dt>
+    <p>data.frame with 3/5/7/8/9 columns.</p><dl><dt>Package</dt>
 <dd><p>character a package name.</p></dd>
 
 <dt>Version.expected.min</dt>
-<dd><p>character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.</p></dd>
+<dd><p>(conditional) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.</p></dd>
 
 <dt>Version.expected</dt>
 <dd><p>character package version in the renv lock file.</p></dd>
 
 <dt>version_status</dt>
-<dd><p>numeric -1/0/1 which comes from <code><a href="https://rdrr.io/r/utils/compareVersion.html" class="external-link">utils::compareVersion</a></code> function.
+<dd><p>(conditional) numeric -1/0/1 which comes from <code><a href="https://rdrr.io/r/utils/compareVersion.html" class="external-link">utils::compareVersion</a></code> function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.</p></dd>
 
 <dt>direct</dt>
@@ -123,6 +126,7 @@ Optionally we could add life duration and CRAN check page status for each depend
     <div id="note">
     <h2>Note</h2>
     <p>Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+<code>Version.expected.min</code> and <code>version_status</code> are assessed only if there are less than 500 packages in the lock file.
 When turn on the <code>lifeduration</code> option, calculations might be time consuming when there is more than 500 packages.
 The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:
 Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.</p>
