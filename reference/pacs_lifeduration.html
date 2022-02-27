@@ -85,7 +85,26 @@
 <dt>repos</dt>
 <dd><p>character the base CRAN URL of the repository to use. Default <code>"https://cran.rstudio.org"</code></p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>data.frame with two columns package name and life duration.</p>
+    </div>
+    <div id="note">
+    <h2>Note</h2>
+    <p>Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
+Results are cached for 30 minutes with <code>memoise</code> package, memory cache.
+The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:
+Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.</p>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu">pacs_lifeduration</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"tidyr"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1.0.0"</span>, <span class="st">"1.2.0"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs_lifeduration</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"tidyr"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1.0.0"</span>, <span class="st">"1.2.0"</span><span class="op">)</span>, source <span class="op">=</span> <span class="st">"loop_cran"</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
