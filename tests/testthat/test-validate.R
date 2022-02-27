@@ -74,7 +74,7 @@ test_that("offline validate", {
 
 test_that("lock_validate skip crandb if the limit is exceeded", {
   expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
-    lock_validate("tests/testthat/files/renv_test.lock")
+    lock_validate("files/renv_test.lock")
   }), "There is more than")
 })
 
