@@ -197,8 +197,9 @@ pacs_lifeduration <- function(pacs, versions, source = c("crandb", "loop_crandb"
       seq_along(pacs),
       function(x) {
         if (!isNA(version_p <- versions[x])) {
-          pac_lifeduration(pacs[x],
-            version_p,
+          pac_lifeduration(
+            pacs[x],
+            as.character(version_p),
             repos = repos,
             lib.loc = lib.loc,
             source = `if`(source == "loop_cran", "cran", "crandb")
