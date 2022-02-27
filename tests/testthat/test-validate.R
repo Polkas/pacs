@@ -58,6 +58,26 @@ test_that("pacs::pac_validate", {
   expect_true(inherits(pac_valid_full, "data.frame"))
 })
 
+test_that("offline validate", {
+  pac_validate_offline <- pac_validate
+  mockery::stub(pac_validate_offline, "is_online", FALSE)
+  expect_warning(pac_validate_offline("memoise"), "There is no Internet connection")
+
+  lib_validate_offline <- lib_validate
+  mockery::stub(lib_validate_offline, "is_online", FALSE)
+  expect_warning(lib_validate_offline(), "There is no Internet connection")
+
+  lock_validate_offline <- lock_validate
+  mockery::stub(lock_validate_offline, "is_online", FALSE)
+  expect_warning(lock_validate_offline("files/renv_test.lock"), "There is no Internet connection")
+})
+
+test_that("lock_validate skip crandb if the limit is exceeded", {
+  expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
+    lock_validate("tests/testthat/files/renv_test.lock")
+  }), "There is more than")
+})
+
 test_that("pacs::pac_lifeduration", {
   skip_if_offline()
   expect_true(is.na(pac_lifeduration("WRONGPACKAGE")))
