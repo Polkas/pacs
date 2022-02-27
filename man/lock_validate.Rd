@@ -8,6 +8,7 @@ lock_validate(
   path,
   lifeduration = FALSE,
   checkred = list(scope = character(0), flavors = NULL),
+  lib.loc = .libPaths(),
   repos = biocran_repos()
 )
 }
@@ -18,15 +19,17 @@ lock_validate(
 
 \item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. \code{flavor} vector of machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines. Default \code{list(scope = character(0), flavor = NULL)}}
 
+\item{lib.loc}{character vector. Default: \code{.libPaths()}}
+
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-data.frame with 5/7/8/9 columns.
+data.frame with 3/5/7/8/9 columns.
 \describe{
 \item{Package}{character a package name.}
-\item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
+\item{Version.expected.min}{(conditional) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
 \item{Version.expected}{character package version in the renv lock file.}
-\item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
+\item{version_status}{(conditional) numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 \item{direct}{ logical if the package is in the first depencency layer, direct depencencies from DESCRIPTION file.}
 \item{newest}{ logical (Internet needed) if the installed version is the newest one.}
@@ -43,6 +46,7 @@ Optionally we could add life duration and CRAN check page status for each depend
 }
 \note{
 Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+\code{Version.expected.min} and \code{version_status} are assessed only if there are less than 500 packages in the lock file.
 When turn on the \code{lifeduration} option, calculations might be time consuming when there is more than 500 packages.
 The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
 Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.

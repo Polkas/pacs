@@ -185,13 +185,14 @@ pac_validate <- function(pac,
 #' @param path character a path to the `renv` lock file, or url.
 #' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
+#' @param lib.loc character vector. Default: `.libPaths()`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return data.frame with 5/7/8/9 columns.
+#' @return data.frame with 3/5/7/8/9 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
-#' \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
+#' \item{Version.expected.min}{(conditional) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
 #' \item{Version.expected}{character package version in the renv lock file.}
-#' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
+#' \item{version_status}{(conditional) numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
 #' \item{direct}{ logical if the package is in the first depencency layer, direct depencencies from DESCRIPTION file.}
 #' \item{newest}{ logical (Internet needed) if the installed version is the newest one.}
@@ -200,6 +201,7 @@ pac_validate <- function(pac,
 #' \item{lifeduration}{(Optional) (Internet needed) integer number of days a package was released.}
 #' }
 #' @note Version.expected.min column not count packages which are not a dependency for any package, so could not be find in DESCRIPTION files.
+#' `Version.expected.min` and `version_status` are assessed only if there are less than 500 packages in the lock file.
 #' When turn on the `lifeduration` option, calculations might be time consuming when there is more than 500 packages.
 #' The `crandb` R packages database is a part of `METACRAN` project, source:
 #' Csárdi G, Salmon M (2022). `pkgsearch`: Search and Query CRAN R Packages. `https://github.com/r-hub/pkgsearch`, `https://r-hub.github.io/pkgsearch/`.
@@ -213,6 +215,7 @@ pac_validate <- function(pac,
 lock_validate <- function(path,
                           lifeduration = FALSE,
                           checkred = list(scope = character(0), flavors = NULL),
+                          lib.loc = .libPaths(),
                           repos = biocran_repos()) {
   stopifnot(is.list(checkred) &&
     (length(checkred) %in% c(1, 2)) &&
@@ -228,22 +231,29 @@ lock_validate <- function(path,
   pacs_n <- names(pacs_v)
   result_renv <- data.frame(Package = pacs_n, Version = pacs_v, stringsAsFactors = FALSE)
   result_renv <- rbind(result_renv, data.frame(Package = "R", Version = Rv, stringsAsFactors = FALSE))
-  crandb_pacs <- crandb_json(pacs_n)
 
-  all_data <- lapply(seq_along(pacs_n), function(x) crandb_pacs[[pacs_n[x]]]$versions[[pacs_v[x]]])
-  names(all_data) <- pacs_n
-  depends_pacs <- lapply(names(all_data), function(x) paste(c(names(all_data[[x]]$Depends), names(all_data[[x]]$Imports), names(all_data[[x]]$LinkingTo))))
-  depends_v <- lapply(names(all_data), function(x) paste(c(all_data[[x]]$Depends, all_data[[x]]$Imports, all_data[[x]]$LinkingTo)))
-  depends_df <- data.frame(Package = unlist(depends_pacs), Version = unlist(depends_v), stringsAsFactors = FALSE)
-  depends_df$Version <- gsub("[ \n]", "", gsub(">=", "", gsub("\\*", "", depends_df$Version)))
-  result_deps <- stats::aggregate(depends_df[, c("Version"), drop = FALSE], list(Package = depends_df$Package), pacs::compareVersionsMax)
+  if (nrow(installed_packages(lib.loc = lib.loc)) <= 500) {
+    crandb_pacs <- crandb_json(pacs_n)
+    all_data <- lapply(seq_along(pacs_n), function(x) crandb_pacs[[pacs_n[x]]]$versions[[pacs_v[x]]])
+    names(all_data) <- pacs_n
+    depends_pacs <- lapply(names(all_data), function(x) paste(c(names(all_data[[x]]$Depends), names(all_data[[x]]$Imports), names(all_data[[x]]$LinkingTo))))
+    depends_v <- lapply(names(all_data), function(x) paste(c(all_data[[x]]$Depends, all_data[[x]]$Imports, all_data[[x]]$LinkingTo)))
+    depends_df <- data.frame(Package = unlist(depends_pacs), Version = unlist(depends_v), stringsAsFactors = FALSE)
+    depends_df$Version <- gsub("[ \n]", "", gsub(">=", "", gsub("\\*", "", depends_df$Version)))
+    result_deps <- stats::aggregate(depends_df[, c("Version"), drop = FALSE], list(Package = depends_df$Package), pacs::compareVersionsMax)
 
-  result <- merge(result_deps, result_renv, by = "Package", all = TRUE, suffixes = c(".expected.min", ".expected"))
-  result$version_status <- vapply(
-    seq_len(nrow(result)),
-    function(x) utils::compareVersion(result$Version.expected[x], result$Version.expected.min[x]),
-    numeric(1)
-  )
+    result <- merge(result_deps, result_renv, by = "Package", all = TRUE, suffixes = c(".expected.min", ".expected"))
+    result$version_status <- vapply(
+      seq_len(nrow(result)),
+      function(x) utils::compareVersion(result$Version.expected[x], result$Version.expected.min[x]),
+      numeric(1)
+    )
+  } else {
+    message("There is more than 500 packages so the minimal required expected dependencies are not assesed.")
+    result <- result_renv
+    colnames(result)[colnames(result) == "Version"] <- "Version.expected"
+  }
+
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
   if (is_online()) {

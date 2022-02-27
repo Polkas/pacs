@@ -318,7 +318,7 @@ crandb_json_raw <- function(packages) {
   if (!is_online()) NA
   jsonlite::read_json(
     sprintf(
-      'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=100000',
+      'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=1000',
       paste(packages, collapse = '","')
     )
   )
