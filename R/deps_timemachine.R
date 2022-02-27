@@ -29,6 +29,10 @@ pac_deps_timemachine <- function(pac,
     return(NA)
   }
 
+  if (!pac_isin(pac, "https://cran.rstudio.com/")) {
+    return(NA)
+  }
+
   if (is.null(version)) {
     pac_d <- pac_description(pac, at = at, local = FALSE)
     pac_v <- pac_d$Version

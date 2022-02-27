@@ -83,6 +83,7 @@ test_that("lock_validate skip crandb if the limit is exceeded", {
 })
 
 test_that("lib_validate lifedurations to many packages for crandb", {
+  skip_if_offline()
   expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
     lib_validate(lifeduration = TRUE)
   }), "Please wait, Packages life durations")

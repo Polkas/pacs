@@ -231,8 +231,8 @@ lock_validate <- function(path,
   pacs_n <- names(pacs_v)
   result_renv <- data.frame(Package = pacs_n, Version = pacs_v, stringsAsFactors = FALSE)
   result_renv <- rbind(result_renv, data.frame(Package = "R", Version = Rv, stringsAsFactors = FALSE))
-
-  if (nrow(installed_packages(lib.loc = lib.loc)) <= getOption("pacs.crandb_limit", 100)) {
+  rownames(result_renv) <- NULL
+  if (is_online() && nrow(installed_packages(lib.loc = lib.loc)) <= getOption("pacs.crandb_limit", 100)) {
     crandb_pacs <- crandb_json(pacs_n)
     all_data <- lapply(seq_along(pacs_n), function(x) crandb_pacs[[pacs_n[x]]]$versions[[pacs_v[x]]])
     names(all_data) <- pacs_n
@@ -249,7 +249,7 @@ lock_validate <- function(path,
       numeric(1)
     )
   } else {
-    message(sprintf("There is more than %s packages so the minimal required expected dependencies are not assesed.", getOption("pacs.crandb_limit", 100)))
+    message(sprintf("No Internet connection or There is more than %s packages so the minimal required expected dependencies are not assesed.", getOption("pacs.crandb_limit", 100)))
     result <- result_renv
     colnames(result)[colnames(result) == "Version"] <- "Version.expected"
   }
