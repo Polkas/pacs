@@ -50,6 +50,7 @@ install.packages("pacs")
 |`pac_description` | R CRAN package DESCRIPTION file at Date or for a certain version      |
 |`pac_namespace` | R CRAN package NAMESPACE file at Date or for a certain version      |
 |`pac_lifeduration` | Package version life duration  |
+|`pacs_lifeduration` | Packages versions life duration |
 |`pac_health`           | R CRAN package version health    |
 |`pac_timemachine` | R CRAN package versions at a specific Date or a Date interval   |
 |`pac_compare_versions` | Compare dependencies between different versions of a R CRAN package          |

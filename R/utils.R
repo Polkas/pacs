@@ -314,7 +314,7 @@ read_html_table <- function(table_lines) {
   rrr_html
 }
 
-crandb_json_raw <- function(packages, limit = 500) {
+crandb_json_raw <- function(packages, limit = getOption("pacs.crandb_limit", 100)) {
   if (!is_online()) NA
   jsonlite::read_json(
     sprintf(

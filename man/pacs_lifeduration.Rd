@@ -17,7 +17,9 @@ pacs_lifeduration(
 
 \item{versions}{character vector packages versions.}
 
-\item{source}{character one of \code{c("crandb", "loop_crandb", "loop_cran")}. Default: \code{"crandb"}}
+\item{source}{character one of \code{c("crandb", "loop_crandb", "loop_cran")}.
+The \code{"crandb"} works if less than \code{getOption("pacs.crandb_limit")} (currently 500) packages are looked for.
+Default: \code{"crandb"}}
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
 

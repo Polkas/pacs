@@ -155,7 +155,9 @@ pac_health <- function(pac,
 #' @description using CRAN website to get a package life duration for certain version or at a specific Date.
 #' @param pacs character vector packages names.
 #' @param versions character vector packages versions.
-#' @param source character one of `c("crandb", "loop_crandb", "loop_cran")`. Default: `"crandb"`
+#' @param source character one of `c("crandb", "loop_crandb", "loop_cran")`.
+#' The `"crandb"` works if less than `getOption("pacs.crandb_limit")` (currently 500) packages are looked for.
+#' Default: `"crandb"`
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
 #' @param repos character the base CRAN URL of the repository to use. Default `"https://cran.rstudio.org"`
 #' @param pacs character vector packages names.
