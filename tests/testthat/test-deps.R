@@ -90,6 +90,12 @@ test_that("pacs::pac_deps_timemachine", {
   expect_true(length(pac_deps_timemachine("memoise", at = as.Date("2019-01-01"))) == 1)
 })
 
+test_that("pacs::pac_deps_timemachine offline", {
+  pac_deps_timemachine_offline <- pac_deps_timemachine
+  mockery::stub(pac_deps_timemachine_offline, "is_online", FALSE)
+  expect_identical(pac_deps_timemachine_offline("dplyr", "0.8.0"), NA)
+})
+
 test_that("pacs::app_deps", {
   rec_deps <- nrow(pacs::app_deps("files/shiny_app"))
   direct_deps <- nrow(pacs::app_deps("files/shiny_app", recursive = FALSE))
