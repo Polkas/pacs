@@ -73,9 +73,19 @@ test_that("offline validate", {
 })
 
 test_that("lock_validate skip crandb if the limit is exceeded", {
+  skip_if_offline()
   expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
     lock_validate("files/renv_test.lock")
   }), "There is more than")
+  expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
+    lock_validate("files/renv_test.lock", lifeduration = TRUE)
+  }), "Please wait, Packages life")
+})
+
+test_that("lib_validate lifedurations to many packages for crandb", {
+  expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
+    lib_validate(lifeduration = TRUE)
+  }), "Please wait, Packages life durations")
 })
 
 test_that("pacs::pac_lifeduration", {
@@ -128,4 +138,10 @@ test_that("pacs::pac_checkred online", {
       "r-devel-linux-x86_64-debian-gcc"
     )
   )) || is.logical(loc))
+})
+
+test_that("pacs::pac_checkred offline", {
+  pac_checkred_offline <- pac_checkred
+  mockery::stub(pac_checkred_offline, "is_online", FALSE)
+  expect_identical(pac_checkred_offline("dplyr"), NA)
 })
