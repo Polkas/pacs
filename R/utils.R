@@ -314,12 +314,13 @@ read_html_table <- function(table_lines) {
   rrr_html
 }
 
-crandb_json_raw <- function(packages) {
+crandb_json_raw <- function(packages, limit = 500) {
   if (!is_online()) NA
   jsonlite::read_json(
     sprintf(
-      'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=1000',
-      paste(packages, collapse = '","')
+      'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=%s',
+      paste(packages, collapse = '","'),
+      limit
     )
   )
 }

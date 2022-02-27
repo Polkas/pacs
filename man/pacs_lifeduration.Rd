@@ -23,6 +23,21 @@ pacs_lifeduration(
 
 \item{repos}{character the base CRAN URL of the repository to use. Default \code{"https://cran.rstudio.org"}}
 }
+\value{
+data.frame with two columns package name and life duration.
+}
 \description{
 using CRAN website to get a package life duration for certain version or at a specific Date.
+}
+\note{
+Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
+Results are cached for 30 minutes with \code{memoise} package, memory cache.
+The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
+Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
+}
+\examples{
+\dontrun{
+pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"))
+pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"), source = "loop_cran")
+}
 }

@@ -40,7 +40,7 @@ test_that("pacs::lock_validate", {
 })
 
 test_that("lib_validate lifedurations", {
-  skip_if(nrow(installed_packages(lib.loc = .libPaths())) > 200)
+  skip_if(nrow(installed_packages(lib.loc = .libPaths())) > getOption("pacs.crandb_limit", 100))
   skip_if_offline()
   lib_res <- lib_validate(lifeduration = TRUE)
   expect_true(inherits(lib_res, "data.frame"))

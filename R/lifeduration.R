@@ -159,13 +159,24 @@ pac_health <- function(pac,
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
 #' @param repos character the base CRAN URL of the repository to use. Default `"https://cran.rstudio.org"`
 #' @param pacs character vector packages names.
+#' @return data.frame with two columns package name and life duration.
+#' @note Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
+#' Results are cached for 30 minutes with `memoise` package, memory cache.
+#' The `crandb` R packages database is a part of `METACRAN` project, source:
+#' Csárdi G, Salmon M (2022). `pkgsearch`: Search and Query CRAN R Packages. `https://github.com/r-hub/pkgsearch`, `https://r-hub.github.io/pkgsearch/`.
+#' @export
+#' @examples
+#' \dontrun{
+#' pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"))
+#' pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"), source = "loop_cran")
+#' }
 pacs_lifeduration <- function(pacs, versions, source = c("crandb", "loop_crandb", "loop_cran"), lib.loc = .libPaths(), repos = biocran_repos()) {
   if (length(pacs) != length(versions)) {
     return(rep(NA, length(pacs)))
   }
   source <- match.arg(source)
 
-  if (source == "crandb") {
+  if (source == "crandb" && length(pacs) <= getOption("pacs.crandb_limit", 100)) {
     meta <- crandb_json(pacs)
     ll <- lapply(names(meta), function(x) {
       tl <- meta[[x]]$timeline
@@ -190,7 +201,7 @@ pacs_lifeduration <- function(pacs, versions, source = c("crandb", "loop_crandb"
             version_p,
             repos = repos,
             lib.loc = lib.loc,
-            source = `if`(source == "loop_crandb", "crandb", "cran")
+            source = `if`(source == "loop_cran", "cran", "crandb")
           )
         } else {
           NA

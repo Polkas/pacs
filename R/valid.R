@@ -327,7 +327,7 @@ validate_online <- function(result,
     }
   }
 
-  if (lifeduration && (nrow(result) >= 500)) {
+  if (lifeduration && (nrow(result) > getOption("pacs.crandb_limit", 100))) {
     message("Please wait, Packages life durations are assessed.\n")
     ld <- pacs_lifeduration(result$Package, result[[version_name_new]], "loop_crandb", lib.loc, repos)
     result <- merge(result, ld, by = "Package", all.x = TRUE)
