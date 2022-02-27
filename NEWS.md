@@ -1,9 +1,10 @@
 # pacs 0.4.2.9000
 
 * added an additional source for getting all releases of packages, the `metacran` db (new default).
-* `lifeduration` changed definition in `lib_validate` and `pac_validate` functions, old values are still supported.
+* added a new validation function, `lock_validate`. It helps to validate a `renv` lock file.
+* more efficient check of the Internet connection with the `curl` package.
 * more elegant separation of the code.
-* more testthat tests.
+* more testthat tests, `mockery`.
 
 # pacs 0.4.2
 

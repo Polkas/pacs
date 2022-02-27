@@ -12,12 +12,7 @@ pac_size <- function(pac, lib.loc = .libPaths()) {
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
-  found <- try(find.package(pac, lib.loc = lib.loc), silent = TRUE)
-  if (inherits(found, "try-error")) {
-    0
-  } else {
-    dir_size(found)
-  }
+  dir_size(find.package(pac, lib.loc = lib.loc))
 }
 
 #' True size of the package
