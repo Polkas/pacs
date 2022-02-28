@@ -3,7 +3,7 @@
 #' @param pac character a package name.
 #' @param old character an old version of package, default local version. Default: NULL
 #' @param new character a new version of package, default newest version. Default: NULL
-#' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+#' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector. Default: `.libPaths()`

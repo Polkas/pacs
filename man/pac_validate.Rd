@@ -18,7 +18,7 @@ pac_validate(
 
 \item{lib.loc}{character vector. Default: \code{.libPaths()}}
 
-\item{fields}{a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+\item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
@@ -36,7 +36,7 @@ data.frame with 5/7/8/9 columns.
 \item{Version.have}{character installed package version.}
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-\item{direct}{ logical if the package is in the first depencency layer, direct depencencies from DESCRIPTION file.}
+\item{direct}{ logical if the package is in the first dependency layer, direct dependencies from DESCRIPTION file.}
 \item{newest}{ logical (Internet needed) if the installed version is the newest one.}
 \item{cran}{logical (Internet needed) if the package is on CRAN, version is not taken into account here.}
 \item{checkred}{(Optional) (Internet needed) logical if the NEWEST package contains any specified statuses on CRAN check page.}

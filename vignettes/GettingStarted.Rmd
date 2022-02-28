@@ -101,7 +101,7 @@ nrow(red)
 head(red)
 ```
 
-Packages which are not a dependency (default Depends/Imports/LinkingTo) of any other package:
+Packages which are not a dependency (default `c("Depends", "Imports", "LinkingTo")`) of any other package:
 
 ```r
 lib[is.na(lib$Version.expected.min), ]
@@ -319,7 +319,7 @@ pacs::pac_namespace("dplyr", version = "0.8.0")
 pacs::pac_namespace("dplyr", at = as.Date("2019-01-01"))
 ```
 
-## Comapre different package versions
+## Compare different package versions
 
 ### Comparing DESCRIPTION files between different package versions
 

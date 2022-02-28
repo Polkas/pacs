@@ -4,7 +4,7 @@
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each package.
 #' @param lib.loc character vector. Default: `.libPaths()`
-#' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+#' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for libraries with less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
@@ -97,7 +97,7 @@ lib_validate <- function(lib.loc = .libPaths(),
 #' Optionally we could add life duration and CRAN check page status for each dependency.
 #' @param pac character a package name.
 #' @param lib.loc character vector. Default: `.libPaths()`
-#' @param fields a character vector listing the types of dependencies, a subset of c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances").
+#' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
@@ -110,7 +110,7 @@ lib_validate <- function(lib.loc = .libPaths(),
 #' \item{Version.have}{character installed package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-#' \item{direct}{ logical if the package is in the first depencency layer, direct depencencies from DESCRIPTION file.}
+#' \item{direct}{ logical if the package is in the first dependency layer, direct dependencies from DESCRIPTION file.}
 #' \item{newest}{ logical (Internet needed) if the installed version is the newest one.}
 #' \item{cran}{logical (Internet needed) if the package is on CRAN, version is not taken into account here.}
 #' \item{checkred}{(Optional) (Internet needed) logical if the NEWEST package contains any specified statuses on CRAN check page.}
@@ -194,7 +194,7 @@ pac_validate <- function(pac,
 #' \item{Version.expected}{character package version in the renv lock file.}
 #' \item{version_status}{(conditional) numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-#' \item{direct}{ logical if the package is in the first depencency layer, direct depencencies from DESCRIPTION file.}
+#' \item{direct}{ logical if the package is in the first dependency layer, direct dependencies from DESCRIPTION file.}
 #' \item{newest}{ logical (Internet needed) if the installed version is the newest one.}
 #' \item{cran}{logical (Internet needed) if the package is on CRAN, version is not taken into account here.}
 #' \item{checkred}{(Optional) (Internet needed) logical if the NEWEST package contains any specified statuses on CRAN check page.}

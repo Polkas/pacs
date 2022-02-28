@@ -34,7 +34,7 @@ data.frame with 7 columns
 \item{Released}{character release Date}
 \item{Archived}{character archived Date.}
 \item{LifeDuration}{\code{difftime} number of days the version was the newest one.}
-\item{URL}{character the suffix of the base URL to tar.gz file.}
+\item{URL}{character the suffix of the base URL to \code{tar.gz} file.}
 \item{Size}{character size of the \code{tar.gz} file.}
 }
 }
