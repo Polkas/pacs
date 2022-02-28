@@ -142,7 +142,7 @@ The <code>field</code> argument is equal to <code>c("Depends", "Imports", "Linki
 <code class="sourceCode R"><span class="va">red</span> <span class="op">&lt;-</span> <span class="va">lib</span><span class="op">[</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lib</span><span class="op">$</span><span class="va">checkred</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">lib</span><span class="op">$</span><span class="va">checkred</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">red</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">red</span><span class="op">)</span></code></pre></div>
-<p>Packages which are not a dependency (default Depends/Imports/LinkingTo) of any other package:</p>
+<p>Packages which are not a dependency (default <code>c("Depends", "Imports", "LinkingTo")</code>) of any other package:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lib</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lib</span><span class="op">$</span><span class="va">Version.expected.min</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
 <p>Non-CRAN packages:</p>
@@ -304,7 +304,7 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 </div>
 </div>
 <div class="section level2">
-<h2 id="comapre-different-package-versions">Comapre different package versions<a class="anchor" aria-label="anchor" href="#comapre-different-package-versions"></a>
+<h2 id="compare-different-package-versions">Compare different package versions<a class="anchor" aria-label="anchor" href="#compare-different-package-versions"></a>
 </h2>
 <div class="section level3">
 <h3 id="comparing-description-files-between-different-package-versions">Comparing DESCRIPTION files between different package versions<a class="anchor" aria-label="anchor" href="#comparing-description-files-between-different-package-versions"></a>
