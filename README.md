@@ -7,6 +7,8 @@
 
 **For more information please visit the package vignette: [Getting Started](https://polkas.github.io/pacs/articles/GettingStarted.html).**
 
+A set of tools that make life easier for developers and maintainers of R packages.
+
 - Validating the library, packages and `renv` lock files.
 - Exploring complexity of a certain package like evaluating its size in bytes with dependencies.
 - The shiny app complexity could be explored too.

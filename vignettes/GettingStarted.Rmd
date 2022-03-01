@@ -28,6 +28,18 @@ library(withr)
 library(remotes)
 ```
 
+A set of tools that make life easier for developers and maintainers of R packages.
+
+- Validating the library, packages and `renv` lock files.
+- Exploring complexity of a certain package like evaluating its size in bytes with dependencies.
+- The shiny app complexity could be explored too.
+- Assessing life duration of a specific package version.
+- Checking a CRAN package check page status for any errors and warnings.
+- Retrieving a DESCRIPTION or NAMESPACE file for any package version.
+- Comparing DESCRIPTION or NAMESPACE files between different package versions.
+- Getting a list of all releases for a specific package.
+- The Bioconductor is partly supported.
+
 ## Hints
 
 **Hint0**: An Internet connection is required to take full advantage of most of the features.

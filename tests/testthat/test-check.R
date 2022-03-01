@@ -1,7 +1,9 @@
 test_that("pac_islast", {
   skip_if_offline()
   expect_identical(pac_islast("WRONG"), FALSE)
+  expect_true(is.logical(pac_islast("memoise")))
   expect_true(is.logical(pac_islast("dplyr")))
+  expect_true(is.logical(pac_islast("dplyr", "1.0.0")))
   expect_true(is.logical(pac_islast("ThreeWiseMonkeys")))
 })
 

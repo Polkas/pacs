@@ -16,6 +16,7 @@ cli
 CLI
 cmd
 CMD
+codecov
 codemeta
 codemetar
 codetools
@@ -122,6 +123,7 @@ otechie
 Otechie
 overscope
 packageVersion
+pacs
 params
 parsable
 patreon

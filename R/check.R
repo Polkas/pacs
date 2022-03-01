@@ -1,14 +1,25 @@
 read_checkpage_raw <- function(pac) {
   rr <- try(readLines(sprintf("https://cran.r-project.org/web/checks/check_results_%s.html", pac), warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
-    rrr_html <- read_html_table(rr)
-    header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
-    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
+    tableh <- read_html_table(rr)
+    rrr <- tableh$lines
+    length_rrr <- length(rrr)
+
+    header_raw <- xml_find_all(read_html(rrr[1]), "//th")
+    header <- trimws(xml_text(header_raw))
+    html_body <- read_html(paste0(rrr[2:length_rrr], collapse = "\n"))
+    result_raw <- matrix(trimws(xml_text(xml_find_all(html_body, "/html/body//tr/td"))),
       ncol = length(header),
       byrow = TRUE
-    ))
+    )
+    result_raw <- as.data.frame(result_raw)
     colnames(result_raw) <- header
-    result_raw$Flavor <- gsub("\\+", "_", result_raw$Flavor)
+
+    all_links <- xml_attr(xml_find_all(html_body, "//tr/td/a"), "href")
+    all_links <- all_links[grepl("check_flavors.html#", all_links)]
+    flavs <- trimws(gsub("check_flavors.html#", "", all_links))
+    result_raw$Flavor <- flavs
+
     result_raw
   } else {
     NA
@@ -102,7 +113,7 @@ checked_packages <- function() {
   if (!is_online()) {
     return(NA)
   }
-  packages <- read_checkred_packages()
+  packages <- read_checkred_packages(url = "https://cran.r-project.org/web/checks/check_summary_by_package.html")
   if (is.data.frame(packages)) {
     result <- packages
   } else {
@@ -111,21 +122,18 @@ checked_packages <- function() {
   result
 }
 
-read_checkred_packages_raw <- function() {
-  rr <- try(readLines("https://cran.r-project.org/web/checks/check_summary_by_package.html", warn = FALSE), silent = TRUE)
+read_checkred_packages_raw <- function(url = "https://cran.r-project.org/web/checks/check_summary_by_package.html") {
+  rr <- try(readLines(url, warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
-    length_rr <- length(rr)
-    rr_range <- grep("</?table[^>]*>", rr)
-    if (length(rr_range) != 2) {
-      return(NA)
-    }
-    rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
+    tableh <- read_html_table(rr)
+    rrr <- tableh$lines
+    length_rrr <- length(rrr)
+
     header_raw <- xml_find_all(read_html(rrr[1]), "//th")
     header <- trimws(xml_text(header_raw))
     header_machines <- trimws(gsub("check_flavors.html#", "", xml_attr(xml_find_all(header_raw, "//a"), "href")))
     which_machines <- grep("r-", header)
     header[which_machines] <- header_machines
-    length_rrr <- length(rrr)
     result_raw <- matrix(trimws(xml_text(xml_find_all(read_html(paste0(rrr[2:length_rrr], collapse = "\n")), "/html/body//tr/td"))),
       ncol = length(header),
       byrow = TRUE
@@ -140,10 +148,12 @@ read_checkred_packages_raw <- function() {
 
 read_checkred_packages <- memoise::memoise(read_checkred_packages_raw, cache = cachem::cache_mem(max_age = 30 * 60))
 
-read_cran_flavours_raw <- function() {
-  rr <- try(readLines("https://cran.r-project.org/web/checks/check_flavors.html", warn = FALSE), silent = TRUE)
+read_cran_flavours_raw <- function(url = "https://cran.r-project.org/web/checks/check_flavors.html") {
+  rr <- try(readLines(url, warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
-    rrr_html <- read_html_table(rr)
+    tableh <- read_html_table(rr)
+    rrr_html <- tableh$html
+
     header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
       ncol = length(header),
@@ -171,13 +181,15 @@ read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::c
 #' cran_flavors()
 #' }
 cran_flavors <- function() {
-  read_cran_flavours()
+  read_cran_flavours(url = "https://cran.r-project.org/web/checks/check_flavors.html")
 }
 
-read_bio_releases_raw <- function() {
-  rr <- try(readLines("https://www.bioconductor.org/about/release-announcements/", warn = FALSE), silent = TRUE)
+read_bio_releases_raw <- function(url = "https://www.bioconductor.org/about/release-announcements/") {
+  rr <- try(readLines(url, warn = FALSE), silent = TRUE)
   if (!inherits(rr, "try-error")) {
-    rrr_html <- read_html_table(rr)
+    tableh <- read_html_table(rr)
+    rrr_html <- tableh$html
+
     header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
     result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
       ncol = length(header), byrow = TRUE
@@ -206,7 +218,7 @@ read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cac
 #' bio_releases()
 #' }
 bio_releases <- function() {
-  read_bio_releases()
+  read_bio_releases(url = "https://www.bioconductor.org/about/release-announcements/")
 }
 
 #' CRAN and Bioconductor repositories

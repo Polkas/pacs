@@ -69,22 +69,25 @@ test_that("offline validate", {
 
   lock_validate_offline <- lock_validate
   mockery::stub(lock_validate_offline, "is_online", FALSE)
-  expect_warning(lock_validate_offline("files/renv_test.lock"), "There is no Internet connection")
+  expect_warning(lock_validate_offline("files/renv_test.lock"), "There is no Internet connection.")
 })
 
 test_that("lock_validate skip crandb if the limit is exceeded", {
   skip_if_offline()
-  expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
+  expect_warning(withr::with_options(list(pacs.crandb_limit = 1), {
     lock_validate("files/renv_test.lock")
-  }), "There is more than")
-  expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
+  }), "There is more packages than crandb limit of 1")
+  expect_message(suppressWarnings(withr::with_options(list(pacs.crandb_limit = 1), {
     lock_validate("files/renv_test.lock", lifeduration = TRUE)
-  }), "Please wait, Packages life")
+  })), "Please wait, Packages life")
+  expect_warning(suppressMessages(withr::with_options(list(pacs.crandb_limit = 1), {
+    lock_validate("files/renv_test.lock", lifeduration = TRUE)
+  })), "There is more packages than crandb limit of 1.")
 })
 
-test_that("lib_validate lifedurations to many packages for crandb", {
+test_that("lock_validate lifedurations to many packages for crandb", {
   skip_if_offline()
-  expect_message(withr::with_options(list(pacs.crandb_limit = 1), {
-    lib_validate(lifeduration = TRUE)
-  }), "Please wait, Packages life durations")
+  expect_message(suppressWarnings(withr::with_options(list(pacs.crandb_limit = 1), {
+    lock_validate("files/renv_test.lock", lifeduration = TRUE)
+  })), "Please wait, Packages life durations")
 })

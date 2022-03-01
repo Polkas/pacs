@@ -311,7 +311,7 @@ read_html_table <- function(table_lines) {
   rrr <- table_lines[(rr_range[1] + 1):(rr_range[2] - 1)]
   rrr_all <- paste(rrr, collapse = "\n")
   rrr_html <- read_html(rrr_all)
-  rrr_html
+  list(html = rrr_html, lines = rrr)
 }
 
 crandb_json_raw <- function(packages, limit = getOption("pacs.crandb_limit", 100)) {

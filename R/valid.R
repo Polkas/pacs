@@ -232,34 +232,37 @@ lock_validate <- function(path,
   result_renv <- data.frame(Package = pacs_n, Version = pacs_v, stringsAsFactors = FALSE)
   result_renv <- rbind(result_renv, data.frame(Package = "R", Version = Rv, stringsAsFactors = FALSE))
   rownames(result_renv) <- NULL
-  if (is_online() && nrow(installed_packages(lib.loc = lib.loc)) <= getOption("pacs.crandb_limit", 100)) {
-    crandb_pacs <- crandb_json(pacs_n)
-    all_data <- lapply(seq_along(pacs_n), function(x) crandb_pacs[[pacs_n[x]]]$versions[[pacs_v[x]]])
-    names(all_data) <- pacs_n
-    depends_pacs <- lapply(names(all_data), function(x) paste(c(names(all_data[[x]]$Depends), names(all_data[[x]]$Imports), names(all_data[[x]]$LinkingTo))))
-    depends_v <- lapply(names(all_data), function(x) paste(c(all_data[[x]]$Depends, all_data[[x]]$Imports, all_data[[x]]$LinkingTo)))
-    depends_df <- data.frame(Package = unlist(depends_pacs), Version = unlist(depends_v), stringsAsFactors = FALSE)
-    depends_df$Version <- gsub("[ \n]", "", gsub(">=", "", gsub("\\*", "", depends_df$Version)))
-    result_deps <- stats::aggregate(depends_df[, c("Version"), drop = FALSE], list(Package = depends_df$Package), pacs::compareVersionsMax)
 
-    result <- merge(result_deps, result_renv, by = "Package", all = TRUE, suffixes = c(".expected.min", ".expected"))
-    result$version_status <- vapply(
-      seq_len(nrow(result)),
-      function(x) utils::compareVersion(result$Version.expected[x], result$Version.expected.min[x]),
-      numeric(1)
-    )
-  } else {
-    message(sprintf("No Internet connection or There is more than %s packages so the minimal required expected dependencies are not assesed.", getOption("pacs.crandb_limit", 100)))
-    result <- result_renv
-    colnames(result)[colnames(result) == "Version"] <- "Version.expected"
-  }
+  crandb_limit_ok <- nrow(installed_packages(lib.loc = lib.loc)) <= getOption("pacs.crandb_limit", 100)
 
-  result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
+  if (is_online() ) {
+    if (crandb_limit_ok) {
+      crandb_pacs <- crandb_json(pacs_n)
+      all_data <- lapply(seq_along(pacs_n), function(x) crandb_pacs[[pacs_n[x]]]$versions[[pacs_v[x]]])
+      names(all_data) <- pacs_n
+      depends_pacs <- lapply(names(all_data), function(x) paste(c(names(all_data[[x]]$Depends), names(all_data[[x]]$Imports), names(all_data[[x]]$LinkingTo))))
+      depends_v <- lapply(names(all_data), function(x) paste(c(all_data[[x]]$Depends, all_data[[x]]$Imports, all_data[[x]]$LinkingTo)))
+      depends_df <- data.frame(Package = unlist(depends_pacs), Version.expected = unlist(depends_v), stringsAsFactors = FALSE)
+      depends_df$Version <- gsub("[ \n]", "", gsub(">=", "", gsub("\\*", "", depends_df$Version)))
+      result_deps <- stats::aggregate(depends_df[, c("Version"), drop = FALSE], list(Package = depends_df$Package), pacs::compareVersionsMax)
 
-  if (is_online()) {
+      result <- merge(result_deps, result_renv, by = "Package", all = TRUE, suffixes = c(".expected.min", ".expected"))
+      result$version_status <- vapply(
+        seq_len(nrow(result)),
+        function(x) utils::compareVersion(result$Version.expected[x], result$Version.expected.min[x]),
+        numeric(1)
+      )
+    } else {
+      warning(sprintf("There is more packages than crandb limit of %s.", getOption("pacs.crandb_limit", 100)))
+      result <- result_renv
+      colnames(result) <- c("Package", "Version.expected")
+    }
+    result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
     result <- validate_online(result, "Version.expected", lifeduration, checkred, repos)
   } else {
-    warning("There is no Internet connection.")
+    if (!is_online()) warning("There is no Internet connection.")
+    result <- result_renv
+    colnames(result)[colnames(result) == "Version"] <- "Version.expected"
   }
 
   result
