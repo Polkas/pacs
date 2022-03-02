@@ -43,7 +43,9 @@ pac_timemachine <- function(pac,
   ) ||
     all(c(is.null(at), is.null(from), is.null(to), is.null(version))) || (!is.null(version) && length(version) == 1 && is.character(version)))
   source <- match.arg(source)
-  if (!is_online()) return(NA)
+  if (!is_online()) {
+    return(NA)
+  }
 
   if (isFALSE(pac_isin(pac, "https://cran.rstudio.com/"))) {
     return(NA)
@@ -100,22 +102,18 @@ pac_cran_recent <- memoise::memoise(pac_cran_recent_raw, cache = cachem::cache_m
 pac_archived_raw <- function(pac) {
   base_archive <- sprintf("/src/contrib/Archive/%s/", pac)
   rr <- try(suppressWarnings(readLines(paste0("https://cran.r-project.org", base_archive), warn = FALSE)), silent = TRUE)
-
   if (!inherits(rr, "try-error") && any(grepl(pac, rr))) {
-    rr_range <- grep("</?table>", rr)
-    if (length(rr_range) != 2) {
-      return(NA)
-    }
-    rrr <- rr[(rr_range[1] + 1):(rr_range[2] - 1)]
+    rrr <- read_html_table(rr)$lines
+    length_rrr <- length(rrr)
     header <- trimws(xml_text(xml_find_all(read_html(rrr[1]), "//th")))
 
-    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr[2:length(rrr)], collapse = "\n")), "//td"))),
+    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(read_html(paste(rrr[2:length_rrr], collapse = "\n")), "//td"))),
       ncol = length(header),
-      nrow = length(rrr) - 3, byrow = TRUE
+      byrow = TRUE
     ))
+
     result_raw <- result_raw[-1, -1]
     colnames(result_raw) <- header[-1]
-
     result <- result_raw[result_raw[["Last modified"]] != "", ]
     colnames(result) <- c("Package", "Released", "Size", "Description")
     result$Released <- as.Date(result$Released)
@@ -162,6 +160,8 @@ pac_timemachine_table <- function(pac, source) {
     result$Archived <- as.Date(substr(result$Archived, 1, 10))
     result <- result[order(result$Released), ]
     result$LifeDuration <- result$Archived - result$Released
+    l_ld <- length(result$LifeDuration)
+    result$LifeDuration[l_ld] <- Sys.Date() - result$Released[l_ld]
     result$URL <- NA
     result$Size <- NA
   }

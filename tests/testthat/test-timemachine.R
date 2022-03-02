@@ -13,11 +13,12 @@ test_that("pacs::pac_timemachine online", {
   expect_true(nrow(pac_timemachine("dplyr")) >= 0)
   expect_true(nrow(pac_timemachine("memoise", at = as.Date("2100-01-01"))) == 1)
   expect_true(nrow(pac_timemachine("memoise", from = as.Date("2100-01-01"), to = as.Date("2200-01-01"))) == 1)
-  expect_true(isNA(pac_archived_raw("WRONG")))
+  expect_true(isNA(pac_archived("WRONG")))
+  expect_true(is.data.frame(pac_archived("dplyr")))
 })
 
 test_that("pacs::pac_timemachine offline", {
-pac_timemachine_offline <- pac_timemachine
-mockery::stub(pac_timemachine_offline, "is_online", FALSE)
-expect_true(isNA(pac_timemachine_offline("dplyr")))
+  pac_timemachine_offline <- pac_timemachine
+  mockery::stub(pac_timemachine_offline, "is_online", FALSE)
+  expect_true(isNA(pac_timemachine_offline("dplyr")))
 })

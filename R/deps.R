@@ -57,7 +57,9 @@ pac_deps <- function(pac,
 
     v_base <- installed_agg_fun(lib.loc, fields)
   } else {
-    if (!is_online() || isFALSE(pac_isin(pac, repos))) return(NA)
+    if (!is_online() || isFALSE(pac_isin(pac, repos))) {
+      return(NA)
+    }
     paks_global <- tools::package_dependencies(pac,
       db = available_packages(repos),
       which = fields,
@@ -163,7 +165,9 @@ app_deps <- function(path = ".",
   }
   if (recursive) {
     app_deps_all <- lapply(app_deps, function(x) pac_deps(x, repos = repos, lib.loc = lib.loc, local = local, fields = fields, description_v = description_v, attr = FALSE))
-    if (any(is.na(app_deps_all))) return(NA)
+    if (any(is.na(app_deps_all))) {
+      return(NA)
+    }
     app_deps_recursive <- do.call(rbind, app_deps_all)
     app_deps_recursive <- stats::aggregate(app_deps_recursive[, c("Version"), drop = FALSE], list(Package = app_deps_recursive$Package), pacs::compareVersionsMax)
     app_deps_recursive$Package <- as.character(app_deps_recursive$Package)

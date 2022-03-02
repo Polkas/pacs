@@ -48,7 +48,9 @@ pac_description <- function(pac,
       version
     } else if (!is.null(at)) {
       vv <- utils::tail(pac_timemachine(pac, at = at)$Version, 1)
-      if (isNA(vv) || is.null(vv)) return(NA)
+      if (isNA(vv) || is.null(vv)) {
+        return(NA)
+      }
       vv
     } else {
       last_version

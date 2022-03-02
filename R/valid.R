@@ -235,7 +235,7 @@ lock_validate <- function(path,
 
   crandb_limit_ok <- nrow(installed_packages(lib.loc = lib.loc)) <= getOption("pacs.crandb_limit", 100)
 
-  if (is_online() ) {
+  if (is_online()) {
     if (crandb_limit_ok) {
       crandb_pacs <- crandb_json(pacs_n)
       all_data <- lapply(seq_along(pacs_n), function(x) crandb_pacs[[pacs_n[x]]]$versions[[pacs_v[x]]])
@@ -319,6 +319,7 @@ validate_online <- function(result,
     checkred_all <- checked_packages()
     if (is.data.frame(checkred_all)) {
       flavors <- if (is.null(checkred$flavors)) grep("r-", colnames(checkred_all)) else checkred$flavors
+      # each scope could have a star at the end
       scope_final <- c(checkred$scope, paste0(checkred$scope, "*"))
       checkred_all$red_status <- apply(checkred_all[, flavors, drop = FALSE], 1, function(x) any(x %in% scope_final))
       checkred_names_scope <- checkred_all$Package[checkred_all$red_status]
