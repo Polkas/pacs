@@ -179,7 +179,7 @@ Warning, at least `rsconnect` (and its `packrat` connected dependencies) related
 There is a way to validate the `renv` lock file in the same way the local library or packages are validated.
 
 ```r
-# Path has to be updated 
+# a path or url
 pacs::lock_validate("https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock")
 ```
 
