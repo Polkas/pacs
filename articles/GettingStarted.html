@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -207,8 +207,20 @@ The <code>field</code> argument is equal to <code>c("Depends", "Imports", "Linki
 </h3>
 <p>There is a way to validate the <code>renv</code> lock file in the same way the local library or packages are validated.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Path has to be updated </span>
-<span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/lock_validate.html">lock_validate</a></span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># a path or url</span>
+<span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"</span>
+<span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/lock_validate.html">lock_validate</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span>
+
+<span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/lock_validate.html">lock_validate</a></span><span class="op">(</span>
+  <span class="va">url</span>,
+  checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>, flavors <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/lock_validate.html">lock_validate</a></span><span class="op">(</span>
+  <span class="va">url</span>,
+  lifeduration <span class="op">=</span> <span class="cn">TRUE</span>,
+  checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>, flavors <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="r-cran-packages-check-page-statuses">R CRAN packages check page statuses<a class="anchor" aria-label="anchor" href="#r-cran-packages-check-page-statuses"></a>
@@ -287,11 +299,10 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 <p>Raw dependencies from DESCRIPTION file</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, description_v <span class="op">=</span> <span class="cn">TRUE</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>The <code>field</code> argument is used to change the scope of exploration. The <code>field</code> argument is equal to <code>c("Depends", "Imports", "LinkingTo")</code> by default as these are the dependencies installed when the <code>install.packages</code> function is used. When the <code>field</code> argument is extended the number of dependencies will grow. Remember that we are looking for dependencies recursively by default. At the moment of writing it the first invoke returns 3 dependencies whereas the second one 1746 and the last one 1795. It should be clear that when extending the scope (and recursively) with the <code>"Suggests"</code> field then the number of dependencies is exploding.</p>
+<p>The <code>field</code> argument is used to change the scope of exploration. The <code>field</code> argument is equal to <code>c("Depends", "Imports", "LinkingTo")</code> by default as these are the dependencies installed when the <code>install.packages</code> function is used. When the <code>field</code> argument is extended the number of dependencies will grow. Remember that we are looking for dependencies recursively by default. At the moment of writing it the first invoke returns 3 dependencies whereas the second over an one thousand. It should be clear that when extending the scope (and recursively) with the <code>"Suggests"</code> field then the number of dependencies is exploding.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span>, <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span>, <span class="st">"Suggests"</span>, <span class="st">"Enhances"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"memoise"</span>, fields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span>, <span class="st">"LinkingTo"</span>, <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>For a certain version, might take some time.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps_timemachine.html">pac_deps_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.1"</span><span class="op">)</span></code></pre></div>

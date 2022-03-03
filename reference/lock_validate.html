@@ -20,7 +20,7 @@ Optionally we could add life duration and CRAN check page status for each depend
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -29,7 +29,7 @@ Optionally we could add life duration and CRAN check page status for each depend
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -93,11 +93,11 @@ Optionally we could add life duration and CRAN check page status for each depend
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.frame with 3/5/7/8/9 columns.</p><dl><dt>Package</dt>
+    <p>data.frame with 2/6/7/8 columns.</p><dl><dt>Package</dt>
 <dd><p>character a package name.</p></dd>
 
 <dt>Version.expected.min</dt>
-<dd><p>(conditional) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.</p></dd>
+<dd><p>(conditional) (Internet needed) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.</p></dd>
 
 <dt>Version.expected</dt>
 <dd><p>character package version in the renv lock file.</p></dd>
@@ -105,9 +105,6 @@ Optionally we could add life duration and CRAN check page status for each depend
 <dt>version_status</dt>
 <dd><p>(conditional) numeric -1/0/1 which comes from <code><a href="https://rdrr.io/r/utils/compareVersion.html" class="external-link">utils::compareVersion</a></code> function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.</p></dd>
-
-<dt>direct</dt>
-<dd><p>logical if the package is in the first dependency layer, direct dependencies from DESCRIPTION file.</p></dd>
 
 <dt>newest</dt>
 <dd><p>logical (Internet needed) if the installed version is the newest one.</p></dd>
@@ -138,6 +135,17 @@ Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Pack
 <span class="r-in"><span class="co"># path or url</span></span>
 <span class="r-in"><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"</span></span>
 <span class="r-in"><span class="fu">lock_validate</span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">lock_validate</span><span class="op">(</span></span>
+<span class="r-in">  <span class="va">url</span>,</span>
+<span class="r-in">  checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>, flavors <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">lock_validate</span><span class="op">(</span></span>
+<span class="r-in">  <span class="va">url</span>,</span>
+<span class="r-in">  lifeduration <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>, flavors <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
