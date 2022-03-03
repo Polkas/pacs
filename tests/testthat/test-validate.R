@@ -91,3 +91,21 @@ test_that("lock_validate lifedurations to many packages for crandb", {
     lock_validate("files/renv_test.lock", lifeduration = TRUE)
   })), "Please wait, Packages life durations")
 })
+
+test_that("pacs::lib_validate offline", {
+  lib_validate_offline <- lib_validate
+  mockery::stub(lib_validate_offline, "is_online", FALSE)
+  expect_true(ncol(suppressWarnings(lib_validate_offline())) == 4)
+})
+
+test_that("pacs::pac_validate offline", {
+  pac_validate_offline <- pac_validate
+  mockery::stub(pac_validate_offline, "is_online", FALSE)
+  expect_true(ncol(suppressWarnings(pac_validate_offline("memoise"))) == 5)
+})
+
+test_that("pacs::lock_validate offline", {
+  lock_validate_offline <- lock_validate
+  mockery::stub(lock_validate_offline, "is_online", FALSE)
+  expect_true(ncol(suppressWarnings(lock_validate_offline("files/renv_test.lock"))) == 2)
+})

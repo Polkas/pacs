@@ -187,14 +187,13 @@ pac_validate <- function(pac,
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
 #' @param lib.loc character vector. Default: `.libPaths()`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return data.frame with 3/5/7/8/9 columns.
+#' @return data.frame with 2/6/7/8 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
-#' \item{Version.expected.min}{(conditional) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
+#' \item{Version.expected.min}{(conditional) (Internet needed) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
 #' \item{Version.expected}{character package version in the renv lock file.}
 #' \item{version_status}{(conditional) numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-#' \item{direct}{ logical if the package is in the first dependency layer, direct dependencies from DESCRIPTION file.}
 #' \item{newest}{ logical (Internet needed) if the installed version is the newest one.}
 #' \item{cran}{logical (Internet needed) if the package is on CRAN, version is not taken into account here.}
 #' \item{checkred}{(Optional) (Internet needed) logical if the NEWEST package contains any specified statuses on CRAN check page.}
@@ -211,6 +210,17 @@ pac_validate <- function(pac,
 #' # path or url
 #' url <- "https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"
 #' lock_validate(url)
+#'
+#' pacs::lock_validate(
+#'   url,
+#'   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+#' )
+#'
+#' pacs::lock_validate(
+#'   url,
+#'   lifeduration = TRUE,
+#'   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+#' )
 #' }
 lock_validate <- function(path,
                           lifeduration = FALSE,

@@ -1,6 +1,6 @@
 Package: pacs
 Title: Supplementary Tools for R Packages Developers
-Version: 0.4.2.9000
+Version: 0.4.3
 Authors@R: 
     person(given = "Maciej",
            family = "Nasinski",
@@ -9,7 +9,7 @@ Authors@R:
 Maintainer: Maciej Nasinski <nasinski.maciej@gmail.com>
 Description: 
   Supplementary utils for CRAN maintainers and R packages developers.
-  Validating the library or packages.
+  Validating the library, packages and lock files.
   Exploring a complexity of a specific package like evaluating its size in bytes with all dependencies.
   The shiny app complexity could be explored too.
   Assessing the life duration of a specific package version.

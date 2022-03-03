@@ -1,4 +1,4 @@
-# pacs 0.4.2.9000
+# pacs 0.4.3
 
 * added an additional source for getting all releases of packages, the `metacran` db (new default).
 * added a new validation function, `lock_validate`. It helps to validate a `renv` lock file.

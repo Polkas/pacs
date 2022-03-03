@@ -180,7 +180,19 @@ There is a way to validate the `renv` lock file in the same way the local librar
 
 ```r
 # a path or url
-pacs::lock_validate("https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock")
+url <- "https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"
+pacs::lock_validate(url)
+
+pacs::lock_validate(
+  url,
+  checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+)
+
+pacs::lock_validate(
+  url,
+  lifeduration = TRUE,
+  checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+)
 ```
 
 ### R CRAN packages check page statuses
@@ -297,12 +309,11 @@ The `field` argument is used to change the scope of exploration.
 The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by default as these are the dependencies installed when the `install.packages` function is used.
 When the `field` argument is extended the number of dependencies will grow.
 Remember that we are looking for dependencies recursively by default.
-At the moment of writing it the first invoke returns 3 dependencies whereas the second one 1746 and the last one 1795. It should be clear that when extending the scope (and recursively) with the `"Suggests"` field then the number of dependencies is exploding.
+At the moment of writing it the first invoke returns 3 dependencies whereas the second over an one thousand. It should be clear that when extending the scope (and recursively) with the `"Suggests"` field then the number of dependencies is exploding.
 
 ```r
 nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo")))
 nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo", "Suggests")))
-nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
 ```
 
 For a certain version, might take some time.
