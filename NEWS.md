@@ -1,3 +1,5 @@
+# pacs 0.4.3.9000
+
 # pacs 0.4.3
 
 * added an additional source for getting all releases of packages, the `metacran` db (new default).
