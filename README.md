@@ -1,4 +1,4 @@
-# pacs
+# pacs <a href='https://github.com/polkas/pacs'><img src='man/figures/pacs_logo.png' align="right" width="200px" /></a>
 [![R build status](https://github.com/polkas/pacs/workflows/R-CMD-check/badge.svg)](https://github.com/polkas/pacs/actions)
 [![CRAN](https://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
 [![codecov](https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Polkas/pacs)
