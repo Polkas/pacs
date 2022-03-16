@@ -28,6 +28,7 @@ RoxygenNote: 7.1.2
 Depends: R (>= 3.5.0)
 Suggests: 
     remotes,
+    renv,
     withr,
     pkgsearch,
     mockery,
@@ -39,7 +40,6 @@ Imports:
     memoise,
     stringi,
     xml2,
-    renv,
     jsonlite,
     curl
 VignetteBuilder: knitr

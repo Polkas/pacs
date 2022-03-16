@@ -1,5 +1,5 @@
 ---
-title: "Supplementary Tools for R Packages Developers"
+title: "Walk-through `pacs`"
 output:
     rmarkdown::html_document:
         theme: "spacelab"
@@ -7,7 +7,7 @@ output:
         toc: true
         toc_float: true
 vignette: >
-    %\VignetteIndexEntry{Supplementary Tools for R Packages Developers}
+    %\VignetteIndexEntry{Walk-through `pacs`}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 editor_options:
@@ -382,7 +382,7 @@ pacs::pac_compare_namespace("shiny", "1.0.0", "1.5.0")$exports
 pacs::pac_compare_namespace("shiny", "1.0.0")
 ```
 
-## Package Weight Case Study: `devtools`
+## Package size 
 
 Take into account that packages sizes are appropriate for your local system (`Sys.info()`).
 Installation with `install.packages` and some `devtools` functions might result in different packages sizes.
@@ -399,7 +399,6 @@ Installation in your main library.
 ```r
 # if not have
 install.packages("devtools")
-install.packages("shiny")
 ```
 
 Size of the `devtools` package:
@@ -419,15 +418,9 @@ A reasonable assumption might be to count only dependencies which are not used b
 Then we could use `exclude_joint` argument to limit them.
 However hard to assume if your local installation is a reasonable proxy for an average user.
 
-```
+```r
 # exclude packages if at least one other package use it too
 cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
-```
-
-Might be useful to check the number of dependencies too:
-
-```r
-pacs::pac_deps("devtools", local = TRUE)$Package
 ```
 
 ## The shiny app utils

@@ -29,7 +29,7 @@ The last years od R package development were full of high number of dependencies
 `tinyverse` means as least dependencies as possible as R package dependencies matter. 
 Every dependency you add to your project is an invitation to break your project.
 
-More information is avaiable on [`tinyverse` website](https://www.tinyverse.org/).
+More information is available on [`tinyverse` website](https://www.tinyverse.org/).
 
 ## `tinyverse` badges
 
@@ -46,7 +46,7 @@ dplyr:
 [![](https://tinyverse.netlify.com/badge/dplyr)](https://CRAN.R-project.org/package=dplyr)
 
 miceFast:   
-[![miceFast](https://tinyverse.netlify.com/badge/miceFast)](https://CRAN.R-project.org/package=miceFast)
+[![](https://tinyverse.netlify.com/badge/miceFast)](https://CRAN.R-project.org/package=miceFast)
 
 * badges are reevaluated daily.
 
@@ -144,7 +144,7 @@ If you are interested "How-R-Searches-And-Finds-Stuff" I recommend [a great blog
 ## `tinytest` vs `testthat`
 
 This subsection will be a subjective view on the difference between `tinytest` and `testthat` packages.
-This is a great example in my opinion as showing that package could have many depenedencies nevertheless not exposed to the end user (these dependencies are not installed with `install.packages`), as is in `Suggests` field of the DESCRIPTION file.
+This is a great example in my opinion as showing that package could have many dependencies nevertheless not exposed to the end user (these dependencies are not installed with `install.packages`), as is in `Suggests` field of the DESCRIPTION file.
 `tinytest` was created to offer similar functionality to `testthat` package nevertheless `tinytest` has zero dependencies.
 `tinytest` is not a NOT so great alternative for me compared to `testthat`.
 I do not care how many dependencies has the `testthat` package as it is located in `Suggests` field of DESCRIPTION file. 
@@ -226,15 +226,19 @@ A reasonable assumption might be to count only dependencies which are not used b
 Then we could use `exclude_joint` argument to limit them.
 However hard to assume if your local installation is a reasonable proxy for an average user.
 
-```
+```r
 # exclude packages if at least one other package use it too
 cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
 ```
 
 It is crucial to check the number of dependencies too:
 
+[![](https://tinyverse.netlify.com/badge/devtools)](https://CRAN.R-project.org/package=devtools)
+
 ```r
+# 70 recursive dependencies
 pacs::pac_deps("devtools", local = TRUE)$Package
+# 20 direct dependencies
 pacs::pac_deps("devtools", local = TRUE, recursive = FALSE)$Package
 ```
 
