@@ -50,7 +50,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/GettingStarted.html">Supplementary Tools for R Packages Developers</a>
+      <a href="../articles/GettingStarted.html">Walk-through `pacs`</a>
     </li>
     <li>
       <a href="../articles/tinyverse.html">tinyverse</a>
@@ -95,7 +95,7 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>The R community <a href="https://tinyverse.netlify.app/" class="external-link"><code>tinyverse</code></a> movement is a tryout of creating a new package development standards. The clue is the TINY part here. The last years od R package development were full of high number of dependencies temptations. <code>tinyverse</code> means as least dependencies as possible as R package dependencies matter. Every dependency you add to your project is an invitation to break your project.</p>
-<p>More information is avaiable on <a href="https://www.tinyverse.org/" class="external-link"><code>tinyverse</code> website</a>.</p>
+<p>More information is available on <a href="https://www.tinyverse.org/" class="external-link"><code>tinyverse</code> website</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="tinyverse-badges">
@@ -106,7 +106,7 @@
 <p><code>https://tinyverse.netlify.com/badge/&lt;package&gt;</code></p>
 <p>Examples:</p>
 <p>dplyr:<br><a href="https://CRAN.R-project.org/package=dplyr" class="external-link"><img src="https://tinyverse.netlify.com/badge/dplyr"></a></p>
-<p>miceFast:<br><a href="https://CRAN.R-project.org/package=miceFast" class="external-link"><img src="https://tinyverse.netlify.com/badge/miceFast" alt="miceFast"></a></p>
+<p>miceFast:<br><a href="https://CRAN.R-project.org/package=miceFast" class="external-link"><img src="https://tinyverse.netlify.com/badge/miceFast"></a></p>
 <ul>
 <li>badges are reevaluated daily.</li>
 </ul>
@@ -161,7 +161,7 @@ dependencies:
 <h2 id="tinytest-vs-testthat">
 <code>tinytest</code> vs <code>testthat</code><a class="anchor" aria-label="anchor" href="#tinytest-vs-testthat"></a>
 </h2>
-<p>This subsection will be a subjective view on the difference between <code>tinytest</code> and <code>testthat</code> packages. This is a great example in my opinion as showing that package could have many depenedencies nevertheless not exposed to the end user (these dependencies are not installed with <code>install.packages</code>), as is in <code>Suggests</code> field of the DESCRIPTION file. <code>tinytest</code> was created to offer similar functionality to <code>testthat</code> package nevertheless <code>tinytest</code> has zero dependencies. <code>tinytest</code> is not a NOT so great alternative for me compared to <code>testthat</code>. I do not care how many dependencies has the <code>testthat</code> package as it is located in <code>Suggests</code> field of DESCRIPTION file. This mean that the higher number of dependencies from the <code>testthat</code> package is only my problem (developer one, not the end user) when e.g. I am checking the package (e.g. with R CMD check).</p>
+<p>This subsection will be a subjective view on the difference between <code>tinytest</code> and <code>testthat</code> packages. This is a great example in my opinion as showing that package could have many dependencies nevertheless not exposed to the end user (these dependencies are not installed with <code>install.packages</code>), as is in <code>Suggests</code> field of the DESCRIPTION file. <code>tinytest</code> was created to offer similar functionality to <code>testthat</code> package nevertheless <code>tinytest</code> has zero dependencies. <code>tinytest</code> is not a NOT so great alternative for me compared to <code>testthat</code>. I do not care how many dependencies has the <code>testthat</code> package as it is located in <code>Suggests</code> field of DESCRIPTION file. This mean that the higher number of dependencies from the <code>testthat</code> package is only my problem (developer one, not the end user) when e.g. I am checking the package (e.g. with R CMD check).</p>
 <p><code>tinytest</code>:<br><a href="https://CRAN.R-project.org/package=tinytest" class="external-link"><img src="https://tinyverse.netlify.com/badge/tinytest"></a></p>
 <p><code>testthat</code>:<br><a href="https://CRAN.R-project.org/package=testthat" class="external-link"><img src="https://tinyverse.netlify.com/badge/testthat"></a></p>
 </div>
@@ -204,11 +204,15 @@ dependencies:
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
 <p>A reasonable assumption might be to count only dependencies which are not used by any other package. Then we could use <code>exclude_joint</code> argument to limit them. However hard to assume if your local installation is a reasonable proxy for an average user.</p>
-<pre><code><span class="co"># exclude packages if at least one other package use it too</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span>, exclude_joint <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># exclude packages if at least one other package use it too</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span>, exclude_joint <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
 <p>It is crucial to check the number of dependencies too:</p>
+<p><a href="https://CRAN.R-project.org/package=devtools" class="external-link"><img src="https://tinyverse.netlify.com/badge/devtools"></a></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span>
+<code class="sourceCode R"><span class="co"># 70 recursive dependencies</span>
+<span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span>
+<span class="co"># 20 direct dependencies</span>
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
 </div>
 <div class="section level2">

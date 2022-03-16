@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Supplementary Tools for R Packages Developers • pacs</title>
+<title>Walk-through `pacs` • pacs</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Supplementary Tools for R Packages Developers">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Walk-through `pacs`">
 <meta property="og:description" content="pacs">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -50,7 +50,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/GettingStarted.html">Supplementary Tools for R Packages Developers</a>
+      <a href="../articles/GettingStarted.html">Walk-through `pacs`</a>
     </li>
     <li>
       <a href="../articles/tinyverse.html">tinyverse</a>
@@ -81,7 +81,8 @@
       </header><script src="GettingStarted_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Supplementary Tools for R Packages Developers</h1>
+      <h1 data-toc-skip>Walk-through <code>pacs</code>
+</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/Polkas/pacs/blob/HEAD/vignettes/GettingStarted.Rmd" class="external-link"><code>vignettes/GettingStarted.Rmd</code></a></small>
@@ -363,7 +364,7 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 </div>
 </div>
 <div class="section level2">
-<h2 id="package-weight-case-study-devtools">Package Weight Case Study: <code>devtools</code><a class="anchor" aria-label="anchor" href="#package-weight-case-study-devtools"></a>
+<h2 id="package-size">Package size<a class="anchor" aria-label="anchor" href="#package-size"></a>
 </h2>
 <p>Take into account that packages sizes are appropriate for your local system (<code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>). Installation with <code>install.packages</code> and some <code>devtools</code> functions might result in different packages sizes.</p>
 <p>If you do not want to install anything in your current library (<code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>) and still inspect a package size, then a usage of the <code>withr</code> package is recommended. <code><a href="https://withr.r-lib.org/reference/with_temp_libpaths.html" class="external-link">withr::with_temp_libpaths</a></code> is recommended to isolate the download process.</p>
@@ -373,8 +374,7 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 <p>Installation in your main library.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># if not have</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></code></pre></div>
 <p>Size of the <code>devtools</code> package:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_size.html">pac_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
@@ -382,31 +382,29 @@ We could use a temporary library path (<code><a href="https://withr.r-lib.org/re
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
 <p>A reasonable assumption might be to count only dependencies which are not used by any other package. Then we could use <code>exclude_joint</code> argument to limit them. However hard to assume if your local installation is a reasonable proxy for an average user.</p>
-<pre><code><span class="co"># exclude packages if at least one other package use it too</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span>, exclude_joint <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre>
-<p>Might be useful to check the number of dependencies too:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># exclude packages if at least one other package use it too</span>
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span>, exclude_joint <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="the-shiny-app-utils">The shiny app utils<a class="anchor" aria-label="anchor" href="#the-shiny-app-utils"></a>
 </h2>
 <p>The shiny app dependencies packages are checked. By default the <code>c("Depends", "Imports", "LinkingTo")</code> DESCRIPTION files fields are check recursively for each package recognized with the <code><a href="https://rstudio.github.io/renv/reference/dependencies.html" class="external-link">renv::dependencies</a></code> function. The required dependencies have to be installed in the local repository.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/app_deps.html">app_deps</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/04_mpg"</span>, package <span class="op">=</span> <span class="st">"shiny"</span><span class="op">)</span>, description_v <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/app_deps.html">app_deps</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/04_mpg"</span>, package <span class="op">=</span> <span class="st">"shiny"</span><span class="op">)</span>, description_v <span class="op">=</span> <span class="cn">TRUE</span>, local <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>When we want to check only direct dependencies, <code>recursive</code> argument has to be set to <code>FALSE</code>. Then you could use the <code><a href="https://rstudio.github.io/renv/reference/dependencies.html" class="external-link">renv::dependencies</a></code> function directly.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/app_deps.html">app_deps</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/04_mpg"</span>, package <span class="op">=</span> <span class="st">"shiny"</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>The size of shiny app is a sum of dependencies and the app directory. The app dependencies (packages) are checked recursively.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/app_size.html">app_size</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/04_mpg"</span>, package <span class="op">=</span> <span class="st">"shiny"</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="base-packages">Base packages<a class="anchor" aria-label="anchor" href="#base-packages"></a>
 </h2>
 <p>Useful functions to get a list of base packages. You might want to exclude them from final results.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pacs_base.html">pacs_base</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># start up loaded, base packages</span>
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pacs_base.html">pacs_base</a></span><span class="op">(</span>startup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
