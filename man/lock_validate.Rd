@@ -54,7 +54,7 @@ Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. 
 \dontrun{
 # path or url
 url <- "https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"
-lock_validate(url)
+pacs::lock_validate(url)
 
 pacs::lock_validate(
   url,

@@ -209,7 +209,7 @@ pac_validate <- function(pac,
 #' \dontrun{
 #' # path or url
 #' url <- "https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"
-#' lock_validate(url)
+#' pacs::lock_validate(url)
 #'
 #' pacs::lock_validate(
 #'   url,
@@ -243,7 +243,7 @@ lock_validate <- function(path,
   result_renv <- rbind(result_renv, data.frame(Package = "R", Version = Rv, stringsAsFactors = FALSE))
   rownames(result_renv) <- NULL
 
-  crandb_limit_ok <- nrow(installed_packages(lib.loc = lib.loc)) <= getOption("pacs.crandb_limit", 100)
+  crandb_limit_ok <- length(pacs_n) <= getOption("pacs.crandb_limit", 100)
 
   if (is_online()) {
     if (crandb_limit_ok) {
