@@ -1,0 +1,42 @@
+reference:
+- title: Shiny App Dependencies and Size
+- contents:
+  - starts_with("app")
+- title: Dependencies of R package
+- contents:
+  - pac_deps
+  - pac_deps_timemachine
+- title: Size of R package
+- contents:
+  - pac_size
+  - pac_true_size
+- title: CRAN package releases
+- contents:
+  - pac_timemachine
+- title: NAMESPACE/DESCRIPTION
+- contents:
+  - pac_description
+  - pac_namespace
+  - pac_compare_namespace
+  - pac_compare_versions
+- title: Validation Functions
+- contents:
+  - ends_with("validate")
+- title: Check State of R packages
+- contents:
+  - matches("check")
+  - pac_health
+  - pac_lifeduration
+  - pacs_lifeduration
+- title: Base packages
+- contents:
+  - pacs_base
+- title: Utils Functions
+- contents:
+  - pac_isin
+  - pac_islast
+  - pac_last
+  - dir_size
+  - cran_flavors
+  - biocran_repos
+  - bio_releases

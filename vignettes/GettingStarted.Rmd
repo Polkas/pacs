@@ -40,6 +40,8 @@ A set of tools that make life easier for developers and maintainers of R package
 - Getting a list of all releases for a specific package.
 - The Bioconductor is partly supported.
 
+[**Functions Reference**](https://polkas.github.io/pacs/reference/index.html)
+
 ## Hints
 
 **Hint0**: An Internet connection is required to take full advantage of most of the features.
