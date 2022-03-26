@@ -95,8 +95,8 @@
 <a class="anchor" aria-label="anchor" href="#pacs-"></a>
 </h1></div>
 
-<p><a href="https://polkas.github.io/pacs/index.html" class="external-link">pkgdown: Supplementary Tools for R Packages Developers</a></p>
-<p><strong>For more information please visit the package vignette: <a href="https://polkas.github.io/pacs/articles/GettingStarted.html" class="external-link">Getting Started</a>.</strong></p>
+<p><a href="https://polkas.github.io/pacs/" class="external-link"><strong>For more information please visit the pacs website</strong></a>.</p>
+<p><a href="https://polkas.github.io/pacs/reference/index.html" class="external-link"><strong>Functions Reference</strong></a></p>
 <p>A set of tools that make life easier for developers and maintainers of R packages.</p>
 <ul>
 <li>Validating the library, packages and <code>renv</code> lock files.</li>
@@ -121,135 +121,6 @@
 <p>CRAN:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pacs"</span><span class="op">)</span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="functions-reference">Functions Reference<a class="anchor" aria-label="anchor" href="#functions-reference"></a>
-</h2>
-<p><a href="https://polkas.github.io/pacs/reference/index.html" class="external-link">Functions Reference</a></p>
-<table class="table">
-<colgroup>
-<col width="43%">
-<col width="56%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">Function</th>
-<th align="left">Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left"><code>lib_validate</code></td>
-<td align="left">Validate the local library</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_validate</code></td>
-<td align="left">Validate a specific local package</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>lock_validate</code></td>
-<td align="left">Validate a specific <code>renv</code> lock file</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_deps</code></td>
-<td align="left">R CRAN package dependencies with installed or expected versions</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pac_deps_timemachine</code></td>
-<td align="left">R CRAN package dependencies for certain version or time point</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_description</code></td>
-<td align="left">R CRAN package DESCRIPTION file at Date or for a certain version</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pac_namespace</code></td>
-<td align="left">R CRAN package NAMESPACE file at Date or for a certain version</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_lifeduration</code></td>
-<td align="left">Package version life duration</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pacs_lifeduration</code></td>
-<td align="left">Packages versions life duration</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_health</code></td>
-<td align="left">R CRAN package version health</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pac_timemachine</code></td>
-<td align="left">R CRAN package versions at a specific Date or a Date interval</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_compare_versions</code></td>
-<td align="left">Compare dependencies between different versions of a R CRAN package</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pac_compare_namespace</code></td>
-<td align="left">Compare NAMESPACE fields between different versions of a R CRAN package</td>
-</tr>
-<tr class="even">
-<td align="left"><code>dir_size</code></td>
-<td align="left">Size of the directory</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pac_size</code></td>
-<td align="left">Size of the package</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_true_size</code></td>
-<td align="left">True size of the package (with dependencies)</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>app_size</code></td>
-<td align="left">True size of the shiny app (with dependencies and the dir size)</td>
-</tr>
-<tr class="even">
-<td align="left"><code>app_deps</code></td>
-<td align="left">The shiny app dependencies</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pacs_base</code></td>
-<td align="left">R base packages</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_last</code></td>
-<td align="left">The most recent package version</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pac_islast</code></td>
-<td align="left">Checking if a package version is the most recent one</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_isin</code></td>
-<td align="left">Checking if a package is currently inside provided repositories</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>pac_checkred</code></td>
-<td align="left">Checking the R CRAN package check page status for any errors and warnings</td>
-</tr>
-<tr class="even">
-<td align="left"><code>pac_checkpage</code></td>
-<td align="left">Retrieving the R CRAN package check page</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>checked_packages</code></td>
-<td align="left">Retrieving all R CRAN packages check page statuses</td>
-</tr>
-<tr class="even">
-<td align="left"><code>cran_flavors</code></td>
-<td align="left">Retrieving all R CRAN servers flavors</td>
-</tr>
-<tr class="odd">
-<td align="left"><code>biocran_repos</code></td>
-<td align="left">Display current Bioconductor and CRAN repositories</td>
-</tr>
-<tr class="even">
-<td align="left"><code>bio_releases</code></td>
-<td align="left">Retrieving all Bioconductor releases</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
   </div>

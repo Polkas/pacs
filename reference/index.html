@@ -60,7 +60,7 @@
     </div>
 
     <table class="ref-index"><colgroup><col class="alias"><col class="title"></colgroup><tbody><tr><th colspan="2">
-          <h2 id="all-functions">All functions <a href="#all-functions" class="anchor" aria-hidden="true"></a></h2>
+          <h2 id="shiny-app-dependencies-and-size">Shiny App Dependencies and Size <a href="#shiny-app-dependencies-and-size" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
@@ -71,39 +71,63 @@
           <p><code><a href="app_size.html">app_size()</a></code> </p>
         </td>
         <td><p>Size of the shiny app</p></td>
-      </tr><tr><td>
-          <p><code><a href="available_packages.html">available_packages()</a></code> </p>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="dependencies-of-r-package">Dependencies of R package <a href="#dependencies-of-r-package" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="pac_deps.html">pac_deps()</a></code> </p>
         </td>
-        <td><p>List Available Packages at CRAN-like Repositories</p></td>
+        <td><p>package dependencies</p></td>
       </tr><tr><td>
-          <p><code><a href="bio_releases.html">bio_releases()</a></code> </p>
+          <p><code><a href="pac_deps_timemachine.html">pac_deps_timemachine()</a></code> </p>
         </td>
-        <td><p>Retrieving all Bioconductor releases</p></td>
-      </tr><tr><td>
-          <p><code><a href="biocran_repos.html">biocran_repos()</a></code> </p>
-        </td>
-        <td><p>CRAN and Bioconductor repositories</p></td>
-      </tr><tr><td>
-          <p><code><a href="checked_packages.html">checked_packages()</a></code> </p>
-        </td>
-        <td><p>Retrieving all R CRAN packages check pages statuses.</p></td>
-      </tr><tr><td>
-          <p><code><a href="compareVersionsMax.html">compareVersionsMax()</a></code> </p>
-        </td>
-        <td><p>Maximum version across the vector</p></td>
-      </tr><tr><td>
-          <p><code><a href="compareVersionsMin.html">compareVersionsMin()</a></code> </p>
-        </td>
-        <td><p>Minimum version across the vector</p></td>
-      </tr><tr><td>
-          <p><code><a href="cran_flavors.html">cran_flavors()</a></code> </p>
-        </td>
-        <td><p>Retrieving all R CRAN servers flavors</p></td>
-      </tr><tr><td>
-          <p><code><a href="dir_size.html">dir_size()</a></code> </p>
+        <td><p>R CRAN package dependencies for a certain version or time point</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="size-of-r-package">Size of R package <a href="#size-of-r-package" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="pac_size.html">pac_size()</a></code> </p>
         </td>
         <td><p>Size of the package</p></td>
       </tr><tr><td>
+          <p><code><a href="pac_true_size.html">pac_true_size()</a></code> </p>
+        </td>
+        <td><p>True size of the package</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="cran-package-releases">CRAN package releases <a href="#cran-package-releases" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="pac_timemachine.html">pac_timemachine()</a></code> </p>
+        </td>
+        <td><p>Package metadata for all releases</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="namespace-description">NAMESPACE/DESCRIPTION <a href="#namespace-description" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="pac_description.html">pac_description()</a></code> </p>
+        </td>
+        <td><p>package DESCRIPTION file</p></td>
+      </tr><tr><td>
+          <p><code><a href="pac_namespace.html">pac_namespace()</a></code> </p>
+        </td>
+        <td><p>package NAMESPACE file</p></td>
+      </tr><tr><td>
+          <p><code><a href="pac_compare_namespace.html">pac_compare_namespace()</a></code> </p>
+        </td>
+        <td><p>Compare NAMESPACE exports between specific CRAN packages versions</p></td>
+      </tr><tr><td>
+          <p><code><a href="pac_compare_versions.html">pac_compare_versions()</a></code> </p>
+        </td>
+        <td><p>Compare DESCRIPTION files dependencies between specific CRAN packages versions</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="validation-functions">Validation Functions <a href="#validation-functions" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
           <p><code><a href="lib_validate.html">lib_validate()</a></code> </p>
         </td>
         <td><p>Validate the local library</p></td>
@@ -111,6 +135,18 @@
           <p><code><a href="lock_validate.html">lock_validate()</a></code> </p>
         </td>
         <td><p>Validate a specific renv lock file</p></td>
+      </tr><tr><td>
+          <p><code><a href="pac_validate.html">pac_validate()</a></code> </p>
+        </td>
+        <td><p>Validate a specific local package</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="check-state-of-r-packages">Check State of R packages <a href="#check-state-of-r-packages" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="checked_packages.html">checked_packages()</a></code> </p>
+        </td>
+        <td><p>Retrieving all R CRAN packages check pages statuses.</p></td>
       </tr><tr><td>
           <p><code><a href="pac_checkpage.html">pac_checkpage()</a></code> </p>
         </td>
@@ -120,29 +156,37 @@
         </td>
         <td><p>Checking the R CRAN package check page status</p></td>
       </tr><tr><td>
-          <p><code><a href="pac_compare_namespace.html">pac_compare_namespace()</a></code> </p>
-        </td>
-        <td><p>Compare NAMESPACE exports between specific CRAN packages versions</p></td>
-      </tr><tr><td>
-          <p><code><a href="pac_compare_versions.html">pac_compare_versions()</a></code> </p>
-        </td>
-        <td><p>Compare DESCRIPTION files dependencies between specific CRAN packages versions</p></td>
-      </tr><tr><td>
-          <p><code><a href="pac_deps.html">pac_deps()</a></code> </p>
-        </td>
-        <td><p>package dependencies</p></td>
-      </tr><tr><td>
-          <p><code><a href="pac_deps_timemachine.html">pac_deps_timemachine()</a></code> </p>
-        </td>
-        <td><p>R CRAN package dependencies for a certain version or time point</p></td>
-      </tr><tr><td>
-          <p><code><a href="pac_description.html">pac_description()</a></code> </p>
-        </td>
-        <td><p>package DESCRIPTION file</p></td>
-      </tr><tr><td>
           <p><code><a href="pac_health.html">pac_health()</a></code> </p>
         </td>
         <td><p>CRAN package health state at a specific Date or for a specific version</p></td>
+      </tr><tr><td>
+          <p><code><a href="pac_lifeduration.html">pac_lifeduration()</a></code> </p>
+        </td>
+        <td><p>Package version life duration at specific Date or for a specific version</p></td>
+      </tr><tr><td>
+          <p><code><a href="pacs_lifeduration.html">pacs_lifeduration()</a></code> </p>
+        </td>
+        <td><p>Packages life duration for a specific version</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="base-packages">Base packages <a href="#base-packages" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="pacs_base.html">pacs_base()</a></code> </p>
+        </td>
+        <td><p>List of base R packages</p></td>
+      </tr></tbody><tbody><tr><th colspan="2">
+          <h2 id="utils-functions">Utils Functions <a href="#utils-functions" class="anchor" aria-hidden="true"></a></h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr></tbody><tbody><tr><td>
+          <p><code><a href="compareVersionsMax.html">compareVersionsMax()</a></code> </p>
+        </td>
+        <td><p>Maximum version across the vector</p></td>
+      </tr><tr><td>
+          <p><code><a href="compareVersionsMin.html">compareVersionsMin()</a></code> </p>
+        </td>
+        <td><p>Minimum version across the vector</p></td>
       </tr><tr><td>
           <p><code><a href="pac_isin.html">pac_isin()</a></code> </p>
         </td>
@@ -156,37 +200,21 @@
         </td>
         <td><p>Getting the most recent package version</p></td>
       </tr><tr><td>
-          <p><code><a href="pac_lifeduration.html">pac_lifeduration()</a></code> </p>
-        </td>
-        <td><p>Package version life duration at specific Date or for a specific version</p></td>
-      </tr><tr><td>
-          <p><code><a href="pac_namespace.html">pac_namespace()</a></code> </p>
-        </td>
-        <td><p>package NAMESPACE file</p></td>
-      </tr><tr><td>
-          <p><code><a href="pac_size.html">pac_size()</a></code> </p>
+          <p><code><a href="dir_size.html">dir_size()</a></code> </p>
         </td>
         <td><p>Size of the package</p></td>
       </tr><tr><td>
-          <p><code><a href="pac_timemachine.html">pac_timemachine()</a></code> </p>
+          <p><code><a href="cran_flavors.html">cran_flavors()</a></code> </p>
         </td>
-        <td><p>Package metadata for all releases</p></td>
+        <td><p>Retrieving all R CRAN servers flavors</p></td>
       </tr><tr><td>
-          <p><code><a href="pac_true_size.html">pac_true_size()</a></code> </p>
+          <p><code><a href="biocran_repos.html">biocran_repos()</a></code> </p>
         </td>
-        <td><p>True size of the package</p></td>
+        <td><p>CRAN and Bioconductor repositories</p></td>
       </tr><tr><td>
-          <p><code><a href="pac_validate.html">pac_validate()</a></code> </p>
+          <p><code><a href="bio_releases.html">bio_releases()</a></code> </p>
         </td>
-        <td><p>Validate a specific local package</p></td>
-      </tr><tr><td>
-          <p><code><a href="pacs_base.html">pacs_base()</a></code> </p>
-        </td>
-        <td><p>List of base R packages</p></td>
-      </tr><tr><td>
-          <p><code><a href="pacs_lifeduration.html">pacs_lifeduration()</a></code> </p>
-        </td>
-        <td><p>Packages life duration for a specific version</p></td>
+        <td><p>Retrieving all Bioconductor releases</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
