@@ -33,6 +33,8 @@ reference:
   - pacs_base
 - title: Utils Functions
 - contents:
+  - compareVersionsMax
+  - compareVersionsMin
   - pac_isin
   - pac_islast
   - pac_last
