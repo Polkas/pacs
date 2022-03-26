@@ -12,3 +12,4 @@ available_packages(repos)
 \description{
 available_packages returns a matrix of details corresponding to packages currently available at one or more repositories. The current list of packages is downloaded over the internet (or copied from a local mirror).
 }
+\keyword{internal}
