@@ -38,8 +38,7 @@ Suggests:
 Config/testthat/edition: 3
 Imports:
     memoise,
-    stringi,
-    xml2,
     jsonlite,
-    curl
+    xml2,
+    stringi
 VignetteBuilder: knitr

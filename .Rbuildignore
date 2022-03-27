@@ -7,3 +7,4 @@
 ^pacs\.Rproj$
 ^renv$
 ^renv\.lock$
+^_pkgdown\.yaml$

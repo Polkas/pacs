@@ -87,7 +87,7 @@ dir_size <- function(path = ".", recursive = TRUE) {
 }
 
 is_online <- function(site = "r-project.org") {
-  isTRUE(!is.null(curl::nslookup(site, error = FALSE)))
+  is.null(attr(suppressWarnings(system("nslookup r-project.org", intern = TRUE)), "status"))
 }
 
 #' List of base R packages
@@ -179,7 +179,7 @@ installed_packages <- function(lib.loc, priority = NULL) {
 installed_packages_raw <- memoise::memoise(utils::installed.packages, cache = cachem::cache_mem(max_age = 30 * 60))
 
 extract_deps <- function(x) {
-  splited <- stri_split_fixed(x, ",")
+  splited <- stri_split_fixed(x, ",", )
   trimed <- lapply(splited, stri_trim)
   v_reg <- function(x) {
     vapply(
