@@ -131,10 +131,11 @@ pac_deps <- function(pac,
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
 #' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `pacs::biocran_repos()`
 #' @return character vector with dependency packages or data.frame when checking recursively.
-#' @note the base packages are not taken into account.
+#' @note `renv` package has to be installed. `base` packages are not taken into account.
 #' @export
 #' @examples
 #' \dontrun{
+#' library(renv)
 #' # Please update the path to the custom shiny app
 #' app_path <- system.file("examples/04_mpg", package = "shiny")
 #' pacs::app_deps(app_path)

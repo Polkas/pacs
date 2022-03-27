@@ -41,10 +41,11 @@ The required dependencies have to be installed in the local repository.
 The default arguments setup is recommended.
 }
 \note{
-the base packages are not taken into account.
+\code{renv} package has to be installed. \code{base} packages are not taken into account.
 }
 \examples{
 \dontrun{
+library(renv)
 # Please update the path to the custom shiny app
 app_path <- system.file("examples/04_mpg", package = "shiny")
 pacs::app_deps(app_path)

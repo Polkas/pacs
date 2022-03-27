@@ -60,9 +60,11 @@ pac_true_size <- function(pac,
 #' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.
+#' @note `renv` package has to be installed.
 #' @export
 #' @examples
 #' \dontrun{
+#' library(renv)
 #' # Please update the path to the shiny app
 #' cat(pacs::app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
 #' }

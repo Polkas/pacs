@@ -26,6 +26,11 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Depends: R (>= 3.5.0)
+Imports:
+    memoise,
+    jsonlite,
+    xml2,
+    stringi
 Suggests: 
     remotes,
     renv,
@@ -36,9 +41,4 @@ Suggests:
     knitr,
     rmarkdown
 Config/testthat/edition: 3
-Imports:
-    memoise,
-    jsonlite,
-    xml2,
-    stringi
 VignetteBuilder: knitr

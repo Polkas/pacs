@@ -1,19 +1,16 @@
 reference:
-- title: Shiny App Dependencies and Size
-- contents:
-  - starts_with("app")
-- title: Dependencies of R package
+- title: Dependencies of R Package
 - contents:
   - pac_deps
   - pac_deps_timemachine
-- title: Size of R package
+- title: Size of R Package
 - contents:
   - pac_size
   - pac_true_size
-- title: CRAN package releases
+- title: CRAN Package Releases
 - contents:
   - pac_timemachine
-- title: NAMESPACE/DESCRIPTION
+- title: NAMESPACE and DESCRIPTION
 - contents:
   - pac_description
   - pac_namespace
@@ -28,7 +25,10 @@ reference:
   - pac_health
   - pac_lifeduration
   - pacs_lifeduration
-- title: Base packages
+- title: Shiny App Dependencies and Size
+- contents:
+  - starts_with("app")
+- title: Base Packages
 - contents:
   - pacs_base
 - title: Utils Functions

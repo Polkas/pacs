@@ -30,8 +30,12 @@ The size of shiny app is a sum of dependencies packages and the app directory.
 The app dependencies packages are checked recursively, and only in local repository.
 The default arguments setup is recommended.
 }
+\note{
+\code{renv} package has to be installed.
+}
 \examples{
 \dontrun{
+library(renv)
 # Please update the path to the shiny app
 cat(pacs::app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
 }
