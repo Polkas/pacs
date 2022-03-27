@@ -108,12 +108,13 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>the base packages are not taken into account.</p>
+    <p><code>renv</code> package has to be installed. <code>base</code> packages are not taken into account.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/renv/" class="external-link">renv</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># Please update the path to the custom shiny app</span></span>
 <span class="r-in"><span class="va">app_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/04_mpg"</span>, package <span class="op">=</span> <span class="st">"shiny"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">app_deps</span><span class="op">(</span><span class="va">app_path</span><span class="op">)</span></span>
