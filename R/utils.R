@@ -138,7 +138,7 @@ installed_descriptions <- function(lib.loc, fields, deps = NULL) {
     Package = unlist(lapply(seq_along(packages), function(x) replace(packages[[x]], packages[[x]] == "NA", NA))),
     stringsAsFactors = FALSE
   )
-browser()
+
   res_agg <- stats::aggregate(
     joint[, c("Version"), drop = FALSE],
     list(Package = joint$Package),
