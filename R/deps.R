@@ -131,6 +131,8 @@ pac_deps_user <- function(pac) {
 
 #' package dependencies - developer perspective
 #' @description Package dependencies installed when checking the package.
+#' `"Depends", "Imports", "LinkingTo", "Suggests"` fields from the DESCRIPTION file and
+#'  their recursive dependencies taken from `"Depends", "Imports", "LinkingTo"` fields.
 #' @param pac character a package name.
 #' @export
 #' @examples

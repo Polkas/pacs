@@ -11,6 +11,8 @@ pac_deps_dev(pac)
 }
 \description{
 Package dependencies installed when checking the package.
+\verb{"Depends", "Imports", "LinkingTo", "Suggests"} fields from the DESCRIPTION file and
+their recursive dependencies taken from \verb{"Depends", "Imports", "LinkingTo"} fields.
 }
 \examples{
 \dontrun{
