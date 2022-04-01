@@ -116,6 +116,36 @@ pac_deps <- function(pac,
   res_df_f
 }
 
+#' package dependencies - user perspective
+#' @description Package dependencies installed when run `installed.packages`.
+#' @param pac character a package name.
+#' @export
+#' @examples
+#' \dontrun{
+#'   pac_deps_user("dplyr")
+#'   pac_deps_user("cat2cat")
+#' }
+pac_deps_user <- function(pac) {
+  pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE)
+}
+
+#' package dependencies - developer perspective
+#' @description Package dependencies installed when checking the package.
+#' @param pac character a package name.
+#' @export
+#' @examples
+#' \dontrun{
+#'   pac_deps_dev("dplyr")
+#'   pac_deps_dev("cat2cat")
+#' }
+pac_deps_dev <- function(pac) {
+  base <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE)
+  suggs <- pac_deps("dplyr", recursive = FALSE, description_v = TRUE, local = FALSE, fields = "Suggests")$Package
+  suggs_r <- do.call(rbind, lapply(suggs, function(x) pac_deps(x, description_v = TRUE, local = FALSE)))
+  results <- rbind(base, suggs_r)
+  stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)
+}
+
 #' The shiny app dependencies
 #' @description the shiny app dependencies packages are checked recursively.
 #' The `c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are checked recursively.

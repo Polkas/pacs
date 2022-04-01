@@ -3,6 +3,8 @@ reference:
 - contents:
   - pac_deps
   - pac_deps_timemachine
+  - pac_deps_dev
+  - pac_deps_user
 - title: Size of R Package
 - contents:
   - pac_size
