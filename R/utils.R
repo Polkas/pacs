@@ -164,7 +164,7 @@ installed_agg_fun <- memoise::memoise(installed_agg_fun_raw, cache = cachem::cac
 
 #' List Available Packages at CRAN-like Repositories
 #' @description available_packages returns a matrix of details corresponding to packages currently available at one or more repositories. The current list of packages is downloaded over the internet (or copied from a local mirror).
-#' @param repos character vector, the base URL(s) of the repositories to use. Default `pacs::biocran_repos()`
+#' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @keywords internal
 available_packages <- function(repos) {
   tryCatch(available_packages_raw(repos = repos), error = function(e) NA)

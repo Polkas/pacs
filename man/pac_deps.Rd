@@ -35,7 +35,7 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{recursive}{logical If to assess the dependencies recursively. Default: TRUE}
 
-\item{repos}{character the base URL of the CRAN repository to use. Used only for the validation. Default \code{pacs::biocran_repos()}}
+\item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 data.frame with packages and their versions. Versions are taken from \code{installed.packages} or newest released.

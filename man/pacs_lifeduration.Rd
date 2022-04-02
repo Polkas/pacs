@@ -13,7 +13,7 @@ pacs_lifeduration(
 )
 }
 \arguments{
-\item{pacs}{character vector packages names.}
+\item{pacs}{character vector packages names.``}
 
 \item{versions}{character vector packages versions.}
 
@@ -23,7 +23,7 @@ Default: \code{"crandb"}}
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
 
-\item{repos}{character the base CRAN URL of the repository to use. Default \code{"https://cran.rstudio.org"}}
+\item{repos}{character vector repositories. Default \verb{https://cran.rstudio.org}}
 }
 \value{
 data.frame with two columns package name and life duration.

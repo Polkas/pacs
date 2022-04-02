@@ -5,7 +5,7 @@
 #' The local repository has priority, it version is available. Default: NULL
 #' @param at Date old version of package. Default: NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
-#' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default `pacs::biocran_repos()`
+#' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @param source character one of `c("crandb", "cran")`. Using the `MEATCRAN  CRANDB` or the direct web page download from CRAN. Default: `"crandb"`
 #' @return `difftime`, number of days package version was the newest one.
 #' @note
@@ -100,7 +100,7 @@ pac_lifeduration <- function(pac,
 #' @param scope character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `c("ERROR", "FAIL")`
 #' @param flavors character vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default all CRAN machines are considered, NULL value. Default NULL
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
-#' @param repos character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"
+#' @param repos character vector URLs of the repositories to use. Default `https://cran.rstudio.com/`
 #' @param source character one of `c("crandb", "cran")`. Using the `MEATCRAN` DB or the direct web page download from CRAN. Default: `"crandb"`
 #' @return logical if a package is healthy.
 #' @note
@@ -161,8 +161,8 @@ pac_health <- function(pac,
 #' The `"crandb"` works if less than `getOption("pacs.crandb_limit")` (currently 500) packages are looked for.
 #' Default: `"crandb"`
 #' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
-#' @param repos character the base CRAN URL of the repository to use. Default `"https://cran.rstudio.org"`
-#' @param pacs character vector packages names.
+#' @param repos character vector repositories. Default `https://cran.rstudio.org`
+#' @param pacs character vector packages names.``
 #' @return data.frame with two columns package name and life duration.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.

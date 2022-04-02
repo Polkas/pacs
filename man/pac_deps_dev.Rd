@@ -4,14 +4,16 @@
 \alias{pac_deps_dev}
 \title{Package dependencies - developer perspective}
 \usage{
-pac_deps_dev(pac, base = FALSE, attr = TRUE)
+pac_deps_dev(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos())
 }
 \arguments{
 \item{pac}{character a package name.}
 
 \item{base}{logical if to add base packages too.}
 
-\item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
+\item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
+
+\item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}
 If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
 }
 \description{

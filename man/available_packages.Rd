@@ -7,7 +7,7 @@
 available_packages(repos)
 }
 \arguments{
-\item{repos}{character vector, the base URL(s) of the repositories to use. Default \code{pacs::biocran_repos()}}
+\item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \description{
 available_packages returns a matrix of details corresponding to packages currently available at one or more repositories. The current list of packages is downloaded over the internet (or copied from a local mirror).

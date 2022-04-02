@@ -5,7 +5,7 @@
 #' @param at Date. Default: NULL
 #' @param local logical if to use local library. Default: FALSE
 #' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
-#' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with names proper for NAMESPACE file, the same as format as returned by `base::parseNamespaceFile`.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' This function is mainly built under source code from `base::parseNamespaceFile`.

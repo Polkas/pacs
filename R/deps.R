@@ -10,7 +10,7 @@
 #' @param description_v if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE
 #' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
 #' @param recursive logical If to assess the dependencies recursively. Default: TRUE
-#' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `pacs::biocran_repos()`
+#' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return data.frame with packages and their versions. Versions are taken from `installed.packages` or newest released.
 #' @note When function is invoked in the loop afterwards results could be aggregated like,
 #' `stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)`.
@@ -125,6 +125,7 @@ pac_deps <- function(pac,
 #' @param pac character a package name.
 #' @param base logical if to add base packages too.
 #' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
+#' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE
 #' @export
 #' @examples
@@ -132,7 +133,7 @@ pac_deps <- function(pac,
 #' pacs::pac_deps_user("dplyr")
 #' pacs::pac_deps_user("cat2cat")
 #' }
-pac_deps_user <- function(pac, base = FALSE, attr = TRUE) {
+pac_deps_user <- function(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos()) {
   pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr)
 }
 
@@ -145,6 +146,7 @@ pac_deps_user <- function(pac, base = FALSE, attr = TRUE) {
 #' @param pac character a package name.
 #' @param base logical if to add base packages too.
 #' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
+#' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE
 #' @export
 #' @examples
@@ -152,7 +154,7 @@ pac_deps_user <- function(pac, base = FALSE, attr = TRUE) {
 #' pacs::pac_deps_dev("dplyr")
 #' pacs::pac_deps_dev("cat2cat")
 #' }
-pac_deps_dev <- function(pac, base = FALSE, attr = TRUE) {
+pac_deps_dev <- function(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos()) {
   top <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr)
   suggs <- pac_deps(pac, recursive = FALSE, description_v = TRUE, local = FALSE, fields = "Suggests", base = base)
   suggs_r <- do.call(rbind, lapply(suggs$Package, function(x) pac_deps(x, description_v = TRUE, local = FALSE, base = base)))
@@ -173,7 +175,7 @@ pac_deps_dev <- function(pac, base = FALSE, attr = TRUE) {
 #' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param description_v if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE
 #' @param recursive logical if to assess the dependencies recursively. Default: TRUE
-#' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `pacs::biocran_repos()`
+#' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return character vector with dependency packages or data.frame when checking recursively.
 #' @note `renv` package has to be installed. `base` packages are not taken into account.
 #' @export

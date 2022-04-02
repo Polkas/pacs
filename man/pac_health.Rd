@@ -31,7 +31,7 @@ pac_health(
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
 
-\item{repos}{character the base CRAN URL of the repository to use. Default "https://cran.rstudio.org"}
+\item{repos}{character vector URLs of the repositories to use. Default \verb{https://cran.rstudio.com/}}
 
 \item{source}{character one of \code{c("crandb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"crandb"}}
 }

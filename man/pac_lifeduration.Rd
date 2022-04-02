@@ -23,7 +23,7 @@ The local repository has priority, it version is available. Default: NULL}
 
 \item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
 
-\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor. Default \code{pacs::biocran_repos()}}
+\item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 
 \item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN  CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
 }

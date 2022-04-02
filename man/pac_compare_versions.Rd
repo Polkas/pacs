@@ -26,7 +26,7 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{character vector. Default: \code{.libPaths()}}
 
-\item{repos}{character the base URL of the CRAN repository to use. Default "https://cran.rstudio.org"}
+\item{repos}{character vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 data.frame with 4 columns.

@@ -7,7 +7,7 @@
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector. Default: `.libPaths()`
-#' @param repos character the base URL of the CRAN repository to use. Default "https://cran.rstudio.org"
+#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return data.frame with 4 columns.
 #' \describe{
 #' \item{Package}{character package names.}
@@ -88,7 +88,7 @@ pac_compare_versions <- function(pac,
 #' @param old character an old version of package.
 #' @param new character a new version of package.
 #' @param lib.loc character vector. Default:
-#' @param repos character the base URL of the CRAN repository to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with `c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")` slots, and added and removed ones for each of them.
 #' @export
 #' @examples

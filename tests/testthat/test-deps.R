@@ -107,9 +107,9 @@ test_that("pacs::app_deps", {
 
 test_that("pac_deps_user", {
   skip_if_offline()
-  pp <- pacs::pac_deps_user("memoise", base = FALSE, attr = FALSE)$Package
+  pp <- pacs::pac_deps_user("memoise", base = FALSE, attr = FALSE, repos = "https://cran.rstudio.com/")$Package
   rr <- remotes:::find_deps("memoise",
-                            available = pacs:::available_packages(repos = pacs::biocran_repos()),
+                            available = pacs:::available_packages(repos = "https://cran.rstudio.com/"),
                             top_dep = NA)
   rrr <- setdiff(rr, pacs::pacs_base())
   expect_identical(sort(pp), sort(rrr))
@@ -117,9 +117,9 @@ test_that("pac_deps_user", {
 
 test_that("pac_deps_dev", {
   skip_if_offline()
-  pp <- pacs::pac_deps_dev("memoise", base = FALSE, attr = FALSE)$Package
+  pp <- pacs::pac_deps_dev("memoise", base = FALSE, attr = FALSE, repos = "https://cran.rstudio.com/")$Package
   rr <- remotes:::find_deps("memoise",
-                            available = pacs:::available_packages(repos = pacs::biocran_repos()),
+                            available = pacs:::available_packages(repos = "https://cran.rstudio.com/"),
                             top_dep = TRUE)
   rrr <- setdiff(rr, pacs::pacs_base())
   expect_identical(sort(pp), sort(rrr))
