@@ -134,7 +134,7 @@ pac_deps <- function(pac,
 #' pacs::pac_deps_user("cat2cat")
 #' }
 pac_deps_user <- function(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos()) {
-  pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr)
+  pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr, repos = repos)
 }
 
 #' Package dependencies - developer perspective
@@ -155,9 +155,9 @@ pac_deps_user <- function(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_
 #' pacs::pac_deps_dev("cat2cat")
 #' }
 pac_deps_dev <- function(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos()) {
-  top <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr)
-  suggs <- pac_deps(pac, recursive = FALSE, description_v = TRUE, local = FALSE, fields = "Suggests", base = base)
-  suggs_r <- do.call(rbind, lapply(suggs$Package, function(x) pac_deps(x, description_v = TRUE, local = FALSE, base = base)))
+  top <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr, repos = repos)
+  suggs <- pac_deps(pac, recursive = FALSE, description_v = TRUE, local = FALSE, fields = "Suggests", base = base, repos = repos)
+  suggs_r <- do.call(rbind, lapply(suggs$Package, function(x) pac_deps(x, description_v = TRUE, local = FALSE, base = base, repos = repos)))
   results <- do.call(rbind, list(top, suggs, suggs_r))
   stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)
 }
