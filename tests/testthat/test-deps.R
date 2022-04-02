@@ -127,5 +127,5 @@ test_that("pac_deps_dev", {
   expect_identical(sort(pp), sort(rrr))
 
   expect_true(isNA(pac_deps_dev("WRONG")))
-  expect_true(nrow(pac_deps_dev("tinytest")) >= 0)
+  expect_true(nrow(pac_deps_dev("tinytest", repos = "https://cran.rstudio.com/")) >= 0)
 })
