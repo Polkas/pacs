@@ -93,9 +93,9 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">pac_checkred</span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pac_checkred</span><span class="op">(</span><span class="st">"dplyr"</span>, scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pac_checkred</span><span class="op">(</span><span class="st">"dplyr"</span>,</span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_checkred</span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_checkred</span><span class="op">(</span><span class="st">"dplyr"</span>, scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_checkred</span><span class="op">(</span><span class="st">"dplyr"</span>,</span>
 <span class="r-in">  scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span>, <span class="st">"WARN"</span><span class="op">)</span>,</span>
 <span class="r-in">  flavors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span class="r-in">    <span class="st">"r-devel-linux-x86_64-debian-clang"</span>,</span>

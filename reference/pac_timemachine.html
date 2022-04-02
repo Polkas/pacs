@@ -109,7 +109,7 @@
 <dd><p><code>difftime</code> number of days the version was the newest one.</p></dd>
 
 <dt>URL</dt>
-<dd><p>character the suffix of the base URL to <code>tar.gz</code> file.</p></dd>
+<dd><p>character the suffix of the base URL to <code>tar.gz</code> file. The base part of URL in the result is <code>https://cran.r-project.org/src/contrib/</code>.</p></dd>
 
 <dt>Size</dt>
 <dd><p>character size of the <code>tar.gz</code> file.</p></dd>
@@ -118,21 +118,20 @@
 </dl></div>
     <div id="note">
     <h2>Note</h2>
-    <p>Function will scrap two CRAN URLS. Works only with CRAN packages.
-Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
-The base part of URL in the result is <code>https://cran.r-project.org/src/contrib/</code>.
-Results are cached for 30 minutes with <code>memoise</code> package.
+    <p>Results are cached for 30 minutes with <code>memoise</code> package.
 The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:
-Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.</p>
+Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.
+For <code>source = "cran"</code>the function will scrap two CRAN URLS. Works only with CRAN packages.
+Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">pac_timemachine</span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2017-02-02"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pac_timemachine</span><span class="op">(</span><span class="st">"dplyr"</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2017-02-02"</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2018-04-02"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pac_timemachine</span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pac_timemachine</span><span class="op">(</span><span class="st">"tidyr"</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-06-01"</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_timemachine</span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2017-02-02"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_timemachine</span><span class="op">(</span><span class="st">"dplyr"</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2017-02-02"</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2018-04-02"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_timemachine</span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_timemachine</span><span class="op">(</span><span class="st">"tidyr"</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2020-06-01"</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>

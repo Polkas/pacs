@@ -106,7 +106,7 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
 <dt>version_status</dt>
 <dd><p>numeric -1/0/1 which comes from <code><a href="https://rdrr.io/r/utils/compareVersion.html" class="external-link">utils::compareVersion</a></code> function.
-0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.</p></dd>
+0 means that both versions have the same requirement. -1 means that the new version remove this requirement. 1 means that the new version added a new requirement.</p></dd>
 
 
 </dl></div>
@@ -114,10 +114,10 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">pac_compare_versions</span><span class="op">(</span><span class="st">"memoise"</span>, <span class="st">"0.2.1"</span>, <span class="st">"2.0.0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pac_compare_versions</span><span class="op">(</span><span class="st">"memoise"</span>, <span class="st">"0.2.1"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_compare_versions</span><span class="op">(</span><span class="st">"memoise"</span>, <span class="st">"0.2.1"</span>, <span class="st">"2.0.0"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_compare_versions</span><span class="op">(</span><span class="st">"memoise"</span>, <span class="st">"0.2.1"</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># local version to newest one</span></span>
-<span class="r-in"><span class="fu">pac_compare_versions</span><span class="op">(</span><span class="st">"memoise"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_compare_versions</span><span class="op">(</span><span class="st">"memoise"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>

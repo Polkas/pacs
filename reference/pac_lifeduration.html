@@ -98,21 +98,21 @@ The local repository has priority, it version is available. Default: NULL</p></d
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
-Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 30 minutes with <code>memoise</code> package, memory cache.
+    <p>Results are cached for 30 minutes with <code>memoise</code> package.
 The <code>crandb</code> R packages database is a part of <code>METACRAN</code> project, source:
-Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.</p>
+Csárdi G, Salmon M (2022). <code>pkgsearch</code>: Search and Query CRAN R Packages. <code>https://github.com/r-hub/pkgsearch</code>, <code>https://r-hub.github.io/pkgsearch/</code>.
+For <code>source = "cran"</code>the function will scrap two CRAN URLS. Works only with CRAN packages.
+Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"memoise"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2019-02-14"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"memoise"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2019-02-14"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># For Bioconductor packages will work only for the newest per R version and installed packages.</span></span>
-<span class="r-in"><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"S4Vectors"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"S4Vectors"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
