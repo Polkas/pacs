@@ -3,7 +3,7 @@
 Package dependencies installed when checking the package.
 "Depends", "Imports", "LinkingTo", "Suggests" fields from the DESCRIPTION file and
 their recursive dependencies taken from "Depends", "Imports", "LinkingTo" fields.
-Taken remotely for the newest version.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+Dependencies are taken remotely for the newest version.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
@@ -70,17 +70,22 @@ Taken remotely for the newest version.'><!-- mathjax --><script src="https://cdn
 Package dependencies installed when checking the package.
 <code>"Depends", "Imports", "LinkingTo", "Suggests"</code> fields from the DESCRIPTION file and
 their recursive dependencies taken from <code>"Depends", "Imports", "LinkingTo"</code> fields.
-Taken remotely for the newest version.</p>
+Dependencies are taken remotely for the newest version.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_deps_dev</span><span class="op">(</span><span class="va">pac</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_deps_dev</span><span class="op">(</span><span class="va">pac</span>, base <span class="op">=</span> <span class="cn">FALSE</span>, attr <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>pac</dt>
 <dd><p>character a package name.</p></dd>
+<dt>base</dt>
+<dd><p>logical if to add base packages too.</p></dd>
+<dt>attr</dt>
+<dd><p>logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
+If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: FALSE</p></dd>
 </dl></div>
 
     <div id="ref-examples">
