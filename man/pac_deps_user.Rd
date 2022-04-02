@@ -4,17 +4,22 @@
 \alias{pac_deps_user}
 \title{Package dependencies - user perspective}
 \usage{
-pac_deps_user(pac)
+pac_deps_user(pac, base = FALSE, attr = TRUE)
 }
 \arguments{
 \item{pac}{character a package name.}
+
+\item{base}{logical if to add base packages too.}
+
+\item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
+If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
 }
 \description{
 A higher-level function, build from \code{pacs::pacs_deps}.
 Package dependencies installed when run \code{installed.packages}.
 \verb{"Depends", "Imports", "LinkingTo"} fields from the DESCRIPTION file and
 their recursive dependencies taken from the same fields.
-Taken remotely for the newest version.
+Dependencies are taken remotely for the newest version.
 }
 \examples{
 \dontrun{

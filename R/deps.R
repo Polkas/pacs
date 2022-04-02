@@ -5,7 +5,7 @@
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
-#' @param base logical if to add base packages too. Default: FALSE
+#' @param base logical if to add base packages too. If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE
 #' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param description_v if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE
 #' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
@@ -121,16 +121,19 @@ pac_deps <- function(pac,
 #' Package dependencies installed when run `installed.packages`.
 #' `"Depends", "Imports", "LinkingTo"` fields from the DESCRIPTION file and
 #'  their recursive dependencies taken from the same fields.
-#'  Taken remotely for the newest version.
+#'  Dependencies are taken remotely for the newest version.
 #' @param pac character a package name.
+#' @param base logical if to add base packages too.
+#' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
+#' If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE
 #' @export
 #' @examples
 #' \dontrun{
 #' pacs::pac_deps_user("dplyr")
 #' pacs::pac_deps_user("cat2cat")
 #' }
-pac_deps_user <- function(pac) {
-  pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE)
+pac_deps_user <- function(pac, base = FALSE, attr = TRUE) {
+  pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr)
 }
 
 #' Package dependencies - developer perspective
@@ -138,19 +141,22 @@ pac_deps_user <- function(pac) {
 #' Package dependencies installed when checking the package.
 #' `"Depends", "Imports", "LinkingTo", "Suggests"` fields from the DESCRIPTION file and
 #'  their recursive dependencies taken from `"Depends", "Imports", "LinkingTo"` fields.
-#'  Taken remotely for the newest version.
+#'  Dependencies are taken remotely for the newest version.
 #' @param pac character a package name.
+#' @param base logical if to add base packages too.
+#' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
+#' If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE
 #' @export
 #' @examples
 #' \dontrun{
 #' pacs::pac_deps_dev("dplyr")
 #' pacs::pac_deps_dev("cat2cat")
 #' }
-pac_deps_dev <- function(pac) {
-  base <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE)
-  suggs <- pac_deps("dplyr", recursive = FALSE, description_v = TRUE, local = FALSE, fields = "Suggests")$Package
-  suggs_r <- do.call(rbind, lapply(suggs, function(x) pac_deps(x, description_v = TRUE, local = FALSE)))
-  results <- rbind(base, suggs_r)
+pac_deps_dev <- function(pac, base = FALSE, attr = TRUE) {
+  top <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr)
+  suggs <- pac_deps(pac, recursive = FALSE, description_v = TRUE, local = FALSE, fields = "Suggests", base = base)
+  suggs_r <- do.call(rbind, lapply(suggs$Package, function(x) pac_deps(x, description_v = TRUE, local = FALSE, base = base)))
+  results <- do.call(rbind, list(top, suggs, suggs_r))
   stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)
 }
 

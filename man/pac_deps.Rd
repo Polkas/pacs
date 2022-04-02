@@ -25,7 +25,7 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
 
-\item{base}{logical if to add base packages too. Default: FALSE}
+\item{base}{logical if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
 
 \item{local}{logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE}
 

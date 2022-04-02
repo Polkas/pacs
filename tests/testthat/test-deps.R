@@ -101,6 +101,26 @@ test_that("pacs::app_deps", {
   expect_true(rec_deps > 0)
   expect_true(direct_deps > 0)
   expect_true(rec_deps >= direct_deps)
-  expect_error(app_deps("WRONG"))
-  expect_error(app_deps("files/shiny_app", 12))
+  expect_error(pacs::app_deps("WRONG"))
+  expect_error(pacs::app_deps("files/shiny_app", 12))
+})
+
+test_that("pac_deps_user", {
+  skip_if_offline()
+  pp <- pacs::pac_deps_user("memoise", base = FALSE, attr = FALSE)$Package
+  rr <- remotes:::find_deps("memoise",
+                            available = pacs:::available_packages(repos = pacs::biocran_repos()),
+                            top_dep = NA)
+  rrr <- setdiff(rr, pacs::pacs_base())
+  expect_identical(sort(pp), sort(rrr))
+})
+
+test_that("pac_deps_dev", {
+  skip_if_offline()
+  pp <- pacs::pac_deps_dev("memoise", base = FALSE, attr = FALSE)$Package
+  rr <- remotes:::find_deps("memoise",
+                            available = pacs:::available_packages(repos = pacs::biocran_repos()),
+                            top_dep = TRUE)
+  rrr <- setdiff(rr, pacs::pacs_base())
+  expect_identical(sort(pp), sort(rrr))
 })

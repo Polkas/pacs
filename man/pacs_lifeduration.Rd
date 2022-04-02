@@ -35,7 +35,7 @@ using CRAN website to get a package life duration for certain version or at a sp
 Results are cached for 30 minutes with \code{memoise} package.
 The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
 Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
-For \code{source = "cran"}the function will scrap two CRAN URLS. Works only with CRAN packages.
+For \code{source = "loop_cran"}the function will scrap two CRAN URLS. Works only with CRAN packages.
 Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 }
 \examples{

@@ -168,7 +168,7 @@ pac_health <- function(pac,
 #' Results are cached for 30 minutes with `memoise` package.
 #' The `crandb` R packages database is a part of `METACRAN` project, source:
 #' Csárdi G, Salmon M (2022). `pkgsearch`: Search and Query CRAN R Packages. `https://github.com/r-hub/pkgsearch`, `https://r-hub.github.io/pkgsearch/`.
-#' For `source = "cran"`the function will scrap two CRAN URLS. Works only with CRAN packages.
+#' For `source = "loop_cran"`the function will scrap two CRAN URLS. Works only with CRAN packages.
 #' Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 #' @export
 #' @examples

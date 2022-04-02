@@ -15,7 +15,7 @@ pac_size(pac, lib.loc = .libPaths())
 numeric size in bytes, to get MB ten divide by \code{10**6}.
 }
 \description{
-size of package.
+Size of package.
 }
 \examples{
 \dontrun{

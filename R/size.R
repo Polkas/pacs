@@ -1,5 +1,5 @@
 #' Size of the package
-#' @description size of package.
+#' @description Size of package.
 #' @param pac character a package name.
 #' @param lib.loc character vector. Default: `.libPaths()`
 #' @return numeric size in bytes, to get MB ten divide by `10**6`.

@@ -301,10 +301,14 @@ Remote (newest CRAN) package dependencies with versions.
 pacs::pac_deps("shiny", local = FALSE)
 ```
 
-Raw dependencies from DESCRIPTION file
+Raw dependencies from DESCRIPTION file.
+The same which is needed by the the `install.packages` function. **Depends**/**Imports**/**LinkingTo** DESCRIPTION fields dependencies, recursively. 
+`pacs::pac_deps_user` could be used to check them.
 
 ```r
-pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
+pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)
+# or
+pacs::pac_deps_user("memoise")
 ```
 
 The `field` argument is used to change the scope of exploration.
@@ -316,6 +320,15 @@ At the moment of writing it the first invoke returns 3 dependencies whereas the 
 ```r
 nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo")))
 nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo", "Suggests")))
+```
+
+The developer dependencies are the ones needed when e.g. `R CMD check` is run.
+These are **Depends**/**Imports**/**LinkingTo**/**Suggests** DESCRIPTION fields dependencies, and for them **Depends**/**Imports**/**LinkingTo** recursively.
+`pacs::pac_deps_dev` could be used to check them.
+Obviously the list is much longer as the one for `pacs::pac_deps_user`.
+
+```r
+pac_deps_dev("memoise")
 ```
 
 For a certain version, might take some time.
