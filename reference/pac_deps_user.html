@@ -74,7 +74,7 @@ Dependencies are taken remotely for the newest version.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_deps_user</span><span class="op">(</span><span class="va">pac</span>, base <span class="op">=</span> <span class="cn">FALSE</span>, attr <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_deps_user</span><span class="op">(</span><span class="va">pac</span>, base <span class="op">=</span> <span class="cn">FALSE</span>, attr <span class="op">=</span> <span class="cn">TRUE</span>, repos <span class="op">=</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="biocran_repos.html">biocran_repos</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -84,7 +84,9 @@ Dependencies are taken remotely for the newest version.</p>
 <dt>base</dt>
 <dd><p>logical if to add base packages too.</p></dd>
 <dt>attr</dt>
-<dd><p>logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE
+<dd><p>logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE</p></dd>
+<dt>repos</dt>
+<dd><p>character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code>
 If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: FALSE</p></dd>
 </dl></div>
 
