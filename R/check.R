@@ -38,7 +38,7 @@ read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_checkpage("dplyr")
+#' pacs::pac_checkpage("dplyr")
 #' }
 pac_checkpage <- function(pac) {
   stopifnot((length(pac) == 1) && is.character(pac))
@@ -66,9 +66,9 @@ pac_checkpage <- function(pac) {
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_checkred("dplyr")
-#' pac_checkred("dplyr", scope = c("ERROR"))
-#' pac_checkred("dplyr",
+#' pacs::pac_checkred("dplyr")
+#' pacs::pac_checkred("dplyr", scope = c("ERROR"))
+#' pacs::pac_checkred("dplyr",
 #'   scope = c("ERROR", "FAIL", "WARN"),
 #'   flavors = c(
 #'     "r-devel-linux-x86_64-debian-clang",
@@ -107,7 +107,7 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
 #' @export
 #' @examples
 #' \dontrun{
-#' checked_packages()
+#' pacs::checked_packages()
 #' }
 checked_packages <- function() {
   if (!is_online()) {
@@ -178,7 +178,7 @@ read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::c
 #' @export
 #' @examples
 #' \dontrun{
-#' cran_flavors()
+#' pacs::cran_flavors()
 #' }
 cran_flavors <- function() {
   read_cran_flavours(url = "https://cran.r-project.org/web/checks/check_flavors.html")
@@ -215,7 +215,7 @@ read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cac
 #' @export
 #' @examples
 #' \dontrun{
-#' bio_releases()
+#' pacs::bio_releases()
 #' }
 bio_releases <- function() {
   read_bio_releases(url = "https://www.bioconductor.org/about/release-announcements/")

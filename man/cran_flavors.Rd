@@ -18,6 +18,6 @@ Results are cached for 30 minutes with \code{memoise} package.
 }
 \examples{
 \dontrun{
-cran_flavors()
+pacs::cran_flavors()
 }
 }

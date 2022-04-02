@@ -1,4 +1,4 @@
-#' package dependencies
+#' Package dependencies
 #' @description Package dependencies from DESCRIPTION files with installed or expected versions or newest released.
 #' @param pac character a package name.
 #' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
@@ -116,29 +116,35 @@ pac_deps <- function(pac,
   res_df_f
 }
 
-#' package dependencies - user perspective
-#' @description Package dependencies installed when run `installed.packages`.
+#' Package dependencies - user perspective
+#' @description A higher-level function, build from `pacs::pacs_deps`.
+#' Package dependencies installed when run `installed.packages`.
+#' `"Depends", "Imports", "LinkingTo"` fields from the DESCRIPTION file and
+#'  their recursive dependencies taken from the same fields.
+#'  Taken remotely for the newest version.
 #' @param pac character a package name.
 #' @export
 #' @examples
 #' \dontrun{
-#'   pac_deps_user("dplyr")
-#'   pac_deps_user("cat2cat")
+#' pacs::pac_deps_user("dplyr")
+#' pacs::pac_deps_user("cat2cat")
 #' }
 pac_deps_user <- function(pac) {
   pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE)
 }
 
-#' package dependencies - developer perspective
-#' @description Package dependencies installed when checking the package.
+#' Package dependencies - developer perspective
+#' @description A higher-level function, build from `pacs::pacs_deps`.
+#' Package dependencies installed when checking the package.
 #' `"Depends", "Imports", "LinkingTo", "Suggests"` fields from the DESCRIPTION file and
 #'  their recursive dependencies taken from `"Depends", "Imports", "LinkingTo"` fields.
+#'  Taken remotely for the newest version.
 #' @param pac character a package name.
 #' @export
 #' @examples
 #' \dontrun{
-#'   pac_deps_dev("dplyr")
-#'   pac_deps_dev("cat2cat")
+#' pacs::pac_deps_dev("dplyr")
+#' pacs::pac_deps_dev("cat2cat")
 #' }
 pac_deps_dev <- function(pac) {
   base <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE)

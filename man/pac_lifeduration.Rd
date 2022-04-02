@@ -34,18 +34,18 @@ The local repository has priority, it version is available. Default: NULL}
 using CRAN website to get a package life duration for certain version or at a specific Date.
 }
 \note{
-Function will scrap two github CRAN mirror and CRAN URL. Works mainly with CRAN packages.
-Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 30 minutes with \code{memoise} package, memory cache.
+Results are cached for 30 minutes with \code{memoise} package.
 The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
 Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
+For \code{source = "cran"}the function will scrap two CRAN URLS. Works only with CRAN packages.
+Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 }
 \examples{
 \dontrun{
-pac_lifeduration("memoise")
-pac_lifeduration("dplyr", version = "0.8.0")
-pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+pacs::pac_lifeduration("memoise")
+pacs::pac_lifeduration("dplyr", version = "0.8.0")
+pacs::pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
 # For Bioconductor packages will work only for the newest per R version and installed packages.
-pac_lifeduration("S4Vectors")
+pacs::pac_lifeduration("S4Vectors")
 }
 }

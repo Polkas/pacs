@@ -27,9 +27,9 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 }
 \examples{
 \dontrun{
-pac_checkred("dplyr")
-pac_checkred("dplyr", scope = c("ERROR"))
-pac_checkred("dplyr",
+pacs::pac_checkred("dplyr")
+pacs::pac_checkred("dplyr", scope = c("ERROR"))
+pacs::pac_checkred("dplyr",
   scope = c("ERROR", "FAIL", "WARN"),
   flavors = c(
     "r-devel-linux-x86_64-debian-clang",

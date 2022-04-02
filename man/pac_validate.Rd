@@ -58,8 +58,9 @@ Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. 
 }
 \examples{
 \dontrun{
-pac_validate("memoise")
-pac_validate("memoise",
+pacs::pac_validate("memoise")
+pacs::pac_validate(
+  "memoise",
   lifeduration = TRUE,
   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
 )

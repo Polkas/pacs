@@ -31,9 +31,9 @@ using the remote github CRAN mirror to compare NAMESPACE exports between specifi
 }
 \examples{
 \dontrun{
-pac_compare_namespace("shiny", "1.0.0", "1.6.0")
-pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
+pacs::pac_compare_namespace("shiny", "1.0.0", "1.6.0")
+pacs::pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
 # local version to newest one
-pac_compare_namespace("shiny")
+pacs::pac_compare_namespace("shiny")
 }
 }

@@ -34,7 +34,7 @@ data.frame with 7 columns
 \item{Released}{character release Date}
 \item{Archived}{character archived Date.}
 \item{LifeDuration}{\code{difftime} number of days the version was the newest one.}
-\item{URL}{character the suffix of the base URL to \code{tar.gz} file.}
+\item{URL}{character the suffix of the base URL to \code{tar.gz} file. The base part of URL in the result is \verb{https://cran.r-project.org/src/contrib/}.}
 \item{Size}{character size of the \code{tar.gz} file.}
 }
 }
@@ -42,18 +42,17 @@ data.frame with 7 columns
 Using CRAN website to get a package metadata used at a specific Date or a Date interval or for specific version.
 }
 \note{
-Function will scrap two CRAN URLS. Works only with CRAN packages.
-Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
-The base part of URL in the result is \verb{https://cran.r-project.org/src/contrib/}.
 Results are cached for 30 minutes with \code{memoise} package.
 The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
 Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
+For \code{source = "cran"}the function will scrap two CRAN URLS. Works only with CRAN packages.
+Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 }
 \examples{
 \dontrun{
-pac_timemachine("dplyr", at = as.Date("2017-02-02"))
-pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
-pac_timemachine("dplyr", at = Sys.Date())
-pac_timemachine("tidyr", from = as.Date("2020-06-01"), to = Sys.Date())
+pacs::pac_timemachine("dplyr", at = as.Date("2017-02-02"))
+pacs::pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
+pacs::pac_timemachine("dplyr", at = Sys.Date())
+pacs::pac_timemachine("tidyr", from = as.Date("2020-06-01"), to = Sys.Date())
 }
 }

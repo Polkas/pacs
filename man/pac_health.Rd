@@ -42,20 +42,20 @@ logical if a package is healthy.
 using CRAN website to get a package version/versions used at a specific Date interval.
 A healthy package was published for more than x days, where default is 14 days.
 CRAN team gives around one/two week to resolved a package which gave errors under the check page.
+The newest release is checked for warnings/errors on R CRAN check page.
 }
 \note{
-Function will scrap two/tree CRAN URLS. Works only with CRAN packages.
-The newest release are checked for warnings/errors on R CRAN check page.
-Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
-Results are cached for 30 minutes with \code{memoise} package, memory cache.
+Results are cached for 30 minutes with \code{memoise} package.
 The \code{crandb} R packages database is a part of \code{METACRAN} project, source:
 Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. \verb{https://github.com/r-hub/pkgsearch}, \verb{https://r-hub.github.io/pkgsearch/}.
+For \code{source = "cran"}the function will scrap two CRAN URLS. Works only with CRAN packages.
+Please as a courtesy to the R CRAN, don't overload their servers by constantly using this function.
 }
 \examples{
 \dontrun{
-pac_health("memoise")
-pac_health("dplyr", version = "0.8.0", limit = 14)
-pac_health("dplyr", at = as.Date("2019-02-14"))
-pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
+pacs::pac_health("memoise")
+pacs::pac_health("dplyr", version = "0.8.0", limit = 14)
+pacs::pac_health("dplyr", at = as.Date("2019-02-14"))
+pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
 }
 }

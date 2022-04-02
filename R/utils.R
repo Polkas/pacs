@@ -87,7 +87,7 @@ dir_size <- function(path = ".", recursive = TRUE) {
 }
 
 is_online <- function(site = "r-project.org") {
-  is.null(attr(suppressWarnings(system("nslookup r-project.org", intern = TRUE)), "status"))
+  isTRUE(!is.null(curl::nslookup(site, error = FALSE)))
 }
 
 #' List of base R packages

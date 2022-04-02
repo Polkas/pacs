@@ -14,15 +14,15 @@
 #' \item{Version.OLD}{character versions of dependencies required by an old package version.}
 #' \item{Version.NEW}{character versions of dependencies required by a new package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
-#' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
+#' 0 means that both versions have the same requirement. -1 means that the new version remove this requirement. 1 means that the new version added a new requirement.}
 #' }
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_compare_versions("memoise", "0.2.1", "2.0.0")
-#' pac_compare_versions("memoise", "0.2.1")
+#' pacs::pac_compare_versions("memoise", "0.2.1", "2.0.0")
+#' pacs::pac_compare_versions("memoise", "0.2.1")
 #' # local version to newest one
-#' pac_compare_versions("memoise")
+#' pacs::pac_compare_versions("memoise")
 #' }
 pac_compare_versions <- function(pac,
                                  old = NULL,
@@ -93,10 +93,10 @@ pac_compare_versions <- function(pac,
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_compare_namespace("shiny", "1.0.0", "1.6.0")
-#' pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
+#' pacs::pac_compare_namespace("shiny", "1.0.0", "1.6.0")
+#' pacs::pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
 #' # local version to newest one
-#' pac_compare_namespace("shiny")
+#' pacs::pac_compare_namespace("shiny")
 #' }
 pac_compare_namespace <- function(pac,
                                   old = NULL,

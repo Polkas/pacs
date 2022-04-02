@@ -22,6 +22,6 @@ Please as a courtesy to the R CRAN, don't overload their server by constantly us
 }
 \examples{
 \dontrun{
-pac_checkpage("dplyr")
+pacs::pac_checkpage("dplyr")
 }
 }

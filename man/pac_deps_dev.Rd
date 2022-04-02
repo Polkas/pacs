@@ -2,7 +2,7 @@
 % Please edit documentation in R/deps.R
 \name{pac_deps_dev}
 \alias{pac_deps_dev}
-\title{package dependencies - developer perspective}
+\title{Package dependencies - developer perspective}
 \usage{
 pac_deps_dev(pac)
 }
@@ -10,13 +10,15 @@ pac_deps_dev(pac)
 \item{pac}{character a package name.}
 }
 \description{
+A higher-level function, build from \code{pacs::pacs_deps}.
 Package dependencies installed when checking the package.
 \verb{"Depends", "Imports", "LinkingTo", "Suggests"} fields from the DESCRIPTION file and
 their recursive dependencies taken from \verb{"Depends", "Imports", "LinkingTo"} fields.
+Taken remotely for the newest version.
 }
 \examples{
 \dontrun{
-  pac_deps_dev("dplyr")
-  pac_deps_dev("cat2cat")
+pacs::pac_deps_dev("dplyr")
+pacs::pac_deps_dev("cat2cat")
 }
 }

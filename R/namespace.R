@@ -12,9 +12,9 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_namespace("dplyr", version = "0.8.0")
-#' pac_namespace("dplyr", at = as.Date("2019-02-01"))
-#' pac_namespace("memoise", local = TRUE)
+#' pacs::pac_namespace("dplyr", version = "0.8.0")
+#' pacs::pac_namespace("dplyr", at = as.Date("2019-02-01"))
+#' pacs::pac_namespace("memoise", local = TRUE)
 #' }
 pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc = .libPaths(), repos = "https://cran.rstudio.com/") {
   stopifnot((isFALSE(local)) ||

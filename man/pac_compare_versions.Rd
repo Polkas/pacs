@@ -35,7 +35,7 @@ data.frame with 4 columns.
 \item{Version.OLD}{character versions of dependencies required by an old package version.}
 \item{Version.NEW}{character versions of dependencies required by a new package version.}
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
-0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
+0 means that both versions have the same requirement. -1 means that the new version remove this requirement. 1 means that the new version added a new requirement.}
 }
 }
 \description{
@@ -43,9 +43,9 @@ using the remote github CRAN mirror to compare DESCRIPTION files dependencies be
 }
 \examples{
 \dontrun{
-pac_compare_versions("memoise", "0.2.1", "2.0.0")
-pac_compare_versions("memoise", "0.2.1")
+pacs::pac_compare_versions("memoise", "0.2.1", "2.0.0")
+pacs::pac_compare_versions("memoise", "0.2.1")
 # local version to newest one
-pac_compare_versions("memoise")
+pacs::pac_compare_versions("memoise")
 }
 }

@@ -31,19 +31,19 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' lib_validate()
-#' lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
-#' lib_validate(checkred = list(
+#' pacs::lib_validate()
+#' pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
+#' pacs::lib_validate(checkred = list(
 #'   scope = c("ERROR", "FAIL"),
 #'   flavors = cran_flavors()$Flavor[1:2]
 #' ))
 #' # activate lifeduration argument, could be time consuming for bigger libraries.
-#' lib_validate(
+#' pacs::lib_validate(
 #'   lifeduration = TRUE,
 #'   checkred = list(scope = c("ERROR", "FAIL"))
 #' )
 #' # only R CRAN repository
-#' lib_validate(repos = "https://cran.rstudio.com/")
+#' pacs::lib_validate(repos = "https://cran.rstudio.com/")
 #' }
 lib_validate <- function(lib.loc = .libPaths(),
                          fields = c("Depends", "Imports", "LinkingTo"),
@@ -125,8 +125,9 @@ lib_validate <- function(lib.loc = .libPaths(),
 #' @export
 #' @examples
 #' \dontrun{
-#' pac_validate("memoise")
-#' pac_validate("memoise",
+#' pacs::pac_validate("memoise")
+#' pacs::pac_validate(
+#'   "memoise",
 #'   lifeduration = TRUE,
 #'   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
 #' )

@@ -2,7 +2,7 @@
 % Please edit documentation in R/deps.R
 \name{pac_deps_user}
 \alias{pac_deps_user}
-\title{package dependencies - user perspective}
+\title{Package dependencies - user perspective}
 \usage{
 pac_deps_user(pac)
 }
@@ -10,11 +10,15 @@ pac_deps_user(pac)
 \item{pac}{character a package name.}
 }
 \description{
+A higher-level function, build from \code{pacs::pacs_deps}.
 Package dependencies installed when run \code{installed.packages}.
+\verb{"Depends", "Imports", "LinkingTo"} fields from the DESCRIPTION file and
+their recursive dependencies taken from the same fields.
+Taken remotely for the newest version.
 }
 \examples{
 \dontrun{
-  pac_deps_user("dplyr")
-  pac_deps_user("cat2cat")
+pacs::pac_deps_user("dplyr")
+pacs::pac_deps_user("cat2cat")
 }
 }

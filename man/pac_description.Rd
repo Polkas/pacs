@@ -37,7 +37,7 @@ Results are cached for 30 minutes with \code{memoise} package.
 }
 \examples{
 \dontrun{
-pac_description("dplyr", version = "0.8.0")
-pac_description("dplyr", at = as.Date("2019-02-01"))
+  pacs::pac_description("dplyr", version = "0.8.0")
+  pacs::pac_description("dplyr", at = as.Date("2019-02-01"))
 }
 }

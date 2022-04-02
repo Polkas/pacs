@@ -18,6 +18,6 @@ Results are cached for 30 minutes with \code{memoise} package.
 }
 \examples{
 \dontrun{
-bio_releases()
+pacs::bio_releases()
 }
 }

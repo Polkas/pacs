@@ -54,18 +54,18 @@ Csárdi G, Salmon M (2022). \code{pkgsearch}: Search and Query CRAN R Packages. 
 }
 \examples{
 \dontrun{
-lib_validate()
-lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
-lib_validate(checkred = list(
+pacs::lib_validate()
+pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
+pacs::lib_validate(checkred = list(
   scope = c("ERROR", "FAIL"),
   flavors = cran_flavors()$Flavor[1:2]
 ))
 # activate lifeduration argument, could be time consuming for bigger libraries.
-lib_validate(
+pacs::lib_validate(
   lifeduration = TRUE,
   checkred = list(scope = c("ERROR", "FAIL"))
 )
 # only R CRAN repository
-lib_validate(repos = "https://cran.rstudio.com/")
+pacs::lib_validate(repos = "https://cran.rstudio.com/")
 }
 }

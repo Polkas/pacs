@@ -20,6 +20,6 @@ Checks with asterisks (*) indicate that checking was not fully performed, this i
 }
 \examples{
 \dontrun{
-checked_packages()
+pacs::checked_packages()
 }
 }
