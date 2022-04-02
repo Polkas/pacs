@@ -113,6 +113,8 @@ test_that("pac_deps_user", {
                             top_dep = NA)
   rrr <- setdiff(rr, pacs::pacs_base())
   expect_identical(sort(pp), sort(rrr))
+
+  expect_true(isNA(pac_deps_user("WRONG")))
 })
 
 test_that("pac_deps_dev", {
@@ -123,4 +125,7 @@ test_that("pac_deps_dev", {
                             top_dep = TRUE)
   rrr <- setdiff(rr, pacs::pacs_base())
   expect_identical(sort(pp), sort(rrr))
+
+  expect_true(isNA(pac_deps_dev("WRONG")))
+  expect_true(nrow(pac_deps_dev("tinytest")) >= 0)
 })

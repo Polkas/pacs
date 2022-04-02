@@ -9,6 +9,7 @@ app_deps(
   fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = .libPaths(),
   local = TRUE,
+  base = FALSE,
   description_v = FALSE,
   recursive = TRUE,
   repos = biocran_repos()
@@ -24,6 +25,8 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 \item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
 
 \item{local}{logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE}
+
+\item{base}{logical if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
 
 \item{description_v}{if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE}
 
@@ -41,7 +44,7 @@ The required dependencies have to be installed in the local repository.
 The default arguments setup is recommended.
 }
 \note{
-\code{renv} package has to be installed. \code{base} packages are not taken into account.
+\code{renv} package has to be installed.
 }
 \examples{
 \dontrun{

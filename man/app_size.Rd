@@ -31,7 +31,7 @@ The app dependencies packages are checked recursively, and only in local reposit
 The default arguments setup is recommended.
 }
 \note{
-\code{renv} package has to be installed.
+\code{renv} package has to be installed. \code{base} packages (\code{pacs::pacs_base()}) are not taken into account.
 }
 \examples{
 \dontrun{

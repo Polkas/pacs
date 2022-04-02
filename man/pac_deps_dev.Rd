@@ -18,7 +18,7 @@ If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FA
 }
 \description{
 A higher-level function, build from \code{pacs::pacs_deps}.
-Package dependencies installed when checking the package.
+Package dependencies installed when e.g. \verb{R CMD check} the package.
 \verb{"Depends", "Imports", "LinkingTo", "Suggests"} fields from the DESCRIPTION file and
 their recursive dependencies taken from \verb{"Depends", "Imports", "LinkingTo"} fields.
 Dependencies are taken remotely for the newest version.
