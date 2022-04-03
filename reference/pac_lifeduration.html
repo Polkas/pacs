@@ -109,9 +109,10 @@ Please as a courtesy to the R CRAN, don't overload their servers by constantly u
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"memoise"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"memoise"</span>, source <span class="op">=</span> <span class="st">"cran"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"dplyr"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2019-02-14"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># For Bioconductor packages will work only for the newest per R version and installed packages.</span></span>
+<span class="r-in"><span class="co"># For Bioconductor packages it will work only for the newest per R version and installed ones.</span></span>
 <span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_lifeduration</span><span class="op">(</span><span class="st">"S4Vectors"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>

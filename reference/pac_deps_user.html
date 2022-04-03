@@ -84,7 +84,7 @@ Dependencies are taken remotely for the newest version.</p>
 <dt>base</dt>
 <dd><p>logical if to add base packages too.</p></dd>
 <dt>attr</dt>
-<dd><p>logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE</p></dd>
+<dd><p>logical specify if a package and its version should be added as a attribute of data.frame or for <code>FALSE</code> as an additional record. Default: TRUE</p></dd>
 <dt>repos</dt>
 <dd><p>character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code>
 If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: FALSE</p></dd>
@@ -94,7 +94,9 @@ If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_deps_user</span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_deps_user</span><span class="op">(</span><span class="st">"cat2cat"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_deps_user</span><span class="op">(</span><span class="st">"pacs"</span><span class="op">)</span></span>
+<span class="r-in"><span class="co"># with the main package in the list</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">pac_deps_user</span><span class="op">(</span><span class="st">"pacs"</span>, attr <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
