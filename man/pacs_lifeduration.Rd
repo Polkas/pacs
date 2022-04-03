@@ -29,7 +29,7 @@ Default: \code{"crandb"}}
 data.frame with two columns package name and life duration.
 }
 \description{
-using CRAN website to get a package life duration for certain version or at a specific Date.
+packages life duration for certain versions.
 }
 \note{
 Results are cached for 30 minutes with \code{memoise} package.

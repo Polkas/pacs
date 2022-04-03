@@ -1,5 +1,5 @@
 #' Package version life duration at specific Date or for a specific version
-#' @description using CRAN website to get a package life duration for certain version or at a specific Date.
+#' @description a package life duration for a certain version or at a specific Date.
 #' @param pac character a package name.
 #' @param version character package version, By default the newest version is taken.
 #' The local repository has priority, it version is available. Default: NULL
@@ -89,10 +89,10 @@ pac_lifeduration <- function(pac,
 }
 
 #' CRAN package health state at a specific Date or for a specific version
-#' @description using CRAN website to get a package version/versions used at a specific Date interval.
+#' @description a package health for a certain version or at a specific Date.
 #' A healthy package was published for more than x days, where default is 14 days.
 #' CRAN team gives around one/two week to resolved a package which gave errors under the check page.
-#' The newest release is checked for warnings/errors on R CRAN check page.
+#' The newest release is checked for warnings/errors on the R CRAN package check page.
 #' @param pac character a package name.
 #' @param version character package version, By default the newest version is taken. Default: NULL
 #' @param at Date old version of package. Default: NULL
@@ -154,7 +154,7 @@ pac_health <- function(pac,
 }
 
 #' Packages life duration for a specific version
-#' @description using CRAN website to get a package life duration for certain version or at a specific Date.
+#' @description packages life duration for certain versions.
 #' @param pacs character vector packages names.
 #' @param versions character vector packages versions.
 #' @param source character one of `c("crandb", "loop_crandb", "loop_cran")`.

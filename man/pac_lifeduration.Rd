@@ -31,7 +31,7 @@ The local repository has priority, it version is available. Default: NULL}
 \code{difftime}, number of days package version was the newest one.
 }
 \description{
-using CRAN website to get a package life duration for certain version or at a specific Date.
+a package life duration for a certain version or at a specific Date.
 }
 \note{
 Results are cached for 30 minutes with \code{memoise} package.

@@ -39,10 +39,10 @@ pac_health(
 logical if a package is healthy.
 }
 \description{
-using CRAN website to get a package version/versions used at a specific Date interval.
+a package health for a certain version or at a specific Date.
 A healthy package was published for more than x days, where default is 14 days.
 CRAN team gives around one/two week to resolved a package which gave errors under the check page.
-The newest release is checked for warnings/errors on R CRAN check page.
+The newest release is checked for warnings/errors on the R CRAN package check page.
 }
 \note{
 Results are cached for 30 minutes with \code{memoise} package.

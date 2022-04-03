@@ -91,7 +91,7 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
 
   result_raw <- pac_checkpage(pac)
   if (length(flavors)) {
-    any(result_raw[result_raw$Flavor %in% flavors, ]$Status %in% scope)
+    any(result_raw[result_raw$Flavor %in% flavors, ]$Status %in% c(scope, paste0(scope, "*")))
   } else {
     any(result_raw$Status %in% scope)
   }
