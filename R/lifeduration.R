@@ -18,9 +18,10 @@
 #' @examples
 #' \dontrun{
 #' pacs::pac_lifeduration("memoise")
+#' pacs::pac_lifeduration("memoise", source = "cran")
 #' pacs::pac_lifeduration("dplyr", version = "0.8.0")
 #' pacs::pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
-#' # For Bioconductor packages will work only for the newest per R version and installed packages.
+#' # For Bioconductor packages it will work only for the newest per R version and installed ones.
 #' pacs::pac_lifeduration("S4Vectors")
 #' }
 pac_lifeduration <- function(pac,
@@ -92,7 +93,7 @@ pac_lifeduration <- function(pac,
 #' @description a package health for a certain version or at a specific Date.
 #' A healthy package was published for more than x days, where default is 14 days.
 #' CRAN team gives around one/two week to resolved a package which gave errors under the check page.
-#' The newest release is checked for warnings/errors on the R CRAN package check page.
+#' The newest release is checked for any warnings/errors on the R CRAN package check page.
 #' @param pac character a package name.
 #' @param version character package version, By default the newest version is taken. Default: NULL
 #' @param at Date old version of package. Default: NULL
@@ -175,6 +176,8 @@ pac_health <- function(pac,
 #' \dontrun{
 #' pacs::pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"))
 #' pacs::pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"), source = "loop_cran")
+#' # last versions
+#' pacs::pacs_lifeduration(c("dplyr", "tidyr"), sapply(c("dplyr", "tidyr"), pacs::pac_last))
 #' }
 pacs_lifeduration <- function(pacs, versions, source = c("crandb", "loop_crandb", "loop_cran"), lib.loc = .libPaths(), repos = biocran_repos()) {
   if (length(pacs) != length(versions)) {

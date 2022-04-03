@@ -96,6 +96,7 @@ test_that("pacs::pac_deps_timemachine offline", {
 })
 
 test_that("pacs::app_deps", {
+  skip_if_offline()
   rec_deps <- nrow(pacs::app_deps("files/shiny_app"))
   direct_deps <- nrow(pacs::app_deps("files/shiny_app", recursive = FALSE))
   expect_true(rec_deps > 0)

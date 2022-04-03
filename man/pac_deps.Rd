@@ -31,7 +31,7 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{description_v}{if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE}
 
-\item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
+\item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as an additional record. Default: TRUE}
 
 \item{recursive}{logical If to assess the dependencies recursively. Default: TRUE}
 

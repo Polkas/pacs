@@ -17,6 +17,7 @@ test_that("pacs::pac_true_size", {
 })
 
 test_that("pacs::app_size", {
+  skip_if_offline()
   expect_true(pacs::app_size("files/shiny_app") > 0)
   expect_true(pacs::app_size("files/shiny_app_empty") > 0)
   expect_error(pacs::app_size("WRONG"))

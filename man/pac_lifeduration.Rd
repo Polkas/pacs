@@ -43,9 +43,10 @@ Please as a courtesy to the R CRAN, don't overload their servers by constantly u
 \examples{
 \dontrun{
 pacs::pac_lifeduration("memoise")
+pacs::pac_lifeduration("memoise", source = "cran")
 pacs::pac_lifeduration("dplyr", version = "0.8.0")
 pacs::pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
-# For Bioconductor packages will work only for the newest per R version and installed packages.
+# For Bioconductor packages it will work only for the newest per R version and installed ones.
 pacs::pac_lifeduration("S4Vectors")
 }
 }

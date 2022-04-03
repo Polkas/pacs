@@ -11,7 +11,7 @@ pac_deps_user(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos())
 
 \item{base}{logical if to add base packages too.}
 
-\item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as a additional record. Default: TRUE}
+\item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for \code{FALSE} as an additional record. Default: TRUE}
 
 \item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}
 If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
@@ -26,6 +26,8 @@ Dependencies are taken remotely for the newest version.
 \examples{
 \dontrun{
 pacs::pac_deps_user("dplyr")
-pacs::pac_deps_user("cat2cat")
+pacs::pac_deps_user("pacs")
+# with the main package in the list
+pacs::pac_deps_user("pacs", attr = FALSE)
 }
 }

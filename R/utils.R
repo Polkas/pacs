@@ -86,8 +86,8 @@ dir_size <- function(path = ".", recursive = TRUE) {
   size_files
 }
 
-is_online <- function(site = "r-project.org") {
-  isTRUE(!is.null(curl::nslookup(site, error = FALSE)))
+is_online <- function() {
+  curl::has_internet()
 }
 
 #' List of base R packages

@@ -5,6 +5,7 @@
 * fixed `lock_validate`, the condition for validating the maximum number of packages was taken from the library size not the lock file size.
 * two new higer-level functions `pacs::pac_deps_user` and `pacs::pac_deps_dev`.
 * `renv` transferred to `Suggests`, as used by only 2 functions.
+* improved documentation.
 * updated pkgdown website.
 
 # pacs 0.4.3

@@ -6,6 +6,7 @@ output:
         highlight: "kate"
         toc: true
         toc_float: true
+        self_contained: false
 vignette: >
     %\VignetteIndexEntry{tinyverse}
     %\VignetteEngine{knitr::rmarkdown}

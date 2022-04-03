@@ -42,5 +42,7 @@ Please as a courtesy to the R CRAN, don't overload their servers by constantly u
 \dontrun{
 pacs::pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"))
 pacs::pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"), source = "loop_cran")
+# last versions
+pacs::pacs_lifeduration(c("dplyr", "tidyr"), sapply(c("dplyr", "tidyr"), pacs::pac_last))
 }
 }

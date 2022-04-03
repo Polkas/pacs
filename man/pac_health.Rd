@@ -42,7 +42,7 @@ logical if a package is healthy.
 a package health for a certain version or at a specific Date.
 A healthy package was published for more than x days, where default is 14 days.
 CRAN team gives around one/two week to resolved a package which gave errors under the check page.
-The newest release is checked for warnings/errors on the R CRAN package check page.
+The newest release is checked for any warnings/errors on the R CRAN package check page.
 }
 \note{
 Results are cached for 30 minutes with \code{memoise} package.
