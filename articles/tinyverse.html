@@ -132,8 +132,8 @@
 </h2>
 <p>TL;DR</p>
 <ul>
-<li>END USER perspective: <code>install.packages</code> needs <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong> DESCRIPTION fields dependencies, recursively. <code><a href="../reference/pac_deps_user.html">pacs::pac_deps_user</a></code> could be used to check them.</li>
-<li>DEVELOPER: <code>R CMD check</code> needs <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong>/<strong>Suggests</strong> DESCRIPTION fields dependencies, and for them <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong> fields recursively. <code><a href="../reference/pac_deps_dev.html">pacs::pac_deps_dev</a></code> could be used to check them.</li>
+<li>END USER perspective: <code>install.packages</code> requires <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong> DESCRIPTION fields dependencies, recursively. <code><a href="../reference/pac_deps_user.html">pacs::pac_deps_user</a></code> could be used to get them.</li>
+<li>DEVELOPER perspective: <code>R CMD check</code> requires <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong>/<strong>Suggests</strong> DESCRIPTION fields dependencies, and for them <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong> fields recursively. <code><a href="../reference/pac_deps_dev.html">pacs::pac_deps_dev</a></code> could be used to get them.</li>
 </ul>
 <p>Now you might think of what preciously these R package dependencies mean. The R DESCRIPTION file is the place where we could explore the number and nature of dependencies, the 5 fields are representing different types of dependencies: <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong>/<strong>Suggests</strong>/<strong>Enhances</strong>.</p>
 <p>DESCRIPTION file dependencies:</p>
