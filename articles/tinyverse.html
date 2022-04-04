@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
       </span>
     </div>
 
@@ -173,7 +173,8 @@ dependencies:
 <h2 id="tinytest-vs-testthat">
 <code>tinytest</code> vs <code>testthat</code><a class="anchor" aria-label="anchor" href="#tinytest-vs-testthat"></a>
 </h2>
-<p>This subsection will be a subjective view on the difference between <code>tinytest</code> and <code>testthat</code> packages. This is a great example in my opinion as showing that package could have many dependencies nevertheless not exposed to the end user (these dependencies are not installed with <code>install.packages</code>), as is in <code>Suggests</code> field of the DESCRIPTION file. <code>tinytest</code> was created to offer similar functionality to <code>testthat</code> package nevertheless <code>tinytest</code> has zero dependencies. <code>tinytest</code> is NOT so great alternative for me compared to <code>testthat</code>. I do not care how many dependencies has the <code>testthat</code> package as it is located in <code>Suggests</code> field of DESCRIPTION file. This mean that the higher number of dependencies from the <code>testthat</code> package is only my problem (developer one, not the end user) when e.g. I am checking the package (e.g. with R CMD check).</p>
+<p>This subsection will be a subjective view on the difference between <code>tinytest</code> and <code>testthat</code> packages. This is a great example in my opinion as showing that package could have many dependencies nevertheless not exposed to the end user (these dependencies are not installed with <code>install.packages</code>), as is in <code>Suggests</code> field of the DESCRIPTION file. <code>tinytest</code> was created to offer similar functionality to <code>testthat</code> package nevertheless <code>tinytest</code> has zero dependencies. For me <code>tinytest</code> is an interesting alternative compared to <code>testthat</code> nevertheless not so obvious replacement. I do not care how many dependencies has the <code>testthat</code> package as it is located in <code>Suggests</code> field of DESCRIPTION file. <code>testthat</code> will not be delayed loaded with <code>requireNampese</code> too. This mean that the higher number of dependencies from the <code>testthat</code> package is only my problem (developer one, not the end user) when e.g. I am checking the package (e.g. with <code>R CMD check</code>). To be fair how many additional packages have to be downloaded be <strong>a developer</strong> (e.g. for <code>R CMD check</code>) when comparing <code>tinytest</code> and <code>testthat</code>. In the case of tinytest it is zero packages and for <code>testthat</code> 80 packages now. Please use <code>pacs::pac_deps_dev("tinytest")</code> and <code>pacs::pac_deps_dev("testthat")</code> calls to confirm that.</p>
+<p>Dependencies from the end user perspective:</p>
 <p><code>tinytest</code>:<br><a href="https://CRAN.R-project.org/package=tinytest" class="external-link"><img src="https://tinyverse.netlify.com/badge/tinytest"></a></p>
 <p><code>testthat</code>:<br><a href="https://CRAN.R-project.org/package=testthat" class="external-link"><img src="https://tinyverse.netlify.com/badge/testthat"></a></p>
 </div>
@@ -191,8 +192,8 @@ dependencies:
 <p><code>parsnip</code>:<br><a href="https://CRAN.R-project.org/package=parsnip" class="external-link"><img src="https://tinyverse.netlify.com/badge/parsnip"></a></p>
 <p><code>caret</code>:<br><a href="https://CRAN.R-project.org/package=testthat" class="external-link"><img src="https://tinyverse.netlify.com/badge/testthat"></a></p>
 <p><code>parsnip</code> and <code>caret</code> packages are examples which apply this strategy. It could be easily confirmed by looking for <code>requireNamespace</code> phrase with github search, from each of the repo.</p>
-<p><a href="%60https://github.com/topepo/caret%60" class="external-link">caret github</a></p>
-<p><a href="%60https://github.com/tidymodels/parsnip%60" class="external-link">parsnip github</a></p>
+<p><a href="https://github.com/topepo/caret" class="external-link">caret github</a></p>
+<p><a href="https://github.com/tidymodels/parsnip" class="external-link">parsnip github</a></p>
 </div>
 <div class="section level2">
 <h2 id="pacs-package">
