@@ -238,10 +238,11 @@ pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"),
 `withr` package is recommended for the isolated download process.  
 We could use a temporary library path (`withr::with_temp_libpaths`) to check if the process is as expected.
 
-Checking what packages need to be installed/(optionally updated) parallel with a specific package, with `remotes` package.
+Checking what packages need to be installed/(optionally updated) parallel with a specific package, with `remotes` package. The full list even with packages which are already installed could be get with `pacs::pac_deps_user`.
 
 ```r
 remotes::package_deps("keras")
+pacs::pac_deps_user("pacs")
 ```
 
 Isolated download of a package and the validation.
@@ -331,7 +332,7 @@ Obviously the list is much longer as the one for `pacs::pac_deps_user`.
 pac_deps_dev("memoise")
 ```
 
-For a certain version, might take some time.
+For a certain version (archived), might take some time.
 
 ```r
 pacs::pac_deps_timemachine("dplyr", version = "0.8.1")

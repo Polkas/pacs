@@ -161,9 +161,12 @@ If you are interested "How-R-Searches-And-Finds-Stuff" I recommend [a great blog
 This subsection will be a subjective view on the difference between `tinytest` and `testthat` packages.
 This is a great example in my opinion as showing that package could have many dependencies nevertheless not exposed to the end user (these dependencies are not installed with `install.packages`), as is in `Suggests` field of the DESCRIPTION file.
 `tinytest` was created to offer similar functionality to `testthat` package nevertheless `tinytest` has zero dependencies.
-`tinytest` is NOT so great alternative for me compared to `testthat`.
-I do not care how many dependencies has the `testthat` package as it is located in `Suggests` field of DESCRIPTION file. 
-This mean that the higher number of dependencies from the `testthat` package is only my problem (developer one, not the end user) when e.g. I am checking the package (e.g. with R CMD check).
+For me `tinytest` is an interesting alternative compared to `testthat` nevertheless not so obvious replacement.
+I do not care how many dependencies has the `testthat` package as it is located in `Suggests` field of DESCRIPTION file. `testthat` will not be delayed loaded with `requireNampese` too.
+This mean that the higher number of dependencies from the `testthat` package is only my problem (developer one, not the end user) when e.g. I am checking the package (e.g. with `R CMD check`).
+To be fair how many additional packages have to be downloaded be **a developer** (e.g. for `R CMD check`) when comparing `tinytest` and `testthat`. In the case of tinytest it is zero packages and for `testthat` 80 packages now. Please use `pacs::pac_deps_dev("tinytest")` and `pacs::pac_deps_dev("testthat")` calls to confirm that.
+
+Dependencies from the end user perspective:
 
 `tinytest`:  
 [![](https://tinyverse.netlify.com/badge/tinytest)](https://CRAN.R-project.org/package=tinytest)
@@ -197,9 +200,9 @@ func <- function() {
 `parsnip` and `caret` packages are examples which apply this strategy.
 It could be easily confirmed by looking for `requireNamespace` phrase with github search, from each of the repo.
 
-[caret github](`https://github.com/topepo/caret`)
+[caret github](https://github.com/topepo/caret)
 
-[parsnip github](`https://github.com/tidymodels/parsnip`)
+[parsnip github](https://github.com/tidymodels/parsnip)
 
 ## `pacs` package
 

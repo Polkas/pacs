@@ -1,4 +1,4 @@
-# pacs 0.4.3.9000
+# pacs 0.4.4
 
 * `tinyverse` vignette.
 * fixed edge cases for `pacs::pac_deps`.
