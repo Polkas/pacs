@@ -148,6 +148,7 @@ pac_deps_user <- function(pac, base = FALSE, local = FALSE, attr = TRUE, repos =
 #'  Dependencies are taken remotely for the newest version.
 #' @param pac character a package name.
 #' @param base logical if to add base packages too.
+#' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as an additional record. Default: TRUE
 #' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE

@@ -8,3 +8,4 @@
 ^renv$
 ^renv\.lock$
 ^_pkgdown\.yaml$
+^_pkgdown\.yml$

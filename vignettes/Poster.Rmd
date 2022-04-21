@@ -24,7 +24,6 @@ affiliation_textsize: "25px"
 affiliation_textcol: 'white'
 caption_fontsize: "16pt"
 body_textsize: "40pt"
-#Middle of the poster
 middle_fontfamily: "Special Elite"
 middle_textcol: "#FFFFFF"
 middle:textalpha: 90
@@ -34,6 +33,10 @@ logoleft_name: https&#58;//github.com/Polkas/pacs/raw/7779b249843a5423ca735f7bc4
 output: 
   posterdown::posterdown_html:
     self_contained: TRUE
+vignette: >
+    %\VignetteIndexEntry{tinyverse}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}

@@ -1,0 +1,707 @@
+
+R version 4.1.3 (2022-03-10) -- "One Push-Up"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "pacs"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('pacs')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("app_deps")
+> ### * app_deps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: app_deps
+> ### Title: The shiny app dependencies
+> ### Aliases: app_deps
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D library(renv)
+> ##D # Please update the path to the custom shiny app
+> ##D app_path <- system.file("examples/04_mpg", package = "shiny")
+> ##D pacs::app_deps(app_path)
+> ##D pacs::app_deps(app_path, recursive = FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("app_size")
+> ### * app_size
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: app_size
+> ### Title: Size of the shiny app
+> ### Aliases: app_size
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D library(renv)
+> ##D # Please update the path to the shiny app
+> ##D cat(pacs::app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("bio_releases")
+> ### * bio_releases
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: bio_releases
+> ### Title: Retrieving all Bioconductor releases
+> ### Aliases: bio_releases
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::bio_releases()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("biocran_repos")
+> ### * biocran_repos
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: biocran_repos
+> ### Title: CRAN and Bioconductor repositories
+> ### Aliases: biocran_repos
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D biocran_repos()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("checked_packages")
+> ### * checked_packages
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: checked_packages
+> ### Title: Retrieving all R CRAN packages check pages statuses.
+> ### Aliases: checked_packages
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::checked_packages()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("compareVersionsMax")
+> ### * compareVersionsMax
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compareVersionsMax
+> ### Title: Maximum version across the vector
+> ### Aliases: compareVersionsMax
+> 
+> ### ** Examples
+> 
+> compareVersionsMax(c("1.1.1", "0.2.0"))
+[1] "1.1.1"
+> 
+> 
+> 
+> cleanEx()
+> nameEx("compareVersionsMin")
+> ### * compareVersionsMin
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: compareVersionsMin
+> ### Title: Minimum version across the vector
+> ### Aliases: compareVersionsMin
+> 
+> ### ** Examples
+> 
+> compareVersionsMin(c("1.1.1", "0.2.0"))
+[1] "0.2.0"
+> 
+> 
+> 
+> cleanEx()
+> nameEx("cran_flavors")
+> ### * cran_flavors
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: cran_flavors
+> ### Title: Retrieving all R CRAN servers flavors
+> ### Aliases: cran_flavors
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::cran_flavors()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dir_size")
+> ### * dir_size
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dir_size
+> ### Title: Size of the package
+> ### Aliases: dir_size
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D cat(pacs::dir_size(system.file(package = "stats")) / 10**6, "MB")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("lib_validate")
+> ### * lib_validate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: lib_validate
+> ### Title: Validate the local library
+> ### Aliases: lib_validate
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::lib_validate()
+> ##D pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
+> ##D pacs::lib_validate(checkred = list(
+> ##D   scope = c("ERROR", "FAIL"),
+> ##D   flavors = cran_flavors()$Flavor[1:2]
+> ##D ))
+> ##D # activate lifeduration argument, could be time consuming for bigger libraries.
+> ##D pacs::lib_validate(
+> ##D   lifeduration = TRUE,
+> ##D   checkred = list(scope = c("ERROR", "FAIL"))
+> ##D )
+> ##D # only R CRAN repository
+> ##D pacs::lib_validate(repos = "https://cran.rstudio.com/")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("lock_validate")
+> ### * lock_validate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: lock_validate
+> ### Title: Validate a specific renv lock file
+> ### Aliases: lock_validate
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # path or url
+> ##D url <- "https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"
+> ##D pacs::lock_validate(url)
+> ##D 
+> ##D pacs::lock_validate(
+> ##D   url,
+> ##D   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+> ##D )
+> ##D 
+> ##D pacs::lock_validate(
+> ##D   url,
+> ##D   lifeduration = TRUE,
+> ##D   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+> ##D )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_checkpage")
+> ### * pac_checkpage
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_checkpage
+> ### Title: Retrieving the R CRAN package check page
+> ### Aliases: pac_checkpage
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_checkpage("dplyr")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_checkred")
+> ### * pac_checkred
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_checkred
+> ### Title: Checking the R CRAN package check page status
+> ### Aliases: pac_checkred
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_checkred("dplyr")
+> ##D pacs::pac_checkred("dplyr", scope = c("ERROR"))
+> ##D pacs::pac_checkred("dplyr",
+> ##D   scope = c("ERROR", "FAIL", "WARN"),
+> ##D   flavors = c(
+> ##D     "r-devel-linux-x86_64-debian-clang",
+> ##D     "r-devel-linux-x86_64-debian-gcc"
+> ##D   )
+> ##D )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_compare_namespace")
+> ### * pac_compare_namespace
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_compare_namespace
+> ### Title: Compare NAMESPACE exports between specific CRAN packages
+> ###   versions
+> ### Aliases: pac_compare_namespace
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_compare_namespace("shiny", "1.0.0", "1.6.0")
+> ##D pacs::pac_compare_namespace("shiny", "1.0.0", "1.6.0")$exports
+> ##D # local version to newest one
+> ##D pacs::pac_compare_namespace("shiny")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_compare_versions")
+> ### * pac_compare_versions
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_compare_versions
+> ### Title: Compare DESCRIPTION files dependencies between specific CRAN
+> ###   packages versions
+> ### Aliases: pac_compare_versions
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_compare_versions("memoise", "0.2.1", "2.0.0")
+> ##D pacs::pac_compare_versions("memoise", "0.2.1")
+> ##D # local version to newest one
+> ##D pacs::pac_compare_versions("memoise")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_deps")
+> ### * pac_deps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_deps
+> ### Title: Package dependencies
+> ### Aliases: pac_deps
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_deps("stats", base = TRUE)$Package
+> ##D pacs::pac_deps("memoise")$Package
+> ##D pacs::pac_deps("memoise", description_v = FALSE)
+> ##D # raw dependencies from DESCRIPTION file
+> ##D pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE)
+> ##D # raw dependencies from DESCRIPTION file - last release
+> ##D pacs::pac_deps("memoise", description_v = TRUE, local = FALSE, recursive = FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_deps_dev")
+> ### * pac_deps_dev
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_deps_dev
+> ### Title: Package dependencies - developer perspective
+> ### Aliases: pac_deps_dev
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_deps_dev("dplyr")
+> ##D pacs::pac_deps_dev("pacs")
+> ##D # with the main package in the list
+> ##D pacs::pac_deps_dev("pacs", attr = FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_deps_timemachine")
+> ### * pac_deps_timemachine
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_deps_timemachine
+> ### Title: R CRAN package dependencies for a certain version or time point
+> ### Aliases: pac_deps_timemachine
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_deps_timemachine("memoise", "0.2.1")
+> ##D pacs::pac_deps_timemachine("memoise", at = as.Date("2019-01-01"))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_deps_user")
+> ### * pac_deps_user
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_deps_user
+> ### Title: Package dependencies - user perspective
+> ### Aliases: pac_deps_user
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_deps_user("dplyr")
+> ##D pacs::pac_deps_user("pacs")
+> ##D # with the main package in the list
+> ##D pacs::pac_deps_user("pacs", attr = FALSE)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_description")
+> ### * pac_description
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_description
+> ### Title: package DESCRIPTION file
+> ### Aliases: pac_description
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D   pacs::pac_description("dplyr", version = "0.8.0")
+> ##D   pacs::pac_description("dplyr", at = as.Date("2019-02-01"))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_health")
+> ### * pac_health
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_health
+> ### Title: CRAN package health state at a specific Date or for a specific
+> ###   version
+> ### Aliases: pac_health
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_health("memoise")
+> ##D pacs::pac_health("dplyr", version = "0.8.0", limit = 14)
+> ##D pacs::pac_health("dplyr", at = as.Date("2019-02-14"))
+> ##D pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL"))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_isin")
+> ### * pac_isin
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_isin
+> ### Title: Checking if a package is in repositories
+> ### Aliases: pac_isin
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pac_isin("dplyr")
+> ##D pac_isin("dplyr", repos = "https://cran.rstudio.com/")
+> ##D pac_isin("dplyr", repos = biocran_repos()[grep("Bio", names(biocran_repos()))])
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_islast")
+> ### * pac_islast
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_islast
+> ### Title: Checking if a package version is the most recent one
+> ### Aliases: pac_islast
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pac_islast("memoise")
+> ##D pac_islast("dplyr", version = "1.0.0")
+> ##D pac_islast("S4Vectors")
+> ##D pac_islast("S4Vectors", version = pac_last("S4Vectors"))
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_last")
+> ### * pac_last
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_last
+> ### Title: Getting the most recent package version
+> ### Aliases: pac_last
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pac_last("dplyr")
+> ##D pac_last("S4Vectors")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_lifeduration")
+> ### * pac_lifeduration
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_lifeduration
+> ### Title: Package version life duration at specific Date or for a specific
+> ###   version
+> ### Aliases: pac_lifeduration
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_lifeduration("memoise")
+> ##D pacs::pac_lifeduration("memoise", source = "cran")
+> ##D pacs::pac_lifeduration("dplyr", version = "0.8.0")
+> ##D pacs::pac_lifeduration("dplyr", at = as.Date("2019-02-14"))
+> ##D # For Bioconductor packages it will work only for the newest per R version and installed ones.
+> ##D pacs::pac_lifeduration("S4Vectors")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_namespace")
+> ### * pac_namespace
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_namespace
+> ### Title: package NAMESPACE file
+> ### Aliases: pac_namespace
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_namespace("dplyr", version = "0.8.0")
+> ##D pacs::pac_namespace("dplyr", at = as.Date("2019-02-01"))
+> ##D pacs::pac_namespace("memoise", local = TRUE)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_size")
+> ### * pac_size
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_size
+> ### Title: Size of the package
+> ### Aliases: pac_size
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D cat(pacs::pac_size("stats") / 10**6, "MB")
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_timemachine")
+> ### * pac_timemachine
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_timemachine
+> ### Title: Package metadata for all releases
+> ### Aliases: pac_timemachine
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_timemachine("dplyr", at = as.Date("2017-02-02"))
+> ##D pacs::pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
+> ##D pacs::pac_timemachine("dplyr", at = Sys.Date())
+> ##D pacs::pac_timemachine("tidyr", from = as.Date("2020-06-01"), to = Sys.Date())
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_true_size")
+> ### * pac_true_size
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_true_size
+> ### Title: True size of the package
+> ### Aliases: pac_true_size
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # size in MB, with all its dependencies
+> ##D pacs::pac_true_size("memoise") / 10**6
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pac_validate")
+> ### * pac_validate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pac_validate
+> ### Title: Validate a specific local package
+> ### Aliases: pac_validate
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pac_validate("memoise")
+> ##D pacs::pac_validate(
+> ##D   "memoise",
+> ##D   lifeduration = TRUE,
+> ##D   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+> ##D )
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pacs_base")
+> ### * pacs_base
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pacs_base
+> ### Title: List of base R packages
+> ### Aliases: pacs_base
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs_base()
+> ##D pacs_base(startup = TRUE)
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pacs_lifeduration")
+> ### * pacs_lifeduration
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pacs_lifeduration
+> ### Title: Packages life duration for a specific version
+> ### Aliases: pacs_lifeduration
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D pacs::pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"))
+> ##D pacs::pacs_lifeduration(c("dplyr", "tidyr"), c("1.0.0", "1.2.0"), source = "loop_cran")
+> ##D # last versions
+> ##D pacs::pacs_lifeduration(c("dplyr", "tidyr"), sapply(c("dplyr", "tidyr"), pacs::pac_last))
+> ## End(Not run)
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  0.096 0.008 0.107 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
