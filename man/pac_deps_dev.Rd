@@ -4,7 +4,13 @@
 \alias{pac_deps_dev}
 \title{Package dependencies - developer perspective}
 \usage{
-pac_deps_dev(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos())
+pac_deps_dev(
+  pac,
+  base = FALSE,
+  local = FALSE,
+  attr = TRUE,
+  repos = pacs::biocran_repos()
+)
 }
 \arguments{
 \item{pac}{character a package name.}

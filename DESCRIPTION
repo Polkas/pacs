@@ -37,6 +37,7 @@ Suggests:
     renv,
     withr,
     pkgsearch,
+    posterdown,
     mockery,
     testthat (>= 3.0.0),
     knitr,

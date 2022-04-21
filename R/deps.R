@@ -124,6 +124,7 @@ pac_deps <- function(pac,
 #'  Dependencies are taken remotely for the newest version.
 #' @param pac character a package name.
 #' @param base logical if to add base packages too.
+#' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param attr logical specify if a package and its version should be added as a attribute of data.frame or for `FALSE` as an additional record. Default: TRUE
 #' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE
@@ -135,8 +136,8 @@ pac_deps <- function(pac,
 #' # with the main package in the list
 #' pacs::pac_deps_user("pacs", attr = FALSE)
 #' }
-pac_deps_user <- function(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos()) {
-  pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr, repos = repos)
+pac_deps_user <- function(pac, base = FALSE, local = FALSE, attr = TRUE, repos = pacs::biocran_repos()) {
+  pac_deps(pac, recursive = TRUE, description_v = TRUE, local = local, base = base, attr = attr, repos = repos)
 }
 
 #' Package dependencies - developer perspective
@@ -158,13 +159,17 @@ pac_deps_user <- function(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_
 #' # with the main package in the list
 #' pacs::pac_deps_dev("pacs", attr = FALSE)
 #' }
-pac_deps_dev <- function(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos()) {
-  top <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = FALSE, base = base, attr = attr, repos = repos)
-  if (isNA(top)) return(NA)
-  suggs <- pac_deps(pac, recursive = FALSE, description_v = TRUE, local = FALSE, fields = "Suggests", base = base, repos = repos)
+pac_deps_dev <- function(pac, base = FALSE, local = FALSE, attr = TRUE, repos = pacs::biocran_repos()) {
+  top <- pac_deps(pac, recursive = TRUE, description_v = TRUE, local = local, base = base, attr = attr, repos = repos)
+  if (isNA(top)) {
+    return(NA)
+  }
+  suggs <- pac_deps(pac, recursive = FALSE, description_v = TRUE, local = local, fields = "Suggests", base = base, repos = repos)
   suggs_r <- do.call(rbind, lapply(suggs$Package, function(x) pac_deps(x, description_v = TRUE, local = FALSE, base = base, repos = repos)))
   results <- do.call(rbind, list(top, suggs, suggs_r))
-  if (nrow(results) == 0) return(data.frame(Package = NA, Version = NA)[0, ])
+  if (nrow(results) == 0) {
+    return(data.frame(Package = NA, Version = NA)[0, ])
+  }
   stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)
 }
 
@@ -225,7 +230,9 @@ app_deps <- function(path = ".",
         return(NA)
       }
       app_deps_recursive <- do.call(rbind, app_deps_all)
-      if (nrow(app_deps_recursive) == 0) return(NA)
+      if (nrow(app_deps_recursive) == 0) {
+        return(NA)
+      }
       app_deps_recursive <- stats::aggregate(app_deps_recursive[, c("Version"), drop = FALSE], list(Package = app_deps_recursive$Package), pacs::compareVersionsMax)
       app_deps_recursive$Package <- as.character(app_deps_recursive$Package)
       app_deps_recursive$Direct <- app_deps_recursive$Package %in% app_deps

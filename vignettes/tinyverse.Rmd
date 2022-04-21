@@ -177,15 +177,15 @@ Dependencies from the end user perspective:
 
 ## How to reduce the number of dependencies
 
-One of the method of reducing number of dependencies is to transfer the package from Imports to Suggests or not include it at all and load it in the delayed manner. 
+One of the method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. 
 So we have to identify package functions which will be used optionally or rarely (are not a core of the package).
-Then we have to apply conditional execution of it if the package is installed (available), if not then ask to install it.
-If function with such delayed loaded package is used in examples or tests then the package have to be in **Suggests* field.
+Then we have to apply conditional execution of it if the package is installed (available), if not then ask user to install it.
+If a function with such delayed loaded package is used in examples or tests then the package have to be in **Suggests** field.
 
 ```
 func <- function() {
   if (requireNamespace("PACKAGE", quietly = TRUE)) {
-    regular code 
+    # regular code 
   } else {
     stop("Please install the PACKAGE to use the func function")
   }

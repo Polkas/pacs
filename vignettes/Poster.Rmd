@@ -1,0 +1,214 @@
+---
+poster_height: "50in"
+poster_width: "70in"
+font_family: 'Rasa'
+#ESSENTIALS
+title: '**Conscious R packages maintenance**'
+author:
+ - name: Maciej Nasiński
+   orcid: 0000-0001-5236-8040
+   email: maciej.nasinski@uw.edu.pl
+affiliation:
+  - address: University of Warsaw
+#STYLE & FORMATTING
+column_numbers: 3
+primary_colour: black
+secondary_colour: blue
+accent_colour: blue
+link_col: blue
+title_textsize: "80pt"
+author_textsize: "1.17em"
+author_textcol: "white"
+authorextra_textsize: "35px"
+affiliation_textsize: "25px"
+affiliation_textcol: 'white'
+caption_fontsize: "16pt"
+body_textsize: "40pt"
+#Middle of the poster
+middle_fontfamily: "Special Elite"
+middle_textcol: "#FFFFFF"
+middle:textalpha: 90
+middle_fontsize: "150px"
+logoright_name: https&#58;//github.com/Polkas/pacs/raw/7779b249843a5423ca735f7bc462575e253f49cc/man/figures/pacs_logo.png
+logoleft_name: https&#58;//github.com/Polkas/pacs/raw/7779b249843a5423ca735f7bc462575e253f49cc/man/figures/pacs_logo.png
+output: 
+  posterdown::posterdown_html:
+    self_contained: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  results = "asis",
+  echo = FALSE,
+  comment = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+library(nomnoml)
+library(fontawesome)
+```
+
+# Introduction
+
+Supplementary utils for CRAN maintainers and R packages developers in the pacs package.
+The wide range of tools to achieve healthy R environment and make the R developer life easier.
+Each of the function was inspired be everyday challenges which have to be faced by the experienced R developer **in the production quality agile project**. These tools should be universal in different work environments.
+
+# Objectives
+
+1. Control Complexity of developed packages.
+2. Support the process of adding/updating packages.
+3. Validate the library. 
+
+# Reproducible R Environment
+
+- [`Docker`](https://www.docker.com/)/[`Podman`](https://podman.io/), a full reproducibility.
+- [`renv`](https://rstudio.github.io/renv/articles/renv.html), a python pip in the R world. Helps manage the R packages used in a project; it (at least not yet) does not provide any tools for associating a particular version of R with a project. 
+- [RStudio Package Manager (RSPM)](https://packagemanager.rstudio.com/client/#/repos/1/overview), useful when handling private company packages.
+
+# Tinyverse
+
+The R community  [`tinyverse`](https://tinyverse.netlify.app/) movement is a tryout of creating a new package development standards. The clue is the TINY part here.
+The last years od R package development were full of high number of dependencies temptations.
+`tinyverse` means as least dependencies as possible as R package dependencies matter. 
+Every dependency you add to your project is an invitation to break your project.
+More information is available in the [`tinyverse` vignette](https://polkas.github.io/pacs/articles/tinyverse.html).
+
+# Tink Tiny as a Developer
+
+The objective should be to have zero dependencies in the R package as R package dependencies matter. That is why [`tinytest`](https://github.com/markvanderloo/tinytest) was created or [`renv`](https://rstudio.github.io/renv/articles/renv.html) has zero dependencies.
+
+Check a package dependencies exposed to the end users with `pacs::pac_deps_user("NAME", attr = FALSE)`, these are packages installed with the `install.packages`.
+When add a package to Depends, Imports or LinkingTo, then we impact end users when they invoke `install.packages`. On the other hand if package is add to Suggests, then impact mainly developers e.g. `R CMD CHECK`.
+
+The main strategy should be to prefer usage of `pacs::pacs_base()` packages (already installed in R) and dependencies with only a few dependencies (the best zero like `jsonlite`).
+
+One of the method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. 
+Identify package functions which will be used optionally or rarely. Then we have to apply conditional execution of it if the package is installed (available), if not then ask user to install it. If a function with such delayed loaded package is used in examples or tests then the package have to be in Suggests field.
+
+```r
+func <- function() {
+  if (requireNamespace("PACKAGE", quietly = TRUE)) {
+    # regular code 
+  } else {
+    stop("Please install the PACKAGE to use the func function")
+  }
+}
+```
+
+# Add/Update a package {.mybreak}
+
+Important topics to consider to have **a secure, light and healthy library**. 
+We should be careful when adding/updating packages. 
+The updating part could be surprising nevertheless e.g. in bigger projects we want to have a stable library for each product release.  
+Tools: `pacs`, `remotes`, CRAN packages websites, cranlogs, and repository website like github.  
+Example: We think of adding/updating the `keras` package.
+
+```{nomnoml, fig.width=16, fig.height=9, svg=FALSE}
+#stroke: black
+#padding: 0
+#spacing: 0
+#fontSize: 12
+#.box: 
+[<frame>Add a Package|
+[YAGNI]-[Add a Package]
+[LIFE DURATION] - [Add a Package]
+[CRAN CHECK PAGE] - [Add a Package]
+[VERSION]-[Add a Package]
+[Add a Package]-[NEW DEPENDENCIES]
+[Add a Package]-[REPO ACTIVITY]
+[Add a Package]-[COVR BADGE]
+[Add a Package]-[DOWNLOADS]
+]
+```
+
+```{nomnoml, fig.width=16, fig.height=8, svg=FALSE}
+#stroke: black
+#padding: 0
+#spacing: 0
+#fontSize: 12
+#.box: 
+[<frame>Update a Package|
+[YAGNI]-[Update a Package]
+[LIFE DURATION]-[Update a Package]
+[CRAN CHECK PAGE]-[Update a Package]
+[Update a Package]-[NEW DEPENDENCIES]
+[Update a Package]-[NEWS]
+[Update a Package]-[SCOPE]
+]
+```
+
+- **COVR BADGE**, the coverage of the code in the tests (expected more than 90%); e.g. click the covr badge https://github.com/polkas/pacs.
+- **CRAN CHECK PAGE**, CRAN checks on variety of servers; `pacs::pac_checkpage("keras")`.
+- **DOWNLOADS**, popularity of a package; [cranlogs, `ThreeWiseMonkeys` is a nice benchmark as is "an  experiment and a package with no use whatsoever."](https://hadley.shinyapps.io/cran-downloads/).
+- **LIFE DURATION**, life duration of the version where we should expected at least 14 days; `pacs::pac_timemachine("keras")` or `pacs::pac_lifeduration("keras)`.
+- **NEW DEPENDENCIES**, what packages have to be added/updated where we want to use light packages with only a few dependencies; `remotes::package_deps("keras")`.
+- **NEWS**, checking the NEWS file to get last updates and their significance; e.g.  https://cran.r-project.org/package=keras/news/news.html.
+- **REPO ACTIVITY**  how quick issues are answered and how often new commits are added; e.g. https://github.com/USER/PACKAGE.
+- **SCOPE**, changes in DECRIPTION/NAMESPACE files between current and the new version; `pacs::pac_compare_versions("keras")`/`pacs::pac_compare_namespace("keras")`.
+- **VERSION**, prefer mature version like 1.2.8 or 0.8.7 not a low 0.1.0; `pacs::pac_description("keras")` or `pacs::pac_last("keras")`.
+- **YAGNI** You aren't gonna need it, an extreme programming (XP) rule. Do we really need this package/update/feature?
+
+# Validate {.mybreak}
+
+We could validate many things like: R library, R package or `renv` lock file.
+Even if we will not find any obvious problems we will need a proof that the environment is **validated** which is often an authorities requirement.
+R library could be easily broken with functions like `remotes::install_version` or `remotes::install_github(..., dependencies = FALSE)`. On the other hand the `renv` lock file could be built manually or by an external automation pipeline.
+We could control many risks with `pacs::lib_validate`, `pacs::pac_validate` and `pacs::lock_validate` functions. 
+
+```{nomnoml, fig.width=16, fig.height=6, svg=FALSE}
+#stroke: black
+#padding: 0
+#spacing: 0
+#fontSize: 12
+#.box: 
+[<frame>Validate|
+[VERSIONS]-[Validate]
+[CRAN CHECK PAGES]-[Validate]
+[Validate]-[LIFE DURATIONS]
+[Validate]-[NEWEST]
+]
+```
+
+- **LIFE DURATIONS**, life duration of the version where we should expected at least 14 days.
+- **VERSIONS** Do we have the same versions as required by DESCRIPTION files.
+- **NEWEST**, is the newest version.
+- **CRAN CHECK PAGE**, CRAN checks on variety of servers. We could extract checks for all CRAN packages with `pacs::checked_packages()`.
+
+```r
+# assesing life durations could be time consuming for bigger libraries.
+pacs::lib_validate(
+  lifeduration = TRUE,
+  checkred = list(
+    scope = c("ERROR", "FAIL"),
+    flavors = pacs::cran_flavors()$Flavor
+  )
+)
+```
+
+# Conclusion
+
+Think `tiny` and be minimalist for better UX and less development work.
+
+# Contact
+
+<p style="text-align: center;"><a href="mailto:nasinski.maciej@gmail.com"><b>Maciej Nasinski</b></a></p>
+<!-- Add icon library -->
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="https://www.linkedin.com/in/maciej-nasinski" class="fab fa-linkedin"></a>
+    <a href="https://github.com/polkas" class="fab fa-github"></a>
+    <a href="https://stackoverflow.com/users/5442527/polkas" class="fas fa-stackoverflow"></a>
+</p>
+
+# References
+
+- https://polkas.github.io/pacs/
+- https://remotes.r-lib.org/
+- https://rstudio.github.io/renv/articles/renv.html
+- https://cranlogs.r-pkg.org/
+- https://r-pkgs.org/
+- http://blog.obeautifulcode.com/R/How-R-Searches-And-Finds-Stuff/
+- https://cran.r-project.org/doc/manuals/r-release/R-exts.html
+

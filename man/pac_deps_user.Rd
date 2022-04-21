@@ -4,12 +4,20 @@
 \alias{pac_deps_user}
 \title{Package dependencies - user perspective}
 \usage{
-pac_deps_user(pac, base = FALSE, attr = TRUE, repos = pacs::biocran_repos())
+pac_deps_user(
+  pac,
+  base = FALSE,
+  local = FALSE,
+  attr = TRUE,
+  repos = pacs::biocran_repos()
+)
 }
 \arguments{
 \item{pac}{character a package name.}
 
 \item{base}{logical if to add base packages too.}
+
+\item{local}{logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE}
 
 \item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for \code{FALSE} as an additional record. Default: TRUE}
 
