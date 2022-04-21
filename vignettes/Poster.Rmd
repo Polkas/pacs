@@ -34,7 +34,7 @@ output:
   posterdown::posterdown_html:
     self_contained: TRUE
 vignette: >
-    %\VignetteIndexEntry{tinyverse}
+    %\VignetteIndexEntry{Poster}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 ---
@@ -49,7 +49,6 @@ knitr::opts_chunk$set(
   fig.align = "center"
 )
 library(nomnoml)
-library(fontawesome)
 ```
 
 # Introduction

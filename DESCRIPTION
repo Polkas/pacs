@@ -33,6 +33,7 @@ Imports:
     xml2,
     stringi
 Suggests: 
+    nomnoml,
     remotes,
     renv,
     withr,
