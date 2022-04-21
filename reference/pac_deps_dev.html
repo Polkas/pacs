@@ -39,6 +39,9 @@ Dependencies are taken remotely for the newest version.'><!-- mathjax --><script
       <a href="../articles/GettingStarted.html">Walk-through `pacs`</a>
     </li>
     <li>
+      <a href="../articles/Poster.html">**Conscious R packages maintenance**</a>
+    </li>
+    <li>
       <a href="../articles/tinyverse.html">tinyverse</a>
     </li>
   </ul></li>
@@ -74,7 +77,13 @@ Dependencies are taken remotely for the newest version.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_deps_dev</span><span class="op">(</span><span class="va">pac</span>, base <span class="op">=</span> <span class="cn">FALSE</span>, attr <span class="op">=</span> <span class="cn">TRUE</span>, repos <span class="op">=</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="biocran_repos.html">biocran_repos</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pac_deps_dev</span><span class="op">(</span>
+  <span class="va">pac</span>,
+  base <span class="op">=</span> <span class="cn">FALSE</span>,
+  local <span class="op">=</span> <span class="cn">FALSE</span>,
+  attr <span class="op">=</span> <span class="cn">TRUE</span>,
+  repos <span class="op">=</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="biocran_repos.html">biocran_repos</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -83,6 +92,8 @@ Dependencies are taken remotely for the newest version.</p>
 <dd><p>character a package name.</p></dd>
 <dt>base</dt>
 <dd><p>logical if to add base packages too.</p></dd>
+<dt>local</dt>
+<dd><p>logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE</p></dd>
 <dt>attr</dt>
 <dd><p>logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as an additional record. Default: TRUE</p></dd>
 <dt>repos</dt>

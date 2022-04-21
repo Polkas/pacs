@@ -53,6 +53,9 @@
       <a href="../articles/GettingStarted.html">Walk-through `pacs`</a>
     </li>
     <li>
+      <a href="../articles/Poster.html">**Conscious R packages maintenance**</a>
+    </li>
+    <li>
       <a href="../articles/tinyverse.html">tinyverse</a>
     </li>
   </ul>
@@ -181,14 +184,14 @@ dependencies:
 <div class="section level2">
 <h2 id="how-to-reduce-the-number-of-dependencies">How to reduce the number of dependencies<a class="anchor" aria-label="anchor" href="#how-to-reduce-the-number-of-dependencies"></a>
 </h2>
-<p>One of the method of reducing number of dependencies is to transfer the package from Imports to Suggests or not include it at all and load it in the delayed manner. So we have to identify package functions which will be used optionally or rarely (are not a core of the package). Then we have to apply conditional execution of it if the package is installed (available), if not then ask to install it. If function with such delayed loaded package is used in examples or tests then the package have to be in **Suggests* field.</p>
-<pre><code>func &lt;- function() {
-  if (requireNamespace("PACKAGE", quietly = TRUE)) {
-    regular code 
-  } else {
-    stop("Please install the PACKAGE to use the func function")
-  }
-}</code></pre>
+<p>One of the method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. So we have to identify package functions which will be used optionally or rarely (are not a core of the package). Then we have to apply conditional execution of it if the package is installed (available), if not then ask user to install it. If a function with such delayed loaded package is used in examples or tests then the package have to be in <strong>Suggests</strong> field.</p>
+<pre><code><span class="va">func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"PACKAGE"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="co"># regular code </span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Please install the PACKAGE to use the func function"</span><span class="op">)</span>
+  <span class="op">}</span>
+<span class="op">}</span></code></pre>
 <p><code>parsnip</code>:<br><a href="https://CRAN.R-project.org/package=parsnip" class="external-link"><img src="https://tinyverse.netlify.com/badge/parsnip"></a></p>
 <p><code>caret</code>:<br><a href="https://CRAN.R-project.org/package=testthat" class="external-link"><img src="https://tinyverse.netlify.com/badge/testthat"></a></p>
 <p><code>parsnip</code> and <code>caret</code> packages are examples which apply this strategy. It could be easily confirmed by looking for <code>requireNamespace</code> phrase with github search, from each of the repo.</p>
