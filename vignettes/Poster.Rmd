@@ -2,15 +2,13 @@
 poster_height: "50in"
 poster_width: "70in"
 font_family: 'Rasa'
-#ESSENTIALS
-title: '**Conscious R packages maintenance**'
+title: "Conscious R packages maintenance"
 author:
  - name: Maciej Nasiński
    orcid: 0000-0001-5236-8040
    email: maciej.nasinski@uw.edu.pl
 affiliation:
   - address: University of Warsaw
-#STYLE & FORMATTING
 column_numbers: 3
 primary_colour: black
 secondary_colour: blue
@@ -32,7 +30,7 @@ logoright_name: https&#58;//github.com/Polkas/pacs/raw/7779b249843a5423ca735f7bc
 logoleft_name: https&#58;//github.com/Polkas/pacs/raw/7779b249843a5423ca735f7bc462575e253f49cc/man/figures/pacs_logo.png
 output: 
   posterdown::posterdown_html:
-    self_contained: TRUE
+    self_contained: false
 vignette: >
     %\VignetteIndexEntry{Poster}
     %\VignetteEngine{knitr::rmarkdown}
@@ -53,7 +51,7 @@ library(nomnoml)
 
 # Introduction
 
-Supplementary utils for CRAN maintainers and R packages developers in the pacs package.
+Supplementary utils for CRAN maintainers and R packages developers in the [**pacs package**](https://polkas.github.io/pacs/).
 The wide range of tools to achieve healthy R environment and make the R developer life easier.
 Each of the function was inspired be everyday challenges which have to be faced by the experienced R developer **in the production quality agile project**. These tools should be universal in different work environments.
 
@@ -191,7 +189,7 @@ pacs::lib_validate(
 
 # Conclusion
 
-Think `tiny` and be minimalist for better UX and less development work.
+Think `tiny` and be minimalist for better UX and easier development work.
 
 # Contact
 
