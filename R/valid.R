@@ -10,13 +10,15 @@
 #' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for libraries with less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return data.frame with 4/6/7/8 columns.
+#' @return data.frame with 5/7/8/9 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
 #' \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
 #' \item{Version.have}{character installed package version.}
 #' \item{version_status}{ numeric -1/0/1 which comes from `utils::compareVersion` function.
 #' 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
+#' \item{built}{logical if the package was built under the current R version, then TRUE and for older R versions FALSE.
+#' A package built under older R version or mix of packages built under different versions could bring possible failures.}
 #' \item{newest}{logical (Internet needed) if the installed version is the newest one. For Bioconductor if is the newest one per R version.}
 #' \item{cran}{logical (Internet needed) if the package is on CRAN, version is not taken into account here.}
 #' \item{checkred}{(Optional) (Internet needed) logical if the NEWEST package contains any specified statuses on CRAN check page. `pacs::checked_packages` is used to quickly retrieve all statuses at once.}
@@ -60,16 +62,20 @@ lib_validate <- function(lib.loc = .libPaths(),
   stopifnot(is.character(repos))
   stopifnot(is.logical(lifeduration))
 
-  installed_agg <- installed_agg_fun(lib.loc, fields)
+  installed_agg <- installed_agg_fun(lib.loc, "Built")
   res_agg <- installed_descriptions(lib.loc, fields)
+
+  Rv <- paste0(R.Version()[c("major", "minor")], collapse = ".")
 
   result <- merge(
     res_agg,
     rbind(
-      installed_agg[, c("Package", "Version")],
+      installed_agg[, c("Package", "Version", "Built")],
       data.frame(
         Package = "R",
-        Version = paste0(R.Version()[c("major", "minor")], collapse = "."), stringsAsFactors = FALSE
+        Version = Rv,
+        Built = Rv,
+        stringsAsFactors = FALSE
       )
     ),
     by = "Package",
@@ -78,6 +84,9 @@ lib_validate <- function(lib.loc = .libPaths(),
   )
 
   result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
+
+  result$built <- result$Built == Rv
+  result$Built <- NULL
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
 
@@ -164,6 +173,7 @@ pac_validate <- function(pac,
 
   if (nrow(result)) {
     result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
+
     result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
     result$direct <- result$Package %in% descriptions_pac_direct$Package
 
@@ -268,6 +278,7 @@ lock_validate <- function(path,
       result <- result_renv
       colnames(result) <- c("Package", "Version.expected")
     }
+
     result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
     result <- validate_online(result, "Version.expected", lifeduration, checkred, repos)
   } else {

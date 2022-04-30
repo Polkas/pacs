@@ -77,7 +77,7 @@ More information is available in the [`tinyverse` vignette](https://polkas.githu
 
 # Tink Tiny as a Developer
 
-The objective should be to have zero dependencies in the R package as R package dependencies matter. That is why [`tinytest`](https://github.com/markvanderloo/tinytest) was created or [`renv`](https://rstudio.github.io/renv/articles/renv.html) has zero dependencies.
+Minimize dependencies avoid installing "nice to have" packages. The objective should be to have zero dependencies in the R package as R package dependencies matter. That is why [`tinytest`](https://github.com/markvanderloo/tinytest) was created or [`renv`](https://rstudio.github.io/renv/articles/renv.html) has zero dependencies.
 
 Check a package dependencies exposed to the end users with `pacs::pac_deps_user("NAME", attr = FALSE)`, these are packages installed with the `install.packages`.
 When add a package to Depends, Imports or LinkingTo, then we impact end users when they invoke `install.packages`. On the other hand if package is add to Suggests, then impact mainly developers e.g. `R CMD CHECK`.
@@ -144,7 +144,7 @@ Example: We think of adding/updating the `keras` package.
 - **DOWNLOADS**, popularity of a package; [cranlogs, `ThreeWiseMonkeys` is a nice benchmark as is "an  experiment and a package with no use whatsoever."](https://hadley.shinyapps.io/cran-downloads/).
 - **LIFE DURATION**, life duration of the version where we should expected at least 14 days; `pacs::pac_timemachine("keras")` or `pacs::pac_lifeduration("keras)`.
 - **NEW DEPENDENCIES**, what packages have to be added/updated where we want to use light packages with only a few dependencies; `remotes::package_deps("keras")`.
-- **NEWS**, checking the NEWS file to get last updates and their significance; e.g.  https://cran.r-project.org/package=keras/news/news.html.
+- **NEWS**, checking the NEWS file to get last updates and their significance; `utils::news(package = "keras")`; e.g.  https://cran.r-project.org/package=keras/news/news.html.
 - **REPO ACTIVITY**  how quick issues are answered and how often new commits are added; e.g. https://github.com/USER/PACKAGE.
 - **SCOPE**, changes in DECRIPTION/NAMESPACE files between current and the new version; `pacs::pac_compare_versions("keras")`/`pacs::pac_compare_namespace("keras")`.
 - **VERSION**, prefer mature version like 1.2.8 or 0.8.7 not a low 0.1.0; `pacs::pac_description("keras")` or `pacs::pac_last("keras")`.

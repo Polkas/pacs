@@ -95,7 +95,7 @@ test_that("lock_validate lifedurations to many packages for crandb", {
 test_that("pacs::lib_validate offline", {
   lib_validate_offline <- lib_validate
   mockery::stub(lib_validate_offline, "is_online", FALSE)
-  expect_true(ncol(suppressWarnings(lib_validate_offline())) == 4)
+  expect_true(ncol(suppressWarnings(lib_validate_offline())) == 5)
 })
 
 test_that("pacs::pac_validate offline", {

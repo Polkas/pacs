@@ -26,13 +26,15 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-data.frame with 4/6/7/8 columns.
+data.frame with 5/7/8/9 columns.
 \describe{
 \item{Package}{character a package name.}
 \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
 \item{Version.have}{character installed package version.}
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
+\item{built}{logical if the package was built under the current R version, then TRUE and for older R versions FALSE.
+A package built under older R version or mix of packages built under different versions could bring possible failures.}
 \item{newest}{logical (Internet needed) if the installed version is the newest one. For Bioconductor if is the newest one per R version.}
 \item{cran}{logical (Internet needed) if the package is on CRAN, version is not taken into account here.}
 \item{checkred}{(Optional) (Internet needed) logical if the NEWEST package contains any specified statuses on CRAN check page. \code{pacs::checked_packages} is used to quickly retrieve all statuses at once.}
