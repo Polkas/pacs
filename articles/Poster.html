@@ -131,7 +131,7 @@
 <div class="section level2">
 <h2 id="tink-tiny-as-a-developer">Tink Tiny as a Developer<a class="anchor" aria-label="anchor" href="#tink-tiny-as-a-developer"></a>
 </h2>
-<p>The objective should be to have zero dependencies in the R package as R package dependencies matter. That is why <a href="https://github.com/markvanderloo/tinytest" class="external-link"><code>tinytest</code></a> was created or <a href="https://rstudio.github.io/renv/articles/renv.html" class="external-link"><code>renv</code></a> has zero dependencies.</p>
+<p>Minimize dependencies avoid installing “nice to have” packages. The objective should be to have zero dependencies in the R package as R package dependencies matter. That is why <a href="https://github.com/markvanderloo/tinytest" class="external-link"><code>tinytest</code></a> was created or <a href="https://rstudio.github.io/renv/articles/renv.html" class="external-link"><code>renv</code></a> has zero dependencies.</p>
 <p>Check a package dependencies exposed to the end users with <code>pacs::pac_deps_user("NAME", attr = FALSE)</code>, these are packages installed with the <code>install.packages</code>. When add a package to Depends, Imports or LinkingTo, then we impact end users when they invoke <code>install.packages</code>. On the other hand if package is add to Suggests, then impact mainly developers e.g. <code>R CMD CHECK</code>.</p>
 <p>The main strategy should be to prefer usage of <code><a href="../reference/pacs_base.html">pacs::pacs_base()</a></code> packages (already installed in R) and dependencies with only a few dependencies (the best zero like <code>jsonlite</code>).</p>
 <p>One of the method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. Identify package functions which will be used optionally or rarely. Then we have to apply conditional execution of it if the package is installed (available), if not then ask user to install it. If a function with such delayed loaded package is used in examples or tests then the package have to be in Suggests field.</p>
@@ -150,9 +150,9 @@
 <p>Important topics to consider to have <strong>a secure, light and healthy library</strong>. We should be careful when adding/updating packages. The updating part could be surprising nevertheless e.g. in bigger projects we want to have a stable library for each product release.<br>
 Tools: <code>pacs</code>, <code>remotes</code>, CRAN packages websites, cranlogs, and repository website like github.<br>
 Example: We think of adding/updating the <code>keras</code> package.</p>
-<div id="htmlwidget-55921a0508eb601b3445" style="width:1536px;height:864px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-55921a0508eb601b3445">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Add a Package|\n[YAGNI]-[Add a Package]\n[LIFE DURATION] - [Add a Package]\n[CRAN CHECK PAGE] - [Add a Package]\n[VERSION]-[Add a Package]\n[Add a Package]-[NEW DEPENDENCIES]\n[Add a Package]-[REPO ACTIVITY]\n[Add a Package]-[COVR BADGE]\n[Add a Package]-[DOWNLOADS]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><div id="htmlwidget-51963c06aad524e10efc" style="width:1536px;height:768px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-51963c06aad524e10efc">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Update a Package|\n[YAGNI]-[Update a Package]\n[LIFE DURATION]-[Update a Package]\n[CRAN CHECK PAGE]-[Update a Package]\n[Update a Package]-[NEW DEPENDENCIES]\n[Update a Package]-[NEWS]\n[Update a Package]-[SCOPE]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><ul>
+<div id="htmlwidget-d3d2ae6ae431d4f65edf" style="width:1536px;height:864px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d3d2ae6ae431d4f65edf">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Add a Package|\n[YAGNI]-[Add a Package]\n[LIFE DURATION] - [Add a Package]\n[CRAN CHECK PAGE] - [Add a Package]\n[VERSION]-[Add a Package]\n[Add a Package]-[NEW DEPENDENCIES]\n[Add a Package]-[REPO ACTIVITY]\n[Add a Package]-[COVR BADGE]\n[Add a Package]-[DOWNLOADS]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><div id="htmlwidget-b61af85cac1bf08c3e92" style="width:1536px;height:768px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b61af85cac1bf08c3e92">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Update a Package|\n[YAGNI]-[Update a Package]\n[LIFE DURATION]-[Update a Package]\n[CRAN CHECK PAGE]-[Update a Package]\n[Update a Package]-[NEW DEPENDENCIES]\n[Update a Package]-[NEWS]\n[Update a Package]-[SCOPE]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><ul>
 <li>
 <strong>COVR BADGE</strong>, the coverage of the code in the tests (expected more than 90%); e.g. click the covr badge <a href="https://github.com/polkas/pacs" class="external-link uri">https://github.com/polkas/pacs</a>.</li>
 <li>
@@ -164,7 +164,7 @@ Example: We think of adding/updating the <code>keras</code> package.</p>
 <li>
 <strong>NEW DEPENDENCIES</strong>, what packages have to be added/updated where we want to use light packages with only a few dependencies; <code>remotes::package_deps("keras")</code>.</li>
 <li>
-<strong>NEWS</strong>, checking the NEWS file to get last updates and their significance; e.g. <a href="https://cran.r-project.org/package=keras/news/news.html" class="external-link uri">https://cran.r-project.org/package=keras/news/news.html</a>.</li>
+<strong>NEWS</strong>, checking the NEWS file to get last updates and their significance; <code>utils::news(package = "keras")</code>; e.g. <a href="https://cran.r-project.org/package=keras/news/news.html" class="external-link uri">https://cran.r-project.org/package=keras/news/news.html</a>.</li>
 <li>
 <strong>REPO ACTIVITY</strong> how quick issues are answered and how often new commits are added; e.g. <a href="https://github.com/USER/PACKAGE" class="external-link uri">https://github.com/USER/PACKAGE</a>.</li>
 <li>
@@ -179,8 +179,8 @@ Example: We think of adding/updating the <code>keras</code> package.</p>
 <h2 id="validate">Validate<a class="anchor" aria-label="anchor" href="#validate"></a>
 </h2>
 <p>We could validate many things like: R library, R package or <code>renv</code> lock file. Even if we will not find any obvious problems we will need a proof that the environment is <strong>validated</strong> which is often an authorities requirement. R library could be easily broken with functions like <code><a href="https://remotes.r-lib.org/reference/install_version.html" class="external-link">remotes::install_version</a></code> or <code>remotes::install_github(..., dependencies = FALSE)</code>. On the other hand the <code>renv</code> lock file could be built manually or by an external automation pipeline. We could control many risks with <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code>, <code><a href="../reference/pac_validate.html">pacs::pac_validate</a></code> and <code><a href="../reference/lock_validate.html">pacs::lock_validate</a></code> functions.</p>
-<div id="htmlwidget-96af10aac802d2e0d7a5" style="width:1536px;height:576px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-96af10aac802d2e0d7a5">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Validate|\n[VERSIONS]-[Validate]\n[CRAN CHECK PAGES]-[Validate]\n[Validate]-[LIFE DURATIONS]\n[Validate]-[NEWEST]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><ul>
+<div id="htmlwidget-00bd0c58fbf5ed48b690" style="width:1536px;height:576px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-00bd0c58fbf5ed48b690">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Validate|\n[VERSIONS]-[Validate]\n[CRAN CHECK PAGES]-[Validate]\n[Validate]-[LIFE DURATIONS]\n[Validate]-[NEWEST]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><ul>
 <li>
 <strong>LIFE DURATIONS</strong>, life duration of the version where we should expected at least 14 days.</li>
 <li>
@@ -249,7 +249,7 @@ Example: We think of adding/updating the <code>keras</code> package.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
       </footer>
