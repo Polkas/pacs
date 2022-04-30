@@ -113,7 +113,10 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.</p></dd>
 
 <dt>built</dt>
-<dd><p>logical if the package was built under the current R version, then TRUE and for older R versions FALSE.
+<dd><p>character package was built under this R version</p></dd>
+
+<dt>built_status</dt>
+<dd><p>integer if the package was built under the current R version, then 1 (good) and for older R versions 0 (possibly bad).
 A package built under older R version or mix of packages built under different versions could bring possible failures.</p></dd>
 
 <dt>newest</dt>
