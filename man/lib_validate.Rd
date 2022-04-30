@@ -33,7 +33,8 @@ data.frame with 5/7/8/9 columns.
 \item{Version.have}{character installed package version.}
 \item{version_status}{ numeric -1/0/1 which comes from \code{utils::compareVersion} function.
 0 means that we have the same version as required by DESCRIPTION files. -1 means we have too low version installed, this is an error. 1 means we have higher version.}
-\item{built}{logical if the package was built under the current R version, then TRUE and for older R versions FALSE.
+\item{built}{character package was built under this R version}
+\item{built_status}{integer if the package was built under the current R version, then 1 (good) and for older R versions 0 (possibly bad).
 A package built under older R version or mix of packages built under different versions could bring possible failures.}
 \item{newest}{logical (Internet needed) if the installed version is the newest one. For Bioconductor if is the newest one per R version.}
 \item{cran}{logical (Internet needed) if the package is on CRAN, version is not taken into account here.}
