@@ -123,7 +123,7 @@ Example: We think of adding/updating the `keras` package.
 ]
 ```
 
-```{nomnoml, fig.width=16, fig.height=8, svg=FALSE}
+```{nomnoml, fig.width=8, fig.height=4, svg=FALSE}
 #stroke: black
 #padding: 0
 #spacing: 0
@@ -157,7 +157,7 @@ Even if we will not find any obvious problems we will need a proof that the envi
 R library could be easily broken with functions like `remotes::install_version` or `remotes::install_github(..., dependencies = FALSE)`. On the other hand the `renv` lock file could be built manually or by an external automation pipeline.
 We could control many risks with `pacs::lib_validate`, `pacs::pac_validate` and `pacs::lock_validate` functions. 
 
-```{nomnoml, fig.width=16, fig.height=6, svg=FALSE}
+```{nomnoml, fig.width=8, fig.height=3, svg=FALSE}
 #stroke: black
 #padding: 0
 #spacing: 0
