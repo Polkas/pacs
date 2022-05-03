@@ -30,10 +30,6 @@ logoleft_name: https&#58;//github.com/Polkas/pacs/raw/7779b249843a5423ca735f7bc4
 output: 
   posterdown::posterdown_html:
     self_contained: false
-vignette: >
-    %\VignetteIndexEntry{Poster}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -72,6 +68,8 @@ The R community  [`tinyverse`](https://tinyverse.netlify.app/) movement is a try
 The last years of R package development were full of high number of dependencies temptations.
 `tinyverse` means as least dependencies as possible as R package dependencies matter. 
 Every dependency you add to your project is an invitation to break your project.
+<img src="./LessIsMore.jpeg" style="float: right;padding:0;margin:0">
+
 More information is available in the [`tinyverse` vignette](https://polkas.github.io/pacs/articles/tinyverse.html).
 
 # Tink Tiny as a Developer
@@ -86,7 +84,7 @@ When adding a package to Depends, Imports or LinkingTo, then we impact end users
 The main strategy should be to prefer usage of `pacs::pacs_base()` packages (already installed in R) and dependencies with only a few dependencies (the best zero like `jsonlite`).
 
 One method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. 
-Identify package functions which will be used optionally or rarely. Then we have to apply conditional execution of it if the package is installed (available), if not then ask user to install it. If a function with such delayed loaded package is used in examples or tests then the package has to be in the Suggests field.
+Check the [`tinyverse` vignette](https://polkas.github.io/pacs/articles/tinyverse.html) for more details.
 
 ```r
 func <- function() {
@@ -168,7 +166,7 @@ We could control many risks with `pacs::lib_validate`, `pacs::pac_validate` and 
 [<frame>Validate|
 [VERSIONS]-[Validate]
 [CRAN CHECK PAGES]-[Validate]
-[BUILT]-[Validate]
+[Validate]-[Built]
 [Validate]-[LIFE DURATIONS]
 [Validate]-[NEWEST]
 ]
@@ -177,7 +175,7 @@ We could control many risks with `pacs::lib_validate`, `pacs::pac_validate` and 
 - **LIFE DURATIONS**, life duration of the version where we should expected at least 14 days.
 - **VERSIONS**, do we have the same versions as required by DESCRIPTION files.
 - **NEWEST**, is the newest version.
-- **BUILT**, packages installed with a previous version of R could not work correctly with the new version of R. The library is sometimes persisted after an R update, mostly for a minor (last number) version update.
+- **BUILT**, packages installed with a previous version of R could not work correctly with the new version of R. Mostly for local usage (without `renv`) and a minor (last number) R version update.
 - **CRAN CHECK PAGE**, CRAN checks on variety of servers. We could extract checks for all CRAN packages with `pacs::checked_packages()`.
 
 ```r

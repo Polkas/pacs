@@ -44,3 +44,4 @@ vignettes/*.pdf
 /renv
 inst/doc
 renv.lock
+.DS_Store
