@@ -100,7 +100,7 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Supplementary utils for CRAN maintainers and R packages developers in the <a href="https://polkas.github.io/pacs/" class="external-link"><strong>pacs package</strong></a>. The wide range of tools to achieve healthy R environment and make the R developer life easier. Each of the function was inspired be everyday challenges which have to be faced by the experienced R developer <strong>in the production quality agile project</strong>. These tools should be universal in different work environments.</p>
+<p>Supplementary utils for CRAN maintainers and R package developers in the <a href="https://polkas.github.io/pacs/" class="external-link"><strong>pacs package</strong></a>. The wide range of tools to achieve healthy R environment and make the R developer life easier. Each of the function was inspired be everyday challenges which have to be faced by the experienced R developer <strong>in the production quality agile project</strong>. These tools should be universal in different work environments.</p>
 </div>
 <div class="section level2">
 <h2 id="objectives">Objectives<a class="anchor" aria-label="anchor" href="#objectives"></a>
@@ -126,15 +126,15 @@
 <div class="section level2">
 <h2 id="tinyverse">Tinyverse<a class="anchor" aria-label="anchor" href="#tinyverse"></a>
 </h2>
-<p>The R community <a href="https://tinyverse.netlify.app/" class="external-link"><code>tinyverse</code></a> movement is a tryout of creating a new package development standards. The clue is the TINY part here. The last years od R package development were full of high number of dependencies temptations. <code>tinyverse</code> means as least dependencies as possible as R package dependencies matter. Every dependency you add to your project is an invitation to break your project. More information is available in the <a href="https://polkas.github.io/pacs/articles/tinyverse.html" class="external-link"><code>tinyverse</code> vignette</a>.</p>
+<p>The R community <a href="https://tinyverse.netlify.app/" class="external-link"><code>tinyverse</code></a> movement is a tryout to create a new package development standards. The clue is the TINY part here. The last years of R package development were full of high number of dependencies temptations. <code>tinyverse</code> means as least dependencies as possible as R package dependencies matter. Every dependency you add to your project is an invitation to break your project. More information is available in the <a href="https://polkas.github.io/pacs/articles/tinyverse.html" class="external-link"><code>tinyverse</code> vignette</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="tink-tiny-as-a-developer">Tink Tiny as a Developer<a class="anchor" aria-label="anchor" href="#tink-tiny-as-a-developer"></a>
 </h2>
-<p>Minimize dependencies avoid installing “nice to have” packages. The objective should be to have zero dependencies in the R package as R package dependencies matter. That is why <a href="https://github.com/markvanderloo/tinytest" class="external-link"><code>tinytest</code></a> was created or <a href="https://rstudio.github.io/renv/articles/renv.html" class="external-link"><code>renv</code></a> has zero dependencies.</p>
-<p>Check a package dependencies exposed to the end users with <code>pacs::pac_deps_user("NAME", attr = FALSE)</code>, these are packages installed with the <code>install.packages</code>. When add a package to Depends, Imports or LinkingTo, then we impact end users when they invoke <code>install.packages</code>. On the other hand if package is add to Suggests, then impact mainly developers e.g. <code>R CMD CHECK</code>.</p>
+<p>Minimize dependencies and avoid installing “nice to have” packages. The objective should be to have zero dependencies in an R package. That is why <a href="https://github.com/markvanderloo/tinytest" class="external-link"><code>tinytest</code></a> was created or <a href="https://rstudio.github.io/renv/articles/renv.html" class="external-link"><code>renv</code></a> has zero dependencies.</p>
+<p>Check a package dependencies exposed to the end users with <code><a href="../reference/pac_deps_user.html">pacs::pac_deps_user</a></code>, these are packages installed with the <code>install.packages</code>. When adding a package to Depends, Imports or LinkingTo, then we impact end users when they invoke <code>install.packages</code>. On the other hand if a package is added to Suggests, this impacts mainly developers e.g. <code>R CMD CHECK</code>, check all developer exposed packages with <code><a href="../reference/pac_deps_dev.html">pacs::pac_deps_dev</a></code>.</p>
 <p>The main strategy should be to prefer usage of <code><a href="../reference/pacs_base.html">pacs::pacs_base()</a></code> packages (already installed in R) and dependencies with only a few dependencies (the best zero like <code>jsonlite</code>).</p>
-<p>One of the method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. Identify package functions which will be used optionally or rarely. Then we have to apply conditional execution of it if the package is installed (available), if not then ask user to install it. If a function with such delayed loaded package is used in examples or tests then the package have to be in Suggests field.</p>
+<p>One method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. Identify package functions which will be used optionally or rarely. Then we have to apply conditional execution of it if the package is installed (available), if not then ask user to install it. If a function with such delayed loaded package is used in examples or tests then the package has to be in the Suggests field.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"PACKAGE"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
@@ -150,25 +150,25 @@
 <p>Important topics to consider to have <strong>a secure, light and healthy library</strong>. We should be careful when adding/updating packages. The updating part could be surprising nevertheless e.g. in bigger projects we want to have a stable library for each product release.<br>
 Tools: <code>pacs</code>, <code>remotes</code>, CRAN packages websites, cranlogs, and repository website like github.<br>
 Example: We think of adding/updating the <code>keras</code> package.</p>
-<div id="htmlwidget-35612251a2c4b12809c0" style="width:1536px;height:864px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-35612251a2c4b12809c0">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Add a Package|\n[YAGNI]-[Add a Package]\n[LIFE DURATION] - [Add a Package]\n[CRAN CHECK PAGE] - [Add a Package]\n[VERSION]-[Add a Package]\n[Add a Package]-[NEW DEPENDENCIES]\n[Add a Package]-[REPO ACTIVITY]\n[Add a Package]-[COVR BADGE]\n[Add a Package]-[DOWNLOADS]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><div id="htmlwidget-a21be174ca5400ebec5e" style="width:768px;height:384px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a21be174ca5400ebec5e">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Update a Package|\n[YAGNI]-[Update a Package]\n[LIFE DURATION]-[Update a Package]\n[CRAN CHECK PAGE]-[Update a Package]\n[Update a Package]-[NEW DEPENDENCIES]\n[Update a Package]-[NEWS]\n[Update a Package]-[SCOPE]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><ul>
+<div id="htmlwidget-af1eaac66df965a51be9" style="width:1536px;height:864px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-af1eaac66df965a51be9">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Add a Package|\n[YAGNI]-[Add a Package]\n[LIFE DURATION] - [Add a Package]\n[CRAN CHECK PAGE] - [Add a Package]\n[VERSION]-[Add a Package]\n[Add a Package]-[NEW DEPENDENCIES]\n[Add a Package]-[REPO ACTIVITY]\n[Add a Package]-[COVR BADGE]\n[Add a Package]-[DOWNLOADS]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><div id="htmlwidget-494f3f79f385b45753ea" style="width:1536px;height:864px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-494f3f79f385b45753ea">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Update a Package|\n[YAGNI]-[Update a Package]\n[LIFE DURATION]-[Update a Package]\n[CRAN CHECK PAGE]-[Update a Package]\n[Update a Package]-[NEW DEPENDENCIES]\n[Update a Package]-[NEWS]\n[Update a Package]-[SCOPE]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><ul>
 <li>
 <strong>COVR BADGE</strong>, the coverage of the code in the tests (expected more than 90%); e.g. click the covr badge <a href="https://github.com/polkas/pacs" class="external-link uri">https://github.com/polkas/pacs</a>.</li>
 <li>
 <strong>CRAN CHECK PAGE</strong>, CRAN checks on variety of servers; <code>pacs::pac_checkpage("keras")</code>.</li>
 <li>
-<strong>DOWNLOADS</strong>, popularity of a package; <a href="https://hadley.shinyapps.io/cran-downloads/" class="external-link">cranlogs, <code>ThreeWiseMonkeys</code> is a nice benchmark as is “an experiment and a package with no use whatsoever.”</a>.</li>
+<strong>DOWNLOADS</strong>, popularity of a package; <a href="https://hadley.shinyapps.io/cran-downloads/" class="external-link">cranlogs app, worth to compare with similar packages</a>.</li>
 <li>
-<strong>LIFE DURATION</strong>, life duration of the version where we should expected at least 14 days; <code>pacs::pac_timemachine("keras")</code> or <code>pacs::pac_lifeduration("keras)</code>.</li>
+<strong>LIFE DURATION</strong>, life duration of the version where we should expect at least 14 days; <code>pacs::pac_timemachine("keras")</code> or <code>pacs::pac_lifeduration("keras)</code>.</li>
 <li>
 <strong>NEW DEPENDENCIES</strong>, what packages have to be added/updated where we want to use light packages with only a few dependencies; <code>remotes::package_deps("keras")</code>.</li>
 <li>
-<strong>NEWS</strong>, checking the NEWS file to get last updates and their significance; <code>utils::news(package = "keras")</code>; e.g. <a href="https://cran.r-project.org/package=keras/news/news.html" class="external-link uri">https://cran.r-project.org/package=keras/news/news.html</a>.</li>
+<strong>NEWS</strong>, checking the NEWS file to get latest updates and their significance; <code>utils::news(package = "keras")</code>; e.g. <a href="https://cran.r-project.org/package=keras/news/news.html" class="external-link uri">https://cran.r-project.org/package=keras/news/news.html</a>.</li>
 <li>
-<strong>REPO ACTIVITY</strong> how quick issues are answered and how often new commits are added; e.g. <a href="https://github.com/USER/PACKAGE" class="external-link uri">https://github.com/USER/PACKAGE</a>.</li>
+<strong>REPO ACTIVITY</strong> how quick issues are answered and how often new commits are added; e.g. <a href="https://github.com/rstudio/keras" class="external-link uri">https://github.com/rstudio/keras</a>.</li>
 <li>
-<strong>SCOPE</strong>, changes in DECRIPTION/NAMESPACE files between current and the new version; <code>pacs::pac_compare_versions("keras")</code>/<code>pacs::pac_compare_namespace("keras")</code>.</li>
+<strong>SCOPE</strong>, changes in DECRIPTION/NAMESPACE files between current and the new version; <code>pacs::pac_compare_versions("keras")</code> and <code>pacs::pac_compare_namespace("keras")</code>.</li>
 <li>
 <strong>VERSION</strong>, prefer mature version like 1.2.8 or 0.8.7 not a low 0.1.0; <code>pacs::pac_description("keras")</code> or <code>pacs::pac_last("keras")</code>.</li>
 <li>
@@ -178,26 +178,29 @@ Example: We think of adding/updating the <code>keras</code> package.</p>
 <div class="section level2">
 <h2 id="validate">Validate<a class="anchor" aria-label="anchor" href="#validate"></a>
 </h2>
-<p>We could validate many things like: R library, R package or <code>renv</code> lock file. Even if we will not find any obvious problems we will need a proof that the environment is <strong>validated</strong> which is often an authorities requirement. R library could be easily broken with functions like <code><a href="https://remotes.r-lib.org/reference/install_version.html" class="external-link">remotes::install_version</a></code> or <code>remotes::install_github(..., dependencies = FALSE)</code>. On the other hand the <code>renv</code> lock file could be built manually or by an external automation pipeline. We could control many risks with <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code>, <code><a href="../reference/pac_validate.html">pacs::pac_validate</a></code> and <code><a href="../reference/lock_validate.html">pacs::lock_validate</a></code> functions.</p>
-<div id="htmlwidget-fb2a32266f81760ae0af" style="width:768px;height:288px;" class="nomnoml html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fb2a32266f81760ae0af">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Validate|\n[VERSIONS]-[Validate]\n[CRAN CHECK PAGES]-[Validate]\n[Validate]-[LIFE DURATIONS]\n[Validate]-[NEWEST]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><ul>
+<p>We could validate numerous things like: R library, R package or <code>renv</code> lock file. Even if we will not find any obvious problems we will need a proof that the environment is <strong>validated</strong> which is often the authorities’ requirement. R library could be easily broken with functions like <code><a href="https://remotes.r-lib.org/reference/install_version.html" class="external-link">remotes::install_version</a></code> or <code>remotes::install_github(..., dependencies = FALSE)</code>. On the other hand the <code>renv</code> lock file could be built manually or by an external automation pipeline. We could control many risks with <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code>, <code><a href="../reference/pac_validate.html">pacs::pac_validate</a></code> and <code><a href="../reference/lock_validate.html">pacs::lock_validate</a></code> functions.</p>
+<div id="htmlwidget-6ad2b68fc23866f07f66" style="width:1536px;height:672px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6ad2b68fc23866f07f66">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#padding: 0\n#spacing: 0\n#fontSize: 12\n#.box: \n[<frame>Validate|\n[VERSIONS]-[Validate]\n[CRAN CHECK PAGES]-[Validate]\n[BUILT]-[Validate]\n[Validate]-[LIFE DURATIONS]\n[Validate]-[NEWEST]\n]","svg":false,"png":null},"evals":[],"jsHooks":[]}</script><ul>
 <li>
 <strong>LIFE DURATIONS</strong>, life duration of the version where we should expected at least 14 days.</li>
 <li>
-<strong>VERSIONS</strong> Do we have the same versions as required by DESCRIPTION files.</li>
+<strong>VERSIONS</strong>, do we have the same versions as required by DESCRIPTION files.</li>
 <li>
 <strong>NEWEST</strong>, is the newest version.</li>
+<li>
+<strong>BUILT</strong>, packages installed with a previous version of R could not work correctly with the new version of R. The library is sometimes persisted after an R update, mostly for a minor (last number) version update.</li>
 <li>
 <strong>CRAN CHECK PAGE</strong>, CRAN checks on variety of servers. We could extract checks for all CRAN packages with <code><a href="../reference/checked_packages.html">pacs::checked_packages()</a></code>.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># assesing life durations could be time consuming for bigger libraries.</span>
+<code class="sourceCode R"><span class="co"># assesing life durations could be time consuming for a bigger library.</span>
 <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/lib_validate.html">lib_validate</a></span><span class="op">(</span>
-  lifeduration <span class="op">=</span> <span class="cn">TRUE</span>,
   checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
     scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>,
     flavors <span class="op">=</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/cran_flavors.html">cran_flavors</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">Flavor</span>
-  <span class="op">)</span>
+  <span class="op">)</span>,
+  lifeduration <span class="op">=</span> <span class="cn">FALSE</span>,
+  built <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
