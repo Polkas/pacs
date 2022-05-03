@@ -3,7 +3,6 @@ pkgdown: 2.0.3.9000
 pkgdown_sha: 9dee019f9983b86585a77a3b1a1459b9f0390fe6
 articles:
   GettingStarted: GettingStarted.html
-  Poster: Poster.html
   tinyverse: tinyverse.html
-last_built: 2022-05-03T16:13Z
+last_built: 2022-05-03T17:29Z
 
