@@ -81,7 +81,7 @@ That is why [`tinytest`](https://github.com/markvanderloo/tinytest) was created 
 Check a package dependencies exposed to the end users with `pacs::pac_deps_user`, these are packages installed with the `install.packages`.
 When adding a package to Depends, Imports or LinkingTo, then we impact end users when they invoke `install.packages`. On the other hand if a package is added to Suggests, this impacts mainly developers e.g. `R CMD CHECK`, check all developer exposed packages with `pacs::pac_deps_dev`.
 
-The main strategy should be to prefer usage of `pacs::pacs_base()` packages (already installed in R) and dependencies with only a few dependencies (the best zero like `jsonlite`).
+The main strategy should be to prefer usage of `pacs::pacs_base()` packages (already installed in R) and packages with only a few dependencies (the best zero like `jsonlite`).
 
 One method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. 
 Check the [`tinyverse` vignette](https://polkas.github.io/pacs/articles/tinyverse.html) for more details.
@@ -102,7 +102,7 @@ Important topics to consider to have **a secure, light and healthy library**.
 We should be careful when adding/updating packages. 
 The updating part could be surprising nevertheless e.g. in bigger projects we want to have a stable library for each product release.  
 Tools: `pacs`, `remotes`, CRAN packages websites, cranlogs, and repository website like github.  
-Example: We think of adding/updating the `keras` package.
+Example: We think of adding/updating the `parsnip` package.
 
 ```{nomnoml, fig.width=16, fig.height=9, svg=FALSE}
 #stroke: black
@@ -117,12 +117,12 @@ Example: We think of adding/updating the `keras` package.
 [VERSION]-[Add a Package]
 [Add a Package]-[NEW DEPENDENCIES]
 [Add a Package]-[REPO ACTIVITY]
-[Add a Package]-[COVR BADGE]
+[Add a Package]-[COVR]
 [Add a Package]-[DOWNLOADS]
 ]
 ```
 
-```{nomnoml, fig.width=16, fig.height=9, svg=FALSE}
+```{nomnoml, fig.width=16, fig.height=8, svg=FALSE}
 #stroke: black
 #padding: 0
 #spacing: 0
@@ -138,17 +138,18 @@ Example: We think of adding/updating the `keras` package.
 ]
 ```
 
-- **COVR BADGE**, the coverage of the code in the tests (expected more than 90%); e.g. click the covr badge https://github.com/polkas/pacs.
-- **CRAN CHECK PAGE**, CRAN checks on variety of servers; `pacs::pac_checkpage("keras")`.
+- **COVR**, the coverage of the code in the tests (expected more than 90%); e.g. click [the covr badge](https://github.com/tidymodels/parsnip).
+- **CRAN CHECK PAGE**, CRAN checks on variety of servers; `pacs::pac_checkpage("parsnip")`.
 - **DOWNLOADS**, popularity of a package; [cranlogs app, worth to compare with similar packages](https://hadley.shinyapps.io/cran-downloads/).
-- **LIFE DURATION**, life duration of the version where we should expect at least 14 days; `pacs::pac_timemachine("keras")` or `pacs::pac_lifeduration("keras)`.
-- **NEW DEPENDENCIES**, what packages have to be added/updated where we want to use light packages with only a few dependencies; `remotes::package_deps("keras")`.
+- **LIFE DURATION**, life duration of the version where we should expect at least 14 days; `pacs::pac_timemachine("parsnip")` or `pacs::pac_lifeduration("parsnip")`.
+- **NEW DEPENDENCIES**, what packages have to be added/updated where we want to use light packages with only a few dependencies; `remotes::package_deps("parsnip")`.
 - **NEWS**, checking the NEWS file to get latest updates and their significance; 
-`utils::news(package = "keras")`; e.g.  https://cran.r-project.org/package=keras/news/news.html.
-- **REPO ACTIVITY**  how quick issues are answered and how often new commits are added; e.g. https://github.com/rstudio/keras.
-- **SCOPE**, changes in DECRIPTION/NAMESPACE files between current and the new version; `pacs::pac_compare_versions("keras")` and `pacs::pac_compare_namespace("keras")`.
-- **VERSION**, prefer mature version like 1.2.8 or 0.8.7 not a low 0.1.0; `pacs::pac_description("keras")` or `pacs::pac_last("keras")`.
+`utils::news(package = "parsnip")`; [CRAN NEWS PAGE](https://cran.r-project.org/package=parsnip/news/news.html)
+- **REPO ACTIVITY**  how quick issues are answered and how often new commits are added; [GITHUB REPO](https://github.com/tidymodels/parsnip)
+- **SCOPE**, changes in DECRIPTION/NAMESPACE files between current and the new version; `pacs::pac_compare_versions("parsnip")` and `pacs::pac_compare_namespace("parsnip")`.
+- **VERSION**, prefer mature version like 1.2.8 or 0.8.7 not a low 0.1.0; `pacs::pac_description("parsnip")` or `pacs::pac_last("parsnip")`.
 - **YAGNI** You aren't gonna need it, an extreme programming (XP) rule. Do we really need this package/update/feature?
+- **OTHER**
 
 # Validate {.mybreak}
 
@@ -157,7 +158,7 @@ Even if we will not find any obvious problems we will need a proof that the envi
 R library could be easily broken with functions like `remotes::install_version` or `remotes::install_github(..., dependencies = FALSE)`. On the other hand the `renv` lock file could be built manually or by an external automation pipeline.
 We could control many risks with `pacs::lib_validate`, `pacs::pac_validate` and `pacs::lock_validate` functions. 
 
-```{nomnoml, fig.width=16, fig.height=7, svg=FALSE}
+```{nomnoml, fig.width=16, fig.height=6, svg=FALSE}
 #stroke: black
 #padding: 0
 #spacing: 0
@@ -177,6 +178,7 @@ We could control many risks with `pacs::lib_validate`, `pacs::pac_validate` and 
 - **NEWEST**, is the newest version.
 - **BUILT**, packages installed with a previous version of R could not work correctly with the new version of R. Mostly for local usage (without `renv`) and a minor (last number) R version update.
 - **CRAN CHECK PAGE**, CRAN checks on variety of servers. We could extract checks for all CRAN packages with `pacs::checked_packages()`.
+- **OTHER**
 
 ```r
 # assesing life durations could be time consuming for a bigger library.
@@ -185,8 +187,7 @@ pacs::lib_validate(
     scope = c("ERROR", "FAIL"),
     flavors = pacs::cran_flavors()$Flavor
   ),
-  lifeduration = FALSE,
-  built = FALSE
+  lifeduration = FALSE
 )
 ```
 
