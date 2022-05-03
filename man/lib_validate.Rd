@@ -9,6 +9,7 @@ lib_validate(
   fields = c("Depends", "Imports", "LinkingTo"),
   lifeduration = FALSE,
   checkred = list(scope = character(0), flavors = NULL),
+  built = FALSE,
   repos = biocran_repos()
 )
 }
@@ -23,10 +24,14 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. \code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines. Default \code{list(scope = character(0), flavor = NULL)}}
 
+\item{built}{logical if to add an R version under which each package was installed.
+Useful mainly for a local usage.
+Packages installed with a previous version of R could not work correctly with the new version of R. Default: \code{FALSE}}
+
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-data.frame with 5/7/8/9 columns.
+data.frame with 4/6/8/9/10 columns.
 \describe{
 \item{Package}{character a package name.}
 \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}

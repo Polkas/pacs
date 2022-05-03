@@ -8,9 +8,12 @@
 #' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 #' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for libraries with less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
+#' @param built logical if to add an R version under which each package was installed.
+#' Useful mainly for a local usage.
+#' Packages installed with a previous version of R could not work correctly with the new version of R. Default: `FALSE`
 #' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return data.frame with 5/7/8/9 columns.
+#' @return data.frame with 4/6/8/9/10 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
 #' \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
@@ -52,6 +55,7 @@ lib_validate <- function(lib.loc = .libPaths(),
                          fields = c("Depends", "Imports", "LinkingTo"),
                          lifeduration = FALSE,
                          checkred = list(scope = character(0), flavors = NULL),
+                         built = FALSE,
                          repos = biocran_repos()) {
   fields <- expand_dependency(fields)
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
@@ -62,6 +66,7 @@ lib_validate <- function(lib.loc = .libPaths(),
     (is.null(checkred$flavors) || all(checkred$flavors %in% cran_flavors()$Flavor)))
   stopifnot(is.character(repos))
   stopifnot(is.logical(lifeduration))
+  stopifnot(is.logical(built))
 
   installed_agg <- installed_agg_fun(lib.loc, "Built")
   res_agg <- installed_descriptions(lib.loc, fields)
@@ -86,8 +91,10 @@ lib_validate <- function(lib.loc = .libPaths(),
 
   result$version_status <- apply(result, 1, function(x) utils::compareVersion(x["Version.have"], x["Version.expected.min"]))
 
-  result$built <- result$Built
-  result$built_status <- as.integer(result$Built == Rv)
+  if (built) {
+    result$built <- result$Built
+    result$built_status <- as.integer(result$Built == Rv)
+  }
   result$Built <- NULL
 
   result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]

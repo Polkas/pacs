@@ -27,7 +27,7 @@ test_that("pacs::lib_validate online", {
   expect_true(sum(lib_res_s2$checkred, na.rm = TRUE) >= sum(lib_res_s1$checkred, na.rm = TRUE))
 })
 
-test_that("pacs::lock_validate", {
+test_that("pacs::lock_validate error", {
   expect_error(suppressWarnings(lock_validate(path = "files/wrong.lock")))
   expect_error(lock_validate(path = "files/renv_test.lock", checkred = "STH"))
   expect_error(lock_validate(path = "files/renv_test.lock", checkred = list(scope = "ERROR"), lifeduration = "None"))
@@ -35,16 +35,20 @@ test_that("pacs::lock_validate", {
 
 test_that("pacs::lock_validate", {
   skip_if_offline()
-  expect_true(is.data.frame(lock_validate(path = "files/renv_test.lock")))
-  expect_true(is.data.frame(lock_validate(path = "files/renv_test.lock", checkred = list(scope = "ERROR"), lifeduration = TRUE)))
+  expect_true(is.data.frame(lock_validate(path = "files/renv_test_small.lock")))
+  expect_true(is.data.frame(lock_validate(path = "files/renv_test_small.lock", checkred = list(scope = "ERROR"))))
 })
 
 test_that("lib_validate lifedurations", {
-  skip_if(nrow(installed_packages(lib.loc = .libPaths())) > getOption("pacs.crandb_limit", 100))
+  skip_if(nrow(installed_packages(lib.loc = .libPaths())) > 100)
   skip_if_offline()
   lib_res <- lib_validate(lifeduration = TRUE)
   expect_true(inherits(lib_res, "data.frame"))
   expect_true(all(is.na(lib_res$lifeduration) | (lib_res$lifeduration >= 0)))
+  lib_res <- lib_validate(built = TRUE)
+  expect_true(inherits(lib_res, "data.frame"))
+  expect_true(is.numeric(lib_res$built_status))
+  expect_true(is.character(lib_res$built))
 })
 
 test_that("pacs::pac_validate", {
@@ -77,25 +81,16 @@ test_that("lock_validate skip crandb if the limit is exceeded", {
   expect_warning(withr::with_options(list(pacs.crandb_limit = 1), {
     lock_validate("files/renv_test.lock")
   }), "There is more packages than crandb limit of 1")
-  expect_message(suppressWarnings(withr::with_options(list(pacs.crandb_limit = 1), {
-    lock_validate("files/renv_test.lock", lifeduration = TRUE)
-  })), "Please wait, Packages life")
-  expect_warning(suppressMessages(withr::with_options(list(pacs.crandb_limit = 1), {
-    lock_validate("files/renv_test.lock", lifeduration = TRUE)
-  })), "There is more packages than crandb limit of 1.")
-})
-
-test_that("lock_validate lifedurations to many packages for crandb", {
-  skip_if_offline()
-  expect_message(suppressWarnings(withr::with_options(list(pacs.crandb_limit = 1), {
-    lock_validate("files/renv_test.lock", lifeduration = TRUE)
-  })), "Please wait, Packages life durations")
+  expect_condition(suppressWarnings(withr::with_options(list(pacs.crandb_limit = 1), {
+    lock_validate("files/renv_test_small.lock", lifeduration = TRUE)
+  })), "Please wait, Packages life|There is more packages than crandb limit of 1.")
 })
 
 test_that("pacs::lib_validate offline", {
   lib_validate_offline <- lib_validate
   mockery::stub(lib_validate_offline, "is_online", FALSE)
-  expect_true(ncol(suppressWarnings(lib_validate_offline())) == 6)
+  expect_true(ncol(suppressWarnings(lib_validate_offline())) == 4)
+  expect_true(ncol(suppressWarnings(lib_validate_offline(built = TRUE))) == 6)
 })
 
 test_that("pacs::pac_validate offline", {

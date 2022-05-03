@@ -6,11 +6,14 @@ arg
 args
 artific
 autoupdate
+bc
 bd
 beaefa
 behaviour
+BiocManager
 BioConductor
 bliblablupp
+cdee
 cfe
 ci
 cli
@@ -36,6 +39,7 @@ Csárdi
 csv
 Ctrl
 dcf
+debdd
 DECRIPTION
 deps
 desc
@@ -59,6 +63,7 @@ env
 EOF
 eval
 exlucded
+fdca
 fi
 fs
 fsf
@@ -155,6 +160,7 @@ purrr
 py
 Rbuildignore
 rc
+Rcpp
 Rdata
 RData
 rds
