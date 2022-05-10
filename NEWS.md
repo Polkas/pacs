@@ -1,6 +1,6 @@
 # pacs 0.4.4.9000
 
-* New `lib_validate` column inspired by the Winston Chang, if the packages have a proper Built version.
+* A new optional `lib_validate` column inspired by the Winston Chang, if the packages have a proper Built version.
 * poster vignette.
 
 # pacs 0.4.4
