@@ -4,6 +4,7 @@
 ^\.pre-commit-config\.yaml$
 ^cran-comments\.md$
 ^inst/WORDLIST$
+^inst/poster$
 ^pacs\.Rproj$
 ^renv$
 ^renv\.lock$
