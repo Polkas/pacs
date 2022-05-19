@@ -59,13 +59,10 @@ RUN if [ "${ENABLE_JUPYTER}" = "true" ]; then \
         && R --vanilla -s -e 'IRkernel::installspec(user = FALSE)'; \
     fi
 
+# [Optional] Uncomment this section to install additional OS packages.
+# RUN apt-get update \
+#     && export DEBIAN_FRONTEND=noninteractive \
+#     && apt-get -y install --no-install-recommends <your-package-list-here>
 
 # [Optional] Uncomment this section to install additional R packages.
 # RUN install2.r --error --skipinstalled --ncpus -1 <your-package-list-here>
-# [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update \
-    && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends libcurl4-openssl-dev libssl-dev  libxml2-dev python3-pip libxt6
-
-RUN python3 -m pip install setuptools
-RUN python3 -m pip install radian
