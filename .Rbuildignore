@@ -1,6 +1,7 @@
 ^LICENSE\.md$
 ^\.Rproj\.user$
 ^\.github$
+^\.devcontainer$
 ^\.pre-commit-config\.yaml$
 ^cran-comments\.md$
 ^inst/WORDLIST$
