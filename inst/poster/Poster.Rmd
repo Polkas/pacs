@@ -72,7 +72,7 @@ Every dependency you add to your project is an invitation to break your project.
 
 More information is available in the [`tinyverse` vignette](https://polkas.github.io/pacs/articles/tinyverse.html).
 
-# Tink Tiny as a Developer
+# Think Tiny as a Developer
 
 Minimize dependencies and avoid installing "nice to have" packages. 
 The objective should be to have zero dependencies in an R package. 
