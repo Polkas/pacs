@@ -83,20 +83,17 @@ Optionally we could add life duration and CRAN check page status for each depend
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>path</dt>
-<dd><p>character a path to the <code>renv</code> lock file, or url.</p></dd>
-<dt>lifeduration</dt>
-<dd><p>logical if to assess life duration for each package in the library. <code>MEATCRAN CRANDB</code> is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE</p></dd>
-<dt>checkred</dt>
-<dd><p>list with two named fields, <code>scope</code> and <code>flavor</code>. <code>scope</code> of R CRAN check pages statuses to consider, any of <code>c("ERROR", "FAIL", "WARN", "NOTE")</code>. <code>flavor</code> vector of machines to consider, which might be retrieved with <code>pacs::cran_flavors()$Flavor</code>. By default an empty scope field deactivated assessment for <code>checkred</code> column, and NULL flavor will results in checking all machines. Default <code>list(scope = character(0), flavor = NULL)</code></p></dd>
-<dt>lib.loc</dt>
-<dd><p>character vector. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
-<dt>repos</dt>
-<dd><p>character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.frame with 2/6/7/8 columns.</p><dl><dt>Package</dt>
+    
+
+<p>data.frame with 2/6/7/8 columns.</p><dl><dt>Package</dt>
 <dd><p>character a package name.</p></dd>
 
 <dt>Version.expected.min</dt>
