@@ -439,6 +439,12 @@ However hard to assume if your local installation is a reasonable proxy for an a
 cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
 ```
 
+We could check out which of the direct dependencies are heaviest ones:
+
+```r
+pac_deps_heavy("devtools")
+```
+
 ## The shiny app utils
 
 The shiny app dependencies packages are checked.

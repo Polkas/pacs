@@ -38,7 +38,7 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 \item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-data.frame with packages and their versions. Versions are taken from \code{installed.packages} or newest released.
+\code{data.frame} with packages and their versions. Versions are taken from \code{installed.packages} or newest released.
 }
 \description{
 Package dependencies from DESCRIPTION files with installed or expected versions or newest released.

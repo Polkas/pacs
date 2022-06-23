@@ -130,3 +130,18 @@ test_that("pac_deps_dev", {
   expect_true(isNA(pac_deps_dev("WRONG")))
   expect_true(nrow(pac_deps_dev("tinytest", repos = "https://cran.rstudio.com/")) >= 0)
 })
+
+test_that("pac_deps_heavy", {
+  skip_if_offline()
+  expect_identical(
+    pac_deps_heavy("pacs"),
+    vapply(lapply(tools::package_dependencies(pac_deps("pacs", local = FALSE, recursive = FALSE)$Package, recursive = TRUE, db = available_packages(repos = biocran_repos())), function(x) setdiff(x, pacs_base())), length, integer(1))
+  )
+})
+
+test_that("pac_deps_heavy", {
+  expect_identical(
+    pac_deps_heavy("memoise", local = TRUE),
+    vapply(lapply(tools::package_dependencies(pac_deps("memoise", local = TRUE, recursive = FALSE)$Package, recursive = TRUE, db = installed_packages(lib.loc = .libPaths())), function(x) setdiff(x, pacs_base())), length, integer(1))
+  )
+})

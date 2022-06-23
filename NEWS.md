@@ -1,9 +1,14 @@
 # pacs 0.4.5.9000
 
+* a new function `pac_deps_heavy`, inspired during the useR 2022 Conference. The direct package dependencies and counts of dependencies for each of them. Help to identify heavy packages.
+* small update of `tinyverse` vignette.
+* fix the documentation, `repos` argument in 2 functions get part of `base` argument description.
+* rm some of `Suggests` packages.
+
 # pacs 0.4.5
 
 * `pac_deps_dev` and `pac_deps_user` could be used for local packages now.
-* a new optional `lib_validate` column inspired by the Winston Chang, if the packages have a proper `Built` version.
+* a new optional `lib_validate` column inspired by Winston Chang, if the packages have a proper `Built` version.
 * a poster vignette.
 
 # pacs 0.4.4

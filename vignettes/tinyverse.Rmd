@@ -177,6 +177,12 @@ Dependencies from the end user perspective:
 
 ## How to reduce the number of dependencies
 
+- yagni (XP) - do not include unnecessary features
+- modularization - divide your package to a few smaller and specialized ones
+- delayed loading of packages
+
+### Delayed loading of packages
+
 One of the method of reducing number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in the delayed manner, or not include it at all. 
 So we have to identify package functions which will be used optionally or rarely (are not a core of the package).
 Then we have to apply conditional execution of it if the package is installed (available), if not then ask user to install it.
@@ -259,6 +265,12 @@ It is crucial to check the number of dependencies too:
 pacs::pac_deps("devtools", local = TRUE)$Package
 # 20 direct dependencies
 pacs::pac_deps("devtools", local = TRUE, recursive = FALSE)$Package
+```
+
+We could check out which of the direct dependencies are heaviest ones:
+
+```r
+pac_deps_heavy("devtools")
 ```
 
 ## References
