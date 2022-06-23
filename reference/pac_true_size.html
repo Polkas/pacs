@@ -76,11 +76,24 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>pac</dt>
+<dd><p>character a package name.</p></dd>
+
+
+<dt>fields</dt>
+<dd><p>a character vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
+Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
+
+
+<dt>lib.loc</dt>
+<dd><p>character vector. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
+
+
+<dt>exclude_joint</dt>
+<dd><p>integer exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -112,7 +125,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.9000.</p>
 </div>
 
       </footer></div>

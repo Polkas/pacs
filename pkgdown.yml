@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 2.0.3.9000
-pkgdown_sha: 855eba1ad3f486bbda9fcbe43ec8eb88066f161a
+pkgdown: 2.0.5.9000
+pkgdown_sha: b4096aa376773d7dee98a267fd0b5a025975a3dc
 articles:
   GettingStarted: GettingStarted.html
   tinyverse: tinyverse.html
-last_built: 2022-06-07T09:03Z
+last_built: 2022-06-23T21:26Z
 

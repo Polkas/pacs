@@ -85,11 +85,31 @@ Dependencies are taken remotely for the newest version.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
+    <dl><dt>pac</dt>
+<dd><p>character a package name.</p></dd>
+
+
+<dt>base</dt>
+<dd><p>logical if to add base packages too. If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: FALSE</p></dd>
+
+
+<dt>local</dt>
+<dd><p>logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE</p></dd>
+
+
+<dt>attr</dt>
+<dd><p>logical specify if a package and its version should be added as a attribute of data.frame or for FALSE as an additional record. Default: TRUE</p></dd>
+
+
+<dt>repos</dt>
+<dd><p>character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
+
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p><code>data.frame</code> with packages and their versions. Versions are taken from <code>installed.packages</code> or newest released.</p>
     </div>
 
     <div id="ref-examples">
@@ -114,7 +134,7 @@ Dependencies are taken remotely for the newest version.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.9000.</p>
 </div>
 
       </footer></div>
