@@ -63,7 +63,7 @@ Compare package DESCRIPTION file dependencies between versions:
 pacs::pac_compare_versions("shiny", "1.0.0", "1.5.0")
 ```
 
-Looking for a heavy dependencies:
+Looking for heavy dependencies:
 
 ```r
 pacs::pac_deps_heavy("caret")

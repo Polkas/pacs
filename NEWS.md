@@ -1,4 +1,4 @@
-# pacs 0.4.5.9000
+# pacs 0.4.6
 
 * a new function `pac_deps_heavy`, the demand revealed during the `useR` 2022 Conference. The direct package dependencies and counts of dependencies for each of them. Help to identify heavy packages.
 * small update of `tinyverse` vignette.

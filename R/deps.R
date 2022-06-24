@@ -200,7 +200,7 @@ pac_deps_heavy <- function(pac, fields = c("Depends", "Imports", "LinkingTo"), l
     return(NA)
   }
   db_base <- if (local) installed_packages(lib.loc = lib.loc) else available_packages(repos)
-  pacs <- tools::package_dependencies(top$Package, which =  c("Depends", "Imports", "LinkingTo"), recursive = TRUE, db = db_base)
+  pacs <- tools::package_dependencies(top$Package, which = c("Depends", "Imports", "LinkingTo"), recursive = TRUE, db = db_base)
 
   if (!base) {
     pacs <- lapply(pacs, function(p) setdiff(p, pacs_base()))

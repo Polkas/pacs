@@ -11,8 +11,8 @@
 #' @export
 #' @examples
 #' \dontrun{
-#'   pacs::pac_description("dplyr", version = "0.8.0")
-#'   pacs::pac_description("dplyr", at = as.Date("2019-02-01"))
+#' pacs::pac_description("dplyr", version = "0.8.0")
+#' pacs::pac_description("dplyr", at = as.Date("2019-02-01"))
 #' }
 pac_description <- function(pac,
                             version = NULL,

@@ -110,8 +110,9 @@ test_that("pac_deps_user", {
   skip_if_offline()
   pp <- pacs::pac_deps_user("memoise", base = FALSE, attr = FALSE, repos = "https://cran.rstudio.com/")$Package
   rr <- remotes:::find_deps("memoise",
-                            available = pacs:::available_packages(repos = "https://cran.rstudio.com/"),
-                            top_dep = NA)
+    available = pacs:::available_packages(repos = "https://cran.rstudio.com/"),
+    top_dep = NA
+  )
   rrr <- setdiff(rr, pacs::pacs_base())
   expect_identical(sort(pp), sort(rrr))
 
@@ -122,8 +123,9 @@ test_that("pac_deps_dev", {
   skip_if_offline()
   pp <- pacs::pac_deps_dev("memoise", base = FALSE, attr = FALSE, repos = "https://cran.rstudio.com/")$Package
   rr <- remotes:::find_deps("memoise",
-                            available = pacs:::available_packages(repos = "https://cran.rstudio.com/"),
-                            top_dep = TRUE)
+    available = pacs:::available_packages(repos = "https://cran.rstudio.com/"),
+    top_dep = TRUE
+  )
   rrr <- setdiff(rr, pacs::pacs_base())
   expect_identical(sort(pp), sort(rrr))
 
@@ -180,7 +182,7 @@ test_that("pac_deps_heavy counts local", {
 })
 
 test_that("pac_deps_heavy with base", {
-  expect_true(length(pac_deps_heavy("memoise", local = TRUE, base = TRUE)$NrDeps) >= length(pac_deps_heavy("memoise", local = TRUE)$NrDeps))
+  expect_true(nrow(pac_deps_heavy("memoise", local = TRUE, base = TRUE)) >= nrow(pac_deps_heavy("memoise", local = TRUE)))
 })
 
 test_that("pac_deps_heavy 0 deps pac", {
