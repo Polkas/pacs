@@ -122,6 +122,26 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pacs"</span><span class="op">)</span></code></pre></div>
 </div>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<p>Validate the library:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span>checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+  scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>,
+  flavors <span class="op">=</span> <span class="fu"><a href="reference/cran_flavors.html">cran_flavors</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">Flavor</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>
+<span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>All package releases:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
+<p>Compare package DESCRIPTION file dependencies between versions:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.0.0"</span>, <span class="st">"1.5.0"</span><span class="op">)</span></code></pre></div>
+<p>Looking for a heavy dependencies:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps_heavy.html">pac_deps_heavy</a></span><span class="op">(</span><span class="st">"caret"</span><span class="op">)</span></code></pre></div>
+<p>For more examples please visit <a href="https://polkas.github.io/pacs/articles/GettingStarted.html" class="external-link"><strong>the walk-through vignette</strong></a>.</p>
+</div>
 </div>
   </div>
 
