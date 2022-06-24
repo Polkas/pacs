@@ -278,5 +278,5 @@ pac_deps_heavy("devtools")
 Please read in the order all of the 3 sources to become a R packages developer guru :=)
 
 - https://r-pkgs.org/
-- http://blog.obeautifulcode.com/R/How-R-Searches-And-Finds-Stuff/
+- https://blog.thatbuthow.com/how-r-searches-and-finds-stuff/
 - https://cran.r-project.org/doc/manuals/r-release/R-exts.html
