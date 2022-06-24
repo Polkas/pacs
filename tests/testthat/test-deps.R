@@ -141,7 +141,24 @@ test_that("pac_deps_heavy", {
 
 test_that("pac_deps_heavy", {
   expect_identical(
-    pac_deps_heavy("memoise", local = TRUE),
+    pac_deps_heavy("memoise", local = TRUE, base = FALSE),
     vapply(lapply(tools::package_dependencies(pac_deps("memoise", local = TRUE, recursive = FALSE)$Package, recursive = TRUE, db = installed_packages(lib.loc = .libPaths())), function(x) setdiff(x, pacs_base())), length, integer(1))
   )
+})
+
+test_that("pac_deps_heavy with base", {
+  expect_true(length(pac_deps_heavy("memoise", local = TRUE, base = TRUE)) >= length(pac_deps_heavy("memoise", local = TRUE)))
+})
+
+test_that("pac_deps_heavy 0 deps pac", {
+  expect_identical(
+    pac_deps_heavy("base", local = TRUE),
+    structure(integer(0), names = character(0))
+  )
+})
+
+test_that("pac_deps_heavy WRONG", {
+  skip_if_offline()
+  expect_error(pac_deps_heavy("WRONG", local = TRUE))
+  expect_true(isNA(pac_deps_heavy("WRONG", local = FALSE)))
 })

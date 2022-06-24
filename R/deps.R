@@ -182,7 +182,7 @@ pac_deps_dev <- function(pac, base = FALSE, local = FALSE, attr = TRUE, repos = 
 #' @param base logical if to add base packages too. If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE
 #' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return `named vector` number of dependencies for each of the direct one.
+#' @return `named integer` number of dependencies for each of the direct one.
 #' @export
 #' @examples
 #' \dontrun{

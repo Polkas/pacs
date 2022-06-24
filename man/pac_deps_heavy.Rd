@@ -24,7 +24,7 @@ pac_deps_heavy(
 \item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-\verb{named vector} number of dependencies for each of the direct one.
+\verb{named integer} number of dependencies for each of the direct one.
 }
 \description{
 A higher-level function, build from \code{pacs::pacs_deps} and \code{tools::package_dependencies}.
