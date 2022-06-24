@@ -176,33 +176,42 @@ pac_deps_dev <- function(pac, base = FALSE, local = FALSE, attr = TRUE, repos = 
 
 #' Package direct dependencies and number of dependencies for each of them
 #' @description A higher-level function, build from `pacs::pacs_deps` and `tools::package_dependencies`.
-#' A tool to identify a main sources of dependencies.
+#' A tool to identify a main sources of dependencies, which direct dependencies are the heaviest one.
 #' @param pac character a package name.
+#' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
+#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+#' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
 #' @param base logical if to add base packages too. If `TRUE` then `pacs::pacs_base()` are taken into account. Default: FALSE
 #' @param local logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE
 #' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return `named integer` number of dependencies for each of the direct one.
+#' @return `data.frame` with three columns `c("Package", "NrDeps", "NrUniqueDeps")`: package name, number of dependencies and number of unique dependencies (not shared by other direct dependencies).
+#' @note Please take into account that the sum of the dependencies is not equal to the number of dependencies of the main package,
+#' because some dependencies are overlapping.
 #' @export
 #' @examples
 #' \dontrun{
+#' pacs::pac_deps_heavy("caret")
 #' pacs::pac_deps_heavy("dplyr")
-#' pacs::pac_deps_heavy("pacs")
 #' }
-pac_deps_heavy <- function(pac, lib.loc = .libPaths(), base = FALSE, local = FALSE, repos = pacs::biocran_repos()) {
-  top <- pac_deps(pac, fields = c("Depends", "Imports", "LinkingTo"), recursive = FALSE, description_v = TRUE, local = local, base = base, attr = TRUE, repos = repos)
+pac_deps_heavy <- function(pac, fields = c("Depends", "Imports", "LinkingTo"), lib.loc = .libPaths(), base = FALSE, local = FALSE, repos = pacs::biocran_repos()) {
+  top <- pac_deps(pac, fields = fields, recursive = FALSE, local = local, base = base, attr = TRUE, repos = repos)
   if (isNA(top)) {
     return(NA)
   }
   db_base <- if (local) installed_packages(lib.loc = lib.loc) else available_packages(repos)
-  pacs <- tools::package_dependencies(top$Package, which = c("Depends", "Imports", "LinkingTo"), recursive = TRUE, db = db_base)
+  pacs <- tools::package_dependencies(top$Package, which =  c("Depends", "Imports", "LinkingTo"), recursive = TRUE, db = db_base)
 
   if (!base) {
     pacs <- lapply(pacs, function(p) setdiff(p, pacs_base()))
   }
-
+  deps_all <- length(unique(c(unlist(pacs), names(pacs))))
+  pacs_n <- names(pacs)
+  pacs_u <- vapply(seq_along(pacs), function(p) length(unique(setdiff(pacs[[p]], c(unlist(pacs[-p]), pacs_n[-p])))), integer(1))
   pacs_l <- vapply(pacs, length, integer(1))
-  pacs_l
+  res <- data.frame(Package = names(pacs_l), NrDeps = pacs_l, NrUniqueDeps = pacs_u, stringsAsFactors = FALSE)
+  rownames(res) <- NULL
+  res
 }
 
 #' The shiny app dependencies

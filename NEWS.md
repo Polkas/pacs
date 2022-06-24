@@ -1,6 +1,6 @@
 # pacs 0.4.5.9000
 
-* a new function `pac_deps_heavy`, inspired during the useR 2022 Conference. The direct package dependencies and counts of dependencies for each of them. Help to identify heavy packages.
+* a new function `pac_deps_heavy`, the demand revealed during the `useR` 2022 Conference. The direct package dependencies and counts of dependencies for each of them. Help to identify heavy packages.
 * small update of `tinyverse` vignette.
 * fix the documentation, `repos` argument in 2 functions get part of `base` argument description.
 * rm some of `Suggests` packages.
@@ -16,7 +16,7 @@
 * `tinyverse` vignette.
 * fixed edge cases for `pacs::pac_deps`.
 * fixed `lock_validate`, the condition for validating the maximum number of packages was taken from the library size not the lock file size.
-* two new higer-level functions `pacs::pac_deps_user` and `pacs::pac_deps_dev`.
+* two new higher-level functions `pacs::pac_deps_user` and `pacs::pac_deps_dev`.
 * `renv` transferred to `Suggests`, as used by only 2 functions.
 * improved documentation.
 * updated pkgdown website.

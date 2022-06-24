@@ -6,6 +6,7 @@
 \usage{
 pac_deps_heavy(
   pac,
+  fields = c("Depends", "Imports", "LinkingTo"),
   lib.loc = .libPaths(),
   base = FALSE,
   local = FALSE,
@@ -14,6 +15,10 @@ pac_deps_heavy(
 }
 \arguments{
 \item{pac}{character a package name.}
+
+\item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
+Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
+Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
 
@@ -24,15 +29,19 @@ pac_deps_heavy(
 \item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-\verb{named integer} number of dependencies for each of the direct one.
+\code{data.frame} with three columns \code{c("Package", "NrDeps", "NrUniqueDeps")}: package name, number of dependencies and number of unique dependencies (not shared by other direct dependencies).
 }
 \description{
 A higher-level function, build from \code{pacs::pacs_deps} and \code{tools::package_dependencies}.
-A tool to identify a main sources of dependencies.
+A tool to identify a main sources of dependencies, which direct dependencies are the heaviest one.
+}
+\note{
+Please take into account that the sum of the dependencies is not equal to the number of dependencies of the main package,
+because some dependencies are overlapping.
 }
 \examples{
 \dontrun{
+pacs::pac_deps_heavy("caret")
 pacs::pac_deps_heavy("dplyr")
-pacs::pac_deps_heavy("pacs")
 }
 }

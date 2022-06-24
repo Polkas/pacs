@@ -177,8 +177,8 @@ Dependencies from the end user perspective:
 
 ## How to reduce the number of dependencies
 
-- yagni (XP) - do not include unnecessary features
-- modularization - divide your package to a few smaller and specialized ones
+- `yagni` (XP) - do not include unnecessary features
+- `modularization` - divide your package to a few smaller and specialized ones
 - delayed loading of packages
 
 ### Delayed loading of packages

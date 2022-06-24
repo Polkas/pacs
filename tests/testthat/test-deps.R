@@ -131,29 +131,62 @@ test_that("pac_deps_dev", {
   expect_true(nrow(pac_deps_dev("tinytest", repos = "https://cran.rstudio.com/")) >= 0)
 })
 
+
 test_that("pac_deps_heavy", {
   skip_if_offline()
+  pac_h <- pac_deps_heavy("pacs")
+  expect_s3_class(pac_h, "data.frame")
+})
+
+test_that("pac_deps_heavy counts", {
+  skip_if_offline()
+  pac_h <- pac_deps_heavy("pacs")
   expect_identical(
-    pac_deps_heavy("pacs"),
+    stats::setNames(pac_h$NrDeps, pac_h$Package),
     vapply(lapply(tools::package_dependencies(pac_deps("pacs", local = FALSE, recursive = FALSE)$Package, recursive = TRUE, db = available_packages(repos = biocran_repos())), function(x) setdiff(x, pacs_base())), length, integer(1))
   )
 })
+test_that("pac_deps_heavy deps", {
+  skip_if_offline()
+  pac_h <- pac_deps_heavy("pacs")
+  expect_true(all(pac_h$NrDeps >= 0))
+  expect_true(all(pac_h$NrDeps >= pac_h$NrUniqueDeps))
+  expect_true(all(pac_h$NrUniqueDeps >= 0))
 
-test_that("pac_deps_heavy", {
+  pac_h <- pac_deps_heavy("dplyr")
+  expect_true(all(pac_h$NrDeps >= 0))
+  expect_true(all(pac_h$NrDeps >= pac_h$NrUniqueDeps))
+  expect_true(all(pac_h$NrUniqueDeps >= 0))
+
+  pac_h <- pac_deps_heavy("caret")
+  expect_true(all(pac_h$NrDeps >= 0))
+  expect_true(all(pac_h$NrDeps >= pac_h$NrUniqueDeps))
+  expect_true(all(pac_h$NrUniqueDeps >= 0))
+})
+
+test_that("pac_deps_heavy deps local", {
+  pac_h <- pac_deps_heavy("memoise", local = TRUE)
+  expect_true(all(pac_h$NrDeps >= 0))
+  expect_true(all(pac_h$NrDeps >= pac_h$NrUniqueDeps))
+  expect_true(all(pac_h$NrUniqueDeps >= 0))
+})
+
+test_that("pac_deps_heavy counts local", {
+  pac_h <- pac_deps_heavy("memoise", local = TRUE)
   expect_identical(
-    pac_deps_heavy("memoise", local = TRUE, base = FALSE),
+    stats::setNames(pac_h$NrDeps, pac_h$Package),
     vapply(lapply(tools::package_dependencies(pac_deps("memoise", local = TRUE, recursive = FALSE)$Package, recursive = TRUE, db = installed_packages(lib.loc = .libPaths())), function(x) setdiff(x, pacs_base())), length, integer(1))
   )
 })
 
 test_that("pac_deps_heavy with base", {
-  expect_true(length(pac_deps_heavy("memoise", local = TRUE, base = TRUE)) >= length(pac_deps_heavy("memoise", local = TRUE)))
+  expect_true(length(pac_deps_heavy("memoise", local = TRUE, base = TRUE)$NrDeps) >= length(pac_deps_heavy("memoise", local = TRUE)$NrDeps))
 })
 
 test_that("pac_deps_heavy 0 deps pac", {
   expect_identical(
     pac_deps_heavy("base", local = TRUE),
-    structure(integer(0), names = character(0))
+    structure(list(Package = character(0), NrDeps = integer(0), NrUniqueDeps = integer(0)), class = "data.frame", row.names = integer(0))
   )
 })
 
