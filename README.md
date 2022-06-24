@@ -38,3 +38,35 @@ CRAN:
 ```r
 install.packages("pacs")
 ```
+
+## Examples
+
+Validate the library:
+
+```r
+pacs::lib_validate(checkred = list(
+  scope = c("ERROR", "FAIL"),
+  flavors = cran_flavors()$Flavor[1:2]
+))
+```
+
+All package releases:
+
+```r
+pacs::pac_timemachine("dplyr")
+```
+
+Compare package DESCRIPTION file dependencies between versions:
+
+```r
+pacs::pac_compare_versions("shiny", "1.0.0", "1.5.0")
+```
+
+Looking for a heavy dependencies:
+
+```r
+pacs::pac_deps_heavy("caret")
+```
+
+For more examples please visit [**the walk-through vignette**](https://polkas.github.io/pacs/articles/GettingStarted.html).
+
