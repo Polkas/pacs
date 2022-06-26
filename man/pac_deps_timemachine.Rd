@@ -13,17 +13,17 @@ pac_deps_timemachine(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{version}{character version of package. Default: NULL}
+\item{version}{\code{character} version of a package. Default: NULL}
 
-\item{at}{Date old version of package. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: NULL}
 
 \item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
+\item{recursive}{\code{logical} if to assess the dependencies recursively. Default: TRUE}
 }
 \value{
 named vector package dependencies and their versions at the release date of main package plus one day.

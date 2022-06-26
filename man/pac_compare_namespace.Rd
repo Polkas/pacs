@@ -13,13 +13,13 @@ pac_compare_namespace(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{old}{character an old version of package.}
+\item{old}{\code{character} an old version of package, default local version. Default: NULL}
 
-\item{new}{character a new version of package.}
+\item{new}{\code{character} a new version of package, default newest version. Default: NULL}
 
-\item{lib.loc}{character vector. Default:}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
 \item{repos}{character vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }

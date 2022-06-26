@@ -12,15 +12,15 @@ app_size(
 )
 }
 \arguments{
-\item{path}{path to the shiny app. Default: \code{"."}}
+\item{path}{\code{character} path to the shiny app. Default: \code{"."}}
 
 \item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
+\item{recursive}{\code{logical} if to assess the dependencies recursively. Default: TRUE}
 }
 \value{
 numeric size in bytes, to get MB ten divide by \code{10**6}.

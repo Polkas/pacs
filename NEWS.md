@@ -1,6 +1,8 @@
 # pacs 0.4.6.9000
 
 * fix the "how-r-searches-and-finds-stuff" url.
+* a new `match_flavors` function to get CRAN server names matched to lcoal `OS`.
+* Improving docs.
 
 # pacs 0.4.6
 

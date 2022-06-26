@@ -3,17 +3,9 @@
 #' Checking if installed packages have correct versions taking into account all DESCRIPTION files requirements.
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each package.
-#' @param lib.loc character vector. Default: `.libPaths()`
-#' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
-#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
-#' Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for libraries with less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
-#' @param built logical if to add an R version under which each package was installed.
-#' Useful mainly for a local usage.
-#' Packages installed with a previous version of R could not work correctly with the new version of R. Default: `FALSE`
-#' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
-#' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return data.frame with 4/6/8/9/10 columns.
+#' @inheritParams standard_args
+#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
+#' @return `data.frame` with 4/6/8/9/10 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
 #' \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
@@ -41,7 +33,7 @@
 #' pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL", "WARN")))
 #' pacs::lib_validate(checkred = list(
 #'   scope = c("ERROR", "FAIL"),
-#'   flavors = cran_flavors()$Flavor[1:2]
+#'   flavors = pacs::match_flavors()
 #' ))
 #' # activate lifeduration argument, could be time consuming for bigger libraries.
 #' pacs::lib_validate(
@@ -113,15 +105,9 @@ lib_validate <- function(lib.loc = .libPaths(),
 #' Checking if installed package dependencies have correct versions taking into account their DESCRIPTION files requirements.
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each dependency.
-#' @param pac character a package name.
-#' @param lib.loc character vector. Default: `.libPaths()`
-#' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
-#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
-#' Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
-#' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
-#' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return data.frame with 5/7/8/9 columns.
+#' @inheritParams standard_args
+#' @param repos `character` vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
+#' @return `data.frame` with 5/7/8/9 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
 #' \item{Version.expected.min}{character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
@@ -148,6 +134,11 @@ lib_validate <- function(lib.loc = .libPaths(),
 #'   "memoise",
 #'   lifeduration = TRUE,
 #'   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+#' )
+#' pacs::pac_validate(
+#'   "memoise",
+#'   lifeduration = TRUE,
+#'   checkred = list(scope = c("ERROR", "FAIL"), flavors = pacs::match_flavors())
 #' )
 #' }
 pac_validate <- function(pac,
@@ -214,12 +205,9 @@ pac_validate <- function(pac,
 #' Checking if packages in the lock file have correct versions taking into account their DESCRIPTION files requirements (`c("Depends", "Imports", "LinkingTo")`).
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each dependency.
-#' @param path character a path to the `renv` lock file, or url.
-#' @param lifeduration logical if to assess life duration for each package in the library. `MEATCRAN CRANDB` is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE
-#' @param checkred list with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. `flavor` vector of machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines. Default `list(scope = character(0), flavor = NULL)`
-#' @param lib.loc character vector. Default: `.libPaths()`
-#' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return data.frame with 2/6/7/8 columns.
+#' @inheritParams standard_args
+#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
+#' @return `data.frame` with 2/6/7/8 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
 #' \item{Version.expected.min}{(conditional) (Internet needed) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
@@ -245,7 +233,7 @@ pac_validate <- function(pac,
 #'
 #' pacs::lock_validate(
 #'   url,
-#'   checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+#'   checkred = list(scope = c("ERROR", "FAIL"), flavors = pacs::match_flavors())
 #' )
 #'
 #' pacs::lock_validate(

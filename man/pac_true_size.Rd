@@ -12,15 +12,15 @@ pac_true_size(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
 \item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{character vector. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{exclude_joint}{integer exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0}
+\item{exclude_joint}{\code{integer} exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0}
 }
 \value{
 numeric size in bytes, to get MB then divide by \code{10**6}.

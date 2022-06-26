@@ -17,29 +17,32 @@ pac_health(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{version}{character package version, By default the newest version is taken. Default: NULL}
+\item{version}{\code{character} version of a package. Default: NULL}
 
-\item{at}{Date old version of package. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: NULL}
 
-\item{limit}{numeric at least days to treat as healthy, ">=limit". Default: 14}
+\item{limit}{\code{numeric} at least days to treat as healthy, ">=limit". Default: 14}
 
-\item{scope}{character vector scope of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. Default \code{c("ERROR", "FAIL")}}
+\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
 
-\item{flavors}{character vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default all CRAN machines are considered, NULL value. Default NULL}
+\item{flavors}{\code{character} vector of CRAN server names to consider, possible names could be get with \code{pacs::cran_flavors()$Flavor}.
+The \code{pacs::match_flavors()} function could be used to get CRAN server names matched for your local \code{OS}.
+By default all CRAN machines are considered \code{NULL} value. Default \code{NULL}}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{repos}{character vector URLs of the repositories to use. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 
-\item{source}{character one of \code{c("crandb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
 }
 \value{
 logical if a package is healthy.
 }
 \description{
 a package health for a certain version or at a specific Date.
+By default works for the newest package version.
 A healthy package was published for more than x days, where default is 14 days.
 CRAN team gives around one/two week to resolved a package which gave errors under the check page.
 The newest release is checked for any warnings/errors on the R CRAN package check page.

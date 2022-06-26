@@ -13,18 +13,23 @@ lock_validate(
 )
 }
 \arguments{
-\item{path}{character a path to the \code{renv} lock file, or url.}
+\item{path}{\code{character} path to the shiny app. Default: \code{"."}}
 
-\item{lifeduration}{logical if to assess life duration for each package in the library. \verb{MEATCRAN CRANDB} is used for less than 500 packages. The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE}
+\item{lifeduration}{\code{logical} if to assess life duration for each package in the library.
+\verb{MEATCRAN CRANDB} is used for libraries with less than 500 packages.
+The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE}
 
-\item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}. \code{flavor} vector of machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines. Default \code{list(scope = character(0), flavor = NULL)}}
+\item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}.
+\code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}.
+By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines.
+Default \code{list(scope = character(0), flavor = NULL)}}
 
-\item{lib.loc}{character vector. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-data.frame with 2/6/7/8 columns.
+\code{data.frame} with 2/6/7/8 columns.
 \describe{
 \item{Package}{character a package name.}
 \item{Version.expected.min}{(conditional) (Internet needed) character expected by DESCRIPTION files minimal version. "" means not specified so the newest version.}
@@ -58,7 +63,7 @@ pacs::lock_validate(url)
 
 pacs::lock_validate(
   url,
-  checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+  checkred = list(scope = c("ERROR", "FAIL"), flavors = pacs::match_flavors())
 )
 
 pacs::lock_validate(

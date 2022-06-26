@@ -1,12 +1,8 @@
 #' Package version life duration at specific Date or for a specific version
 #' @description a package life duration for a certain version or at a specific Date.
-#' @param pac character a package name.
-#' @param version character package version, By default the newest version is taken.
-#' The local repository has priority, it version is available. Default: NULL
-#' @param at Date old version of package. Default: NULL
-#' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
+#' By default works for the newest package version.
+#' @inheritParams standard_args
 #' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @param source character one of `c("crandb", "cran")`. Using the `MEATCRAN  CRANDB` or the direct web page download from CRAN. Default: `"crandb"`
 #' @return `difftime`, number of days package version was the newest one.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.
@@ -91,18 +87,12 @@ pac_lifeduration <- function(pac,
 
 #' CRAN package health state at a specific Date or for a specific version
 #' @description a package health for a certain version or at a specific Date.
+#' By default works for the newest package version.
 #' A healthy package was published for more than x days, where default is 14 days.
 #' CRAN team gives around one/two week to resolved a package which gave errors under the check page.
 #' The newest release is checked for any warnings/errors on the R CRAN package check page.
-#' @param pac character a package name.
-#' @param version character package version, By default the newest version is taken. Default: NULL
-#' @param at Date old version of package. Default: NULL
-#' @param limit numeric at least days to treat as healthy, ">=limit". Default: 14
-#' @param scope character vector scope of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`. Default `c("ERROR", "FAIL")`
-#' @param flavors character vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default all CRAN machines are considered, NULL value. Default NULL
-#' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
-#' @param repos character vector URLs of the repositories to use. Default `https://cran.rstudio.com/`
-#' @param source character one of `c("crandb", "cran")`. Using the `MEATCRAN` DB or the direct web page download from CRAN. Default: `"crandb"`
+#' @inheritParams standard_args
+#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return logical if a package is healthy.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.
@@ -156,15 +146,12 @@ pac_health <- function(pac,
 
 #' Packages life duration for a specific version
 #' @description packages life duration for certain versions.
-#' @param pacs character vector packages names.
-#' @param versions character vector packages versions.
 #' @param source character one of `c("crandb", "loop_crandb", "loop_cran")`.
 #' The `"crandb"` works if less than `getOption("pacs.crandb_limit")` (currently 500) packages are looked for.
 #' Default: `"crandb"`
-#' @param lib.loc character vector. Is omitted for non NULL version. Default: `.libPaths()`
-#' @param repos character vector repositories. Default `https://cran.rstudio.org`
-#' @param pacs character vector packages names.``
-#' @return data.frame with two columns package name and life duration.
+#' @inheritParams standard_args
+#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
+#' @return `data.frame` with two columns package name and life duration.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.
 #' The `crandb` R packages database is a part of `METACRAN` project, source:

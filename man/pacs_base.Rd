@@ -2,18 +2,18 @@
 % Please edit documentation in R/utils.R
 \name{pacs_base}
 \alias{pacs_base}
-\title{List of base R packages}
+\title{Get base R packages}
 \usage{
 pacs_base(startup = FALSE)
 }
 \arguments{
-\item{startup}{logical include only startup packages. Default: FALSE}
+\item{startup}{\code{logical} include only \code{startup} packages. Default: FALSE}
 }
 \value{
-character vector
+\code{character} vector
 }
 \description{
-using installed.packages and priority equal "base" to retrieve base packages.
+get base packages, all or only \code{startup}.
 }
 \examples{
 \dontrun{

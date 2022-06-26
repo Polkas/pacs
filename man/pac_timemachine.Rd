@@ -14,20 +14,20 @@ pac_timemachine(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{at}{Date old version of package. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: NULL}
 
-\item{from}{Date new version of package. Default: NULL}
+\item{from}{\code{Date} the lower limit. Default: NULL}
 
-\item{to}{Date CRAN URL. Default: NULL}
+\item{to}{\code{Date} the upper limit. Default: NULL}
 
-\item{version}{character version of package. Default: NULL}
+\item{version}{\code{character} version of a package. Default: NULL}
 
-\item{source}{character one of \code{c("crandb", "cran")}. Using the \code{MEATCRAN} DB or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
 }
 \value{
-data.frame with 7 columns
+\code{data.frame} with 7 columns
 \describe{
 \item{Package}{character package name.}
 \item{Version}{character package version.}

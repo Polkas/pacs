@@ -7,9 +7,9 @@
 dir_size(path = ".", recursive = TRUE)
 }
 \arguments{
-\item{path}{path to the directory. Default: \code{"."}}
+\item{path}{\code{character} path to the shiny app. Default: \code{"."}}
 
-\item{recursive}{logical if to assess the dependencies recursively. Default: TRUE}
+\item{recursive}{\code{logical} if to assess the dependencies recursively. Default: TRUE}
 }
 \value{
 numeric size in bytes, to get MB ten divide by \code{10**6}.

@@ -45,10 +45,12 @@ For more examples with descriptions please visit [**the walk-through vignette**]
 Validate the library:
 
 ```r
-pacs::lib_validate(checkred = list(
-  scope = c("ERROR", "FAIL"),
-  flavors = cran_flavors()$Flavor[1:2]
-))
+pacs::lib_validate(
+  checkred = list(
+    scope = c("ERROR", "FAIL"),
+    flavors = pacs::match_flavors()
+  )
+)
 ```
 
 All CRAN releases of a package:

@@ -7,7 +7,7 @@
 bio_releases()
 }
 \value{
-data.frame with the same structure as the html table on \verb{https://www.bioconductor.org/about/release-announcements/}.
+\code{data.frame} with the same structure as the html table on \verb{https://www.bioconductor.org/about/release-announcements/}.
 }
 \description{
 Retrieving all Bioconductor releases.

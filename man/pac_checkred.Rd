@@ -7,14 +7,16 @@
 pac_checkred(pac, scope = c("ERROR", "FAIL"), flavors = NULL)
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{scope}{character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
+\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
 
-\item{flavors}{character vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}. By default all CRAN machines are considered, NULL value. Default NULL}
+\item{flavors}{\code{character} vector of CRAN server names to consider, possible names could be get with \code{pacs::cran_flavors()$Flavor}.
+The \code{pacs::match_flavors()} function could be used to get CRAN server names matched for your local \code{OS}.
+By default all CRAN machines are considered \code{NULL} value. Default \code{NULL}}
 }
 \value{
-logical if the package fail under specified criteria.
+\code{logical} if the package fail under specified criteria.
 }
 \description{
 using package R CRAN check page to validate if there are ANY errors and/or fails and/or warnings and/or notes.
@@ -31,10 +33,7 @@ pacs::pac_checkred("dplyr")
 pacs::pac_checkred("dplyr", scope = c("ERROR"))
 pacs::pac_checkred("dplyr",
   scope = c("ERROR", "FAIL", "WARN"),
-  flavors = c(
-    "r-devel-linux-x86_64-debian-clang",
-    "r-devel-linux-x86_64-debian-gcc"
-  )
+  flavors = pacs::match_flavors()
 )
 }
 }

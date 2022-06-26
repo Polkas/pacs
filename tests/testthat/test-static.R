@@ -69,3 +69,14 @@ test_that("pacs::biocran_repos() offline", {
 test_that("biocran_repos", {
   expect_identical(biocran_repos(NA), c(CRAN = "https://cran.rstudio.com/"))
 })
+
+test_that("match_flavors offline", {
+  match_flavors_offline <- match_flavors
+  mockery::stub(match_flavors_offline, "is_online", FALSE)
+  expect_true(isNA(match_flavors_offline()))
+})
+
+test_that("match_flavors", {
+  skip_if_offline()
+  expect_true(length(match_flavors()) > 0)
+})

@@ -13,15 +13,15 @@ pac_deps_user(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{base}{logical if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
+\item{base}{\code{logical} if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
 
-\item{local}{logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE}
+\item{local}{logical if to use local repository (or newest remote packages). Default: FALSE}
 
-\item{attr}{logical specify if a package and its version should be added as a attribute of data.frame or for \code{FALSE} as an additional record. Default: TRUE}
+\item{attr}{\code{logical} specify if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE}
 
-\item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 \code{data.frame} with packages and their versions. Versions are taken from \code{installed.packages} or newest released.

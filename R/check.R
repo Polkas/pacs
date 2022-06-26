@@ -30,8 +30,8 @@ read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem
 
 #' Retrieving the R CRAN package check page
 #' @description Retrieving the R CRAN package check page.
-#' @param pac character a package name.
-#' @return data.frame.
+#' @inheritParams standard_args
+#' @return `data.frame`.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' If you need to check many packages at once then is recommended usage of `pacs::checked_packages`.
 #' Please as a courtesy to the R CRAN, don't overload their server by constantly using this function.
@@ -55,10 +55,8 @@ pac_checkpage <- function(pac) {
 
 #' Checking the R CRAN package check page status
 #' @description using package R CRAN check page to validate if there are ANY errors and/or fails and/or warnings and/or notes.
-#' @param pac character a package name.
-#' @param scope character vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")
-#' @param flavors character vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`. By default all CRAN machines are considered, NULL value. Default NULL
-#' @return logical if the package fail under specified criteria.
+#' @inheritParams standard_args
+#' @return `logical` if the package fail under specified criteria.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' If you need to check many packages at once then is recommended usage of `pacs::checked_packages`.
 #' The used repository `https://cran.rstudio.com/`.
@@ -70,10 +68,7 @@ pac_checkpage <- function(pac) {
 #' pacs::pac_checkred("dplyr", scope = c("ERROR"))
 #' pacs::pac_checkred("dplyr",
 #'   scope = c("ERROR", "FAIL", "WARN"),
-#'   flavors = c(
-#'     "r-devel-linux-x86_64-debian-clang",
-#'     "r-devel-linux-x86_64-debian-gcc"
-#'   )
+#'   flavors = pacs::match_flavors()
 #' )
 #' }
 pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
@@ -100,7 +95,7 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
 #' Retrieving all R CRAN packages check pages statuses.
 #' @description Retrieving all R CRAN packages check pages statuses.
 #' The data is downloaded from `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
-#' @return data.frame with the same structure as the html table on `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
+#' @return `data.frame` with the same structure as the html table on `https://cran.r-project.org/web/checks/check_summary_by_package.html`.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' Some packages could be duplicated as not all tests are performed for a new version so two versions still coexists.
 #' Checks with asterisks (*) indicate that checking was not fully performed, this is a case for less than 1% of all packages.
@@ -173,7 +168,7 @@ read_cran_flavours <- memoise::memoise(read_cran_flavours_raw, cache = cachem::c
 #' Retrieving all R CRAN servers flavors
 #' @description Retrieving all R CRAN servers flavors.
 #' The data is downloaded from `https://cran.r-project.org/web/checks/check_flavors.html`.
-#' @return data.frame with the same structure as the html table on `https://cran.r-project.org/web/checks/check_flavors.html`.
+#' @return `data.frame` with the same structure as the html table on `https://cran.r-project.org/web/checks/check_flavors.html`.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples
@@ -210,7 +205,7 @@ read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cac
 #' Retrieving all Bioconductor releases
 #' @description Retrieving all Bioconductor releases.
 #' The data is downloaded from `https://www.bioconductor.org/about/release-announcements/`.
-#' @return data.frame with the same structure as the html table on `https://www.bioconductor.org/about/release-announcements/`.
+#' @return `data.frame` with the same structure as the html table on `https://www.bioconductor.org/about/release-announcements/`.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples
@@ -224,15 +219,15 @@ bio_releases <- function() {
 #' CRAN and Bioconductor repositories
 #' @description CRAN and Bioconductor repositories.
 #' The newest Bioconductor release for the specific R version is assumed.
-#' @param version character the Bioconductor release.
+#' @param version `character` the Bioconductor release.
 #' By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
 #' Available Bioconductor versions for your R version could be checked with `pacs::bio_releases()`. Default NULL
-#' @return named character vector of repositories.
+#' @return `named character` vector of repositories.
 #' @note The Internet connection is needed to get Bioconductor repositories.
 #' @export
 #' @examples
 #' \dontrun{
-#' biocran_repos()
+#' pacs::biocran_repos()
 #' }
 biocran_repos <- function(version = NULL) {
   if (is_online()) {
@@ -257,4 +252,26 @@ biocran_repos <- function(version = NULL) {
   } else {
     c(CRAN = "https://cran.rstudio.com/")
   }
+}
+
+#' Get all matched CRAN servers to the local `OS`
+#' @description CRAN servers matched to the local `OS`.
+#' @return `character` vector matched server names.
+#' @note The Internet connection is needed to use the function.
+#' @export
+#' @examples
+#' \dontrun{
+#' pacs::match_flavors()
+#' }
+match_flavors <- function() {
+  if (!is_online()) {
+    return(NA)
+  }
+  flavors_df <- cran_flavors()
+  if (isNA(flavors_df)) return(NA)
+  flavors <- flavors_df$Flavor
+  switch(Sys.info()[['sysname']],
+         Windows = {flavors[grepl("windows", flavors)]},
+         Linux = {flavors[grepl("linux", flavors)]},
+         Darwin = {flavors[grepl("macos", flavors)]})
 }

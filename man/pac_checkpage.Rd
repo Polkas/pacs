@@ -7,10 +7,10 @@
 pac_checkpage(pac)
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 }
 \value{
-data.frame.
+\code{data.frame}.
 }
 \description{
 Retrieving the R CRAN package check page.

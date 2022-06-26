@@ -14,24 +14,24 @@ pac_lifeduration(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{version}{character package version, By default the newest version is taken.
-The local repository has priority, it version is available. Default: NULL}
+\item{version}{\code{character} version of a package. Default: NULL}
 
-\item{at}{Date old version of package. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: NULL}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
 \item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 
-\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN  CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.
 }
 \description{
 a package life duration for a certain version or at a specific Date.
+By default works for the newest package version.
 }
 \note{
 Results are cached for 30 minutes with \code{memoise} package.

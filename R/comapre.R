@@ -1,12 +1,6 @@
 #' Compare DESCRIPTION files dependencies between specific CRAN packages versions
 #' @description using the remote github CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions.
-#' @param pac character a package name.
-#' @param old character an old version of package, default local version. Default: NULL
-#' @param new character a new version of package, default newest version. Default: NULL
-#' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
-#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
-#' Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param lib.loc character vector. Default: `.libPaths()`
+#' @inheritParams standard_args
 #' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return data.frame with 4 columns.
 #' \describe{
@@ -84,10 +78,7 @@ pac_compare_versions <- function(pac,
 
 #' Compare NAMESPACE exports between specific CRAN packages versions
 #' @description using the remote github CRAN mirror to compare NAMESPACE exports between specific packages versions.
-#' @param pac character a package name.
-#' @param old character an old version of package.
-#' @param new character a new version of package.
-#' @param lib.loc character vector. Default:
+#' @inheritParams standard_args
 #' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with `c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")` slots, and added and removed ones for each of them.
 #' @export

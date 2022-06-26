@@ -1,12 +1,6 @@
 #' R CRAN package dependencies for a certain version or time point
 #' @description Package dependencies from DESCRIPTION files retrieved recursively for certain version or time point.
-#' @param pac character a package name.
-#' @param fields a character vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
-#' Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
-#' Default: `c("Depends", "Imports", "LinkingTo")`
-#' @param version character version of package. Default: NULL
-#' @param at Date old version of package. Default: NULL
-#' @param recursive logical if to assess the dependencies recursively. Default: TRUE
+#' @inheritParams standard_args
 #' @note Longer lived version is taken if 2 is available at the same date (switch time).
 #' @return named vector package dependencies and their versions at the release date of main package plus one day.
 #' @export

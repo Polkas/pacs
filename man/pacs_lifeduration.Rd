@@ -13,20 +13,20 @@ pacs_lifeduration(
 )
 }
 \arguments{
-\item{pacs}{character vector packages names.``}
+\item{pacs}{\code{character} vector of packages names.}
 
-\item{versions}{character vector packages versions.}
+\item{versions}{\code{character} vector of packages versions.}
 
 \item{source}{character one of \code{c("crandb", "loop_crandb", "loop_cran")}.
 The \code{"crandb"} works if less than \code{getOption("pacs.crandb_limit")} (currently 500) packages are looked for.
 Default: \code{"crandb"}}
 
-\item{lib.loc}{character vector. Is omitted for non NULL version. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{repos}{character vector repositories. Default \verb{https://cran.rstudio.org}}
+\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-data.frame with two columns package name and life duration.
+\code{data.frame} with two columns package name and life duration.
 }
 \description{
 packages life duration for certain versions.

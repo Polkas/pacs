@@ -7,11 +7,11 @@
 pac_islast(pac, version = NULL, lib.loc = .libPaths(), repos = biocran_repos())
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{version}{character package version, by default the installed version is taken. Default: NULL}
+\item{version}{\code{character} version of a package. Default: NULL}
 
-\item{lib.loc}{character vector, it is omitted for non NULL version. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
 \item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
 }
@@ -23,7 +23,6 @@ checking if a package version is the most recent one, by default the installed v
 }
 \note{
 Results are cached for 30 minutes with \code{memoise} package.
-For Bioconductor if package is the newest one per R version.
 }
 \examples{
 \dontrun{

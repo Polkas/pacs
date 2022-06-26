@@ -43,5 +43,6 @@ reference:
   - pac_last
   - dir_size
   - cran_flavors
+  - match_flavors
   - biocran_repos
   - bio_releases

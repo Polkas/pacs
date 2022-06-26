@@ -1,10 +1,7 @@
 #' package NAMESPACE file
 #' @description CRAN package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
-#' @param pac character a package name.
-#' @param version character package version, By default the is_installed version. Default: NULL
-#' @param at Date. Default: NULL
-#' @param local logical if to use local library. Default: FALSE
-#' @param lib.loc character vector, used optionally when local is equal TRUE. Default: `.libPaths()`
+#' By default works for the newest package version.
+#' @inheritParams standard_args
 #' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
 #' @return list with names proper for NAMESPACE file, the same as format as returned by `base::parseNamespaceFile`.
 #' @note Results are cached for 30 minutes with `memoise` package.

@@ -14,17 +14,17 @@ pac_compare_versions(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{old}{character an old version of package, default local version. Default: NULL}
+\item{old}{\code{character} an old version of package, default local version. Default: NULL}
 
-\item{new}{character a new version of package, default newest version. Default: NULL}
+\item{new}{\code{character} a new version of package, default newest version. Default: NULL}
 
 \item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{character vector. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
 \item{repos}{character vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }

@@ -7,7 +7,7 @@
 cran_flavors()
 }
 \value{
-data.frame with the same structure as the html table on \verb{https://cran.r-project.org/web/checks/check_flavors.html}.
+\code{data.frame} with the same structure as the html table on \verb{https://cran.r-project.org/web/checks/check_flavors.html}.
 }
 \description{
 Retrieving all R CRAN servers flavors.

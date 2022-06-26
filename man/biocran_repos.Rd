@@ -7,12 +7,12 @@
 biocran_repos(version = NULL)
 }
 \arguments{
-\item{version}{character the Bioconductor release.
+\item{version}{\code{character} the Bioconductor release.
 By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
 Available Bioconductor versions for your R version could be checked with \code{pacs::bio_releases()}. Default NULL}
 }
 \value{
-named character vector of repositories.
+\verb{named character} vector of repositories.
 }
 \description{
 CRAN and Bioconductor repositories.
@@ -23,6 +23,6 @@ The Internet connection is needed to get Bioconductor repositories.
 }
 \examples{
 \dontrun{
-biocran_repos()
+pacs::biocran_repos()
 }
 }

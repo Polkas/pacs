@@ -7,7 +7,7 @@
 checked_packages()
 }
 \value{
-data.frame with the same structure as the html table on \verb{https://cran.r-project.org/web/checks/check_summary_by_package.html}.
+\code{data.frame} with the same structure as the html table on \verb{https://cran.r-project.org/web/checks/check_summary_by_package.html}.
 }
 \description{
 Retrieving all R CRAN packages check pages statuses.

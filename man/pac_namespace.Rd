@@ -14,15 +14,15 @@ pac_namespace(
 )
 }
 \arguments{
-\item{pac}{character a package name.}
+\item{pac}{\code{character} a package name.}
 
-\item{version}{character package version, By default the is_installed version. Default: NULL}
+\item{version}{\code{character} version of a package. Default: NULL}
 
-\item{at}{Date. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: NULL}
 
-\item{local}{logical if to use local library. Default: FALSE}
+\item{local}{logical if to use local repository (or newest remote packages). Default: FALSE}
 
-\item{lib.loc}{character vector, used optionally when local is equal TRUE. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
 \item{repos}{character vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
@@ -31,6 +31,7 @@ list with names proper for NAMESPACE file, the same as format as returned by \co
 }
 \description{
 CRAN package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
+By default works for the newest package version.
 }
 \note{
 Results are cached for 30 minutes with \code{memoise} package.
