@@ -64,6 +64,9 @@
     <loc>/reference/lock_validate.html</loc>
   </url>
   <url>
+    <loc>/reference/match_flavors.html</loc>
+  </url>
+  <url>
     <loc>/reference/pac_checkpage.html</loc>
   </url>
   <url>
@@ -128,6 +131,9 @@
   </url>
   <url>
     <loc>/reference/pacs_lifeduration.html</loc>
+  </url>
+  <url>
+    <loc>/reference/standard_args.html</loc>
   </url>
   <url>
     <loc>/reference/validate_online.html</loc>

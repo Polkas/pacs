@@ -74,7 +74,7 @@ The newest Bioconductor release for the specific R version is assumed.</p>
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>version</dt>
-<dd><p>character the Bioconductor release.
+<dd><p><code>character</code> the Bioconductor release.
 By default the newest Bioconductor release for the specific R version is assumed, if not available only CRAN repository is returned.
 Available Bioconductor versions for your R version could be checked with <code><a href="bio_releases.html">pacs::bio_releases()</a></code>. Default NULL</p></dd>
 
@@ -83,7 +83,7 @@ Available Bioconductor versions for your R version could be checked with <code><
     <h2>Value</h2>
     
 
-<p>named character vector of repositories.</p>
+<p><code>named character</code> vector of repositories.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -93,7 +93,7 @@ Available Bioconductor versions for your R version could be checked with <code><
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">biocran_repos</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">pacs</span><span class="fu">::</span><span class="fu">biocran_repos</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>

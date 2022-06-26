@@ -81,7 +81,7 @@ A tool to identify a main sources of dependencies, which direct dependencies are
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>pac</dt>
-<dd><p>character a package name.</p></dd>
+<dd><p><code>character</code> a package name.</p></dd>
 
 
 <dt>fields</dt>
@@ -91,19 +91,19 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
 
 <dt>lib.loc</dt>
-<dd><p>character vector, used optionally when local is equal TRUE. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
+<dd><p><code>character</code> vector of search paths for local packages. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 
 
 <dt>base</dt>
-<dd><p>logical if to add base packages too. If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: FALSE</p></dd>
+<dd><p><code>logical</code> if to add base packages too. If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: FALSE</p></dd>
 
 
 <dt>local</dt>
-<dd><p>logical if to use local repository or newest CRAN packages, where by default local packages are used. Default: TRUE</p></dd>
+<dd><p>logical if to use local repository (or newest remote packages). Default: FALSE</p></dd>
 
 
 <dt>repos</dt>
-<dd><p>character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
+<dd><p><code>character</code> vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
 
 </dl></div>
     <div id="value">

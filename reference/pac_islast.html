@@ -72,15 +72,15 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>pac</dt>
-<dd><p>character a package name.</p></dd>
+<dd><p><code>character</code> a package name.</p></dd>
 
 
 <dt>version</dt>
-<dd><p>character package version, by default the installed version is taken. Default: NULL</p></dd>
+<dd><p><code>character</code> version of a package. Default: NULL</p></dd>
 
 
 <dt>lib.loc</dt>
-<dd><p>character vector, it is omitted for non NULL version. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
+<dd><p><code>character</code> vector of search paths for local packages. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 
 
 <dt>repos</dt>
@@ -95,8 +95,7 @@
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>Results are cached for 30 minutes with <code>memoise</code> package.
-For Bioconductor if package is the newest one per R version.</p>
+    <p>Results are cached for 30 minutes with <code>memoise</code> package.</p>
     </div>
 
     <div id="ref-examples">

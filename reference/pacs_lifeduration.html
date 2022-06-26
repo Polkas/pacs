@@ -78,11 +78,11 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>pacs</dt>
-<dd><p>character vector packages names.``</p></dd>
+<dd><p><code>character</code> vector of packages names.</p></dd>
 
 
 <dt>versions</dt>
-<dd><p>character vector packages versions.</p></dd>
+<dd><p><code>character</code> vector of packages versions.</p></dd>
 
 
 <dt>source</dt>
@@ -92,18 +92,18 @@ Default: <code>"crandb"</code></p></dd>
 
 
 <dt>lib.loc</dt>
-<dd><p>character vector. Is omitted for non NULL version. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
+<dd><p><code>character</code> vector of search paths for local packages. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 
 
 <dt>repos</dt>
-<dd><p>character vector repositories. Default <code>https://cran.rstudio.org</code></p></dd>
+<dd><p><code>character</code> vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>data.frame with two columns package name and life duration.</p>
+<p><code>data.frame</code> with two columns package name and life duration.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
