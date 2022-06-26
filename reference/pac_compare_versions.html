@@ -83,15 +83,15 @@
 
 
 <dt>old</dt>
-<dd><p><code>character</code> an old version of package, default local version. Default: NULL</p></dd>
+<dd><p><code>character</code> an old version of package, default local version. Default: <code>NULL</code></p></dd>
 
 
 <dt>new</dt>
-<dd><p><code>character</code> a new version of package, default newest version. Default: NULL</p></dd>
+<dd><p><code>character</code> a new version of package, default newest version. Default: <code>NULL</code></p></dd>
 
 
 <dt>fields</dt>
-<dd><p>a character vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
+<dd><p><code>character</code> vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
@@ -101,14 +101,14 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
 
 <dt>repos</dt>
-<dd><p>character vector URLs of the repositories to use. Used only for the validation. Default <code>https://cran.rstudio.com/</code></p></dd>
+<dd><p><code>character</code> vector URLs of the repositories to use. Used only for the validation. Default <code>https://cran.rstudio.com/</code></p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>data.frame with 4 columns.</p><dl><dt>Package</dt>
+<p><code>data.frame</code> with 4 columns.</p><dl><dt>Package</dt>
 <dd><p>character package names.</p></dd>
 
 <dt>Version.OLD</dt>

@@ -86,7 +86,7 @@
 
 
 <dt>fields</dt>
-<dd><p>a character vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
+<dd><p><code>character</code> vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
@@ -96,7 +96,7 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
 
 <dt>base</dt>
-<dd><p><code>logical</code> if to add base packages too. If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: FALSE</p></dd>
+<dd><p><code>logical</code> if to add base packages too. If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: <code>FALSE</code></p></dd>
 
 
 <dt>local</dt>
@@ -104,7 +104,7 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
 
 <dt>description_v</dt>
-<dd><p><code>logical</code> if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE</p></dd>
+<dd><p><code>logical</code> if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: <code>FALSE</code></p></dd>
 
 
 <dt>attr</dt>

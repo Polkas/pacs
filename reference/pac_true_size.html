@@ -81,7 +81,7 @@
 
 
 <dt>fields</dt>
-<dd><p>a character vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
+<dd><p><code>character</code> vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
@@ -91,14 +91,14 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
 
 <dt>exclude_joint</dt>
-<dd><p><code>integer</code> exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0</p></dd>
+<dd><p><code>integer</code> exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: <code>0</code></p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>numeric size in bytes, to get MB then divide by <code>10**6</code>.</p>
+<p><code>numeric</code> size in bytes, to get MB then divide by <code>10**6</code>.</p>
     </div>
     <div id="note">
     <h2>Note</h2>

@@ -69,7 +69,7 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>at</dt>
-<dd><p><code>Date</code> from which to take the version. Default: NULL</p></dd>
+<dd><p><code>Date</code> from which to take the version. Default: <code>NULL</code></p></dd>
 
 
 <dt>attr</dt>
@@ -77,32 +77,32 @@
 
 
 <dt>base</dt>
-<dd><p><code>logical</code> if to add base packages too. If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: FALSE</p></dd>
+<dd><p><code>logical</code> if to add base packages too. If <code>TRUE</code> then <code><a href="pacs_base.html">pacs::pacs_base()</a></code> are taken into account. Default: <code>FALSE</code></p></dd>
 
 
 <dt>built</dt>
-<dd><p>logical if to add an R version under which each package was installed.
+<dd><p><code>logical</code> if to add an R version under which each package was installed.
 Useful mainly for a local usage.
 Packages installed with a previous version of R could not work correctly with the new version of R. Default: <code>FALSE</code></p></dd>
 
 
 <dt>checkred</dt>
-<dd><p>list with two named fields, <code>scope</code> and <code>flavor</code>. <code>scope</code> of R CRAN check pages statuses to consider, any of <code>c("ERROR", "FAIL", "WARN", "NOTE")</code>.
+<dd><p><code>list</code> with two named fields, <code>scope</code> and <code>flavor</code>. <code>scope</code> of R CRAN check pages statuses to consider, any of <code>c("ERROR", "FAIL", "WARN", "NOTE")</code>.
 <code>flavor</code> is a vector of CRAN machines to consider, which might be retrieved with <code>pacs::cran_flavors()$Flavor</code>.
 By default an empty scope field deactivated assessment for <code>checkred</code> column, and NULL flavor will results in checking all machines.
 Default <code>list(scope = character(0), flavor = NULL)</code></p></dd>
 
 
 <dt>description_v</dt>
-<dd><p><code>logical</code> if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE</p></dd>
+<dd><p><code>logical</code> if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: <code>FALSE</code></p></dd>
 
 
 <dt>exclude_joint</dt>
-<dd><p><code>integer</code> exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0</p></dd>
+<dd><p><code>integer</code> exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: <code>0</code></p></dd>
 
 
 <dt>fields</dt>
-<dd><p>a character vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
+<dd><p><code>character</code> vector listing the types of dependencies, a subset of <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 
@@ -114,7 +114,7 @@ By default all CRAN machines are considered <code>NULL</code> value. Default <co
 
 
 <dt>from</dt>
-<dd><p><code>Date</code> the lower limit. Default: NULL</p></dd>
+<dd><p><code>Date</code> the lower limit. Default: <code>NULL</code></p></dd>
 
 
 <dt>lib.loc</dt>
@@ -124,7 +124,7 @@ By default all CRAN machines are considered <code>NULL</code> value. Default <co
 <dt>lifeduration</dt>
 <dd><p><code>logical</code> if to assess life duration for each package in the library.
 <code>MEATCRAN CRANDB</code> is used for libraries with less than 500 packages.
-The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE</p></dd>
+The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: `FALSE``</p></dd>
 
 
 <dt>limit</dt>
@@ -132,7 +132,7 @@ The direct web page download from CRAN or local evaluation for newest packages o
 
 
 <dt>local</dt>
-<dd><p>logical if to use local repository (or newest remote packages). Default: FALSE</p></dd>
+<dd><p><code>logical</code> if to use local repository (or newest remote packages). Default: <code>FALSE</code></p></dd>
 
 
 <dt>na.rm</dt>
@@ -140,11 +140,11 @@ The direct web page download from CRAN or local evaluation for newest packages o
 
 
 <dt>new</dt>
-<dd><p><code>character</code> a new version of package, default newest version. Default: NULL</p></dd>
+<dd><p><code>character</code> a new version of package, default newest version. Default: <code>NULL</code></p></dd>
 
 
 <dt>old</dt>
-<dd><p><code>character</code> an old version of package, default local version. Default: NULL</p></dd>
+<dd><p><code>character</code> an old version of package, default local version. Default: <code>NULL</code></p></dd>
 
 
 <dt>pac</dt>
@@ -168,19 +168,19 @@ The direct web page download from CRAN or local evaluation for newest packages o
 
 
 <dt>scope</dt>
-<dd><p><code>character</code> vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")</p></dd>
+<dd><p><code>character</code> vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default <code>c("ERROR", "FAIL")</code></p></dd>
 
 
 <dt>source</dt>
-<dd><p>character one of <code>c("crandb", "cran")</code>. Using the <code>MEATCRAN CRANDB</code> or the direct web page download from CRAN. Default: <code>"crandb"</code></p></dd>
+<dd><p><code>character`` one of </code>c("crandb", "cran")<code>. Using the </code>MEATCRAN CRANDB<code>or the direct web page download from CRAN. Default:</code>"crandb"`</p></dd>
 
 
 <dt>startup</dt>
-<dd><p><code>logical</code> include only <code>startup</code> packages. Default: FALSE</p></dd>
+<dd><p><code>logical</code> include only <code>startup</code> packages. Default: <code>FALSE</code></p></dd>
 
 
 <dt>to</dt>
-<dd><p><code>Date</code> the upper limit. Default: NULL</p></dd>
+<dd><p><code>Date</code> the upper limit. Default: <code>NULL</code></p></dd>
 
 
 <dt>vec</dt>
@@ -188,7 +188,7 @@ The direct web page download from CRAN or local evaluation for newest packages o
 
 
 <dt>version</dt>
-<dd><p><code>character</code> version of a package. Default: NULL</p></dd>
+<dd><p><code>character</code> version of a package. Default: <code>NULL</code></p></dd>
 
 
 <dt>versions</dt>
