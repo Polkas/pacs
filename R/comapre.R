@@ -1,8 +1,8 @@
 #' Compare DESCRIPTION files dependencies between specific CRAN packages versions
 #' @description using the remote github CRAN mirror to compare DESCRIPTION files dependencies between specific packages versions.
 #' @inheritParams standard_args
-#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
-#' @return data.frame with 4 columns.
+#' @param repos `character` vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @return `data.frame` with 4 columns.
 #' \describe{
 #' \item{Package}{character package names.}
 #' \item{Version.OLD}{character versions of dependencies required by an old package version.}
@@ -79,8 +79,8 @@ pac_compare_versions <- function(pac,
 #' Compare NAMESPACE exports between specific CRAN packages versions
 #' @description using the remote github CRAN mirror to compare NAMESPACE exports between specific packages versions.
 #' @inheritParams standard_args
-#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
-#' @return list with `c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")` slots, and added and removed ones for each of them.
+#' @param repos `character` vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @return `list` with `c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")` slots, and added and removed ones for each of them.
 #' @export
 #' @examples
 #' \dontrun{

@@ -12,7 +12,7 @@ compareVersionsMin(vec, na.rm = TRUE)
 \item{na.rm}{\code{logical} if to remove \code{NA} values.}
 }
 \value{
-character minimal version
+\code{character} minimal version
 }
 \description{
 Reduce function over the \code{utils::compareVersion}

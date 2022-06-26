@@ -2,8 +2,8 @@
 #' @description CRAN package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 #' By default works for the newest package version.
 #' @inheritParams standard_args
-#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
-#' @return list with names proper for NAMESPACE file, the same as format as returned by `base::parseNamespaceFile`.
+#' @param repos `character` vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @return `list` with names proper for NAMESPACE file, the same as format as returned by `base::parseNamespaceFile`.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' This function is mainly built under source code from `base::parseNamespaceFile`.
 #' @export

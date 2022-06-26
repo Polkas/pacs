@@ -93,7 +93,7 @@ pac_lifeduration <- function(pac,
 #' The newest release is checked for any warnings/errors on the R CRAN package check page.
 #' @inheritParams standard_args
 #' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
-#' @return logical if a package is healthy.
+#' @return `logical` if a package is healthy.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.
 #' The `crandb` R packages database is a part of `METACRAN` project, source:

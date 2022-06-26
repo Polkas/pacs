@@ -2,8 +2,8 @@
 #' @description CRAN package DESCRIPTION file taken locally or remotely from GITHUB CRAN mirror or CRAN website.
 #' By default works for the newest package version.
 #' @inheritParams standard_args
-#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
-#' @return list with names proper for DESCRIPTION file fields.
+#' @param repos `character` vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @return `list` with names proper for DESCRIPTION file fields.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples

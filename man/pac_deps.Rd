@@ -19,17 +19,17 @@ pac_deps(
 \arguments{
 \item{pac}{\code{character} a package name.}
 
-\item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
+\item{fields}{\code{character} vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{base}{\code{logical} if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
+\item{base}{\code{logical} if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: \code{FALSE}}
 
 \item{local}{logical if to use local repository (or newest remote packages). Default: TRUE}
 
-\item{description_v}{\code{logical} if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE}
+\item{description_v}{\code{logical} if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: \code{FALSE}}
 
 \item{attr}{\code{logical} specify if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE}
 

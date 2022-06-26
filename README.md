@@ -48,7 +48,8 @@ Validate the library:
 pacs::lib_validate(
   checkred = list(
     scope = c("ERROR", "FAIL"),
-    flavors = pacs::match_flavors()
+    # by default all flavors
+    flavors = NULL
   )
 )
 ```

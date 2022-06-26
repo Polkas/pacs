@@ -16,15 +16,15 @@ pac_timemachine(
 \arguments{
 \item{pac}{\code{character} a package name.}
 
-\item{at}{\code{Date} from which to take the version. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: \code{NULL}}
 
-\item{from}{\code{Date} the lower limit. Default: NULL}
+\item{from}{\code{Date} the lower limit. Default: \code{NULL}}
 
-\item{to}{\code{Date} the upper limit. Default: NULL}
+\item{to}{\code{Date} the upper limit. Default: \code{NULL}}
 
-\item{version}{\code{character} version of a package. Default: NULL}
+\item{version}{\code{character} version of a package. Default: \code{NULL}}
 
-\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{\verb{character`` one of }c("crandb", "cran")\verb{. Using the }MEATCRAN CRANDB\verb{or the direct web page download from CRAN. Default:}"crandb"`}
 }
 \value{
 \code{data.frame} with 7 columns

@@ -2,7 +2,7 @@
 #' @description Package dependencies from DESCRIPTION files retrieved recursively for certain version or time point.
 #' @inheritParams standard_args
 #' @note Longer lived version is taken if 2 is available at the same date (switch time).
-#' @return named vector package dependencies and their versions at the release date of main package plus one day.
+#' @return `named vector` package dependencies and their versions at the release date of main package plus one day.
 #' @export
 #' @examples
 #' \dontrun{

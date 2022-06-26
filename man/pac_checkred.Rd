@@ -9,7 +9,7 @@ pac_checkred(pac, scope = c("ERROR", "FAIL"), flavors = NULL)
 \arguments{
 \item{pac}{\code{character} a package name.}
 
-\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
+\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default \code{c("ERROR", "FAIL")}}
 
 \item{flavors}{\code{character} vector of CRAN server names to consider, possible names could be get with \code{pacs::cran_flavors()$Flavor}.
 The \code{pacs::match_flavors()} function could be used to get CRAN server names matched for your local \code{OS}.

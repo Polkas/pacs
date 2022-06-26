@@ -16,15 +16,15 @@ pac_lifeduration(
 \arguments{
 \item{pac}{\code{character} a package name.}
 
-\item{version}{\code{character} version of a package. Default: NULL}
+\item{version}{\code{character} version of a package. Default: \code{NULL}}
 
-\item{at}{\code{Date} from which to take the version. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: \code{NULL}}
 
 \item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
 \item{repos}{character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 
-\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{\verb{character`` one of }c("crandb", "cran")\verb{. Using the }MEATCRAN CRANDB\verb{or the direct web page download from CRAN. Default:}"crandb"`}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.

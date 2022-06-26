@@ -19,13 +19,13 @@ pac_health(
 \arguments{
 \item{pac}{\code{character} a package name.}
 
-\item{version}{\code{character} version of a package. Default: NULL}
+\item{version}{\code{character} version of a package. Default: \code{NULL}}
 
-\item{at}{\code{Date} from which to take the version. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: \code{NULL}}
 
 \item{limit}{\code{numeric} at least days to treat as healthy, ">=limit". Default: 14}
 
-\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
+\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default \code{c("ERROR", "FAIL")}}
 
 \item{flavors}{\code{character} vector of CRAN server names to consider, possible names could be get with \code{pacs::cran_flavors()$Flavor}.
 The \code{pacs::match_flavors()} function could be used to get CRAN server names matched for your local \code{OS}.
@@ -35,10 +35,10 @@ By default all CRAN machines are considered \code{NULL} value. Default \code{NUL
 
 \item{repos}{character vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 
-\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{\verb{character`` one of }c("crandb", "cran")\verb{. Using the }MEATCRAN CRANDB\verb{or the direct web page download from CRAN. Default:}"crandb"`}
 }
 \value{
-logical if a package is healthy.
+\code{logical} if a package is healthy.
 }
 \description{
 a package health for a certain version or at a specific Date.

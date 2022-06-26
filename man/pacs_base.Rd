@@ -7,7 +7,7 @@
 pacs_base(startup = FALSE)
 }
 \arguments{
-\item{startup}{\code{logical} include only \code{startup} packages. Default: FALSE}
+\item{startup}{\code{logical} include only \code{startup} packages. Default: \code{FALSE}}
 }
 \value{
 \code{character} vector

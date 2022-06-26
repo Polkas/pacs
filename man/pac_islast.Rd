@@ -9,14 +9,14 @@ pac_islast(pac, version = NULL, lib.loc = .libPaths(), repos = biocran_repos())
 \arguments{
 \item{pac}{\code{character} a package name.}
 
-\item{version}{\code{character} version of a package. Default: NULL}
+\item{version}{\code{character} version of a package. Default: \code{NULL}}
 
 \item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
 }
 \value{
-logical if a package is inside repositories.
+\code{logical} if a package is inside repositories.
 }
 \description{
 checking if a package version is the most recent one, by default the installed version is compared.

@@ -12,7 +12,7 @@ pac_size(pac, lib.loc = .libPaths())
 \item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 }
 \value{
-numeric size in bytes, to get MB ten divide by \code{10**6}.
+\code{numeric} size in bytes, to get MB ten divide by \code{10**6}.
 }
 \description{
 Size of package.

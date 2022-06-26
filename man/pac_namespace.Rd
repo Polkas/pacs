@@ -16,18 +16,18 @@ pac_namespace(
 \arguments{
 \item{pac}{\code{character} a package name.}
 
-\item{version}{\code{character} version of a package. Default: NULL}
+\item{version}{\code{character} version of a package. Default: \code{NULL}}
 
-\item{at}{\code{Date} from which to take the version. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: \code{NULL}}
 
-\item{local}{logical if to use local repository (or newest remote packages). Default: FALSE}
+\item{local}{\code{logical} if to use local repository (or newest remote packages). Default: \code{FALSE}}
 
 \item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{repos}{character vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{\code{character} vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
-list with names proper for NAMESPACE file, the same as format as returned by \code{base::parseNamespaceFile}.
+\code{list} with names proper for NAMESPACE file, the same as format as returned by \code{base::parseNamespaceFile}.
 }
 \description{
 CRAN package NAMESPACE file taken locally or remotely from GITHUB CRAN mirror or CRAN website.

@@ -16,20 +16,20 @@ lib_validate(
 \arguments{
 \item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
-\item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
+\item{fields}{\code{character} vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lifeduration}{\code{logical} if to assess life duration for each package in the library.
 \verb{MEATCRAN CRANDB} is used for libraries with less than 500 packages.
-The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE}
+The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: `FALSE``}
 
-\item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}.
+\item{checkred}{\code{list} with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}.
 \code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}.
 By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines.
 Default \code{list(scope = character(0), flavor = NULL)}}
 
-\item{built}{logical if to add an R version under which each package was installed.
+\item{built}{\code{logical} if to add an R version under which each package was installed.
 Useful mainly for a local usage.
 Packages installed with a previous version of R could not work correctly with the new version of R. Default: \code{FALSE}}
 

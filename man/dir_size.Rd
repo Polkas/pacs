@@ -12,7 +12,7 @@ dir_size(path = ".", recursive = TRUE)
 \item{recursive}{\code{logical} if to assess the dependencies recursively. Default: TRUE}
 }
 \value{
-numeric size in bytes, to get MB ten divide by \code{10**6}.
+\code{numeric} size in bytes, to get MB ten divide by \code{10**6}.
 }
 \description{
 size of package.

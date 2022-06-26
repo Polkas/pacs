@@ -13,7 +13,7 @@ last_version_fun <- memoise::memoise(last_version_raw, cache = cachem::cache_mem
 #' @description using `utils::available.packages` to get the newest package version.
 #' @inheritParams standard_args
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default `pacs::biocran_repos()`
-#' @return character most recent package version.
+#' @return `character` most recent package version.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' For Bioconductor the newest one per R version.
 #' @export
@@ -37,7 +37,7 @@ pac_last <- function(pac, repos = biocran_repos()) {
 #' @description using `utils::available.packages` to check if package is in repositories.
 #' @inheritParams standard_args
 #' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return logical if a package is inside repositories.
+#' @return `logical` if a package is inside repositories.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples
@@ -66,8 +66,8 @@ is_isin <- memoise::memoise(is_isin_raw, cache = cachem::cache_mem(max_age = 30 
 #' Checking if a package version is the most recent one
 #' @description checking if a package version is the most recent one, by default the installed version is compared.
 #' @inheritParams standard_args
-#' @param repos character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default `pacs::biocran_repos()`
-#' @return logical if a package is inside repositories.
+#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default `pacs::biocran_repos()`
+#' @return `logical` if a package is inside repositories.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' @export
 #' @examples

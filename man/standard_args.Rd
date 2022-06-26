@@ -4,26 +4,26 @@
 \alias{standard_args}
 \title{Standard Template Arguments}
 \arguments{
-\item{at}{\code{Date} from which to take the version. Default: NULL}
+\item{at}{\code{Date} from which to take the version. Default: \code{NULL}}
 
 \item{attr}{\code{logical} specify if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE}
 
-\item{base}{\code{logical} if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: FALSE}
+\item{base}{\code{logical} if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: \code{FALSE}}
 
-\item{built}{logical if to add an R version under which each package was installed.
+\item{built}{\code{logical} if to add an R version under which each package was installed.
 Useful mainly for a local usage.
 Packages installed with a previous version of R could not work correctly with the new version of R. Default: \code{FALSE}}
 
-\item{checkred}{list with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}.
+\item{checkred}{\code{list} with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}.
 \code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}.
 By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines.
 Default \code{list(scope = character(0), flavor = NULL)}}
 
-\item{description_v}{\code{logical} if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: FALSE}
+\item{description_v}{\code{logical} if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: \code{FALSE}}
 
-\item{exclude_joint}{\code{integer} exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: 0}
+\item{exclude_joint}{\code{integer} exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: \code{0}}
 
-\item{fields}{a character vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
+\item{fields}{\code{character} vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
@@ -31,23 +31,23 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 The \code{pacs::match_flavors()} function could be used to get CRAN server names matched for your local \code{OS}.
 By default all CRAN machines are considered \code{NULL} value. Default \code{NULL}}
 
-\item{from}{\code{Date} the lower limit. Default: NULL}
+\item{from}{\code{Date} the lower limit. Default: \code{NULL}}
 
 \item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
 
 \item{lifeduration}{\code{logical} if to assess life duration for each package in the library.
 \verb{MEATCRAN CRANDB} is used for libraries with less than 500 packages.
-The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: FALSE}
+The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: `FALSE``}
 
 \item{limit}{\code{numeric} at least days to treat as healthy, ">=limit". Default: 14}
 
-\item{local}{logical if to use local repository (or newest remote packages). Default: FALSE}
+\item{local}{\code{logical} if to use local repository (or newest remote packages). Default: \code{FALSE}}
 
 \item{na.rm}{\code{logical} if to remove \code{NA} values.}
 
-\item{new}{\code{character} a new version of package, default newest version. Default: NULL}
+\item{new}{\code{character} a new version of package, default newest version. Default: \code{NULL}}
 
-\item{old}{\code{character} an old version of package, default local version. Default: NULL}
+\item{old}{\code{character} an old version of package, default local version. Default: \code{NULL}}
 
 \item{pac}{\code{character} a package name.}
 
@@ -59,17 +59,17 @@ The direct web page download from CRAN or local evaluation for newest packages o
 
 \item{recursive}{\code{logical} if to assess the dependencies recursively. Default: TRUE}
 
-\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default c("ERROR", "FAIL")}
+\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default \code{c("ERROR", "FAIL")}}
 
-\item{source}{character one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{\verb{character`` one of }c("crandb", "cran")\verb{. Using the }MEATCRAN CRANDB\verb{or the direct web page download from CRAN. Default:}"crandb"`}
 
-\item{startup}{\code{logical} include only \code{startup} packages. Default: FALSE}
+\item{startup}{\code{logical} include only \code{startup} packages. Default: \code{FALSE}}
 
-\item{to}{\code{Date} the upper limit. Default: NULL}
+\item{to}{\code{Date} the upper limit. Default: \code{NULL}}
 
 \item{vec}{\code{character} vector.}
 
-\item{version}{\code{character} version of a package. Default: NULL}
+\item{version}{\code{character} version of a package. Default: \code{NULL}}
 
 \item{versions}{\code{character} vector of packages versions.}
 }

@@ -10,7 +10,7 @@ isNA <- function(x) {
 #' Maximum version across the vector
 #' @description Reduce function over the `utils::compareVersion`
 #' @inheritParams standard_args
-#' @return character maximum version
+#' @return `character` maximum version
 #' @examples
 #' compareVersionsMax(c("1.1.1", "0.2.0"))
 #' @export
@@ -39,7 +39,7 @@ compareVersionsMax <- function(vec, na.rm = TRUE) {
 #' Minimum version across the vector
 #' @description Reduce function over the `utils::compareVersion`
 #' @inheritParams standard_args
-#' @return character minimal version
+#' @return `character` minimal version
 #' @examples
 #' compareVersionsMin(c("1.1.1", "0.2.0"))
 #' @export
@@ -68,7 +68,7 @@ compareVersionsMin <- function(vec, na.rm = TRUE) {
 #' Size of the package
 #' @description size of package.
 #' @inheritParams standard_args
-#' @return numeric size in bytes, to get MB ten divide by `10**6`.
+#' @return `numeric` size in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
 #' \dontrun{

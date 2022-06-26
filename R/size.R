@@ -1,7 +1,7 @@
 #' Size of the package
 #' @description Size of package.
 #' @inheritParams standard_args
-#' @return numeric size in bytes, to get MB ten divide by `10**6`.
+#' @return `numeric` size in bytes, to get MB ten divide by `10**6`.
 #' @export
 #' @examples
 #' \dontrun{
@@ -18,7 +18,7 @@ pac_size <- function(pac, lib.loc = .libPaths()) {
 #' @description True size of the package as it takes into account its all dependencies, recursively.
 #' @inheritParams standard_args
 #' @note R base packages are not counted. The default value of `fields` should be suited for almost all scenarios.
-#' @return numeric size in bytes, to get MB then divide by `10**6`.
+#' @return `numeric` size in bytes, to get MB then divide by `10**6`.
 #' @export
 #' @examples
 #' \dontrun{
@@ -48,7 +48,7 @@ pac_true_size <- function(pac,
 #' The app dependencies packages are checked recursively, and only in local repository.
 #' The default arguments setup is recommended.
 #' @inheritParams standard_args
-#' @return numeric size in bytes, to get MB ten divide by `10**6`.
+#' @return `numeric` size in bytes, to get MB ten divide by `10**6`.
 #' @note `renv` package has to be installed. `base` packages (`pacs::pacs_base()`) are not taken into account.
 #' @export
 #' @examples

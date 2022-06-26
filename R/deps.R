@@ -200,9 +200,9 @@ pac_deps_heavy <- function(pac, fields = c("Depends", "Imports", "LinkingTo"), l
 #' The required dependencies have to be installed in the local repository.
 #' The default arguments setup is recommended.
 #' @inheritParams standard_args
-#' @param local logical if to use local repository (or newest remote packages). Default: TRUE
+#' @param local `logical` if to use local repository (or newest remote packages). Default: TRUE
 #' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
-#' @return character vector with dependency packages or data.frame when checking recursively.
+#' @return `character` vector with dependency packages or data.frame when checking recursively.
 #' @note `renv` package has to be installed.
 #' @export
 #' @examples
