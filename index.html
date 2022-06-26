@@ -131,7 +131,8 @@
 <code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span>
   checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
     scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>,
-    flavors <span class="op">=</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/match_flavors.html">match_flavors</a></span><span class="op">(</span><span class="op">)</span>
+    <span class="co"># by default all flavors</span>
+    flavors <span class="op">=</span> <span class="cn">NULL</span>
   <span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p>All CRAN releases of a package:</p>
