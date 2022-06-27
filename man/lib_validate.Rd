@@ -14,15 +14,17 @@ lib_validate(
 )
 }
 \arguments{
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
 \item{fields}{\code{character} vector listing the types of dependencies, a subset of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{lifeduration}{\code{logical} if to assess life duration for each package in the library.
+For installed newest releases of packages, a local evaluation is used.
 \verb{MEATCRAN CRANDB} is used for libraries with less than 500 packages.
-The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: `FALSE``}
+Otherwise the direct web page download from CRAN is used.
+Default: `FALSE``}
 
 \item{checkred}{\code{list} with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}.
 \code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}.
@@ -33,7 +35,7 @@ Default \code{list(scope = character(0), flavor = NULL)}}
 Useful mainly for a local usage.
 Packages installed with a previous version of R could not work correctly with the new version of R. Default: \code{FALSE}}
 
-\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 \code{data.frame} with 4/6/8/9/10 columns.

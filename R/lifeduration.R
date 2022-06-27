@@ -2,7 +2,6 @@
 #' @description a package life duration for a certain version or at a specific Date.
 #' By default works for the newest package version.
 #' @inheritParams standard_args
-#' @param repos character vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `difftime`, number of days package version was the newest one.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.
@@ -92,7 +91,7 @@ pac_lifeduration <- function(pac,
 #' CRAN team gives around one/two week to resolved a package which gave errors under the check page.
 #' The newest release is checked for any warnings/errors on the R CRAN package check page.
 #' @inheritParams standard_args
-#' @param repos character vector URLs of the repositories to use. Used only for the validation. Default `https://cran.rstudio.com/`
+#' @param repos character vector repositories URLs to use. Default `https://cran.rstudio.com/`
 #' @return `logical` if a package is healthy.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.
@@ -150,7 +149,6 @@ pac_health <- function(pac,
 #' The `"crandb"` works if less than `getOption("pacs.crandb_limit")` (currently 500) packages are looked for.
 #' Default: `"crandb"`
 #' @inheritParams standard_args
-#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `data.frame` with two columns package name and life duration.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.

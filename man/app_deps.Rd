@@ -22,7 +22,7 @@ app_deps(
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
 \item{local}{\code{logical} if to use local repository (or newest remote packages). Default: TRUE}
 

@@ -2,7 +2,6 @@
 #' @description Package dependencies from DESCRIPTION files with installed or expected versions or newest released.
 #' @inheritParams standard_args
 #' @param local logical if to use local repository (or newest remote packages). Default: TRUE
-#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `data.frame` with packages and their versions. Versions are taken from `installed.packages` or newest released.
 #' @note When function is invoked in the loop afterwards results could be aggregated like,
 #' `stats::aggregate(results[, c("Version"), drop = FALSE], list(Package = results$Package), pacs::compareVersionsMax)`.
@@ -115,7 +114,6 @@ pac_deps <- function(pac,
 #'  their recursive dependencies taken from the same fields.
 #'  Dependencies are taken remotely for the newest version.
 #' @inheritParams standard_args
-#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `data.frame` with packages and their versions. Versions are taken from `installed.packages` or newest released.
 #' @export
 #' @examples
@@ -136,7 +134,6 @@ pac_deps_user <- function(pac, base = FALSE, local = FALSE, attr = TRUE, repos =
 #'  their recursive dependencies taken from `"Depends", "Imports", "LinkingTo"` fields.
 #'  Dependencies are taken remotely for the newest version.
 #' @inheritParams standard_args
-#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `data.frame` with packages and their versions. Versions are taken from `installed.packages` or newest released.
 #' @export
 #' @examples
@@ -164,7 +161,6 @@ pac_deps_dev <- function(pac, base = FALSE, local = FALSE, attr = TRUE, repos = 
 #' @description A higher-level function, build from `pacs::pacs_deps` and `tools::package_dependencies`.
 #' A tool to identify a main sources of dependencies, which direct dependencies are the heaviest one.
 #' @inheritParams standard_args
-#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `data.frame` with three columns `c("Package", "NrDeps", "NrUniqueDeps")`: package name, number of dependencies and number of unique dependencies (not shared by other direct dependencies).
 #' @note Please take into account that the sum of the dependencies is not equal to the number of dependencies of the main package,
 #' because some dependencies are overlapping.

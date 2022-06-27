@@ -4,7 +4,6 @@
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each package.
 #' @inheritParams standard_args
-#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `data.frame` with 4/6/8/9/10 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
@@ -106,7 +105,6 @@ lib_validate <- function(lib.loc = .libPaths(),
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each dependency.
 #' @inheritParams standard_args
-#' @param repos `character` vector URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `data.frame` with 5/7/8/9 columns.
 #' \describe{
 #' \item{Package}{character a package name.}
@@ -206,7 +204,6 @@ pac_validate <- function(pac,
 #' Moreover identifying which packages are newest releases.
 #' Optionally we could add life duration and CRAN check page status for each dependency.
 #' @inheritParams standard_args
-#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @return `data.frame` with 2/6/7/8 columns.
 #' \describe{
 #' \item{Package}{character a package name.}

@@ -18,7 +18,7 @@ pac_true_size(
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
 \item{exclude_joint}{\code{integer} exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: \code{0}}
 }

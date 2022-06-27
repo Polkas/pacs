@@ -19,9 +19,9 @@ pac_compare_namespace(
 
 \item{new}{\code{character} a new version of package, default newest version. Default: \code{NULL}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
-\item{repos}{\code{character} vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{\code{character} vector repositories URLs to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 \code{list} with \code{c("imports", "exports", "exportPatterns", "importClasses", "importMethods", "exportClasses", "exportMethods", "exportClassPatterns", "dynlibs", "S3methods")} slots, and added and removed ones for each of them.

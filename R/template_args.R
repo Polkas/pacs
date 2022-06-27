@@ -1,7 +1,7 @@
 #' Standard Template Arguments
 #'
 #' @param at `Date` from which to take the version. Default: `NULL`
-#' @param attr `logical` specify if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE
+#' @param attr `logical` if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE
 #' @param base `logical` if to add base packages too. If `TRUE` then `pacs::pacs_base()` are taken into account. Default: `FALSE`
 #' @param built `logical` if to add an R version under which each package was installed.
 #' Useful mainly for a local usage.
@@ -19,10 +19,12 @@
 #' The `pacs::match_flavors()` function could be used to get CRAN server names matched for your local `OS`.
 #' By default all CRAN machines are considered `NULL` value. Default `NULL`
 #' @param from `Date` the lower limit. Default: `NULL`
-#' @param lib.loc `character` vector of search paths for local packages. Default: `.libPaths()`
+#' @param lib.loc `character` vector of search paths with local packages. Default: `.libPaths()`
 #' @param lifeduration `logical` if to assess life duration for each package in the library.
+#' For installed newest releases of packages, a local evaluation is used.
 #' `MEATCRAN CRANDB` is used for libraries with less than 500 packages.
-#' The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: `FALSE``
+#' Otherwise the direct web page download from CRAN is used.
+#' Default: `FALSE``
 #' @param limit `numeric` at least days to treat as healthy, ">=limit". Default: 14
 #' @param local `logical` if to use local repository (or newest remote packages). Default: `FALSE`
 #' @param na.rm `logical` if to remove `NA` values.
@@ -31,7 +33,7 @@
 #' @param pac `character` a package name.
 #' @param pacs `character` vector of packages names.
 #' @param path `character` path to the shiny app. Default: `"."`
-#' @param repos `character` vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
+#' @param repos `character` vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @param recursive `logical` if to assess the dependencies recursively. Default: TRUE
 #' @param scope `character` vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default `c("ERROR", "FAIL")`
 #' @param source `character`` one of `c("crandb", "cran")`. Using the `MEATCRAN CRANDB` or the direct web page download from CRAN. Default: `"crandb"`

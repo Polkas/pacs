@@ -20,13 +20,13 @@ pac_deps_heavy(
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
 \item{base}{\code{logical} if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: \code{FALSE}}
 
 \item{local}{\code{logical} if to use local repository (or newest remote packages). Default: \code{FALSE}}
 
-\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 \code{data.frame} with three columns \code{c("Package", "NrDeps", "NrUniqueDeps")}: package name, number of dependencies and number of unique dependencies (not shared by other direct dependencies).

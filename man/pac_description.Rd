@@ -22,9 +22,9 @@ pac_description(
 
 \item{local}{\code{logical} if to use local repository (or newest remote packages). Default: \code{FALSE}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
-\item{repos}{\code{character} vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{\code{character} vector repositories URLs to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 \code{list} with names proper for DESCRIPTION file fields.

@@ -24,9 +24,9 @@ pac_compare_versions(
 Character string "all" is shorthand for that vector, character string "most" for the same vector without "Enhances", character string "strong" (default) for the first three elements of that vector.
 Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
-\item{repos}{\code{character} vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{\code{character} vector repositories URLs to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
 \code{data.frame} with 4 columns.

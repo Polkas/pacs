@@ -19,9 +19,9 @@ pac_deps_dev(
 
 \item{local}{\code{logical} if to use local repository (or newest remote packages). Default: \code{FALSE}}
 
-\item{attr}{\code{logical} specify if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE}
+\item{attr}{\code{logical} if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE}
 
-\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 \code{data.frame} with packages and their versions. Versions are taken from \code{installed.packages} or newest released.

@@ -6,7 +6,7 @@
 \arguments{
 \item{at}{\code{Date} from which to take the version. Default: \code{NULL}}
 
-\item{attr}{\code{logical} specify if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE}
+\item{attr}{\code{logical} if a package and its version should be added as an attribute of data.frame or for FALSE as an additional record. Default: TRUE}
 
 \item{base}{\code{logical} if to add base packages too. If \code{TRUE} then \code{pacs::pacs_base()} are taken into account. Default: \code{FALSE}}
 
@@ -33,11 +33,13 @@ By default all CRAN machines are considered \code{NULL} value. Default \code{NUL
 
 \item{from}{\code{Date} the lower limit. Default: \code{NULL}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
 \item{lifeduration}{\code{logical} if to assess life duration for each package in the library.
+For installed newest releases of packages, a local evaluation is used.
 \verb{MEATCRAN CRANDB} is used for libraries with less than 500 packages.
-The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: `FALSE``}
+Otherwise the direct web page download from CRAN is used.
+Default: `FALSE``}
 
 \item{limit}{\code{numeric} at least days to treat as healthy, ">=limit". Default: 14}
 
@@ -55,7 +57,7 @@ The direct web page download from CRAN or local evaluation for newest packages o
 
 \item{path}{\code{character} path to the shiny app. Default: \code{"."}}
 
-\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 
 \item{recursive}{\code{logical} if to assess the dependencies recursively. Default: TRUE}
 

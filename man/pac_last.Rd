@@ -9,7 +9,7 @@ pac_last(pac, repos = biocran_repos())
 \arguments{
 \item{pac}{\code{character} a package name.}
 
-\item{repos}{character vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 \code{character} most recent package version.

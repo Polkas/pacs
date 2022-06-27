@@ -31,9 +31,9 @@ pac_health(
 The \code{pacs::match_flavors()} function could be used to get CRAN server names matched for your local \code{OS}.
 By default all CRAN machines are considered \code{NULL} value. Default \code{NULL}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
-\item{repos}{character vector URLs of the repositories to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
+\item{repos}{character vector repositories URLs to use. Default \verb{https://cran.rstudio.com/}}
 
 \item{source}{\verb{character`` one of }c("crandb", "cran")\verb{. Using the }MEATCRAN CRANDB\verb{or the direct web page download from CRAN. Default:}"crandb"`}
 }

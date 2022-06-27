@@ -20,6 +20,7 @@
 #' @export
 #' @examples
 #' \dontrun{
+#' pacs::pac_timemachine("dplyr")
 #' pacs::pac_timemachine("dplyr", at = as.Date("2017-02-02"))
 #' pacs::pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
 #' pacs::pac_timemachine("dplyr", at = Sys.Date())

@@ -38,5 +38,6 @@ Longer lived version is taken if 2 is available at the same date (switch time).
 \dontrun{
 pacs::pac_deps_timemachine("memoise", "0.2.1")
 pacs::pac_deps_timemachine("memoise", at = as.Date("2019-01-01"))
+pacs::pac_deps_timemachine("dplyr", at = as.Date("2015-01-01"))
 }
 }

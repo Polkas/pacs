@@ -11,9 +11,9 @@ pac_islast(pac, version = NULL, lib.loc = .libPaths(), repos = biocran_repos())
 
 \item{version}{\code{character} version of a package. Default: \code{NULL}}
 
-\item{lib.loc}{\code{character} vector of search paths for local packages. Default: \code{.libPaths()}}
+\item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
 
-\item{repos}{\code{character} vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R Version. Default \code{pacs::biocran_repos()}}
+\item{repos}{\code{character} vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }
 \value{
 \code{logical} if a package is inside repositories.
