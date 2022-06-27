@@ -89,8 +89,10 @@ Optionally we could add life duration and CRAN check page status for each depend
 
 <dt>lifeduration</dt>
 <dd><p><code>logical</code> if to assess life duration for each package in the library.
+For installed newest releases of packages, a local evaluation is used.
 <code>MEATCRAN CRANDB</code> is used for libraries with less than 500 packages.
-The direct web page download from CRAN or local evaluation for newest packages otherwise. Default: `FALSE``</p></dd>
+Otherwise the direct web page download from CRAN is used.
+Default: `FALSE``</p></dd>
 
 
 <dt>checkred</dt>
@@ -101,11 +103,11 @@ Default <code>list(scope = character(0), flavor = NULL)</code></p></dd>
 
 
 <dt>lib.loc</dt>
-<dd><p><code>character</code> vector of search paths for local packages. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
+<dd><p><code>character</code> vector of search paths with local packages. Default: <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code></p></dd>
 
 
 <dt>repos</dt>
-<dd><p><code>character</code> vector base URLs of the repositories to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
+<dd><p><code>character</code> vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default <code><a href="biocran_repos.html">pacs::biocran_repos()</a></code></p></dd>
 
 </dl></div>
     <div id="value">
