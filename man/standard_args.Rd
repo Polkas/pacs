@@ -17,7 +17,7 @@ Packages installed with a previous version of R could not work correctly with th
 \item{checkred}{\code{list} with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}.
 \code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}.
 By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines.
-Default \code{list(scope = character(0), flavor = NULL)}}
+Default: \code{list(scope = character(0), flavor = NULL)}}
 
 \item{description_v}{\code{logical} if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: \code{FALSE}}
 
@@ -29,7 +29,7 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 
 \item{flavors}{\code{character} vector of CRAN server names to consider, possible names could be get with \code{pacs::cran_flavors()$Flavor}.
 The \code{pacs::match_flavors()} function could be used to get CRAN server names matched for your local \code{OS}.
-By default all CRAN machines are considered \code{NULL} value. Default \code{NULL}}
+By default all CRAN machines are considered \code{NULL} value. Default: \code{NULL}}
 
 \item{from}{\code{Date} the lower limit. Default: \code{NULL}}
 
@@ -61,9 +61,9 @@ Default: `FALSE``}
 
 \item{recursive}{\code{logical} if to assess the dependencies recursively. Default: TRUE}
 
-\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default \code{c("ERROR", "FAIL")}}
+\item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default: \code{c("ERROR", "FAIL")}}
 
-\item{source}{\verb{character`` one of }c("crandb", "cran")\verb{. Using the }MEATCRAN CRANDB\verb{or the direct web page download from CRAN. Default:}"crandb"`}
+\item{source}{\code{character} one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
 
 \item{startup}{\code{logical} include only \code{startup} packages. Default: \code{FALSE}}
 

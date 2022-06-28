@@ -31,7 +31,7 @@ Default: `FALSE``}
 \item{checkred}{\code{list} with two named fields, \code{scope} and \code{flavor}. \code{scope} of R CRAN check pages statuses to consider, any of \code{c("ERROR", "FAIL", "WARN", "NOTE")}.
 \code{flavor} is a vector of CRAN machines to consider, which might be retrieved with \code{pacs::cran_flavors()$Flavor}.
 By default an empty scope field deactivated assessment for \code{checkred} column, and NULL flavor will results in checking all machines.
-Default \code{list(scope = character(0), flavor = NULL)}}
+Default: \code{list(scope = character(0), flavor = NULL)}}
 
 \item{repos}{\code{character} vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 }

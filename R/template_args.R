@@ -9,7 +9,7 @@
 #' @param checkred `list` with two named fields, `scope` and `flavor`. `scope` of R CRAN check pages statuses to consider, any of `c("ERROR", "FAIL", "WARN", "NOTE")`.
 #' `flavor` is a vector of CRAN machines to consider, which might be retrieved with `pacs::cran_flavors()$Flavor`.
 #' By default an empty scope field deactivated assessment for `checkred` column, and NULL flavor will results in checking all machines.
-#' Default `list(scope = character(0), flavor = NULL)`
+#' Default: `list(scope = character(0), flavor = NULL)`
 #' @param description_v `logical` if the dependencies version should be taken from description files, minimal required. By default installed versions are taken. Default: `FALSE`
 #' @param exclude_joint `integer` exclude packages which are dependencies of at least N other packages, not count main package dependencies. Default: `0`
 #' @param fields `character` vector listing the types of dependencies, a subset of `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")`.
@@ -17,7 +17,7 @@
 #' Default: `c("Depends", "Imports", "LinkingTo")`
 #' @param flavors `character` vector of CRAN server names to consider, possible names could be get with `pacs::cran_flavors()$Flavor`.
 #' The `pacs::match_flavors()` function could be used to get CRAN server names matched for your local `OS`.
-#' By default all CRAN machines are considered `NULL` value. Default `NULL`
+#' By default all CRAN machines are considered `NULL` value. Default: `NULL`
 #' @param from `Date` the lower limit. Default: `NULL`
 #' @param lib.loc `character` vector of search paths with local packages. Default: `.libPaths()`
 #' @param lifeduration `logical` if to assess life duration for each package in the library.
@@ -35,8 +35,8 @@
 #' @param path `character` path to the shiny app. Default: `"."`
 #' @param repos `character` vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @param recursive `logical` if to assess the dependencies recursively. Default: TRUE
-#' @param scope `character` vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default `c("ERROR", "FAIL")`
-#' @param source `character`` one of `c("crandb", "cran")`. Using the `MEATCRAN CRANDB` or the direct web page download from CRAN. Default: `"crandb"`
+#' @param scope `character` vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default: `c("ERROR", "FAIL")`
+#' @param source `character` one of `c("crandb", "cran")`. Using the `MEATCRAN CRANDB` or the direct web page download from CRAN. Default: `"crandb"`
 #' @param startup `logical` include only `startup` packages. Default: `FALSE`
 #' @param to `Date` the upper limit. Default: `NULL`
 #' @param vec `character` vector.

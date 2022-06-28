@@ -24,7 +24,7 @@ pac_timemachine(
 
 \item{version}{\code{character} version of a package. Default: \code{NULL}}
 
-\item{source}{\verb{character`` one of }c("crandb", "cran")\verb{. Using the }MEATCRAN CRANDB\verb{or the direct web page download from CRAN. Default:}"crandb"`}
+\item{source}{\code{character} one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
 }
 \value{
 \code{data.frame} with 7 columns
