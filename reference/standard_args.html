@@ -90,7 +90,7 @@ Packages installed with a previous version of R could not work correctly with th
 <dd><p><code>list</code> with two named fields, <code>scope</code> and <code>flavor</code>. <code>scope</code> of R CRAN check pages statuses to consider, any of <code>c("ERROR", "FAIL", "WARN", "NOTE")</code>.
 <code>flavor</code> is a vector of CRAN machines to consider, which might be retrieved with <code>pacs::cran_flavors()$Flavor</code>.
 By default an empty scope field deactivated assessment for <code>checkred</code> column, and NULL flavor will results in checking all machines.
-Default <code>list(scope = character(0), flavor = NULL)</code></p></dd>
+Default: <code>list(scope = character(0), flavor = NULL)</code></p></dd>
 
 
 <dt>description_v</dt>
@@ -110,7 +110,7 @@ Default: <code>c("Depends", "Imports", "LinkingTo")</code></p></dd>
 <dt>flavors</dt>
 <dd><p><code>character</code> vector of CRAN server names to consider, possible names could be get with <code>pacs::cran_flavors()$Flavor</code>.
 The <code><a href="match_flavors.html">pacs::match_flavors()</a></code> function could be used to get CRAN server names matched for your local <code>OS</code>.
-By default all CRAN machines are considered <code>NULL</code> value. Default <code>NULL</code></p></dd>
+By default all CRAN machines are considered <code>NULL</code> value. Default: <code>NULL</code></p></dd>
 
 
 <dt>from</dt>
@@ -170,11 +170,11 @@ Default: `FALSE``</p></dd>
 
 
 <dt>scope</dt>
-<dd><p><code>character</code> vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default <code>c("ERROR", "FAIL")</code></p></dd>
+<dd><p><code>character</code> vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default: <code>c("ERROR", "FAIL")</code></p></dd>
 
 
 <dt>source</dt>
-<dd><p><code>character`` one of </code>c("crandb", "cran")<code>. Using the </code>MEATCRAN CRANDB<code>or the direct web page download from CRAN. Default:</code>"crandb"`</p></dd>
+<dd><p><code>character</code> one of <code>c("crandb", "cran")</code>. Using the <code>MEATCRAN CRANDB</code> or the direct web page download from CRAN. Default: <code>"crandb"</code></p></dd>
 
 
 <dt>startup</dt>
