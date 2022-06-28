@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.6.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.8</span>
       </span>
     </div>
 
@@ -167,7 +167,7 @@ dependencies:
 <p>So what about the rest. <strong>Suggests</strong> are installed when we run <code>R CMD CHECK</code> (or higher level like <code>devtools::check()</code>), they are used for tests (e.g. testthat) or for examples (<code>roxygen2</code> <span class="citation">@examples</span>). <strong>Enhances</strong> is used rarely as these are packages which could extent the usage and are NOT needed for running examples and tests. If your tests/examples use e.g. a dataset from another package it should be in <strong>Suggests</strong> and not <strong>Enhances</strong>.</p>
 <p>So now we see that a <strong>Imports</strong> dependency is not equal to a <strong>Suggests</strong> dependency. From the perspective of the end user we focus on <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong> dependencies which they will downlaod with <code>install.packages</code>.</p>
 <p>It’s common for packages to be listed in Imports in DESCRIPTION, but not in NAMESPACE. The DESCRIPTION file Imports field really has nothing to do with functions imported into the namespace. The DESCRIPTION file Imports is mainly used by <code>install.packages</code>. On the other hand NAMESPACE is a place where we defining what we need to build our package and what we want to expose to the end users (export). Nowadays the NAMESPACE file is even more mistearious as it is build automatically e.g. by <code>roxygen2</code> package. A package have to be listed in the <strong>Imports</strong> in DESCRIPTION file, but not in NAMESPACE if we will call the dependencies function with <code>::</code> in the main package. This explicit calls to dependencies are preferred.</p>
-<p>If you are interested “How-R-Searches-And-Finds-Stuff” I recommend <a href="http://blog.obeautifulcode.com/R/How-R-Searches-And-Finds-Stuff/" class="external-link">a great blog post</a> which have more than 10 years and still is a one of the most valuable R sources.</p>
+<p>If you are interested “How-R-Searches-And-Finds-Stuff” I recommend <a href="https://blog.thatbuthow.com/how-r-searches-and-finds-stuff/" class="external-link">a great blog post</a> which have more than 10 years and still is a one of the most valuable R sources.</p>
 </div>
 <div class="section level2">
 <h2 id="tinytest-vs-testthat">
