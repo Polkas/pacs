@@ -12,4 +12,6 @@
 ^_pkgdown\.yaml$
 ^_pkgdown\.yml$
 ^vignettes/Poster\.Rmd$
-
+^\.DS_Store$
+^doc$
+^Meta$

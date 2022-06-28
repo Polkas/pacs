@@ -45,3 +45,5 @@ vignettes/*.pdf
 inst/doc
 renv.lock
 .DS_Store
+/doc/
+/Meta/

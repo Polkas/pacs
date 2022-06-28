@@ -1,4 +1,4 @@
-# pacs 0.4.6.9000
+# pacs 0.4.8
 
 * fix the "how-r-searches-and-finds-stuff" url.
 * a new `match_flavors` function to get CRAN server names matched to local `OS`.

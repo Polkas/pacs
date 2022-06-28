@@ -154,7 +154,7 @@ The DESCRIPTION file Imports is mainly used by `install.packages`.
 On the other hand NAMESPACE is a place where we defining what we need to build our package and what we want to expose to the end users (export). Nowadays the NAMESPACE file is even more mistearious as it is build automatically e.g. by `roxygen2` package.
 A package have to be listed in the **Imports** in DESCRIPTION file, but not in NAMESPACE if we will call the dependencies function with `::` in the main package. This explicit calls to dependencies are preferred.
  
-If you are interested "How-R-Searches-And-Finds-Stuff" I recommend [a great blog post](http://blog.obeautifulcode.com/R/How-R-Searches-And-Finds-Stuff/) which have more than 10 years and still is a one of the most valuable R sources.
+If you are interested "How-R-Searches-And-Finds-Stuff" I recommend [a great blog post](https://blog.thatbuthow.com/how-r-searches-and-finds-stuff/) which have more than 10 years and still is a one of the most valuable R sources.
 
 ## `tinytest` vs `testthat`
 

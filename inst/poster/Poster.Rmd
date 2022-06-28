@@ -213,6 +213,6 @@ Think `tiny` and be minimalist for better UX and easier development work.
 - https://rstudio.github.io/renv/articles/renv.html
 - https://cranlogs.r-pkg.org/
 - https://r-pkgs.org/
-- http://blog.obeautifulcode.com/R/How-R-Searches-And-Finds-Stuff/
+- https://blog.thatbuthow.com/how-r-searches-and-finds-stuff/
 - https://cran.r-project.org/doc/manuals/r-release/R-exts.html
 
