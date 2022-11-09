@@ -320,7 +320,7 @@ validate_online <- function(result,
   newest_df$newest <- vapply(
     seq_len(nrow(newest_df)),
     function(x) utils::compareVersion(version_rel[x], version_base[x]),
-    integer(1)
+    numeric(1)
   ) >= 0
 
   result <- merge(
