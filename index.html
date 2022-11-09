@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.8.9000</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@
 <div class="page-header"><h1 id="pacs-">pacs <a href="https://github.com/polkas/pacs" class="external-link"><img src="reference/figures/pacs_logo.png" align="right" width="200px"></a>
 <a class="anchor" aria-label="anchor" href="#pacs-"></a>
 </h1></div>
-
+<p><a href="https://github.com/polkas/pacs/actions" class="external-link"><img src="https://github.com/polkas/pacs/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://cran.r-project.org/package=pacs" class="external-link"><img src="https://www.r-pkg.org/badges/version/pacs" alt="CRAN"></a> <a href="https://app.codecov.io/gh/Polkas/pacs" class="external-link"><img src="https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg" alt="codecov"></a></p>
 <p><a href="https://polkas.github.io/pacs/" class="external-link"><strong>For more information please visit the pacs website</strong></a>.</p>
 <p><a href="https://polkas.github.io/pacs/reference/index.html" class="external-link"><strong>Functions Reference</strong></a></p>
 <p>A set of tools that make life easier for developers and maintainers of R packages.</p>
@@ -116,11 +116,11 @@
 </h2>
 <p>Development version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"polkas/pacs"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"polkas/pacs"</span><span class="op">)</span></span></code></pre></div>
 <p>CRAN:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pacs"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pacs"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
@@ -128,22 +128,22 @@
 <p>For more examples with descriptions please visit <a href="https://polkas.github.io/pacs/articles/GettingStarted.html" class="external-link"><strong>the walk-through vignette</strong></a>.</p>
 <p>Validate the library:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span>
-  checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-    scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>,
-    <span class="co"># by default all flavors</span>
-    flavors <span class="op">=</span> <span class="cn">NULL</span>
-  <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/lib_validate.html">lib_validate</a></span><span class="op">(</span></span>
+<span>  checkred <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span><span class="op">)</span>,</span>
+<span>    <span class="co"># by default all flavors</span></span>
+<span>    flavors <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>All CRAN releases of a package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></span></code></pre></div>
 <p>Compare package DESCRIPTION file dependencies between versions:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.0.0"</span>, <span class="st">"1.5.0"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.0.0"</span>, <span class="st">"1.5.0"</span><span class="op">)</span></span></code></pre></div>
 <p>Looking for heavy dependencies:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps_heavy.html">pac_deps_heavy</a></span><span class="op">(</span><span class="st">"caret"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps_heavy.html">pac_deps_heavy</a></span><span class="op">(</span><span class="st">"caret"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -181,14 +181,7 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://github.com/polkas/pacs/actions" class="external-link"><img src="https://github.com/polkas/pacs/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://cran.r-project.org/package=pacs" class="external-link"><img src="https://www.r-pkg.org/badges/version/pacs" alt="CRAN"></a></li>
-<li><a href="https://app.codecov.io/gh/Polkas/pacs" class="external-link"><img src="https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg" alt="codecov"></a></li>
-</ul>
-</div>
+
 
   </div>
 </div>
@@ -201,7 +194,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer>
