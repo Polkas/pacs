@@ -315,7 +315,13 @@ validate_online <- function(result,
     sort = FALSE
   )
 
-  newest_df$newest <- as.character(newest_df[[version_name_new]]) == as.character(newest_df$Version)
+  version_base <- as.character(newest_df[["Version"]])
+  version_rel <- as.character(newest_df[[version_name_new]])
+  newest_df$newest <- vapply(
+    seq_len(nrow(newest_df)),
+    function(x) utils::compareVersion(version_rel[x], version_base[x]),
+    integer(1)
+  ) >= 0
 
   result <- merge(
     result,
