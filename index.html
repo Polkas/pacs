@@ -102,7 +102,7 @@
 <li>Validating the library, packages and <code>renv</code> lock files.</li>
 <li>Exploring complexity of a certain package like evaluating its size in bytes with dependencies.</li>
 <li>The shiny app complexity could be explored too.</li>
-<li>Assessing life duration of a specific package version.</li>
+<li>Assessing the life duration of a specific package version.</li>
 <li>Checking a CRAN package check page status for any errors and warnings.</li>
 <li>Retrieving a DESCRIPTION or NAMESPACE file for any package version.</li>
 <li>Comparing DESCRIPTION or NAMESPACE files between different package versions.</li>
@@ -135,14 +135,17 @@
 <span>    flavors <span class="op">=</span> <span class="cn">NULL</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>All CRAN releases of a package:</p>
+<p>Gather all package check statuses for all CRAN servers:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/checked_packages.html">checked_packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>All CRAN releases of a package:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_timemachine.html">pac_timemachine</a></span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span></span></code></pre></div>
 <p>Compare package DESCRIPTION file dependencies between versions:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_compare_versions.html">pac_compare_versions</a></span><span class="op">(</span><span class="st">"shiny"</span>, <span class="st">"1.0.0"</span>, <span class="st">"1.5.0"</span><span class="op">)</span></span></code></pre></div>
 <p>Looking for heavy dependencies:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="reference/pac_deps_heavy.html">pac_deps_heavy</a></span><span class="op">(</span><span class="st">"caret"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
