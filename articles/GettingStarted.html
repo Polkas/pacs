@@ -96,15 +96,15 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Polkas/pacs" class="external-link">pacs</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://withr.r-lib.org" class="external-link">withr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span></span></code></pre></div>
-<p>A set of tools that make life easier for developers and maintainers
-of R packages.</p>
+<p>pacs: A set of tools that make life easier for developers and
+maintainers of R packages.</p>
 <ul>
 <li>Validating the library, packages and <code>renv</code> lock
 files.</li>
-<li>Exploring complexity of a certain package like evaluating its size
-in bytes with dependencies.</li>
+<li>Exploring the complexity of a specific package, like evaluating its
+size in bytes with dependencies.</li>
 <li>The shiny app complexity could be explored too.</li>
-<li>Assessing life duration of a specific package version.</li>
+<li>Assessing the life duration of a specific package version.</li>
 <li>Checking a CRAN package check page status for any errors and
 warnings.</li>
 <li>Retrieving a DESCRIPTION or NAMESPACE file for any package
@@ -120,22 +120,23 @@ Reference</strong></a></p>
 <h2 id="hints">Hints<a class="anchor" aria-label="anchor" href="#hints"></a>
 </h2>
 <p><strong>Hint0</strong>: An Internet connection is required to take
-full advantage of most of the features.</p>
-<p><strong>Hint1</strong>: Almost all calls which requiring an Internet
+full advantage of most features.</p>
+<p><strong>Hint1</strong>: Almost all calls that requiring an Internet
 connection are cached (for 30 minutes) by the <code>memoise</code>
 package, so the second invocation of the same command (and arguments) is
 immediate. Restart the R session if you want to clear cached data.</p>
 <p><strong>Hint2</strong>: <code>Version</code> variable is mostly a
 minimal required i.e. max(version1, version2 , …).</p>
-<p><strong>Hint3</strong>: When working with many packages it is
-recommended to use global functions, which retrieves data for many
-packages at once. An example will be usage of
+<p><strong>Hint3</strong>: When working with many packages, global
+functions are recommended, which retrieve data for many packages at
+once. An example will be the usage of
 <code><a href="../reference/checked_packages.html">pacs::checked_packages()</a></code> over
 <code><a href="../reference/pac_checkpage.html">pacs::pac_checkpage</a></code> (or <code><a href="../reference/pac_checkred.html">pacs::pac_checkred</a></code>).
-Another example will be usage of <code><a href="https://rdrr.io/r/utils/available.packages.html" class="external-link">utils::available.packages</a></code>
-over <code><a href="../reference/pac_last.html">pacs::pac_last</a></code>. Finally, most important one will be
-<code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code> over <code><a href="../reference/pac_validate.html">pacs::pac_validate</a></code> and
-<code><a href="../reference/pac_checkred.html">pacs::pac_checkred</a></code> and others.</p>
+Another example will be the usage of
+<code><a href="https://rdrr.io/r/utils/available.packages.html" class="external-link">utils::available.packages</a></code> over <code><a href="../reference/pac_last.html">pacs::pac_last</a></code>.
+Finally, the most important one will be <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code>
+over <code><a href="../reference/pac_validate.html">pacs::pac_validate</a></code> and <code><a href="../reference/pac_checkred.html">pacs::pac_checkred</a></code>
+and others.</p>
 <p><strong>Hint4</strong>: Character string “all” is shorthand for the
 <code>c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")</code>
 vector, character string “most” for the same vector without “Enhances”,
@@ -144,7 +145,7 @@ of that vector.</p>
 <p><strong>Hint5</strong>: Use <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> (Linux
 and Mac) or <code><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parallel::parLapply</a></code> (Windows, Linux and Mac) to
 speed up loop calculations. Nevertheless, under
-<code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code> computation results are NOT cached with
+<code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply</a></code>, computation results are NOT cached with
 <code>memoise</code> package. Warning: Parallel computations might be
 unstable.</p>
 <p><strong>Hint6</strong>: <code>withr</code> and <code>remotes</code>
@@ -155,9 +156,9 @@ packages are a valuable addition.</p>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/lib_validate.html">lib_validate</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>This procedure will be crucial for R developers as clearly showing
-the possible broken packages inside the local library.<br>
-Thus we could assess which packages require versions to update.</p>
+<p>This procedure will be crucial for R developers, clearly showing the
+possible broken packages inside the local library.<br>
+We could assess which packages require versions to update.</p>
 <p>Default validation of the library with the
 <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code> function.<br>
 The <code>field</code> argument is equal to
@@ -165,12 +166,12 @@ The <code>field</code> argument is equal to
 are the dependencies installed when the <code>install.packages</code>
 function is used.</p>
 <p>The full library validation requires activation of two additional
-arguments <code>lifeduration</code> and <code>checkred</code>.
-Additional arguments are on default turned off as are time consuming,
-for <code>lifeduration</code> assessment might take even a few minutes
-for bigger libraries.</p>
+arguments, <code>lifeduration</code> and <code>checkred</code>.
+Additional arguments are by default turned off as they are
+time-consuming, for <code>lifeduration</code> assessment might take even
+a few minutes for bigger libraries.</p>
 <p>Assessment of status on CRAN check pages takes only a few additional
-seconds even for all R CRAN packages.
+seconds, even for all R CRAN packages.
 <code><a href="../reference/checked_packages.html">pacs::checked_packages()</a></code> is used to gather all package
 check statuses for all CRAN servers.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -209,7 +210,7 @@ version:</p>
 <code class="sourceCode R"><span><span class="va">red</span> <span class="op">&lt;-</span> <span class="va">lib</span><span class="op">[</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lib</span><span class="op">$</span><span class="va">checkred</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">lib</span><span class="op">$</span><span class="va">checkred</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">red</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">red</span><span class="op">)</span></span></code></pre></div>
-<p>Packages which are not a dependency (default
+<p>Packages that are not a dependency (default
 <code>c("Depends", "Imports", "LinkingTo")</code>) of any other
 package:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -224,8 +225,8 @@ package:</p>
 <div class="section level3">
 <h3 id="core-idea-behind-lib_validate">Core idea behind lib_validate<a class="anchor" aria-label="anchor" href="#core-idea-behind-lib_validate"></a>
 </h3>
-<p>The core idea behind the function is coming from proper processing of
-the <code>installed.packages</code> function result.</p>
+<p>The core idea behind the function comes from proper processing of the
+<code>installed.packages</code> function result.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># aggregate function is needed as we could have different versions</span></span>
 <span><span class="co"># installed under different `.libPaths()`.</span></span>
@@ -255,11 +256,11 @@ the <code>installed.packages</code> function result.</p>
 <h3 id="renv-library">renv library<a class="anchor" aria-label="anchor" href="#renv-library"></a>
 </h3>
 <p>When a project is based on <code>renv</code> and all needed
-dependencies are installed in the <code>renv</code> directory then we
-mostly want to validate only the isolated <code>renv</code> library. In
-the new <code>renv</code> versions the <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> contains
-the main library path too (<code>renv</code> library and the main
-library). Please remember to limit the library path when using
+dependencies are installed in the <code>renv</code> directory, we mostly
+want to validate only the isolated <code>renv</code> library. In the new
+<code>renv</code> versions the <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> contains the
+main library path too (<code>renv</code> library and the main library).
+Please remember to limit the library path when using
 <code><a href="../reference/lib_validate.html">pacs::lib_validate</a></code>, to limit the validation to only
 <code>renv</code> library.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -297,13 +298,13 @@ same way the local library or packages are validated.</p>
 <code>.packages</code> family functions, like
 <code><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">utils::installed.packages()</a></code> and
 <code><a href="https://rdrr.io/r/utils/available.packages.html" class="external-link">utils::available.packages()</a></code>.
-<code><a href="../reference/checked_packages.html">pacs::checked_packages</a></code> retrieves all current packages
-checks from <a href="https://cran.r-project.org/web/checks/check_summary_by_package.html" class="external-link">CRAN
+<code><a href="../reference/checked_packages.html">pacs::checked_packages</a></code> retrieves all current package checks
+from <a href="https://cran.r-project.org/web/checks/check_summary_by_package.html" class="external-link">CRAN
 webpage</a>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/checked_packages.html">checked_packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Use <code>pacs::pac_checkpage("dplyr")</code> to get the check page
-per package. However <code><a href="../reference/checked_packages.html">pacs::checked_packages()</a></code> will be more
+per package. However, <code><a href="../reference/checked_packages.html">pacs::checked_packages()</a></code> will be more
 efficient for many packages. Remember that
 <code><a href="../reference/checked_packages.html">pacs::checked_packages()</a></code> result is cached after the first
 invoke.</p>
@@ -311,21 +312,21 @@ invoke.</p>
 <div class="section level3">
 <h3 id="package-health-and-life-duration">Package health and life duration<a class="anchor" aria-label="anchor" href="#package-health-and-life-duration"></a>
 </h3>
-<p>We could find out if a certain package version lived more than 14
-days (or other x limit days). If not then we might assume something was
-wrong with it, as had to be quickly updated.</p>
+<p>We could determine if a specific package version lived more than 14
+days (or other x limit days). If not then we might assume something
+needed to be fixed with it, as had to be quickly updated.</p>
 <p>e.g. <code>dplyr</code> under the “0.8.0” version seems to be a
 broken release, we could find out that it was published only for 1
 day.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_lifeduration.html">pac_lifeduration</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"0.8.0"</span><span class="op">)</span></span></code></pre></div>
 <p>With a 14 day limit we get a proper health status. We are sure about
-this state as this is not the newest release. For newest packages we are
-checking if there are any red messages on CRAN check pages too,
+this state as this is not the newest release. For the newest packages we
+are checking if there are any red messages on CRAN check pages too,
 specified with a <code>scope</code> argument.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_health.html">pac_health</a></span><span class="op">(</span><span class="st">"dplyr"</span>, version <span class="op">=</span> <span class="st">"0.8.0"</span>, limit <span class="op">=</span> <span class="fl">14</span><span class="op">)</span></span></code></pre></div>
-<p>For the newest package we will check the CRAN check page too, the
+<p>For the newest package, we will check the CRAN check page too, the
 scope might be adjusted.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_health.html">pac_health</a></span><span class="op">(</span><span class="st">"dplyr"</span>, limit <span class="op">=</span> <span class="fl">14</span>, scope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ERROR"</span>, <span class="st">"FAIL"</span>, <span class="st">"WARN"</span><span class="op">)</span><span class="op">)</span></span>
@@ -333,7 +334,7 @@ scope might be adjusted.</p>
 <span>                 flavors <span class="op">=</span> <span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/cran_flavors.html">cran_flavors</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">Flavor</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="simulate-a-package-download-with-the-withr-package">Simulate a package download with the withr package<a class="anchor" aria-label="anchor" href="#simulate-a-package-download-with-the-withr-package"></a>
+<h3 id="simulate-a-package-download-with-the-withr-package">Simulate a package download with the <code>withr</code> package<a class="anchor" aria-label="anchor" href="#simulate-a-package-download-with-the-withr-package"></a>
 </h3>
 <p><code>withr</code> package is recommended for the isolated download
 process.<br>
