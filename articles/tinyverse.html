@@ -95,12 +95,11 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>The R community <a href="https://tinyverse.netlify.app/" class="external-link"><code>tinyverse</code></a>
-movement is a tryout of creating a new package development standards.
-The clue is the TINY part here. The last years od R package development
-were full of high number of dependencies temptations.
-<code>tinyverse</code> means as least dependencies as possible as R
-package dependencies matter. Every dependency you add to your project is
-an invitation to break your project.</p>
+movement is a tryout of creating new package development standards. The
+clue is the TINY part here. The last years of R package development were
+full of many dependencies temptations. <code>tinyverse</code> means as
+few dependencies as R package dependencies matter. Every dependency you
+add to your project is an invitation to break your project.</p>
 <p>More information is available on <a href="https://www.tinyverse.org/" class="external-link"><code>tinyverse</code>
 website</a>.</p>
 </div>
@@ -108,19 +107,19 @@ website</a>.</p>
 <h2 id="tinyverse-badges">
 <code>tinyverse</code> badges<a class="anchor" aria-label="anchor" href="#tinyverse-badges"></a>
 </h2>
-<p>The <code>tidyverse</code> team want to help and motivate R
-developers. Thus they created a rest-api which generates a dependencies
-badge for each CRAN package. The badge contains 2 numbers the first
-number is a direct dependencies and the second one recursive ones. The R
+<p>The <code>tidyverse</code> team wants to help and motivate R
+developers. Thus they created a rest-API which generates a dependencies
+badge for each CRAN package. The badge contains 2 numbers; the first
+number is a direct dependency and the second one recursive ones. The R
 base packages are not counted. The <code>tinyverse</code> badge could
-have 4 colors bright green or green or orange or red, to get a green
-badge package have to have less than 5 packages (&lt;5) in the
+have one of 4 colors: bright green, green, orange, or red. To get a
+green badge package have to have less than 5 packages (&lt;5) in the
 <code>Depends</code>/<code>Imports</code>/<code>LinkingTo</code> fields
-(check Dependencies subsection for more description). To have a bright
-green a zero dependencies are needed. The orange badge is from 5 to 9
-dependencies (&gt;=5 and &lt;=9). And the last oen red when there are
-more than 9 dependencies (&gt;= 10). Of course the base packages are not
-counted as a dependency, <code><a href="../reference/pacs_base.html">pacs::pacs_base()</a></code>.</p>
+(check the Dependencies subsection for more description). To have a
+bright green a, zero dependencies are needed. The orange badge is from 5
+to 9 dependencies (&gt;=5 and &lt;=9). And the last one red when there
+are more than 9 dependencies (&gt;= 10). Of course, the base packages
+are not counted as a dependency, <code><a href="../reference/pacs_base.html">pacs::pacs_base()</a></code>.</p>
 <p>Summing up, each badge constraint:</p>
 <ul>
 <li>bright green: 0</li>
@@ -142,19 +141,19 @@ counted as a dependency, <code><a href="../reference/pacs_base.html">pacs::pacs_
 </h2>
 <p>The <code>tidyverse</code> is an opinionated collection of R packages
 designed for data science. All packages share an underlying design
-philosophy, grammar, and data structures. On the other hand the
-<code>tinyvere</code> is only a R community movement which try to make a
-new programming standard. There is no <code>tinyverse</code> packages
-collection, any package which have less than 5 direct dependencies (in
-the <code>Depends</code>/<code>Imports</code>/<code>LinkingTo</code>
-fields) are treated as a decent one. The best is to have zero
-dependencies. Even <code>tidyverse</code> looks to go in the direction
-of <code>tinyverse</code> if we check their lower level packages like
-<code>purrr</code>, <code>forcats</code>, <code>renv</code> or
-<code>rlang</code>.</p>
-<p>the core <code>tidyverse</code> packages:</p>
+philosophy, grammar, and data structures. On the other hand, the
+<code>tinyvere</code> is only a R community movement that is trying to
+make a new programming standard. There is no <code>tinyverse</code>
+package collection; any package which has less than 5 direct
+dependencies (in the
+<code>Depends</code>/<code>Imports</code>/<code>LinkingTo</code> fields)
+are treated as a decent one. The best is to have zero dependencies. Even
+<code>tidyverse</code> looks to go toward <code>tinyverse</code> if we
+check their lower-level packages like <code>purrr</code>,
+<code>forcats</code>, <code>renv</code> or <code>rlang</code>.</p>
+<p>The core <code>tidyverse</code> packages:</p>
 <p><code>ggplot2</code>: <a href="https://CRAN.R-project.org/package=ggplot2" class="external-link"><img src="https://tinyverse.netlify.com/badge/ggplot2"></a><br><code>tibble</code>: <a href="https://CRAN.R-project.org/package=tibble" class="external-link"><img src="https://tinyverse.netlify.com/badge/tibble"></a><br><code>tidyr</code>: <a href="https://CRAN.R-project.org/package=tidyr" class="external-link"><img src="https://tinyverse.netlify.com/badge/tidyr"></a><br><code>readr</code>: <a href="https://CRAN.R-project.org/package=readr" class="external-link"><img src="https://tinyverse.netlify.com/badge/readr"></a><br><code>purrr</code>: <a href="https://CRAN.R-project.org/package=purrr" class="external-link"><img src="https://tinyverse.netlify.com/badge/purrr"></a><br><code>dplyr</code>: <a href="https://CRAN.R-project.org/package=dplyr" class="external-link"><img src="https://tinyverse.netlify.com/badge/dplyr"></a><br><code>stringr</code>: <a href="https://CRAN.R-project.org/package=stringr" class="external-link"><img src="https://tinyverse.netlify.com/badge/stringr"></a><br><code>forcats</code>: <a href="https://CRAN.R-project.org/package=forcats" class="external-link"><img src="https://tinyverse.netlify.com/badge/forcats"></a></p>
-<p>examples of random <code>tinyverse</code> packages, bright green or
+<p>Examples of random <code>tinyverse</code> packages, bright green or
 green badges:</p>
 <p><code>Rcpp</code>: <a href="https://CRAN.R-project.org/package=Rcpp" class="external-link"><img src="https://tinyverse.netlify.com/badge/Rcpp"></a><br><code>rlang</code>: <a href="https://CRAN.R-project.org/package=rlang" class="external-link"><img src="https://tinyverse.netlify.com/badge/rlang"></a><br><code>renv</code>: <a href="https://CRAN.R-project.org/package=renv" class="external-link"><img src="https://tinyverse.netlify.com/badge/renv"></a><br><code>cat2cat</code>: <a href="https://CRAN.R-project.org/package=cat2cat" class="external-link"><img src="https://tinyverse.netlify.com/badge/cat2cat"></a><br><code>runner</code>: <a href="https://CRAN.R-project.org/package=runner" class="external-link"><img src="https://tinyverse.netlify.com/badge/runner"></a></p>
 </div>
@@ -176,8 +175,8 @@ them.</li>
 </ul>
 <p>Now you might think of what preciously these R package dependencies
 mean. The R DESCRIPTION file is the place where we could explore the
-number and nature of dependencies, the 5 fields are representing
-different types of dependencies:
+number and nature of dependencies; the 5 fields represent different
+types of dependencies:
 <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong>/<strong>Suggests</strong>/<strong>Enhances</strong>.</p>
 <p>DESCRIPTION file dependencies:</p>
 <pre><code>Package: NAME
@@ -195,9 +194,9 @@ Suggests:
 Enhances:
   Hmisc
 ...</code></pre>
-<p>We could get any installed packages description file with the
-<code>packageDescription</code> function. More than that the
-<code><a href="../reference/pac_description.html">pacs::pac_description</a></code> could get any even not installed
+<p>We could get any installed package description file with the
+<code>packageDescription</code> function. More than that, the
+<code><a href="../reference/pac_description.html">pacs::pac_description</a></code> could get any, even not installed
 package description file and for any version you want.</p>
 <p><code>packageDescription("pacs")</code></p>
 <p>When we run <code>install.packages</code> (and other install
@@ -208,99 +207,95 @@ We could easily confirm that by checking its help page and the
 <code>dependencies</code> argument definition:</p>
 <pre><code>?install.packages
 ...
-dependencies: 
+Dependencies: 
  ...
- The default, ‘NA’, 
- means ‘c("Depends", "Imports", "LinkingTo")’.</code></pre>
+ The default, 'NA', 
+ means 'c("Depends", "Imports", "LinkingTo")'.</code></pre>
 <p><strong>Depends</strong> are packages <code>library</code>
 (attached), before the main package is <code>library</code> (attached).
 So when we <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> the main package
 <strong>Depends</strong> dependencies functions are available to the end
 user in the R console. This could be more convenient for the end user if
-the main package is for example offering additional functionality over
-the dependency one.</p>
+the main package offers additional functionality over the dependency
+one.</p>
 <p>The <strong>Imports</strong> field lists packages whose namespaces
 are imported from (as specified in the NAMESPACE file or when sb is
 using <code>::</code>/<code>:::</code> inside the package) but which do
-not need to be attached (<code>library</code>). So when we
-<code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> the main package such dependencies functions are
-not available to the user in the R console. Namespaces accessed by the
-<code>::</code> and <code>:::</code> operators
+not need to be attached (<code>library</code>). When we use the
+<code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> call, <strong>Imports</strong> dependencies
+functions are unavailable to the user in the R console. Namespaces
+accessed by the <code>::</code> and <code>:::</code> operators
 (e.g. <code>ggplot2::ggplot</code>) must be listed in the
 <strong>Imports</strong> field, or in <strong>Suggests</strong> (when
 used only for tests or examples).</p>
-<p>A package that wishes to make use of header files in other packages
-to compile its C/C++ code needs to declare them as a comma-separated
-list in the field <strong>LinkingTo</strong>. Specifying a package in
+<p>A package that wishes to use header files in other packages to
+compile its C/C++ code needs to declare them as a comma-separated list
+in the field <strong>LinkingTo</strong>. Specifying a package in
 <strong>LinkingTo</strong> suffices if these are C/C++ headers
 containing source code or static linking is done at installation: the
 packages do not need to be (and usually should not be) listed in the
 <strong>Depends</strong> or <strong>Imports</strong> fields.</p>
-<p>So what about the rest. <strong>Suggests</strong> are installed when
-we run <code>R CMD CHECK</code> (or higher level like
+<p>So what about the rest? <strong>Suggests</strong> are installed when
+we need to run <code>R CMD CHECK</code> (or higher level like
 <code>devtools::check()</code>), they are used for tests (e.g. testthat)
 or for examples (<code>roxygen2</code> <span class="citation">@examples</span>). <strong>Enhances</strong> is used
 rarely as these are packages which could extent the usage and are NOT
 needed for running examples and tests. If your tests/examples use e.g. a
-dataset from another package it should be in <strong>Suggests</strong>
+dataset from another package, it should be in <strong>Suggests</strong>
 and not <strong>Enhances</strong>.</p>
 <p>So now we see that a <strong>Imports</strong> dependency is not equal
-to a <strong>Suggests</strong> dependency. From the perspective of the
-end user we focus on
+to a <strong>Suggests</strong> dependency. From the end user’s
+perspective, we focus on
 <strong>Depends</strong>/<strong>Imports</strong>/<strong>LinkingTo</strong>
 dependencies which they will downlaod with
 <code>install.packages</code>.</p>
 <p>It’s common for packages to be listed in Imports in DESCRIPTION, but
-not in NAMESPACE. The DESCRIPTION file Imports field really has nothing
-to do with functions imported into the namespace. The DESCRIPTION file
-Imports is mainly used by <code>install.packages</code>. On the other
-hand NAMESPACE is a place where we defining what we need to build our
-package and what we want to expose to the end users (export). Nowadays
-the NAMESPACE file is even more mistearious as it is build automatically
-e.g. by <code>roxygen2</code> package. A package have to be listed in
-the <strong>Imports</strong> in DESCRIPTION file, but not in NAMESPACE
-if we will call the dependencies function with <code>::</code> in the
-main package. This explicit calls to dependencies are preferred.</p>
+not in NAMESPACE. The DESCRIPTION file Imports field has nothing to do
+with functions imported into the namespace. The DESCRIPTION file Imports
+is mainly used by <code>install.packages</code>. On the other hand,
+NAMESPACE is a place where we defining what we need to build our package
+and what we want to expose to the end users (export). Nowadays the
+NAMESPACE file is even more mysterious as it is built automatically
+e.g. by <code>roxygen2</code> package. A package has to be listed in the
+<strong>Imports</strong> in DESCRIPTION file, but not in NAMESPACE if we
+will call the dependencies to function with <code>::</code> in the main
+package. These explicit calls to dependencies are preferred.</p>
 <p>If you are interested “How-R-Searches-And-Finds-Stuff” I recommend <a href="https://blog.thatbuthow.com/how-r-searches-and-finds-stuff/" class="external-link">a
-great blog post</a> which have more than 10 years and still is a one of
-the most valuable R sources.</p>
+great blog post</a> which has more than 10 years and still is one of the
+most valuable R sources.</p>
 </div>
 <div class="section level2">
 <h2 id="tinytest-vs-testthat">
 <code>tinytest</code> vs <code>testthat</code><a class="anchor" aria-label="anchor" href="#tinytest-vs-testthat"></a>
 </h2>
 <p>This subsection will be a subjective view on the difference between
-<code>tinytest</code> and <code>testthat</code> packages. This is a
-great example in my opinion as showing that package could have many
-dependencies nevertheless not exposed to the end user (these
-dependencies are not installed with <code>install.packages</code>), as
-is in <code>Suggests</code> field of the DESCRIPTION file.
+<code>tinytest</code> and <code>testthat</code> packages. A package
+could have many dependencies, nevertheless not exposed to the end user
+(these dependencies are not installed with <code>install.packages</code>
+call), as is in <code>Suggests</code> field of the DESCRIPTION file.
 <code>tinytest</code> was created to offer similar functionality to
-<code>testthat</code> package nevertheless <code>tinytest</code> has
-zero dependencies. For me <code>tinytest</code> is an interesting
+<code>testthat</code> package nevertheless, <code>tinytest</code> has
+zero dependencies. For me, <code>tinytest</code> is an interesting
 alternative compared to <code>testthat</code> nevertheless not so
-obvious replacement. I do not care how many dependencies has the
+obvious replacement. I do not care how many dependencies have the
 <code>testthat</code> package as it is located in <code>Suggests</code>
 field of DESCRIPTION file. <code>testthat</code> will not be delayed
-loaded with <code>requireNampese</code> too. This mean that the higher
+loaded with <code>requireNampese</code> too. This means that the higher
 number of dependencies from the <code>testthat</code> package is only my
-problem (developer one, not the end user) when e.g. I am checking the
-package (e.g. with <code>R CMD check</code>). To be fair how many
-additional packages have to be downloaded by <strong>a
-developer</strong> (e.g. for <code>R CMD check</code>) when comparing
-<code>tinytest</code> and <code>testthat</code>. When we want to check
-these packages directly, I will be adding some code to these packages.
-In the case of <code>tinytest</code> it is zero packages and for
-<code>testthat</code> 80 packages now. Please use
+problem (developer one, not the end user) when e.g. I am checking a
+package (e.g. with <code>R CMD check</code>). How many additional
+packages must be downloaded by <strong>a developer</strong> (e.g. for
+<code>R CMD check</code>) when comparing <code>tinytest</code> and
+<code>testthat</code>? In the case of <code>tinytest</code> it is zero
+packages and for <code>testthat</code> 80 packages now. Please use
 <code>pacs::pac_deps_dev("tinytest")</code> and
-<code>pacs::pac_deps_dev("testthat")</code> calls to confirm that. When
-<code>tinytest</code> and <code>testthat</code>are in the Suggests field
-of another package (e.g. <code>pacs</code>) which we will be
-<code>R CMD check</code>, then developer need additional 0 packages for
-<code>tinytest</code> and 30 packages for <code>testthat</code>
-(<code>pacs::pac_deps_user("testthat")</code>). Remember that these
-dependencies might overlap with other packages and their
-dependencies.</p>
+<code>pacs::pac_deps_dev("testthat")</code> to confirm that. When
+<code>tinytest</code> and <code>testthat</code> are in the Imports field
+of another package (e.g. <code>pacs</code>), then the end user needs
+additional 0 packages for <code>tinytest</code> and 30 packages for
+<code>testthat</code> (<code>pacs::pac_deps_user("testthat")</code>).
+Remember that these dependencies might overlap with other packages and
+their dependencies.</p>
 <p>Dependencies from the end user perspective:</p>
 <p><code>tinytest</code>:<br><a href="https://CRAN.R-project.org/package=tinytest" class="external-link"><img src="https://tinyverse.netlify.com/badge/tinytest"></a></p>
 <p><code>testthat</code>:<br><a href="https://CRAN.R-project.org/package=testthat" class="external-link"><img src="https://tinyverse.netlify.com/badge/testthat"></a></p>
@@ -312,22 +307,22 @@ dependencies.</p>
 <li>
 <code>yagni</code> (XP) - do not include unnecessary features</li>
 <li>
-<code>modularization</code> - divide your package to a few smaller
-and specialized ones</li>
+<code>modularization</code> - divide your package into a few smaller
+and more specialized ones</li>
 <li>delayed loading of packages</li>
 </ul>
 <div class="section level3">
 <h3 id="delayed-loading-of-packages">Delayed loading of packages<a class="anchor" aria-label="anchor" href="#delayed-loading-of-packages"></a>
 </h3>
-<p>One of the method of reducing number of dependencies (exposed to end
-users) is to transfer the package from Imports to Suggests and load it
-in the delayed manner, or not include it at all. So we have to identify
-package functions which will be used optionally or rarely (are not a
-core of the package). Then we have to apply conditional execution of it
-if the package is installed (available), if not then ask user to install
-it. If a function with such delayed loaded package is used in examples
-or tests then the package have to be in <strong>Suggests</strong>
-field.</p>
+<p>One of the methods of reducing the number of dependencies (exposed to
+end users) is to transfer the package from Imports to Suggests and load
+it in a delayed manner or not include it at all. So we have to identify
+package functions that will be used optionally or rarely (are not a core
+of the package). Then we have to apply conditional execution of it if
+the package is installed (available), if not, then ask the user to
+install it. If a function with the delayed loaded package is used in
+examples or tests, then the package must be in the
+<strong>Suggests</strong> field.</p>
 <pre><code><span><span class="va">func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"PACKAGE"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="co"># regular code </span></span>
@@ -338,9 +333,9 @@ field.</p>
 <p><code>parsnip</code>:<br><a href="https://CRAN.R-project.org/package=parsnip" class="external-link"><img src="https://tinyverse.netlify.com/badge/parsnip"></a></p>
 <p><code>caret</code>:<br><a href="https://CRAN.R-project.org/package=testthat" class="external-link"><img src="https://tinyverse.netlify.com/badge/testthat"></a></p>
 <p><code>parsnip</code> and <code>caret</code> packages are examples
-which apply this strategy. It could be easily confirmed by looking for
-<code>requireNamespace</code> phrase with github search, from each of
-the repo.</p>
+that apply this strategy. It could be quickly confirmed by looking for
+<code>requireNamespace</code> phrase with github search, from each
+repo.</p>
 <p><a href="https://github.com/topepo/caret" class="external-link">caret github</a></p>
 <p><a href="https://github.com/tidymodels/parsnip" class="external-link">parsnip
 github</a></p>
@@ -350,55 +345,57 @@ github</a></p>
 <h2 id="pacs-package">
 <code>pacs</code> package<a class="anchor" aria-label="anchor" href="#pacs-package"></a>
 </h2>
-<p>One of the functionality of the <code>pacs</code> package is to check
-a package complexity. We could check the number of dependencies
+<p>One functionality of the <code>pacs</code> package is to check a
+package complexity. We could check the number of dependencies
 (recursively or not) and even check how many MB are allocated for a
 package and all its dependencies.</p>
 <p><strong>Weight Case Study: <code>devtools</code></strong></p>
-<p>Take into account that packages sizes are appropriate for your local
-system (<code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>). Installation with
+<p>Consider that package sizes are appropriate for your local system
+(<code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>). Installation with
 <code>install.packages</code> and some <code>devtools</code> functions
 might result in different packages sizes.</p>
 <p>If you do not want to install anything in your current library
-(<code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>) and still inspect a package size, then a
-usage of the <code>withr</code> package is recommended.
+(<code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>) and still inspect a package size, then using
+the <code>withr</code> package is recommended.
 <code><a href="https://withr.r-lib.org/reference/with_temp_libpaths.html" class="external-link">withr::with_temp_libpaths</a></code> is recommended to isolate the
 download process.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># restart of R session could be needed</span></span>
-<span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_temp_libpaths.html" class="external-link">with_temp_libpaths</a></span><span class="op">(</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>Installation in your main library.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># if not have</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
+<p>“`r # restart of R session could be needed
+withr::with_temp_libpaths({install.packages(”devtools”);
+cat(pacs::pac_true_size(“devtools”) / 10**6, “MB”, “”)})</p>
+<pre><code>
+Installation in your main library.
+
+"`r
+# if not have
+install.packages("devtools")</code></pre>
 <p>Size of the <code>devtools</code> package:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_size.html">pac_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>True size of the package as taking into account its dependencies. At
-the time of writing it, it is <code>113MB</code> for
-<code>devtools</code> without base packages
-(<code>Mac OS arm64</code>).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>A reasonable assumption might be to count only dependencies which are
-not used by any other package. Then we could use
-<code>exclude_joint</code> argument to limit them. However hard to
-assume if your local installation is a reasonable proxy for an average
-user.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># exclude packages if at least one other package use it too</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span>, exclude_joint <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<p>It is crucial to check the number of dependencies too:</p>
-<p><a href="https://CRAN.R-project.org/package=devtools" class="external-link"><img src="https://tinyverse.netlify.com/badge/devtools"></a></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># 70 recursive dependencies</span></span>
-<span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></span>
-<span><span class="co"># 20 direct dependencies</span></span>
-<span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></span></code></pre></div>
-<p>We could check out which of the direct dependencies are heaviest
+<p>“`r cat(pacs::pac_size(”devtools”) / 10**6, “MB”, “”)</p>
+<pre><code>
+The true size of the package as taking into account its dependencies.
+At the time of writing it, it is `113MB` for `devtools` without base packages (`Mac OS arm64`).
+
+"`r
+cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")</code></pre>
+<p>A reasonable assumption might be to count only dependencies not used
+by any other package. Then we could use <code>exclude_joint</code>
+argument to limit them. However hard to assume if your local
+installation is a reasonable proxy for an average user.</p>
+<p>“`r # exclude packages if at least one other package uses it too
+cat(pacs::pac_true_size(”devtools”, exclude_joint = 1L) / 10**6, “MB”,
+“”)</p>
+<pre><code>
+It is crucial to check the number of dependencies too:
+
+[![](https://tinyverse.netlify.com/badge/devtools)](https://CRAN.R-project.org/package=devtools)
+
+"`r
+# 70 recursive dependencies
+pacs::pac_deps("devtools", local = TRUE)$Package
+# 20 direct dependencies
+pacs::pac_deps("devtools", local = TRUE, recursive = FALSE)$Package</code></pre>
+<p>We could check out which of the direct dependencies are the heaviest
 ones:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/pac_deps_heavy.html">pac_deps_heavy</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
+<p>“`r pac_deps_heavy(”devtools”) ```</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -430,7 +427,7 @@ developer guru :=)</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
       </footer>
