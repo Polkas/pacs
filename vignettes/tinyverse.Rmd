@@ -188,7 +188,7 @@ So we have to identify package functions that will be used optionally or rarely 
 Then we have to apply conditional execution if the package is installed (available), if not, then ask the user to install it.
 If a function with the delayed loaded package is used in examples or tests, then the package must be in the **Suggests** field.
 
-```
+```r
 func <- function() {
   if (requireNamespace("PACKAGE", quietly = TRUE)) {
     # regular code 
@@ -236,7 +236,7 @@ install.packages("devtools")
 
 Size of the `devtools` package:
 
-"`r
+```r
 cat(pacs::pac_size("devtools") / 10**6, "MB", "\n")
 ```
 
