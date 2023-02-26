@@ -28,12 +28,12 @@ library(withr)
 library(remotes)
 ```
 
-A set of tools that make life easier for developers and maintainers of R packages.
+pacs: A set of tools that make life easier for developers and maintainers of R packages.
 
 - Validating the library, packages and `renv` lock files.
-- Exploring complexity of a certain package like evaluating its size in bytes with dependencies.
+- Exploring the complexity of a specific package, like evaluating its size in bytes with dependencies.
 - The shiny app complexity could be explored too.
-- Assessing life duration of a specific package version.
+- Assessing the life duration of a specific package version.
 - Checking a CRAN package check page status for any errors and warnings.
 - Retrieving a DESCRIPTION or NAMESPACE file for any package version.
 - Comparing DESCRIPTION or NAMESPACE files between different package versions.
@@ -44,17 +44,17 @@ A set of tools that make life easier for developers and maintainers of R package
 
 ## Hints
 
-**Hint0**: An Internet connection is required to take full advantage of most of the features.
+**Hint0**: An Internet connection is required to take full advantage of most features.
 
-**Hint1**: Almost all calls which requiring an Internet connection are cached (for 30 minutes) by the `memoise` package, so the second invocation of the same command (and arguments) is immediate. Restart the R session if you want to clear cached data.
+**Hint1**: Almost all calls that requiring an Internet connection are cached (for 30 minutes) by the `memoise` package, so the second invocation of the same command (and arguments) is immediate. Restart the R session if you want to clear cached data.
 
 **Hint2**: `Version` variable is mostly a minimal required i.e. max(version1, version2 , ...).
 
-**Hint3**: When working with many packages it is recommended to use global functions, which retrieves data for many packages at once. An example will be usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be usage of `utils::available.packages` over `pacs::pac_last`. Finally, most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
+**Hint3**: When working with many packages, global functions are recommended, which retrieve data for many packages at once. An example will be the usage of `pacs::checked_packages()` over `pacs::pac_checkpage` (or `pacs::pac_checkred`). Another example will be the usage of `utils::available.packages` over `pacs::pac_last`. Finally, the most important one will be `pacs::lib_validate` over `pacs::pac_validate` and `pacs::pac_checkred` and others.
 
 **Hint4**: Character string "all" is shorthand for the `c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")` vector, character string "most" for the same vector without "Enhances", character string "strong" (default setup) for the first three elements of that vector.
 
-**Hint5**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under `parallel::mclapply` computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
+**Hint5**: Use `parallel::mclapply` (Linux and Mac) or `parallel::parLapply` (Windows, Linux and Mac) to speed up loop calculations. Nevertheless, under `parallel::mclapply`, computation results are NOT cached with `memoise` package. Warning: Parallel computations might be unstable.
 
 **Hint6**: `withr` and `remotes` packages are a valuable addition.
 
@@ -64,15 +64,15 @@ A set of tools that make life easier for developers and maintainers of R package
 pacs::lib_validate()
 ```
 
-This procedure will be crucial for R developers as clearly showing the possible broken packages inside the local library.  
-Thus we could assess which packages require versions to update.
+This procedure will be crucial for R developers, clearly showing the possible broken packages inside the local library.  
+We could assess which packages require versions to update.
 
 Default validation of the library with the `pacs::lib_validate` function.  
 The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by default as these are the dependencies installed when the `install.packages` function is used.
 
-The full library validation requires activation of two additional arguments `lifeduration` and `checkred`. Additional arguments are on default turned off as are time consuming, for `lifeduration` assessment might take even a few minutes for bigger libraries.
+The full library validation requires activation of two additional arguments, `lifeduration` and `checkred`. Additional arguments are by default turned off as they are time-consuming, for `lifeduration` assessment might take even a few minutes for bigger libraries.
 
-Assessment of status on CRAN check pages takes only a few additional seconds even for all R CRAN packages. `pacs::checked_packages()` is used to gather all package check statuses for all CRAN servers.
+Assessment of status on CRAN check pages takes only a few additional seconds, even for all R CRAN packages. `pacs::checked_packages()` is used to gather all package check statuses for all CRAN servers.
 
 ```r
 pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
@@ -115,7 +115,7 @@ nrow(red)
 head(red)
 ```
 
-Packages which are not a dependency (default `c("Depends", "Imports", "LinkingTo")`) of any other package:
+Packages that are not a dependency (default `c("Depends", "Imports", "LinkingTo")`) of any other package:
 
 ```r
 lib[is.na(lib$Version.expected.min), ]
@@ -135,7 +135,7 @@ lib[(!is.na(lib$newest)) & (lib$newest == FALSE), ]
 
 ### Core idea behind lib_validate
 
-The core idea behind the function is coming from proper processing of the `installed.packages` function result.
+The core idea behind the function comes from proper processing of the `installed.packages` function result.
 
 ```r
 # aggregate function is needed as we could have different versions
@@ -165,7 +165,7 @@ merge(
 
 ### renv library
 
-When a project is based on `renv` and all needed dependencies are installed in the `renv` directory then we mostly want to validate only the isolated `renv` library.
+When a project is based on `renv` and all needed dependencies are installed in the `renv` directory, we mostly want to validate only the isolated `renv` library.
 In the new `renv` versions the `.libPaths()` contains the main library path too (`renv` library and the main library).
 Please remember to limit the library path when using `pacs::lib_validate`, to limit the validation to only `renv` library.
 
@@ -200,18 +200,18 @@ pacs::lock_validate(
 ### R CRAN packages check page statuses
 
 `checked_packages` was built to extend the `.packages` family functions, like `utils::installed.packages()` and `utils::available.packages()`. 
-`pacs::checked_packages` retrieves all current packages checks from [CRAN webpage](https://cran.r-project.org/web/checks/check_summary_by_package.html).
+`pacs::checked_packages` retrieves all current package checks from [CRAN webpage](https://cran.r-project.org/web/checks/check_summary_by_package.html).
 
 ```r
 pacs::checked_packages()
 ```
 
-Use `pacs::pac_checkpage("dplyr")` to get the check page per package. However `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result is cached after the first invoke.
+Use `pacs::pac_checkpage("dplyr")` to get the check page per package. However, `pacs::checked_packages()` will be more efficient for many packages. Remember that `pacs::checked_packages()` result is cached after the first invoke.
 
 ### Package health and life duration
 
-We could find out if a certain package version lived more than 14 days (or other x limit days). 
-If not then we might assume something was wrong with it, as had to be quickly updated.
+We could determine if a specific package version lived more than 14 days (or other x limit days). 
+If not then we might assume something needed to be fixed with it, as had to be quickly updated.
 
 e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could find out that it was published only for 1 day.
 
@@ -219,13 +219,13 @@ e.g. `dplyr` under the "0.8.0" version seems to be a broken release, we could fi
 pacs::pac_lifeduration("dplyr", "0.8.0")
 ```
 
-With a 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For newest packages we are checking if there are any red messages on CRAN check pages too, specified with a `scope` argument.
+With a 14 day limit we get a proper health status. We are sure about this state as this is not the newest release. For the newest packages we are checking if there are any red messages on CRAN check pages too, specified with a `scope` argument.
 
 ```r
 pacs::pac_health("dplyr", version = "0.8.0", limit = 14)
 ```
 
-For the newest package we will check the CRAN check page too, the scope might be adjusted.
+For the newest package, we will check the CRAN check page too, the scope might be adjusted.
 
 ```r
 pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"))
@@ -233,7 +233,7 @@ pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"),
                  flavors = pacs::cran_flavors()$Flavor[1])
 ```
 
-### Simulate a package download with the withr package
+### Simulate a package download with the `withr` package
 
 `withr` package is recommended for the isolated download process.  
 We could use a temporary library path (`withr::with_temp_libpaths`) to check if the process is as expected.
