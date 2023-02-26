@@ -185,7 +185,7 @@ Dependencies from the end user perspective:
 
 One of the methods of reducing the number of dependencies (exposed to end users) is to transfer the package from Imports to Suggests and load it in a delayed manner or not include it at all. 
 So we have to identify package functions that will be used optionally or rarely (are not a core of the package).
-Then we have to apply conditional execution of it if the package is installed (available), if not, then ask the user to install it.
+Then we have to apply conditional execution if the package is installed (available), if not, then ask the user to install it.
 If a function with the delayed loaded package is used in examples or tests, then the package must be in the **Suggests** field.
 
 ```
@@ -222,14 +222,14 @@ Installation with `install.packages` and some `devtools` functions might result 
 
 If you do not want to install anything in your current library (`.libPaths()`) and still inspect a package size, then using the `withr` package is recommended. `withr::with_temp_libpaths` is recommended to isolate the download process.
 
-"`r
+```r
 # restart of R session could be needed
 withr::with_temp_libpaths({install.packages("devtools"); cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")})
 ```
 
 Installation in your main library.
 
-"`r
+```r
 # if not have
 install.packages("devtools")
 ```
@@ -240,10 +240,9 @@ Size of the `devtools` package:
 cat(pacs::pac_size("devtools") / 10**6, "MB", "\n")
 ```
 
-The true size of the package as taking into account its dependencies.
-At the time of writing it, it is `113MB` for `devtools` without base packages (`Mac OS arm64`).
+The actual size of the `devtools` package is `113MB` for `devtools` with all dependencies and without base packages (`Mac OS arm64`).
 
-"`r
+```r
 cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")
 ```
 
@@ -251,7 +250,7 @@ A reasonable assumption might be to count only dependencies not used by any othe
 Then we could use `exclude_joint` argument to limit them.
 However hard to assume if your local installation is a reasonable proxy for an average user.
 
-"`r
+```r
 # exclude packages if at least one other package uses it too
 cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
 ```
@@ -260,7 +259,7 @@ It is crucial to check the number of dependencies too:
 
 [![](https://tinyverse.netlify.com/badge/devtools)](https://CRAN.R-project.org/package=devtools)
 
-"`r
+```r
 # 70 recursive dependencies
 pacs::pac_deps("devtools", local = TRUE)$Package
 # 20 direct dependencies
@@ -269,7 +268,7 @@ pacs::pac_deps("devtools", local = TRUE, recursive = FALSE)$Package
 
 We could check out which of the direct dependencies are the heaviest ones:
 
-"`r
+```r
 pac_deps_heavy("devtools")
 ```
 
