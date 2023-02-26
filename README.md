@@ -54,7 +54,7 @@ pacs::lib_validate(
 )
 ```
 
-Gather all package check statuses for all CRAN servers:
+All package check statuses for all CRAN servers:
 
 ```r
 pacs::checked_packages()

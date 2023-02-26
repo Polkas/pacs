@@ -1,7 +1,8 @@
-# pacs 0.4.8.9000
+# pacs 0.4.9
 
 * update all `*_validate` functions to treat the analyzed version as newest one if is bigger or equal to the newest CRAN, not only equal as before.
-* improved quality of the tinyverse vignette.
+* improved quality of vignettes.
+* add usage of the `pacs::checked_packages` function in README.
 
 # pacs 0.4.8
 
