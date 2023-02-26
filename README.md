@@ -12,7 +12,7 @@ A set of tools that make life easier for developers and maintainers of R package
 - Validating the library, packages and `renv` lock files.
 - Exploring complexity of a certain package like evaluating its size in bytes with dependencies.
 - The shiny app complexity could be explored too.
-- Assessing life duration of a specific package version.
+- Assessing the life duration of a specific package version.
 - Checking a CRAN package check page status for any errors and warnings.
 - Retrieving a DESCRIPTION or NAMESPACE file for any package version.
 - Comparing DESCRIPTION or NAMESPACE files between different package versions.
@@ -52,6 +52,12 @@ pacs::lib_validate(
     flavors = NULL
   )
 )
+```
+
+Gather all package check statuses for all CRAN servers:
+
+```r
+pacs::checked_packages()
 ```
 
 All CRAN releases of a package:
