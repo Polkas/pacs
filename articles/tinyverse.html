@@ -323,13 +323,14 @@ package is installed (available), if not, then ask the user to install
 it. If a function with the delayed loaded package is used in examples or
 tests, then the package must be in the <strong>Suggests</strong>
 field.</p>
-<pre><code><span><span class="va">func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">func</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"PACKAGE"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="co"># regular code </span></span>
 <span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"Please install the PACKAGE to use the func function"</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
-<span><span class="op">}</span></span></code></pre>
+<span><span class="op">}</span></span></code></pre></div>
 <p><code>parsnip</code>:<br><a href="https://CRAN.R-project.org/package=parsnip" class="external-link"><img src="https://tinyverse.netlify.com/badge/parsnip"></a></p>
 <p><code>caret</code>:<br><a href="https://CRAN.R-project.org/package=testthat" class="external-link"><img src="https://tinyverse.netlify.com/badge/testthat"></a></p>
 <p><code>parsnip</code> and <code>caret</code> packages are examples
@@ -367,29 +368,30 @@ download process.</p>
 <code class="sourceCode R"><span><span class="co"># if not have</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
 <p>Size of the <code>devtools</code> package:</p>
-<p>“`r cat(pacs::pac_size(”devtools”) / 10**6, “MB”, “”)</p>
-<pre><code>
-The actual size of the `devtools` package is `113MB` for `devtools` with all dependencies and without base packages (`Mac OS arm64`).
-
-```r
-cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")</code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_size.html">pac_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<p>The actual size of the <code>devtools</code> package is
+<code>113MB</code> for <code>devtools</code> with all dependencies and
+without base packages (<code>Mac OS arm64</code>).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <p>A reasonable assumption might be to count only dependencies not used
 by any other package. Then we could use <code>exclude_joint</code>
 argument to limit them. However hard to assume if your local
 installation is a reasonable proxy for an average user.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># exclude packages if at least one other package uses it too</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_true_size.html">pac_true_size</a></span><span class="op">(</span><span class="st">"devtools"</span>, exclude_joint <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span><span class="op">**</span><span class="fl">6</span>, <span class="st">"MB"</span>, <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <p>It is crucial to check the number of dependencies too:</p>
 <p><a href="https://CRAN.R-project.org/package=devtools" class="external-link"><img src="https://tinyverse.netlify.com/badge/devtools"></a></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 70 recursive dependencies</span></span>
 <span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></span>
 <span><span class="co"># 20 direct dependencies</span></span>
 <span><span class="fu">pacs</span><span class="fu">::</span><span class="fu"><a href="../reference/pac_deps.html">pac_deps</a></span><span class="op">(</span><span class="st">"devtools"</span>, local <span class="op">=</span> <span class="cn">TRUE</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">Package</span></span></code></pre></div>
 <p>We could check out which of the direct dependencies are the heaviest
 ones:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pac_deps_heavy.html">pac_deps_heavy</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
