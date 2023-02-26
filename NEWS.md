@@ -1,6 +1,7 @@
 # pacs 0.4.8.9000
 
-* Update all `*_validate` functions to treat the analyzed version as newest one if is bigger or equal to the newest CRAN, not only equal as before.
+* update all `*_validate` functions to treat the analyzed version as newest one if is bigger or equal to the newest CRAN, not only equal as before.
+* improved quality of the tinyverse vignette.
 
 # pacs 0.4.8
 
