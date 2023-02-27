@@ -1,3 +1,7 @@
+# pacs 0.4.10
+
+* remove the not needed testthat log file.
+
 # pacs 0.4.9
 
 * update all `*_validate` functions to treat the analyzed version as newest one if is bigger or equal to the newest CRAN, not only equal as before.
