@@ -34,7 +34,7 @@ More information is available on [`tinyverse` website](https://www.tinyverse.org
 
 ## `tinyverse` badges
 
-The `tidyverse` team wants to help and motivate R developers. Thus they created a rest-API which generates a dependencies badge for each CRAN package. 
+The `tinyverse` advocates wants to help and motivate R developers. Thus they created a rest-API which generates a dependencies badge for each CRAN package. 
 The badge contains 2 numbers; the first number is a direct dependency and the second one recursive ones.
  The R base packages are not counted. The `tinyverse` badge could have one of 4 colors: bright green, green, orange, or red. To get a green badge package have to have less than 5 packages (<5) in the `Depends`/`Imports`/`LinkingTo` fields (check the Dependencies subsection for more description). 
 To have a bright green a, zero dependencies are needed. The orange badge is from 5 to 9 dependencies (>=5 and <=9). And the last one red when there are more than 9 dependencies (>= 10). Of course, the base packages are not counted as a dependency, `pacs::pacs_base()`.
