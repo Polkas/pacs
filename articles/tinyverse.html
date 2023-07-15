@@ -290,12 +290,13 @@ packages must be downloaded by <strong>a developer</strong> (e.g. for
 packages and for <code>testthat</code> 80 packages now. Please use
 <code>pacs::pac_deps_dev("tinytest")</code> and
 <code>pacs::pac_deps_dev("testthat")</code> to confirm that. When
-<code>tinytest</code> and <code>testthat</code> are in the Imports field
-of another package (e.g. <code>pacs</code>), then the end user needs
-additional 0 packages for <code>tinytest</code> and 30 packages for
-<code>testthat</code> (<code>pacs::pac_deps_user("testthat")</code>).
-Remember that these dependencies might overlap with other packages and
-their dependencies.</p>
+<code>tinytest</code> and <code>testthat</code> are in the Suggests
+field of another package (e.g. <code>pacs</code>), then the end user
+needs additional 0 packages for <code>tinytest</code> and 30 packages
+for <code>testthat</code>
+(<code>pacs::pac_deps_user("testthat")</code>). Remember that these
+dependencies might overlap with other packages and their
+dependencies.</p>
 <p>Dependencies from the end user perspective:</p>
 <p><code>tinytest</code>:<br><a href="https://CRAN.R-project.org/package=tinytest" class="external-link"><img src="https://tinyverse.netlify.com/badge/tinytest"></a></p>
 <p><code>testthat</code>:<br><a href="https://CRAN.R-project.org/package=testthat" class="external-link"><img src="https://tinyverse.netlify.com/badge/testthat"></a></p>
