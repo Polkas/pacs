@@ -165,7 +165,7 @@ For me, `tinytest` is an interesting alternative compared to `testthat` neverthe
 I do not care how many dependencies have the `testthat` package as it is located in `Suggests` field of DESCRIPTION file. `testthat` will not be delayed loaded with `requireNampese` too.
 This means that the higher number of dependencies from the `testthat` package is only my problem (developer one, not the end user) when e.g. I am checking a package (e.g. with `R CMD check`).
 How many additional packages must be downloaded by **a developer** (e.g. for `R CMD check`) when comparing `tinytest` and `testthat`? In the case of `tinytest` it is zero packages and for `testthat` 80 packages now. Please use `pacs::pac_deps_dev("tinytest")` and `pacs::pac_deps_dev("testthat")` to confirm that.
-When `tinytest` and `testthat` are in the Imports field of another package (e.g. `pacs`), then the end user needs additional 0 packages for `tinytest` and 30 packages for `testthat` (`pacs::pac_deps_user("testthat")`). Remember that these dependencies might overlap with other packages and their dependencies.
+When `tinytest` and `testthat` are in the Suggests field of another package (e.g. `pacs`), then the end user needs additional 0 packages for `tinytest` and 30 packages for `testthat` (`pacs::pac_deps_user("testthat")`). Remember that these dependencies might overlap with other packages and their dependencies.
 
 Dependencies from the end user perspective:
 
