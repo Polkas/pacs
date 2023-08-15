@@ -84,7 +84,8 @@ test_that("pacs::pac_deps recursive long field", {
 
 test_that("pacs::pac_deps_timemachine", {
   skip_if_offline()
-  expect_identical(pac_deps_timemachine("WRONG", "0.8.0"), NA)
+  expect_message(pac_deps_timemachine("WRONG", "0.8.0"), "WRONG package is not on CRAN")
+  expect_identical(suppressMessages(pac_deps_timemachine("WRONG", "0.8.0")), NA)
   expect_true(length(pac_deps_timemachine("memoise", "0.2.1")) == 1)
   expect_true(length(pac_deps_timemachine("memoise", at = as.Date("2019-01-01"))) == 1)
 })
@@ -92,7 +93,8 @@ test_that("pacs::pac_deps_timemachine", {
 test_that("pacs::pac_deps_timemachine offline", {
   pac_deps_timemachine_offline <- pac_deps_timemachine
   mockery::stub(pac_deps_timemachine_offline, "is_online", FALSE)
-  expect_identical(pac_deps_timemachine_offline("dplyr", "0.8.0"), NA)
+  expect_message(pac_deps_timemachine_offline("dplyr", "0.8.0"), "No internet connection detected")
+  expect_identical(suppressMessages(pac_deps_timemachine_offline("dplyr", "0.8.0")), NA)
 })
 
 test_that("pacs::app_deps", {
@@ -115,8 +117,8 @@ test_that("pac_deps_user", {
   )
   rrr <- setdiff(rr, pacs::pacs_base())
   expect_identical(sort(pp), sort(rrr))
-
-  expect_true(isNA(pac_deps_user("WRONG")))
+  expect_message(pac_deps_user("WRONG"), "WRONG package is not in provided repositories")
+  expect_true(isNA(suppressMessages(pac_deps_user("WRONG"))))
 })
 
 test_that("pac_deps_dev", {
@@ -128,8 +130,8 @@ test_that("pac_deps_dev", {
   )
   rrr <- setdiff(rr, pacs::pacs_base())
   expect_identical(sort(pp), sort(rrr))
-
-  expect_true(isNA(pac_deps_dev("WRONG")))
+  expect_message(pac_deps_dev("WRONG"), "WRONG package is not in provided repositories")
+  expect_true(isNA(suppressMessages(pac_deps_dev("WRONG"))))
   expect_true(nrow(pac_deps_dev("tinytest", repos = "https://cran.rstudio.com/")) >= 0)
 })
 
@@ -195,5 +197,6 @@ test_that("pac_deps_heavy 0 deps pac", {
 test_that("pac_deps_heavy WRONG", {
   skip_if_offline()
   expect_error(pac_deps_heavy("WRONG", local = TRUE))
-  expect_true(isNA(pac_deps_heavy("WRONG", local = FALSE)))
+  expect_message(pac_deps_heavy("WRONG", local = FALSE), "WRONG package is not in provided repositories")
+  expect_true(isNA(suppressMessages(pac_deps_heavy("WRONG", local = FALSE))))
 })

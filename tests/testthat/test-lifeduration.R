@@ -1,6 +1,7 @@
 test_that("pacs::pac_lifeduration", {
   skip_if_offline()
-  expect_true(is.na(pac_lifeduration("WRONGPACKAGE")))
+  expect_message(pac_lifeduration("WRONGPACKAGE"), "WRONGPACKAGE package is not in provided repositories")
+  expect_true(is.na(suppressMessages(pac_lifeduration("WRONGPACKAGE"))))
   expect_error(pac_lifeduration("dplyr", version = 1))
   expect_true(pac_lifeduration("memoise") > 0)
 })
@@ -16,8 +17,10 @@ test_that("pacs::pac_lifeduration online", {
 })
 
 test_that("pacs::pac_health", {
+  skip_if_offline()
   expect_true(is.logical(pac_health("stats")))
-  expect_true(is.na(pac_health("WRONG")))
+  expect_message(pac_health("WRONG"), "WRONG package is not in provided repositories")
+  expect_true(is.na(suppressMessages(pac_health("WRONG"))))
   expect_true(is.na(pac_health("dplyr", "0.0.0.1")))
 })
 

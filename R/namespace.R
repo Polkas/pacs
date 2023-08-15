@@ -41,11 +41,12 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
     version <- if (!version_null) {
       version
     } else if (!is.null(at)) {
-      vv <- utils::tail(pac_timemachine(pac, at = at)$Version, 1)
-      if (isNA(vv) || is.null(vv)) {
+      res <- pac_timemachine(pac, at = at)
+      if (isNA(res) || is.null(res)) {
         return(NA)
+      } else {
+        utils::tail(res$Version, 1)
       }
-      vv
     } else {
       pac_last(pac, repos = repos)
     }

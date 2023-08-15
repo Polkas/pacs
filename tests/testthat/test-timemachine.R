@@ -20,5 +20,6 @@ test_that("pacs::pac_timemachine online", {
 test_that("pacs::pac_timemachine offline", {
   pac_timemachine_offline <- pac_timemachine
   mockery::stub(pac_timemachine_offline, "is_online", FALSE)
-  expect_true(isNA(pac_timemachine_offline("dplyr")))
+  expect_message(pac_timemachine_offline("dplyr"), "No internet connection detected")
+  expect_true(isNA(suppressMessages(pac_timemachine_offline("dplyr"))))
 })

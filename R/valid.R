@@ -93,7 +93,7 @@ lib_validate <- function(lib.loc = .libPaths(),
   if (is_online()) {
     result <- validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
   } else {
-    warning("There is no Internet connection.")
+    message("No internet connection detected.")
   }
 
   result
@@ -190,7 +190,7 @@ pac_validate <- function(pac,
     if (is_online()) {
       result <- validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
     } else {
-      warning("There is no Internet connection.")
+      message("No internet connection detected.")
     }
   }
 
@@ -263,8 +263,8 @@ lock_validate <- function(path,
   crandb_limit_ok <- length(pacs_n) <= getOption("pacs.crandb_limit", 100)
 
   if (is_online()) {
-    if (crandb_limit_ok) {
-      crandb_pacs <- crandb_json(pacs_n)
+    crandb_pacs <- crandb_json(pacs_n)
+    if (crandb_limit_ok && !isNA(crandb_pacs)) {
       all_data <- lapply(seq_along(pacs_n), function(x) crandb_pacs[[pacs_n[x]]]$versions[[pacs_v[x]]])
       names(all_data) <- pacs_n
       depends_pacs <- lapply(names(all_data), function(x) paste(c(names(all_data[[x]]$Depends), names(all_data[[x]]$Imports), names(all_data[[x]]$LinkingTo))))
@@ -280,7 +280,12 @@ lock_validate <- function(path,
         numeric(1)
       )
     } else {
-      warning(sprintf("There is more packages than crandb limit of %s.", getOption("pacs.crandb_limit", 100)))
+      if (!crandb_limit_ok) {
+        message(sprintf("There is more packages than crandb limit of %s.", getOption("pacs.crandb_limit", 100)))
+      }
+      if (isNA(crandb_pacs)) {
+        message("crandb fetch failed, please try again.")
+      }
       result <- result_renv
       colnames(result) <- c("Package", "Version.expected")
     }
@@ -288,7 +293,7 @@ lock_validate <- function(path,
     result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
     result <- validate_online(result, "Version.expected", lifeduration, checkred, repos)
   } else {
-    if (!is_online()) warning("There is no Internet connection.")
+    message("No internet connection detected.")
     result <- result_renv
     colnames(result)[colnames(result) == "Version"] <- "Version.expected"
   }
@@ -365,18 +370,35 @@ validate_online <- function(result,
     }
   }
 
-  if (lifeduration && (nrow(result) > getOption("pacs.crandb_limit", 100))) {
+  if (lifeduration) {
     message("Please wait, Packages life durations are assessed.\n")
-    ld <- pacs_lifeduration(result$Package, result[[version_name_new]], "loop_crandb", lib.loc, repos)
-    result <- merge(result, ld, by = "Package", all.x = TRUE)
-  } else if (lifeduration) {
-    ld <- pacs_lifeduration(result$Package, result[[version_name_new]])
-    result <- merge(result, ld, by = "Package", all.x = TRUE)
+
+    lifesource <- if ((nrow(result) > getOption("pacs.crandb_limit", 100))) {
+      "loop_crandb"
+    } else {
+      "crandb"
+    }
+
+    ld <- pacs_lifeduration(
+      pacs = result$Package,
+      versions = result[[version_name_new]],
+      source = lifesource,
+      lib.loc = lib.loc,
+      repos = repos
+    )
+
+    if (is.data.frame(ld)) {
+      result <- merge(result, ld, by = "Package", all.x = TRUE)
+    } else {
+      message("Failed to fetch lifedurations.\n")
+      result$lifeduration <- NA
+    }
   }
 
   not_installed <- is.na(result[[version_name_new]])
   if (any(not_installed)) {
     result[not_installed, intersect(c("newest", "checkred"), colnames(result))] <- NA
   }
+
   result
 }

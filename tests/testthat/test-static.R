@@ -10,7 +10,8 @@ test_that("pacs::checked_packages", {
 test_that("checked_packages offline", {
   checked_packages_offline <- checked_packages
   mockery::stub(checked_packages_offline, "is_online", FALSE)
-  expect_identical(checked_packages_offline(), NA)
+  expect_message(checked_packages_offline(), "No internet connection detected")
+  expect_identical(suppressMessages(checked_packages_offline()), NA)
 })
 
 test_that("pacs::cran_flavors()", {
@@ -30,17 +31,17 @@ test_that("pacs::pac_checkpage", {
       (nrow(pac_checkpage("dplyr")) > 0) &&
       any(pac_checkpage("dplyr")$Flavor %in% cran_flavors()$Flavor))
   )
+  expect_message(pac_checkpage("WRONG"), "WRONG package is not on CRAN")
+  expect_true(isNA(suppressMessages(pac_checkpage("WRONG"))))
 })
 
 test_that("pacs::pac_checkpage offline", {
   pac_checkpage_offline <- pac_checkpage
   mockery::stub(pac_checkpage_offline, "is_online", FALSE)
-  expect_identical(pac_checkpage_offline("dplyr"), NA)
+  expect_message(pac_checkpage_offline("dplyr"), "No internet connection detected")
+  expect_identical(suppressMessages(pac_checkpage_offline("dplyr")), NA)
 })
 
-test_that("pac_checkpage", {
-  expect_true(isNA(pac_checkpage("WRONG")))
-})
 
 test_that("pacs::bio_releases()", {
   skip_if_offline()
@@ -73,7 +74,8 @@ test_that("biocran_repos", {
 test_that("match_flavors offline", {
   match_flavors_offline <- match_flavors
   mockery::stub(match_flavors_offline, "is_online", FALSE)
-  expect_true(isNA(match_flavors_offline()))
+  expect_message(match_flavors_offline(), "No internet connection detected")
+  expect_true(isNA(suppressMessages(match_flavors_offline())))
 })
 
 test_that("match_flavors", {

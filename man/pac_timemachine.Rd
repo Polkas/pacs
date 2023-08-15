@@ -10,7 +10,7 @@ pac_timemachine(
   from = NULL,
   to = NULL,
   version = NULL,
-  source = c("crandb", "cran")
+  source = c("cran", "crandb")
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ pac_timemachine(
 
 \item{version}{\code{character} version of a package. Default: \code{NULL}}
 
-\item{source}{\code{character} one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{\code{character} one of \code{c("cran", "crandb")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"cran"}}
 }
 \value{
 \code{data.frame} with 7 columns

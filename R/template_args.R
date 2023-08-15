@@ -36,7 +36,7 @@
 #' @param repos `character` vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default `pacs::biocran_repos()`
 #' @param recursive `logical` if to assess the dependencies recursively. Default: TRUE
 #' @param scope `character` vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default: `c("ERROR", "FAIL")`
-#' @param source `character` one of `c("crandb", "cran")`. Using the `MEATCRAN CRANDB` or the direct web page download from CRAN. Default: `"crandb"`
+#' @param source `character` one of `c("cran", "crandb")`. Using the `MEATCRAN CRANDB` or the direct web page download from CRAN. Default: `"cran"`
 #' @param startup `logical` include only `startup` packages. Default: `FALSE`
 #' @param to `Date` the upper limit. Default: `NULL`
 #' @param vec `character` vector.

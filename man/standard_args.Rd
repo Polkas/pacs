@@ -63,7 +63,7 @@ Default: `FALSE``}
 
 \item{scope}{\code{character} vector scope of the check, accepted values c("ERROR", "FAIL", "WARN", "NOTE"). Default: \code{c("ERROR", "FAIL")}}
 
-\item{source}{\code{character} one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{\code{character} one of \code{c("cran", "crandb")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"cran"}}
 
 \item{startup}{\code{logical} include only \code{startup} packages. Default: \code{FALSE}}
 

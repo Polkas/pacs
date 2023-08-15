@@ -48,7 +48,18 @@ pac_deps <- function(pac,
 
     v_base <- installed_agg_fun(lib.loc, fields)
   } else {
-    if (!is_online() || isFALSE(pac_isin(pac, repos))) {
+    if (!is_online()) {
+      message("No internet connection detected.")
+      return(NA)
+    }
+    if (isFALSE(pac_isin(pac, repos))) {
+      message(
+        sprintf(
+          "%s package is not in provided repositories %s.",
+          pac,
+          paste(repos, collapse = ", ")
+        )
+      )
       return(NA)
     }
     paks_global <- tools::package_dependencies(pac,

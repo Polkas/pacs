@@ -20,11 +20,19 @@ pac_deps_timemachine <- function(pac,
   stopifnot(xor(!is.null(version), !is.null(at)))
   stopifnot(is.logical(recursive))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
+
   if (!is_online()) {
+    message("No internet connection detected.")
     return(NA)
   }
 
   if (!pac_isin(pac, "https://cran.rstudio.com/")) {
+    message(
+      sprintf(
+        "%s package is not on CRAN.",
+        pac
+      )
+    )
     return(NA)
   }
 
@@ -34,7 +42,8 @@ pac_deps_timemachine <- function(pac,
   } else {
     pac_d <- pac_description(pac, version = version, local = FALSE)
     pac_v <- pac_d$Version
-    at <- as.Date(pac_timemachine(pac, version = pac_v)$Released) + 1
+    res <- pac_timemachine(pac, version = pac_v)
+    at <- as.Date(res$Released) + 1
   }
 
   paks_global <- NULL

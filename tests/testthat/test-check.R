@@ -14,15 +14,14 @@ test_that("pac_isin", {
   expect_true(is.logical(pac_isin("ThreeWiseMonkeys")))
 })
 
-test_that("pacs::pac_checkred", {
-  expect_error(pac_checkred("dplyr", scope = ""))
-})
-
 test_that("pacs::pac_checkred online", {
   skip_if_offline()
+
+  expect_error(pac_checkred("dplyr", scope = ""), "")
   skip_if(isNA(checked_packages()))
   expect_true(is.logical(pac_checkred("dplyr")))
-  expect_true(is.na(pac_checkred("WRONG")))
+  expect_message(pac_checkred("WRONG"), "WRONG package is not on CRAN")
+  expect_true(is.na(suppressMessages(pac_checkred("WRONG"))))
   expect_true(isNA(loc <- pac_checkred("dplyr",
     scope = c("ERROR", "FAIL", "WARN"),
     flavors = c(
@@ -35,5 +34,6 @@ test_that("pacs::pac_checkred online", {
 test_that("pacs::pac_checkred offline", {
   pac_checkred_offline <- pac_checkred
   mockery::stub(pac_checkred_offline, "is_online", FALSE)
-  expect_identical(pac_checkred_offline("dplyr"), NA)
+  expect_message(pac_checkred_offline("dplyr"), "No internet connection detected")
+  expect_identical(suppressMessages(pac_checkred_offline("dplyr")), NA)
 })

@@ -311,15 +311,41 @@ read_html_table <- function(table_lines) {
   list(html = rrr_html, lines = rrr)
 }
 
-crandb_json_raw <- function(packages, limit = getOption("pacs.crandb_limit", 100)) {
-  if (!is_online()) NA
-  jsonlite::read_json(
-    sprintf(
-      'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=%s',
-      paste(packages, collapse = '","'),
-      limit
+crandb_json_raw <- function(packages,
+                            limit = getOption("pacs.crandb_limit", 100),
+                            ntry = 3,
+                            nsleep = 0.001) {
+  if (!is_online()) {
+    message("No internet connection detected.")
+    return(NA)
+  }
+
+  result <- NA
+  for (iter in seq_len(ntry)) {
+    fetch_crandb <- try(
+      suppressWarnings(jsonlite::read_json(
+        sprintf(
+          'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=%s',
+          paste(packages, collapse = '","'),
+          limit
+        )
+      )),
+      silent = TRUE
     )
-  )
+
+    if (class(fetch_crandb) != "try-error") {
+      result <- fetch_crandb
+      break
+    }
+
+    Sys.sleep(nsleep)
+  }
+
+  if (isNA(result)) {
+    message("Failed to fetch the crandb DB")
+  }
+
+  result
 }
 
 crandb_json <- memoise::memoise(crandb_json_raw, cache = cachem::cache_mem(max_age = 30 * 60))

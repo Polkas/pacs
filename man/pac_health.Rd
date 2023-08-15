@@ -13,7 +13,7 @@ pac_health(
   flavors = NULL,
   lib.loc = .libPaths(),
   repos = "https://cran.rstudio.com/",
-  source = c("crandb", "cran")
+  source = c("cran", "crandb")
 )
 }
 \arguments{
@@ -35,7 +35,7 @@ By default all CRAN machines are considered \code{NULL} value. Default: \code{NU
 
 \item{repos}{character vector repositories URLs to use. Default \verb{https://cran.rstudio.com/}}
 
-\item{source}{\code{character} one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{\code{character} one of \code{c("cran", "crandb")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"cran"}}
 }
 \value{
 \code{logical} if a package is healthy.

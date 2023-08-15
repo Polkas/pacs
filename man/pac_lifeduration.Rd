@@ -10,7 +10,7 @@ pac_lifeduration(
   at = NULL,
   lib.loc = .libPaths(),
   repos = biocran_repos(),
-  source = c("crandb", "cran")
+  source = c("cran", "crandb")
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ pac_lifeduration(
 
 \item{repos}{\code{character} vector of repositories URLs to use. By default checking CRAN and newest Bioconductor per R version. Default \code{pacs::biocran_repos()}}
 
-\item{source}{\code{character} one of \code{c("crandb", "cran")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"crandb"}}
+\item{source}{\code{character} one of \code{c("cran", "crandb")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"cran"}}
 }
 \value{
 \code{difftime}, number of days package version was the newest one.

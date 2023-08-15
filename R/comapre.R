@@ -33,6 +33,13 @@ pac_compare_versions <- function(pac,
   stopifnot(is_online())
 
   if (isFALSE(pac_isin(pac, repos))) {
+    message(
+      sprintf(
+        "%s package is not in provided repositories %s.",
+        pac,
+        paste(repos, collapse = ", ")
+      )
+    )
     return(NA)
   }
 
@@ -102,6 +109,13 @@ pac_compare_namespace <- function(pac,
   stopifnot(is_online())
 
   if (isFALSE(pac_isin(pac, repos))) {
+    message(
+      sprintf(
+        "%s package is not in provided repositories %s.",
+        pac,
+        paste(repos, collapse = ", ")
+      )
+    )
     return(NA)
   }
 

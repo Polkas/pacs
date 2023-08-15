@@ -43,10 +43,12 @@ read_checkpage <- memoise::memoise(read_checkpage_raw, cache = cachem::cache_mem
 pac_checkpage <- function(pac) {
   stopifnot((length(pac) == 1) && is.character(pac))
   if (!is_online()) {
+    message("No internet connection detected.")
     return(NA)
   }
 
   if (!pac_isin(pac, "https://cran.rstudio.com/")) {
+    message(sprintf("%s package is not on CRAN.", pac))
     return(NA)
   }
 
@@ -72,15 +74,19 @@ pac_checkpage <- function(pac) {
 #' )
 #' }
 pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
+  if (!is_online()) {
+    message("No internet connection detected.")
+    return(NA)
+  }
+
   stopifnot(all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")))
   stopifnot((length(pac) == 1) && is.character(pac))
   stopifnot(length(scope) == 0 || all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
     is.null(flavors) || all(flavors %in% cran_flavors()$Flavor))
-  if (!is_online()) {
-    return(NA)
-  }
+
 
   if (!pac_isin(pac, "https://cran.rstudio.com/")) {
+    message(sprintf("%s package is not on CRAN.", pac))
     return(NA)
   }
 
@@ -106,12 +112,14 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
 #' }
 checked_packages <- function() {
   if (!is_online()) {
+    message("No internet connection detected.")
     return(NA)
   }
   packages <- read_checkred_packages(url = "https://cran.r-project.org/web/checks/check_summary_by_package.html")
   if (is.data.frame(packages)) {
     result <- packages
   } else {
+    message("Failed to fetch check summary by package.")
     result <- NA
   }
   result
@@ -265,13 +273,23 @@ biocran_repos <- function(version = NULL) {
 #' }
 match_flavors <- function() {
   if (!is_online()) {
+    message("No internet connection detected.")
     return(NA)
   }
   flavors_df <- cran_flavors()
-  if (isNA(flavors_df)) return(NA)
+  if (isNA(flavors_df)) {
+    return(NA)
+  }
   flavors <- flavors_df$Flavor
-  switch(Sys.info()[['sysname']],
-         Windows = {flavors[grepl("windows", flavors)]},
-         Linux = {flavors[grepl("linux", flavors)]},
-         Darwin = {flavors[grepl("macos", flavors)]})
+  switch(Sys.info()[["sysname"]],
+    Windows = {
+      flavors[grepl("windows", flavors)]
+    },
+    Linux = {
+      flavors[grepl("linux", flavors)]
+    },
+    Darwin = {
+      flavors[grepl("macos", flavors)]
+    }
+  )
 }
