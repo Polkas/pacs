@@ -93,7 +93,7 @@ lib_validate <- function(lib.loc = .libPaths(),
   if (is_online()) {
     result <- validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
   } else {
-    message("No internet connection detected.")
+    message("No internet connection detected.\n")
   }
 
   result
@@ -190,7 +190,7 @@ pac_validate <- function(pac,
     if (is_online()) {
       result <- validate_online(result, "Version.have", lifeduration, checkred, repos, lib.loc)
     } else {
-      message("No internet connection detected.")
+      message("No internet connection detected.\n")
     }
   }
 
@@ -281,10 +281,10 @@ lock_validate <- function(path,
       )
     } else {
       if (!crandb_limit_ok) {
-        message(sprintf("There is more packages than crandb limit of %s.", getOption("pacs.crandb_limit", 100)))
+        message(sprintf("There is more packages than crandb limit of %s.\n", getOption("pacs.crandb_limit", 100)))
       }
       if (isNA(crandb_pacs)) {
-        message("crandb fetch failed, please try again.")
+        message("crandb fetch failed, please try again.\n")
       }
       result <- result_renv
       colnames(result) <- c("Package", "Version.expected")
@@ -293,7 +293,7 @@ lock_validate <- function(path,
     result <- result[!is.na(result$Package) & !(result$Package %in% c("", "NA", pacs_base())), ]
     result <- validate_online(result, "Version.expected", lifeduration, checkred, repos)
   } else {
-    message("No internet connection detected.")
+    message("No internet connection detected.\n")
     result <- result_renv
     colnames(result)[colnames(result) == "Version"] <- "Version.expected"
   }
@@ -365,7 +365,7 @@ validate_online <- function(result,
       result$checkred <- (result$Package %in% checkred_names_scope) & result$newest
       result$checkred[is.na(result$newest) | !result$cran] <- NA
     } else {
-      message("Failed to retrieve packages statuses with the checked_packages() function.")
+      message("Failed to retrieve packages statuses with the checked_packages() function.\n")
       result$checkred <- NA
     }
   }

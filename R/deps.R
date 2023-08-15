@@ -49,13 +49,13 @@ pac_deps <- function(pac,
     v_base <- installed_agg_fun(lib.loc, fields)
   } else {
     if (!is_online()) {
-      message("No internet connection detected.")
+      message("No internet connection detected.\n")
       return(NA)
     }
     if (isFALSE(pac_isin(pac, repos))) {
       message(
         sprintf(
-          "%s package is not in provided repositories %s.",
+          "%s package is not in provided repositories %s.\n",
           pac,
           paste(repos, collapse = ", ")
         )

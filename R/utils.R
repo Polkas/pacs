@@ -316,7 +316,7 @@ crandb_json_raw <- function(packages,
                             ntry = 3,
                             nsleep = 0.001) {
   if (!is_online()) {
-    message("No internet connection detected.")
+    message("No internet connection detected.\n")
     return(NA)
   }
 
@@ -339,10 +339,6 @@ crandb_json_raw <- function(packages,
     }
 
     Sys.sleep(nsleep)
-  }
-
-  if (isNA(result)) {
-    message("Failed to fetch the crandb DB")
   }
 
   result

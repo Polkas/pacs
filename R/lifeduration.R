@@ -30,7 +30,7 @@ pac_lifeduration <- function(pac,
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   if (!is_online()) {
-    message("No internet connection detected.")
+    message("No internet connection detected.\n")
     return(NA)
   }
 
@@ -41,7 +41,7 @@ pac_lifeduration <- function(pac,
   if (isNA(last_version)) {
     message(
       sprintf(
-        "%s package is not in provided repositories %s.",
+        "%s package is not in provided repositories %s.\n",
         pac,
         paste(repos, collapse = ", ")
       )
@@ -134,7 +134,7 @@ pac_health <- function(pac,
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
   stopifnot(length(repos) == 1 && is.character(repos))
   if (!is_online()) {
-    message("No internet connection detected.")
+    message("No internet connection detected.\n")
     return(NA)
   }
 
@@ -187,7 +187,7 @@ pacs_lifeduration <- function(pacs, versions, source = c("crandb", "loop_crandb"
   if (source == "crandb" && length(pacs) <= getOption("pacs.crandb_limit", 100)) {
     meta <- crandb_json(pacs)
     if (isNA(meta)) {
-      message("crandb fetch failed, please try again.")
+      message("crandb fetch failed, please try again.\n")
       return(NA)
     }
 

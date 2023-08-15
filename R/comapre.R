@@ -35,7 +35,7 @@ pac_compare_versions <- function(pac,
   if (isFALSE(pac_isin(pac, repos))) {
     message(
       sprintf(
-        "%s package is not in provided repositories %s.",
+        "%s package is not in provided repositories %s.\n",
         pac,
         paste(repos, collapse = ", ")
       )
@@ -111,7 +111,7 @@ pac_compare_namespace <- function(pac,
   if (isFALSE(pac_isin(pac, repos))) {
     message(
       sprintf(
-        "%s package is not in provided repositories %s.",
+        "%s package is not in provided repositories %s.\n",
         pac,
         paste(repos, collapse = ", ")
       )

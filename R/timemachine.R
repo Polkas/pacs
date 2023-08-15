@@ -42,14 +42,14 @@ pac_timemachine <- function(pac,
   source <- match.arg(source)
 
   if (!is_online()) {
-    message("No internet connection detected.")
+    message("No internet connection detected.\n")
     return(NA)
   }
 
   if (isFALSE(pac_isin(pac, "https://cran.rstudio.com/"))) {
     message(
       sprintf(
-        "%s package is not on CRAN.",
+        "%s package is not on CRAN.\n",
         pac
       )
     )
@@ -158,7 +158,7 @@ pac_timemachine_table <- function(pac, source) {
   } else if (source == "crandb") {
     result_json <- crandb_json(pac)
     if (isNA(result_json)) {
-      message("crandb fetch failed, please try again.")
+      message("crandb fetch failed, please try again.\n")
       return(NA)
     }
 

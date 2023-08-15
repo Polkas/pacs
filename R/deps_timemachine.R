@@ -22,14 +22,14 @@ pac_deps_timemachine <- function(pac,
   stopifnot(is.null(version) || (length(version) == 1 && is.character(version)))
 
   if (!is_online()) {
-    message("No internet connection detected.")
+    message("No internet connection detected.\n")
     return(NA)
   }
 
   if (!pac_isin(pac, "https://cran.rstudio.com/")) {
     message(
       sprintf(
-        "%s package is not on CRAN.",
+        "%s package is not on CRAN.\n",
         pac
       )
     )

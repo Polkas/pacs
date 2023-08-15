@@ -1,4 +1,4 @@
-# pacs 0.4.10.9000
+# pacs 0.4.10.9001
 
 * protect against 404/403 results from crandb, linked with https://github.com/r-hub/pkgsearch/issues/117#issuecomment-1651081139
 * unstable crandb causes that lifeduration and timemachine functions use by default cran direct calls.
