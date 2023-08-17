@@ -323,17 +323,19 @@ crandb_json_raw <- function(packages,
   result <- NA
   for (iter in seq_len(ntry)) {
     fetch_crandb <- try(
-      suppressWarnings(jsonlite::read_json(
-        sprintf(
-          'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=%s',
-          paste(packages, collapse = '","'),
-          limit
+      suppressWarnings(
+        jsonlite::read_json(
+          sprintf(
+            'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=%s',
+            paste(packages, collapse = '","'),
+            limit
+          )
         )
-      )),
+      ),
       silent = TRUE
     )
 
-    if (class(fetch_crandb) != "try-error") {
+    if (!inherits(fetch_crandb, "try-error")) {
       result <- fetch_crandb
       break
     }
