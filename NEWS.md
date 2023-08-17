@@ -1,4 +1,4 @@
-# pacs 0.4.10.9006
+# pacs 0.4.10.9007
 
 * unstable crandb causes that lifeduration and timemachine functions use by default cran direct calls.
 * protect against 404/403 results from crandb. Please update new options if needed `options(pacs.crandb_ntry = 3)` and `options(pacs.crandb_nsleep = 0.1)` to control crandb fetch

@@ -1,6 +1,6 @@
 Package: pacs
 Title: Supplementary Tools for R Packages Developers
-Version: 0.4.10.9006
+Version: 0.4.10.9007
 Authors@R: 
     person(given = "Maciej",
            family = "Nasinski",
