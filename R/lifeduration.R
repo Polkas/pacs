@@ -161,6 +161,9 @@ pac_health <- function(pac,
 #' @description packages life duration for certain versions.
 #' @param source character one of `c("crandb", "loop_crandb", "loop_cran")`.
 #' The `"crandb"` works if less than `getOption("pacs.crandb_limit")` (currently 500) packages are looked for.
+#' When `crandb` linked source is used then `options(pacs.crandb_ntry = 3)` and `options(pacs.crandb_nsleep = 0.001)` can be used to control the fetch.
+#' `"pacs.crandb_ntry"` can be used to set the maximum number of try outs, by default 3.
+#' `"pacs.crandb_nsleep"` can be used to set the sleep duration between fetch try outs, by default 0.001.
 #' Default: `"crandb"`
 #' @inheritParams standard_args
 #' @return `data.frame` with two columns package name and life duration.

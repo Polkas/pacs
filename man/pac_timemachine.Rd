@@ -24,7 +24,12 @@ pac_timemachine(
 
 \item{version}{\code{character} version of a package. Default: \code{NULL}}
 
-\item{source}{\code{character} one of \code{c("cran", "crandb")}. Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN. Default: \code{"cran"}}
+\item{source}{\code{character} one of \code{c("cran", "crandb")}.
+Using the \verb{MEATCRAN CRANDB} or the direct web page download from CRAN.
+When \code{"crandb"} is set then \code{options(pacs.crandb_ntry = 3)} and \code{options(pacs.crandb_nsleep = 0.001)} can be used to control the fetch.
+\code{"pacs.crandb_ntry"} can be used to set the maximum number of try outs, by default 3.
+\code{"pacs.crandb_nsleep"} can be used to set the sleep duration between fetch try outs, by default 0.001.
+Default: \code{"cran"}}
 }
 \value{
 \code{data.frame} with 7 columns

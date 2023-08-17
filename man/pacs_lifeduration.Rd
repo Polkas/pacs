@@ -19,6 +19,9 @@ pacs_lifeduration(
 
 \item{source}{character one of \code{c("crandb", "loop_crandb", "loop_cran")}.
 The \code{"crandb"} works if less than \code{getOption("pacs.crandb_limit")} (currently 500) packages are looked for.
+When \code{crandb} linked source is used then \code{options(pacs.crandb_ntry = 3)} and \code{options(pacs.crandb_nsleep = 0.001)} can be used to control the fetch.
+\code{"pacs.crandb_ntry"} can be used to set the maximum number of try outs, by default 3.
+\code{"pacs.crandb_nsleep"} can be used to set the sleep duration between fetch try outs, by default 0.001.
 Default: \code{"crandb"}}
 
 \item{lib.loc}{\code{character} vector of search paths with local packages. Default: \code{.libPaths()}}
