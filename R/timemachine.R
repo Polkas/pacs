@@ -81,7 +81,10 @@ pac_timemachine <- function(pac,
 }
 
 pac_cran_recent_raw <- function(pac) {
-  cran_page <- try(suppressWarnings(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac), warn = FALSE)), silent = TRUE)
+  cran_page <- try(
+    suppressWarnings(readLines(sprintf("https://CRAN.R-project.org/package=%s", pac), warn = FALSE)),
+    silent = TRUE
+  )
   if (!inherits(cran_page, "try-error") && any(grepl(pac, cran_page))) {
     cran_v <- utils::head(gsub("</?td>", "", cran_page[grep("Version:", cran_page) + 1]), 1)
     cran_released <- utils::head(gsub("</?td>", "", cran_page[grep("Published:", cran_page) + 1]), 1)
@@ -149,6 +152,9 @@ pac_timemachine_table <- function(pac, source) {
     result <- pac_archived(pac)
     cran_page <- pac_cran_recent(pac)
     if (isNA(result)) {
+      if (isNA(cran_page)) {
+        message("cran fetch failed, please try again.\n")
+      }
       return(cran_page)
     }
 

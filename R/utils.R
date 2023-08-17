@@ -311,11 +311,10 @@ read_html_table <- function(table_lines) {
   list(html = rrr_html, lines = rrr)
 }
 
-
 crandb_json <- function(packages,
                         limit = getOption("pacs.crandb_limit", 100),
                         ntry = getOption("pacs.crandb_ntry", 3),
-                        nsleep = getOption("pacs.crandb_nsleep", 0.001)) {
+                        nsleep = getOption("pacs.crandb_nsleep", 0.1)) {
   if (!is_online()) {
     message("No internet connection detected.\n")
     return(NA)
