@@ -181,7 +181,12 @@ pac_health <- function(pac,
 #' # last versions
 #' pacs::pacs_lifeduration(c("dplyr", "tidyr"), sapply(c("dplyr", "tidyr"), pacs::pac_last))
 #' }
-pacs_lifeduration <- function(pacs, versions, source = c("crandb", "loop_crandb", "loop_cran"), lib.loc = .libPaths(), repos = biocran_repos()) {
+pacs_lifeduration <- function(
+    pacs, versions,
+    source = c("crandb", "loop_crandb", "loop_cran"),
+    lib.loc = .libPaths(),
+    repos = biocran_repos()
+) {
   if (length(pacs) != length(versions)) {
     return(rep(NA, length(pacs)))
   }

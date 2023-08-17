@@ -311,32 +311,28 @@ read_html_table <- function(table_lines) {
   list(html = rrr_html, lines = rrr)
 }
 
-crandb_json_raw <- function(packages,
-                            limit = getOption("pacs.crandb_limit", 100),
-                            ntry = getOption("pacs.crandb_ntry", 3),
-                            nsleep = getOption("pacs.crandb_nsleep", 0.001)) {
+
+crandb_json <- function(packages,
+                        limit = getOption("pacs.crandb_limit", 100),
+                        ntry = getOption("pacs.crandb_ntry", 3),
+                        nsleep = getOption("pacs.crandb_nsleep", 0.001)) {
   if (!is_online()) {
     message("No internet connection detected.\n")
     return(NA)
   }
 
+  crandb_url <- sprintf(
+    'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=%s',
+    paste(packages, collapse = '","'),
+    limit
+  )
+
   result <- NA
   for (iter in seq_len(ntry)) {
-    fetch_crandb <- try(
-      suppressWarnings(
-        jsonlite::read_json(
-          sprintf(
-            'https://crandb.r-pkg.org/-/allall?keys=["%s"]&limit=%s',
-            paste(packages, collapse = '","'),
-            limit
-          )
-        )
-      ),
-      silent = TRUE
-    )
+    fetch_call <- try(httr::GET(crandb_url), silent = TRUE)
 
-    if (!inherits(fetch_crandb, "try-error")) {
-      result <- fetch_crandb
+    if (!inherits(fetch_call, "try-error") && httr::status_code(fetch_call) == 200) {
+      result <- jsonlite::fromJSON(httr::content(fetch_call, as = "text", encoding = "UTF-8"))
       break
     }
 
@@ -345,5 +341,3 @@ crandb_json_raw <- function(packages,
 
   result
 }
-
-crandb_json <- memoise::memoise(crandb_json_raw, cache = cachem::cache_mem(max_age = 30 * 60))

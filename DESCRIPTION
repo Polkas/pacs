@@ -1,6 +1,6 @@
 Package: pacs
 Title: Supplementary Tools for R Packages Developers
-Version: 0.4.10.9003
+Version: 0.4.10.9004
 Authors@R: 
     person(given = "Maciej",
            family = "Nasinski",
@@ -28,6 +28,7 @@ RoxygenNote: 7.2.1
 Depends: R (>= 3.5.0)
 Imports:
     curl,
+    httr,
     memoise,
     jsonlite,
     xml2,
