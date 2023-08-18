@@ -7,3 +7,12 @@ test_that("crandb wrong input", {
     c(NA, NA, NA)
   )
 })
+
+test_that("crandb timemachine related", {
+  skip_if_offline()
+  skip_on_cran()
+  res <- pac_timemachine("dplyr", source = "crandb")
+  expect_true(isNA(res) || is.data.frame(res))
+  res <- pac_lifeduration("dplyr", source = "crandb")
+  expect_true(isNA(res) || inherits(res, "difftime"))
+})
