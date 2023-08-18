@@ -328,10 +328,10 @@ crandb_json <- function(packages,
 
   result <- NA
   for (iter in seq_len(ntry)) {
-    fetch_call <- try(httr::GET(crandb_url), silent = TRUE)
+    fetch_call <- try(curl::curl_fetch_memory(crandb_url), silent = TRUE)
 
-    if (!inherits(fetch_call, "try-error") && httr::status_code(fetch_call) == 200) {
-      result <- jsonlite::fromJSON(httr::content(fetch_call, as = "text", encoding = "UTF-8"))
+    if (!inherits(fetch_call, "try-error") && (fetch_call$status_code == 200)) {
+      result <- jsonlite::fromJSON(rawToChar(fetch_call$content))
       break
     }
 
