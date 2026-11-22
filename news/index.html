@@ -67,6 +67,7 @@
 <li>Count the app directory only once in <code><a href="../reference/app_size.html">app_size()</a></code> and consistently respect the requested local library in package, dependency, and size operations.</li>
 <li>Recognize starred CRAN statuses consistently, report unknown statuses as unavailable, and match the first complete version number in NEWS headings.</li>
 <li>Preserve user-configured <code>pacs.crandb_*</code> options when the package loads.</li>
+<li>Find package versions in repository indexes even when the current R or platform cannot install them; dependency resolution still respects compatibility filters.</li>
 <li>Add offline regression tests with local fixtures and a fixed test clock, and update release-check workflows.</li>
 </ul></div>
     <div class="section level2">
