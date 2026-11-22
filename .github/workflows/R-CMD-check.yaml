@@ -23,11 +23,10 @@ jobs:
       matrix:
         config:
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
-          - {os: macOS-latest,   r: 'release'}
-          - {os: windows-latest, r: '3.6'}
-          - {os: ubuntu-latest,   r: 'oldrel/3'}
+          - {os: windows-latest, r: 'release', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'release', http-user-agent: 'release'}
+          - {os: macOS-latest,   r: 'release', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'oldrel/4.1', http-user-agent: 'release'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
