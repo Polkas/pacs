@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pacs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0.9000</span>
       </span>
     </div>
 
@@ -61,7 +61,16 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.6.0" id="pacs-060">pacs 0.6.0<a class="anchor" aria-label="anchor" href="#pacs-060"></a></h2>
+<h2 class="page-header" data-toc-text="0.6.0.9000" id="pacs-0609000">pacs 0.6.0.9000<a class="anchor" aria-label="anchor" href="#pacs-0609000"></a></h2>
+<ul><li>Read Bioconductor release dates and R-version mappings from its official machine-readable configuration instead of scraping the release-announcements page. <code><a href="../reference/bio_releases.html">bio_releases()</a></code> retains its existing columns, but <code>Software packages</code> is now <code>NA</code> because the configuration does not provide historical counts. The R version is <code>NA</code> for releases without a mapping, historical dates follow the configuration, and scheduled future releases are excluded.</li>
+<li>Fix <code><a href="../reference/pac_health.html">pac_health()</a></code> to check CRAN status for the effective latest version and return <code>NA</code> when required check information is unavailable.</li>
+<li>Count the app directory only once in <code><a href="../reference/app_size.html">app_size()</a></code> and consistently respect the requested local library in package, dependency, and size operations.</li>
+<li>Recognize starred CRAN statuses consistently, report unknown statuses as unavailable, and match the first complete version number in NEWS headings.</li>
+<li>Preserve user-configured <code>pacs.crandb_*</code> options when the package loads.</li>
+<li>Add offline regression tests with local fixtures and a fixed test clock, and update release-check workflows.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.6.0" id="pacs-060">pacs 0.6.0<small>2024-09-27</small><a class="anchor" aria-label="anchor" href="#pacs-060"></a></h2>
 <ul><li>fix <code>checked_packages</code> as there is a new DOM structure.</li>
 <li>fix <code>pac_deps_timemachine</code> which not works in some cases.</li>
 <li>fix a problem with <code>app_deps</code> on R 3.6.</li>
@@ -328,7 +337,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer></div>

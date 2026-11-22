@@ -1,7 +1,7 @@
-pandoc: 3.1.11
-pkgdown: 2.1.1.9000
-pkgdown_sha: 0a18bc718640aee7160a0ebbcdef5ecaae2ac4a4
+pandoc: 3.8.3
+pkgdown: 2.2.1
+pkgdown_sha: ~
 articles:
   GettingStarted: GettingStarted.html
   tinyverse: tinyverse.html
-last_built: 2024-09-27T20:26Z
+last_built: 2026-11-22T17:17Z
