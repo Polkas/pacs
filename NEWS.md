@@ -1,4 +1,4 @@
-# pacs 0.6.0.9000
+# pacs 0.7.1
 
 * Read Bioconductor release dates and R-version mappings from its official machine-readable configuration instead of scraping the release-announcements page.
 `bio_releases()` retains its existing columns, but `Software packages` is now `NA` because the configuration does not provide historical counts.
