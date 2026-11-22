@@ -1,3 +1,14 @@
+# pacs 0.6.0.9000
+
+* Read Bioconductor release dates and R-version mappings from its official machine-readable configuration instead of scraping the release-announcements page.
+`bio_releases()` retains its existing columns, but `Software packages` is now `NA` because the configuration does not provide historical counts.
+The R version is `NA` for releases without a mapping, historical dates follow the configuration, and scheduled future releases are excluded.
+* Fix `pac_health()` to check CRAN status for the effective latest version and return `NA` when required check information is unavailable.
+* Count the app directory only once in `app_size()` and consistently respect the requested local library in package, dependency, and size operations.
+* Recognize starred CRAN statuses consistently, report unknown statuses as unavailable, and match the first complete version number in NEWS headings.
+* Preserve user-configured `pacs.crandb_*` options when the package loads.
+* Add offline regression tests with local fixtures and a fixed test clock, and update release-check workflows.
+
 # pacs 0.6.0
 
 * fix `checked_packages` as there is a new DOM structure.
@@ -239,4 +250,3 @@
 * Added `memoise` dependency to reduce the number of web calls.
 * Created a decent basket of `pac`/`pacs` prefix functions.
 * Removed all `\dontrun` calls.
-
