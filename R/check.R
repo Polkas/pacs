@@ -58,7 +58,8 @@ pac_checkpage <- function(pac) {
 #' Checking the R CRAN package check page status
 #' @description using package R CRAN check page to validate if there are ANY errors and/or fails and/or warnings and/or notes.
 #' @inheritParams standard_args
-#' @return `logical` if the package fail under specified criteria.
+#' @return `logical` if the package fails under the specified criteria, or
+#' `NA` if the required check statuses cannot be retrieved.
 #' @note Results are cached for 30 minutes with `memoise` package.
 #' If you need to check many packages at once then is recommended usage of `pacs::checked_packages`.
 #' The used repository `https://cran.rstudio.com/`.
@@ -79,23 +80,45 @@ pac_checkred <- function(pac, scope = c("ERROR", "FAIL"), flavors = NULL) {
     return(NA)
   }
 
-  stopifnot(all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")))
   stopifnot((length(pac) == 1) && is.character(pac))
-  stopifnot(length(scope) == 0 || all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE")) &&
-    is.null(flavors) || all(flavors %in% cran_flavors()$Flavor))
-
+  stopifnot(is.null(scope) || (is.character(scope) && all(scope %in% c("ERROR", "FAIL", "WARN", "NOTE"))))
+  stopifnot(is.null(flavors) || is.character(flavors))
+  if (length(flavors)) {
+    available_flavors <- cran_flavors()
+    if (!is.data.frame(available_flavors) || !"Flavor" %in% names(available_flavors)) {
+      message("Failed to retrieve CRAN check flavors.\n")
+      return(NA)
+    }
+    stopifnot(all(flavors %in% available_flavors$Flavor))
+  }
 
   if (!pac_isin(pac, "https://cran.rstudio.com/")) {
     message(sprintf("%s package is not on CRAN.\n", pac))
     return(NA)
   }
+  if (!length(scope)) return(FALSE)
 
   result_raw <- pac_checkpage(pac)
-  if (length(flavors)) {
-    any(result_raw[result_raw$Flavor %in% flavors, ]$Status %in% c(scope, paste0(scope, "*")))
-  } else {
-    any(result_raw$Status %in% scope)
+  if (!is.data.frame(result_raw) ||
+      !all(c("Flavor", "Status") %in% names(result_raw)) ||
+      nrow(result_raw) == 0) {
+    message("Failed to retrieve package check statuses.\n")
+    return(NA)
   }
+  if (length(flavors)) {
+    result_raw <- result_raw[result_raw$Flavor %in% flavors, , drop = FALSE]
+    if (nrow(result_raw) == 0) {
+      message("No package check statuses found for the selected flavors.\n")
+      return(NA)
+    }
+  }
+  statuses <- sub("\\*$", "", trimws(result_raw$Status))
+  if (any(statuses %in% scope)) return(TRUE)
+  if (anyNA(statuses) || any(!statuses %in% c("OK", "ERROR", "FAIL", "WARN", "NOTE"))) {
+    message("Some package check statuses are unavailable.\n")
+    return(NA)
+  }
+  FALSE
 }
 
 #' Retrieving all R CRAN packages check pages statuses.
@@ -203,41 +226,73 @@ cran_flavors <- function() {
   read_cran_flavours(url = "https://cran.r-project.org/web/checks/check_flavors.html")
 }
 
-read_bio_releases_raw <- function(url = "https://www.bioconductor.org/about/release-announcements/") {
-  rr <- try(readLines(url, warn = FALSE), silent = TRUE)
-  if (!inherits(rr, "try-error")) {
-    tableh <- read_html_table(rr)
-    rrr_html <- tableh$html
-
-    header <- trimws(xml_text(xml_find_all(rrr_html, "//th")))
-    result_raw <- as.data.frame(matrix(trimws(xml_text(xml_find_all(rrr_html, "//td"))),
-      ncol = length(header), byrow = TRUE
-    ))
-    colnames(result_raw) <- header
-    result_raw$Date <- as.Date(result_raw$Date, format = "%B %d, %Y")
-    result_raw$Release <- as.character(result_raw$Release)
-    result_raw$R <- as.character(result_raw$R)
-  } else {
-    result_raw <- NA
+read_bio_releases_raw <- function(url = "https://bioconductor.org/config.yaml") {
+  config <- yaml::yaml.load(
+    paste(suppressWarnings(readLines(url, warn = FALSE)), collapse = "\n"),
+    eval.expr = FALSE
+  )
+  if (!is.list(config) || !is.character(config$release_version) ||
+      length(config$release_version) != 1L || is.na(config$release_version) ||
+      !is.list(config$release_dates) ||
+      !is.list(config$r_ver_for_bioc_ver)) {
+    stop("current release, release dates, or R version mappings are missing")
   }
 
-  result_raw
+  release_dates <- unlist(config$release_dates, use.names = TRUE)
+  r_versions <- unlist(config$r_ver_for_bioc_ver, use.names = TRUE)
+  releases <- names(release_dates)
+  if (!length(releases) || anyDuplicated(releases) ||
+      !length(r_versions) || is.null(names(r_versions)) ||
+      anyDuplicated(names(r_versions))) {
+    stop("release dates or R version mappings are invalid")
+  }
+
+  if (!config$release_version %in% releases) {
+    stop("the current release date is missing")
+  }
+  released <- package_version(releases) <= package_version(config$release_version)
+  releases <- releases[released]
+  release_dates <- release_dates[released]
+  dates <- as.Date(as.character(release_dates), format = "%m/%d/%Y")
+  if (anyNA(dates)) {
+    stop("one or more release dates are invalid")
+  }
+  ordering <- order(package_version(releases), decreasing = TRUE)
+  data.frame(
+    Release = releases[ordering],
+    Date = dates[ordering],
+    `Software packages` = rep(NA_character_, length(releases)),
+    R = unname(as.character(r_versions[releases[ordering]])),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
 }
 
-read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cachem::cache_mem(max_age = 30 * 60))
+read_bio_releases <- memoise::memoise(read_bio_releases_raw, cache = cache_mem(max_age = 30 * 60))
 
 #' Retrieving all Bioconductor releases
 #' @description Retrieving all Bioconductor releases.
-#' The data is downloaded from `https://www.bioconductor.org/about/release-announcements/`.
-#' @return `data.frame` with the same structure as the html table on `https://www.bioconductor.org/about/release-announcements/`.
-#' @note Results are cached for 30 minutes with `memoise` package.
+#' The data is downloaded from Bioconductor's machine-readable
+#' `https://bioconductor.org/config.yaml`.
+#' @return `data.frame` with `Release`, `Date`, `Software packages`, and `R`
+#' columns, or `NA` if the configuration cannot be read. The configuration
+#' does not provide historical software-package counts, so `Software packages`
+#' is `NA`. The `R` column is `NA` for releases without an R version mapping.
+#' @note Only versions up to the current Bioconductor release with a release
+#' date are included, newest first.
+#' Dates and R versions follow the Bioconductor configuration and may differ
+#' from other historical sources. Successful results are cached for 30 minutes
+#' with the `memoise` package; failures are not cached.
 #' @export
 #' @examples
 #' \dontrun{
 #' pacs::bio_releases()
 #' }
 bio_releases <- function() {
-  read_bio_releases(url = "https://www.bioconductor.org/about/release-announcements/")
+  tryCatch(read_bio_releases(), error = function(e) {
+    message("Failed to read Bioconductor release configuration: ", conditionMessage(e), "\n")
+    NA
+  })
 }
 
 #' CRAN and Bioconductor repositories
@@ -248,34 +303,42 @@ bio_releases <- function() {
 #' Available Bioconductor versions for your R version could be checked with `pacs::bio_releases()`. Default NULL
 #' @return `named character` vector of repositories.
 #' @note The Internet connection is needed to get Bioconductor repositories.
+#' If the release configuration is unavailable or no release matches, a
+#' message is issued and only the CRAN repository is returned.
 #' @export
 #' @examples
 #' \dontrun{
 #' pacs::biocran_repos()
 #' }
 biocran_repos <- function(version = NULL) {
-  if (is_online()) {
-    Rv <- paste0(R.Version()$major, ".", stri_split_fixed(R.Version()$minor, ".")[[1]][1])
-    bio_ok <- bio_releases()$Release[match(Rv, bio_releases()$R)]
-    if (!(is.null(version) || (!is.null(version) && isTRUE(version %in% bio_ok)))) {
-      return(c(CRAN = "https://cran.rstudio.com/"))
-    }
-    if (is.null(version)) version <- utils::head(bio_ok, 1)
-    if (isNA(version)) {
-      c(CRAN = "https://cran.rstudio.com/")
-    } else {
-      c(
-        BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
-        BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version),
-        BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
-        BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
-        BioCbooks = if (utils::compareVersion(version, "3.12") >= 0) sprintf("https://bioconductor.org/packages/%s/books", version) else NULL,
-        CRAN = "https://cran.rstudio.com/"
-      )
-    }
-  } else {
-    c(CRAN = "https://cran.rstudio.com/")
+  cran <- c(CRAN = "https://cran.rstudio.com/")
+  if (!is_online()) {
+    message("No internet connection detected; using the CRAN repository only.\n")
+    return(cran)
   }
+
+  releases <- bio_releases()
+  if (!is.data.frame(releases)) {
+    message("Bioconductor release information is unavailable; using the CRAN repository only.\n")
+    return(cran)
+  }
+
+  Rv <- paste0(R.Version()$major, ".", stri_split_fixed(R.Version()$minor, ".")[[1]][1])
+  bio_ok <- releases$Release[!is.na(releases$R) & releases$R == Rv]
+  if (!length(bio_ok) || (!is.null(version) && !isTRUE(version %in% bio_ok))) {
+    message("No matching Bioconductor release for R ", Rv, "; using the CRAN repository only.\n")
+    return(cran)
+  }
+  if (is.null(version)) version <- bio_ok[1]
+
+  c(
+    BioCsoft = sprintf("https://bioconductor.org/packages/%s/bioc", version),
+    BioCann = sprintf("https://bioconductor.org/packages/%s/data/annotation", version),
+    BioCexp = sprintf("https://bioconductor.org/packages/%s/data/experiment", version),
+    BioCworkflows = sprintf("https://bioconductor.org/packages/%s/workflows", version),
+    BioCbooks = if (utils::compareVersion(version, "3.12") >= 0) sprintf("https://bioconductor.org/packages/%s/books", version) else NULL,
+    cran
+  )
 }
 
 #' Get all matched CRAN servers to the local `OS`

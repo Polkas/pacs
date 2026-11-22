@@ -16,7 +16,8 @@ The \code{pacs::match_flavors()} function could be used to get CRAN server names
 By default all CRAN machines are considered \code{NULL} value. Default: \code{NULL}}
 }
 \value{
-\code{logical} if the package fail under specified criteria.
+\code{logical} if the package fails under the specified criteria, or
+\code{NA} if the required check statuses cannot be retrieved.
 }
 \description{
 using package R CRAN check page to validate if there are ANY errors and/or fails and/or warnings and/or notes.

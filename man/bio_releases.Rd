@@ -7,14 +7,22 @@
 bio_releases()
 }
 \value{
-\code{data.frame} with the same structure as the html table on \verb{https://www.bioconductor.org/about/release-announcements/}.
+\code{data.frame} with \code{Release}, \code{Date}, \verb{Software packages}, and \code{R}
+columns, or \code{NA} if the configuration cannot be read. The configuration
+does not provide historical software-package counts, so \verb{Software packages}
+is \code{NA}. The \code{R} column is \code{NA} for releases without an R version mapping.
 }
 \description{
 Retrieving all Bioconductor releases.
-The data is downloaded from \verb{https://www.bioconductor.org/about/release-announcements/}.
+The data is downloaded from Bioconductor's machine-readable
+\verb{https://bioconductor.org/config.yaml}.
 }
 \note{
-Results are cached for 30 minutes with \code{memoise} package.
+Only versions up to the current Bioconductor release with a release
+date are included, newest first.
+Dates and R versions follow the Bioconductor configuration and may differ
+from other historical sources. Successful results are cached for 30 minutes
+with the \code{memoise} package; failures are not cached.
 }
 \examples{
 \dontrun{

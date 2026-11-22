@@ -1,7 +1,7 @@
 # pacs <a href='https://github.com/polkas/pacs'><img src='man/figures/pacs_logo.png' align="right" width="200px" /></a>
 [![R build status](https://github.com/polkas/pacs/workflows/R-CMD-check/badge.svg)](https://github.com/polkas/pacs/actions)
 [![CRAN](https://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
-[![codecov](https://codecov.io/gh/Polkas/pacs/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Polkas/pacs)
+[![codecov](https://codecov.io/gh/Polkas/pacs/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Polkas/pacs)
 
 [**For more information please visit the pacs website**](https://polkas.github.io/pacs/).
 
@@ -20,6 +20,10 @@ A set of tools that make life easier for developers and maintainers of R package
 - The Bioconductor is partly supported.
 
 **An Internet connection is required to take full advantage of most of the features.**
+
+Bioconductor release dates and R-version mappings come from its official
+configuration. Historical software-package counts are not provided by that
+source, so the `Software packages` column returned by `bio_releases()` is `NA`.
 
 **Almost all calls which requiring an Internet connection are cached (for 30 minutes) by the `memoise` package, so the second invocation of the same command (and arguments) is immediate. Restart the R session if you want to clear cached data.**
 

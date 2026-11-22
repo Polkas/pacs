@@ -37,3 +37,35 @@ test_that("pacs::pac_checkred offline", {
   expect_message(pac_checkred_offline("dplyr"), "No internet connection detected")
   expect_identical(suppressMessages(pac_checkred_offline("dplyr")), NA)
 })
+
+test_that("pac_checkred handles starred and unavailable statuses", {
+  check <- pac_checkred
+  mockery::stub(check, "is_online", TRUE)
+  mockery::stub(check, "pac_isin", TRUE)
+  mockery::stub(check, "cran_flavors", data.frame(Flavor = c("ok", "error", "missing")))
+  mockery::stub(check, "pac_checkpage", data.frame(
+    Flavor = c("ok", "error"),
+    Status = c("OK", "ERROR*"),
+    stringsAsFactors = FALSE
+  ))
+
+  expect_true(check("example"))
+  expect_true(check("example", flavors = "error"))
+  expect_false(check("example", flavors = "ok"))
+  expect_false(check("example", scope = character()))
+  expect_false(check("example", scope = NULL))
+  expect_message(expect_identical(check("example", flavors = "missing"), NA), "No package check statuses")
+
+  mockery::stub(check, "pac_checkpage", NA)
+  expect_message(expect_identical(check("example"), NA), "Failed to retrieve package check statuses")
+  mockery::stub(check, "pac_checkpage", data.frame(Flavor = "ok", Status = NA_character_))
+  expect_message(expect_identical(check("example"), NA), "statuses are unavailable")
+  mockery::stub(check, "pac_checkpage", data.frame(Flavor = "ok", Status = ""))
+  expect_message(expect_identical(check("example"), NA), "statuses are unavailable")
+  mockery::stub(check, "pac_checkpage", data.frame(Flavor = "ok", Status = "UNKNOWN"))
+  expect_message(expect_identical(check("example"), NA), "statuses are unavailable")
+  mockery::stub(check, "pac_checkpage", data.frame(Flavor = c("ok", "error"), Status = c("", "ERROR*")))
+  expect_true(check("example"))
+  mockery::stub(check, "cran_flavors", NA)
+  expect_message(expect_identical(check("example", flavors = "ok"), NA), "Failed to retrieve CRAN check flavors")
+})

@@ -1,6 +1,6 @@
 Package: pacs
 Title: Supplementary Tools for R Packages Developers
-Version: 0.6.0
+Version: 0.6.0.9000
 Authors@R: 
     person(given = "Maciej",
            family = "Nasinski",
@@ -27,11 +27,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
 Depends: R (>= 3.5.0)
 Imports:
+    cachem,
     curl,
-    memoise,
+    memoise (>= 2.0.0),
     jsonlite,
     xml2,
-    stringi
+    stringi,
+    yaml
 Suggests: 
     remotes,
     renv,

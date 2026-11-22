@@ -20,6 +20,8 @@ The newest Bioconductor release for the specific R version is assumed.
 }
 \note{
 The Internet connection is needed to get Bioconductor repositories.
+If the release configuration is unavailable or no release matches, a
+message is issued and only the CRAN repository is returned.
 }
 \examples{
 \dontrun{
