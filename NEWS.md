@@ -10,6 +10,7 @@ The R version is `NA` for releases without a mapping, historical dates follow th
 * Find package versions in repository indexes even when the current R or platform cannot install them; dependency resolution still respects compatibility filters.
 * Add offline regression tests with local fixtures and a fixed test clock, and update release-check workflows.
 * Keep CRAN-only tests independent of Bioconductor release availability on R-devel.
+* Add `pac_system_requirements()` to report declared system requirements as a named list of character vectors (one per package), with configurable developer-style dependency traversal and efficient bulk repository metadata. Requested by Ignacy Mościcki, thank you for the suggestion.
 
 # pacs 0.6.0
 

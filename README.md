@@ -15,6 +15,7 @@ A set of tools that make life easier for developers and maintainers of R package
 - Assessing the life duration of a specific package version.
 - Checking a CRAN package check page status for any errors and warnings.
 - Retrieving a DESCRIPTION or NAMESPACE file for any package version.
+- Reporting declared system requirements for a package and its dependencies.
 - Comparing DESCRIPTION or NAMESPACE files between different package versions.
 - Getting a list of all releases for a specific package.
 - The Bioconductor is partly supported.
@@ -80,4 +81,11 @@ Looking for heavy dependencies:
 
 ```r
 pacs::pac_deps_heavy("caret")
+```
+
+Report system requirements declared by an installed package and its dependencies:
+
+```r
+sysreqs <- pacs::pac_system_requirements("dplyr")
+sysreqs |> unlist() |> unique()
 ```
