@@ -56,3 +56,34 @@ test_that("pacs::pac_compare_news online", {
   expect_true(length(pac_compare_news("memoise", old = "1.0.0")) > 0)
   expect_true(length(pac_compare_news("memoise", "1.0.0", "2.0.0")) > 0)
 })
+
+test_that("pac_compare_news matches complete versions in headings", {
+  compare <- pac_compare_news
+  mockery::stub(compare, "is_online", TRUE)
+  mockery::stub(compare, "pac_isin", TRUE)
+  mockery::stub(compare, "pac_last", "2.0")
+  mockery::stub(compare, "pac_news", c(
+    "# Example 2.0", "newest changes",
+    "# Example 1.10", "unrelated changes",
+    "## Example 1.1", "wanted changes",
+    "# Example 1.0", "old changes"
+  ))
+
+  expect_identical(compare("example", old = "1.0", new = "1.1"), c("## Example 1.1", "wanted changes"))
+  expect_message(expect_identical(compare("example", old = "1.0", new = "1.2"), NA), "Could not find NEWS headings")
+
+  mockery::stub(compare, "pac_news", c("# Example 1.0", "old", "# Example 1.1", "new"))
+  expect_message(expect_identical(compare("example", old = "1.0", new = "1.1"), NA), "release order")
+
+  mockery::stub(compare, "pac_news", c(
+    "# Changelog",
+    "# Example2 v2.0 (compared with 1.1)", "newest",
+    "# Example2 v1.1 (compared with 1.0)", "wanted",
+    "# Example2 v1.0", "old"
+  ))
+  expect_identical(compare("example", old = "1.0", new = "1.1"), c("# Example2 v1.1 (compared with 1.0)", "wanted"))
+  expect_message(expect_identical(compare("example", old = "1.0", new = "2"), NA), "Could not find NEWS headings")
+
+  mockery::stub(compare, "pac_news", NA)
+  expect_message(expect_identical(compare("example", old = "1.0", new = "1.1"), NA), "Failed to retrieve package NEWS")
+})

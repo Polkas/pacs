@@ -27,28 +27,29 @@ pac_news <- function(
     }
 
     version_installed <- if (is_installed) {
-        utils::packageDescription(pac)$Version
+        utils::packageDescription(pac, lib.loc = lib.loc)$Version
     } else {
         NA
     }
     version_null <- is.null(version)
 
     if (local && is_installed && is.null(at) && (version_null || isTRUE(utils::compareVersion(version, version_installed) == 0))) {
-        news_name <- intersect(list.files(system.file(package = pac)), c("NEWS.md", "NEWS", "NEWS.Rmd"))
+        package_dir <- find.package(pac, lib.loc = lib.loc)
+        news_name <- intersect(list.files(package_dir), c("NEWS.md", "NEWS", "NEWS.Rmd"))
         if (length(news_name) == 0) {
             return(NA)
         }
-        return(readLines(system.file(package = pac, news_name[1]), warn = FALSE))
+        return(readLines(file.path(package_dir, news_name[1]), warn = FALSE))
     } else if (isTRUE(is_isin(pac, "https://cran.rstudio.com/"))) {
         last_version <- pac_last(pac, repos = repos)
         version <- if (!version_null) {
             version
         } else if (!is.null(at)) {
-            vv <- utils::tail(pac_timemachine(pac, at = at)$Version, 1)
-            if (isNA(vv) || is.null(vv)) {
+            history <- pac_timemachine(pac, at = at)
+            if (!is.data.frame(history) || nrow(history) == 0) {
                 return(NA)
             }
-            vv
+            utils::tail(history$Version, 1)
         } else {
             last_version
         }

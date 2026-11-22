@@ -48,3 +48,18 @@ test_that("extract_deps", {
     )
   )
 })
+
+test_that("package load preserves user options and supplies missing defaults", {
+  withr::with_options(list(pacs.crandb_limit = 77, pacs.crandb_ntry = 8, pacs.crandb_nsleep = 4), {
+    pacs:::.onLoad(NULL, NULL)
+    expect_identical(getOption("pacs.crandb_limit"), 77)
+    expect_identical(getOption("pacs.crandb_ntry"), 8)
+    expect_identical(getOption("pacs.crandb_nsleep"), 4)
+  })
+  withr::with_options(list(pacs.crandb_limit = NULL, pacs.crandb_ntry = NULL, pacs.crandb_nsleep = NULL), {
+    pacs:::.onLoad(NULL, NULL)
+    expect_identical(getOption("pacs.crandb_limit"), 500)
+    expect_identical(getOption("pacs.crandb_ntry"), 3)
+    expect_identical(getOption("pacs.crandb_nsleep"), 0.1)
+  })
+})

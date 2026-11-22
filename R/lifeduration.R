@@ -51,15 +51,15 @@ pac_lifeduration <- function(pac,
 
   is_installed <- isTRUE(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
   version_installed <- if (is_installed) {
-    pac_description(pac, local = TRUE)$Version
+    pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
   } else {
     NA
   }
   version <- if (!is.null(version)) {
     version
   } else if (!is.null(at)) {
-    res <- pac_timemachine(pac, at = at)
-    if (isNA(res) || is.null(res)) {
+    res <- pac_timemachine(pac, at = at, source = source)
+    if (!is.data.frame(res) || nrow(res) == 0) {
       return(NA)
     } else {
       utils::tail(res$Version, 1)
@@ -105,7 +105,8 @@ pac_lifeduration <- function(pac,
 #' The newest release is checked for any warnings/errors on the R CRAN package check page.
 #' @inheritParams standard_args
 #' @param repos character vector repositories URLs to use. Default `https://cran.rstudio.com/`
-#' @return `logical` if a package is healthy.
+#' @return `logical` if a package is healthy, or `NA` when the required
+#' release or CRAN check information is unavailable.
 #' @note
 #' Results are cached for 30 minutes with `memoise` package.
 #' The `crandb` R packages database is a part of `METACRAN` project, source:
@@ -150,11 +151,33 @@ pac_health <- function(pac,
   }
   res <- life >= limit
 
-  if ((length(scope) > 0) && identical(pac_last(pac, repos = repos), version)) {
-    if (isTRUE(pac_checkred(pac, scope = scope, flavors = flavors))) FALSE else res
-  } else {
-    res
+  if (length(scope) > 0) {
+    last_version <- pac_last(pac, repos = repos)
+    if (length(last_version) != 1 || isNA(last_version)) {
+      message("Failed to determine the newest package version.\n")
+      return(NA)
+    }
+    if (is.null(version)) {
+      if (is.null(at)) {
+        version <- last_version
+      } else {
+        history <- pac_timemachine(pac, at = at, source = source)
+        if (!is.data.frame(history) || nrow(history) == 0) {
+          message("Failed to determine the package version at the requested date.\n")
+          return(NA)
+        }
+        version <- utils::tail(history$Version, 1)
+      }
+    }
+    if (length(version) != 1 || isNA(version)) {
+      message("Failed to determine the requested package version.\n")
+      return(NA)
+    }
+    if (isTRUE(utils::compareVersion(last_version, version) == 0)) {
+      return(res & !pac_checkred(pac, scope = scope, flavors = flavors))
+    }
   }
+  res
 }
 
 #' Packages life duration for a specific version

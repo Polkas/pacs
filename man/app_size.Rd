@@ -23,7 +23,8 @@ Default: \code{c("Depends", "Imports", "LinkingTo")}}
 \item{recursive}{\code{logical} if to assess the dependencies recursively. Default: TRUE}
 }
 \value{
-\code{numeric} size in bytes, to get MB ten divide by \code{10**6}.
+\code{numeric} size in bytes, or \code{NA} if dependencies cannot be
+determined. To get MB, divide by \code{10**6}.
 }
 \description{
 The size of shiny app is a sum of dependencies packages and the app directory.

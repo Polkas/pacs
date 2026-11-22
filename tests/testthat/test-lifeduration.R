@@ -43,3 +43,51 @@ test_that("pacs::pac_lifeduration", {
   expect_error(pac_lifeduration("dplyr", version = 1))
   expect_true(pac_lifeduration("memoise") > 0)
 })
+
+test_that("pac_health checks the effective newest version", {
+  health <- pac_health
+  mockery::stub(health, "is_online", TRUE)
+  mockery::stub(health, "pacs_base", character())
+  mockery::stub(health, "pac_lifeduration", 30)
+  mockery::stub(health, "pac_last", "1.0")
+  mockery::stub(health, "pac_checkred", TRUE)
+  mockery::stub(health, "pac_timemachine", function(pac, at, source) {
+    stopifnot(source == "crandb")
+    data.frame(Version = "1.0", stringsAsFactors = FALSE)
+  })
+
+  expect_false(health("example"))
+  expect_false(health("example", version = "1.0"))
+  expect_false(health("example", at = as.Date("2020-01-01"), source = "crandb"))
+  expect_true(health("example", version = "0.9"))
+  expect_true(health("example", scope = character()))
+
+  mockery::stub(health, "pac_checkred", NA)
+  expect_identical(health("example"), NA)
+  mockery::stub(health, "pac_lifeduration", 1)
+  expect_false(health("example"))
+
+  mockery::stub(health, "pac_lifeduration", 30)
+  mockery::stub(health, "pac_last", NA)
+  expect_message(expect_identical(health("example"), NA), "newest package version")
+})
+
+test_that("pac_lifeduration uses the requested historical source", {
+  lifetime <- pac_lifeduration
+  mockery::stub(lifetime, "is_online", TRUE)
+  mockery::stub(lifetime, "is_isin", TRUE)
+  mockery::stub(lifetime, "pac_last", "1.0")
+  mockery::stub(lifetime, "installed_packages", matrix(character(), nrow = 0, ncol = 1))
+  mockery::stub(lifetime, "pac_timemachine", function(pac, at = NULL, version = NULL, source) {
+    stopifnot(source == "crandb")
+    if (!is.null(at)) {
+      data.frame(Version = "0.9", stringsAsFactors = FALSE)
+    } else {
+      data.frame(LifeDuration = as.difftime(10, units = "days"))
+    }
+  })
+
+  expect_equal(as.numeric(lifetime("example", at = as.Date("2020-01-01"), source = "crandb", repos = "https://example.test")), 10)
+  mockery::stub(lifetime, "pac_timemachine", data.frame(Version = character()))
+  expect_identical(lifetime("example", at = as.Date("1900-01-01"), repos = "https://example.test"), NA)
+})

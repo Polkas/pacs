@@ -25,7 +25,7 @@ pac_description <- function(pac,
   }
 
   version_installed <- if (is_installed) {
-    utils::packageDescription(pac)$Version
+    utils::packageDescription(pac, lib.loc = lib.loc)$Version
   } else {
     NA
   }

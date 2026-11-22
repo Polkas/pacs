@@ -22,3 +22,19 @@ test_that("pacs::app_size", {
   expect_true(pacs::app_size("files/shiny_app_empty") > 0)
   expect_error(pacs::app_size("WRONG"))
 })
+
+test_that("app_size adds the app directory once", {
+  size <- app_size
+  mockery::stub(size, "app_deps", data.frame(Package = c("first", "second")))
+  mockery::stub(size, "pac_size", function(pac, lib.loc) {
+    stopifnot(identical(lib.loc, .libPaths()))
+    if (pac == "first") 10 else 20
+  })
+  mockery::stub(size, "dir_size", 100)
+
+  expect_equal(size("."), 130)
+  mockery::stub(size, "app_deps", data.frame(Package = character()))
+  expect_equal(size("."), 100)
+  mockery::stub(size, "app_deps", NA)
+  expect_message(expect_identical(size("."), NA_real_), "Failed to determine app dependencies")
+})

@@ -21,7 +21,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
     return(NA)
   }
   version_installed <- if (is_installed) {
-    pac_description(pac, local = TRUE)$Version
+    pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
   } else {
     NA
   }
@@ -29,8 +29,8 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
   version_null <- is.null(version)
 
   if (local && is_installed && is.null(at) && (version_null || isTRUE(utils::compareVersion(version, version_installed) == 0))) {
-    namespace_lines <- readLines(system.file(package = pac, "NAMESPACE"), warn = FALSE)
-    desc <- pac_description(pac, local = TRUE)
+    namespace_lines <- readLines(file.path(find.package(pac, lib.loc = lib.loc), "NAMESPACE"), warn = FALSE)
+    desc <- pac_description(pac, local = TRUE, lib.loc = lib.loc)
   } else if (isTRUE(is_isin(pac, "https://cran.rstudio.com/"))) {
     version <- if (!version_null) {
       version
@@ -45,7 +45,7 @@ pac_namespace <- function(pac, version = NULL, at = NULL, local = FALSE, lib.loc
       pac_last(pac, repos = repos)
     }
     namespace_lines <- pac_readnamespace(pac, version, repos)
-    desc <- pac_description(pac, version = version)
+    desc <- pac_description(pac, version = version, lib.loc = lib.loc, repos = repos)
     if (isTRUE(is.na(namespace_lines))) {
       return(NA)
     }

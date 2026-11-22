@@ -42,11 +42,11 @@ pac_compare_versions <- function(pac,
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
-    old <- pac_description(pac, local = TRUE)$Version
+    old <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
   }
 
   if (is.null(new)) {
-    new <- pac_last(pac)
+    new <- pac_last(pac, repos = repos)
   }
 
   stopifnot(utils::compareVersion(new, old) >= 0)
@@ -115,11 +115,11 @@ pac_compare_namespace <- function(pac,
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
-    old <- pac_description(pac, local = TRUE)$Version
+    old <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
   }
 
   if (is.null(new)) {
-    new <- pac_last(pac)
+    new <- pac_last(pac, repos = repos)
   }
 
   stopifnot(utils::compareVersion(new, old) >= 0)
@@ -161,7 +161,10 @@ pac_compare_namespace <- function(pac,
 #' @description using the remote github CRAN mirror to compare NEWS files between specific packages versions.
 #' @inheritParams standard_args
 #' @param repos `character` vector repositories URLs to use. Used only for the validation. Default `https://cran.rstudio.com/`
-#' @return `character` with NEWS content between specific versions.
+#' @return `character` with NEWS content between specific versions, or `NA`
+#' if the requested version headings cannot be found in release order.
+#' @note Versions are matched against the first complete version number in
+#' each Markdown heading.
 #' @export
 #' @examples
 #' \dontrun{
@@ -185,11 +188,11 @@ pac_compare_news <- function(pac,
 
   if (is.null(old)) {
     stopifnot(pac %in% rownames(installed_packages(lib.loc = lib.loc)))
-    old <- pac_description(pac, local = TRUE)$Version
+    old <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
   }
 
   if (is.null(new)) {
-    new <- pac_last(pac)
+    new <- pac_last(pac, repos = repos)
   }
 
   stopifnot(utils::compareVersion(new, old) >= 0)
@@ -198,36 +201,33 @@ pac_compare_news <- function(pac,
     return(NA)
   }
 
-  version_pattern <- function(version) {
-      paste0("#.*", version)
-  }
-
   last_version <- pac_last(pac, repos = repos)
-  pac_news <- pac_news(pac, last_version, lib.loc = lib.loc, repos = repos)
-
-
-  old_version_reg <- regexpr(version_pattern(old), pac_news)
-  which_matched_old <- which(old_version_reg > 0)[1]
-  old_version_pos <- if (isTRUE(which_matched_old > 0)) {
-    which_matched_old
-  } else {
-    NA
-  }
-
-  new_version_reg <- regexpr(version_pattern(new), pac_news)
-  which_matched_new <- which(new_version_reg > 0)[1]
-  new_version_pos <- if (isTRUE(which_matched_new > 0)) {
-    which_matched_new
-  } else {
-    NA
-  }
-
-  if (is.na(old_version_pos) || is.na(new_version_pos)) {
+  news_lines <- pac_news(pac, last_version, lib.loc = lib.loc, repos = repos)
+  if (!is.character(news_lines) || !length(news_lines) || anyNA(news_lines)) {
+    message("Failed to retrieve package NEWS.\n")
     return(NA)
   }
 
-  result <- pac_news[new_version_pos:max(c(old_version_pos - 1, 1))]
-  result
+  headings <- grep("^[[:space:]]*#{1,6}[[:space:]]*", news_lines)
+  heading_lines <- news_lines[headings]
+  heading_versions <- regmatches(
+    heading_lines,
+    gregexpr("(?<![[:alnum:].-])v?[0-9]+([.-][0-9]+)*(?![[:alnum:].-])", heading_lines, perl = TRUE)
+  )
+  heading_versions <- vapply(heading_versions, function(versions) {
+    if (length(versions)) sub("^v", "", versions[1]) else NA_character_
+  }, character(1))
+  version_position <- function(version) {
+    matches <- which(heading_versions == version)
+    if (length(matches)) headings[matches[1]] else NA_integer_
+  }
+  old_version_pos <- version_position(old)
+  new_version_pos <- version_position(new)
+
+  if (is.na(old_version_pos) || is.na(new_version_pos) || new_version_pos >= old_version_pos) {
+    message("Could not find NEWS headings for the requested versions in release order.\n")
+    return(NA)
+  }
+
+  news_lines[seq.int(new_version_pos, old_version_pos - 1L)]
 }
-
-

@@ -43,7 +43,8 @@ When \code{"crandb"} is set then \code{options(pacs.crandb_ntry = 3)} and \code{
 Default: \code{"cran"}}
 }
 \value{
-\code{logical} if a package is healthy.
+\code{logical} if a package is healthy, or \code{NA} when the required
+release or CRAN check information is unavailable.
 }
 \description{
 a package health for a certain version or at a specific Date.

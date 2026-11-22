@@ -182,7 +182,7 @@ pac_deps_dev <- function(pac, base = FALSE, local = FALSE, attr = TRUE, repos = 
 #' pacs::pac_deps_heavy("dplyr")
 #' }
 pac_deps_heavy <- function(pac, fields = c("Depends", "Imports", "LinkingTo"), lib.loc = .libPaths(), base = FALSE, local = FALSE, repos = pacs::biocran_repos()) {
-  top <- pac_deps(pac, fields = fields, recursive = FALSE, local = local, base = base, attr = TRUE, repos = repos)
+  top <- pac_deps(pac, fields = fields, lib.loc = lib.loc, recursive = FALSE, local = local, base = base, attr = TRUE, repos = repos)
   if (isNA(top)) {
     return(NA)
   }
@@ -241,9 +241,11 @@ app_deps <- function(path = ".",
     if (length(app_deps) == 0) {
       return(data.frame(Package = NA, Version = NA, Direct = NA)[0, ])
     }
-    not_installed <- setdiff(app_deps, rownames(installed_packages(lib.loc = .libPaths())))
-    if (length(not_installed) && local) {
-      stop(sprintf("Some of the dependency packages are not installed, %s", paste(not_installed, collapse = "; ")))
+    if (local) {
+      not_installed <- setdiff(app_deps, rownames(installed_packages(lib.loc = lib.loc)))
+      if (length(not_installed)) {
+        stop(sprintf("Some of the dependency packages are not installed, %s", paste(not_installed, collapse = "; ")))
+      }
     }
     if (recursive) {
       app_deps_all <- lapply(app_deps, function(x) pac_deps(x, repos = repos, lib.loc = lib.loc, local = local, fields = fields, description_v = description_v, base = base, attr = FALSE))

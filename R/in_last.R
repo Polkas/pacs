@@ -86,7 +86,7 @@ pac_islast <- function(pac, version = NULL, lib.loc = .libPaths(), repos = biocr
 
   if (isTRUE(is.null(version))) {
     if (is_installed) {
-      version <- pac_description(pac, local = TRUE)$Version
+      version <- pac_description(pac, local = TRUE, lib.loc = lib.loc)$Version
     } else {
       return(FALSE)
     }

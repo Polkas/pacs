@@ -36,7 +36,7 @@ pac_true_size <- function(pac,
   pacs_all <- pac_deps(pac, fields = fields, lib.loc = lib.loc, attr = FALSE, base = FALSE)$Package
 
   if (exclude_joint) {
-    depsy <- stats::setNames(lapply(pacs_all, function(x) setdiff(tools::dependsOnPkgs(x), pacs_all)), pacs_all)
+    depsy <- stats::setNames(lapply(pacs_all, function(x) setdiff(tools::dependsOnPkgs(x, lib.loc = lib.loc), pacs_all)), pacs_all)
     pacs_all <- setdiff(pacs_all, names(Filter(function(x) length(x) > exclude_joint, depsy)))
   }
 
@@ -48,7 +48,8 @@ pac_true_size <- function(pac,
 #' The app dependencies packages are checked recursively, and only in local repository.
 #' The default arguments setup is recommended.
 #' @inheritParams standard_args
-#' @return `numeric` size in bytes, to get MB ten divide by `10**6`.
+#' @return `numeric` size in bytes, or `NA` if dependencies cannot be
+#' determined. To get MB, divide by `10**6`.
 #' @note `renv` package has to be installed. `base` packages (`pacs::pacs_base()`) are not taken into account.
 #' @export
 #' @examples
@@ -66,11 +67,11 @@ app_size <- function(path = ".",
   stopifnot(is.logical(recursive))
   stopifnot(is.null(lib.loc) || (all(lib.loc %in% .libPaths()) && (length(list.files(lib.loc)) > 0)))
 
-  # as.character for older R versions, stringAsFactors
-  app_deps_recursive <- as.character(app_deps(path, fields = fields, lib.loc = lib.loc, local = TRUE, recursive = recursive)$Package)
-  if (length(app_deps_recursive) > 0) {
-    sum(vapply(app_deps_recursive, pac_size, numeric(1)) + dir_size(path))
-  } else {
-    dir_size(path)
+  dependencies <- app_deps(path, fields = fields, lib.loc = lib.loc, local = TRUE, recursive = recursive)
+  if (!is.data.frame(dependencies)) {
+    message("Failed to determine app dependencies.\n")
+    return(NA_real_)
   }
+  app_deps_recursive <- as.character(dependencies$Package)
+  sum(vapply(app_deps_recursive, pac_size, numeric(1), lib.loc = lib.loc)) + dir_size(path)
 }

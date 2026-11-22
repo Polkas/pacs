@@ -24,10 +24,15 @@ pac_compare_news(
 \item{repos}{\code{character} vector repositories URLs to use. Used only for the validation. Default \verb{https://cran.rstudio.com/}}
 }
 \value{
-\code{character} with NEWS content between specific versions.
+\code{character} with NEWS content between specific versions, or \code{NA}
+if the requested version headings cannot be found in release order.
 }
 \description{
 using the remote github CRAN mirror to compare NEWS files between specific packages versions.
+}
+\note{
+Versions are matched against the first complete version number in
+each Markdown heading.
 }
 \examples{
 \dontrun{
