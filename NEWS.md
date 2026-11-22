@@ -9,6 +9,7 @@ The R version is `NA` for releases without a mapping, historical dates follow th
 * Preserve user-configured `pacs.crandb_*` options when the package loads.
 * Find package versions in repository indexes even when the current R or platform cannot install them; dependency resolution still respects compatibility filters.
 * Add offline regression tests with local fixtures and a fixed test clock, and update release-check workflows.
+* Keep CRAN-only tests independent of Bioconductor release availability on R-devel.
 
 # pacs 0.6.0
 
