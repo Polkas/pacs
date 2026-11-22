@@ -6,6 +6,9 @@ read_cran_file <- function(pac, version, file, repos = "https://cran.rstudio.com
   stopifnot(is_online())
 
   last_version <- pac_last(pac, repos)
+  if (length(last_version) != 1L || is.na(last_version)) {
+    return(NA)
+  }
 
   if (isTRUE(!is.null(version) && version != last_version)) {
     base_url <- sprintf("https://cran.r-project.org/src/contrib/Archive/%s", pac)

@@ -167,6 +167,13 @@ available_packages <- function(repos) {
   tryCatch(available_packages_raw(repos = repos), error = function(e) NA)
 }
 
+available_packages_all <- function(repos) {
+  tryCatch(
+    available_packages_raw(repos = repos, filters = "duplicates"),
+    error = function(e) NA
+  )
+}
+
 available_packages_raw <- memoise::memoise(utils::available.packages, cache = cachem::cache_mem(max_age = 30 * 60))
 
 installed_packages <- function(lib.loc, priority = NULL) {

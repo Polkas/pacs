@@ -7,6 +7,7 @@ The R version is `NA` for releases without a mapping, historical dates follow th
 * Count the app directory only once in `app_size()` and consistently respect the requested local library in package, dependency, and size operations.
 * Recognize starred CRAN statuses consistently, report unknown statuses as unavailable, and match the first complete version number in NEWS headings.
 * Preserve user-configured `pacs.crandb_*` options when the package loads.
+* Find package versions in repository indexes even when the current R or platform cannot install them; dependency resolution still respects compatibility filters.
 * Add offline regression tests with local fixtures and a fixed test clock, and update release-check workflows.
 
 # pacs 0.6.0

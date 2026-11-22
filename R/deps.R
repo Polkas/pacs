@@ -62,12 +62,21 @@ pac_deps <- function(pac,
       )
       return(NA)
     }
+    available <- available_packages(repos)
+    if (!is.matrix(available) || !pac %in% rownames(available)) {
+      message(sprintf(
+        "%s is in the provided repositories but is not available for R %s or this platform.\n",
+        pac,
+        getRversion()
+      ))
+      return(NA)
+    }
     paks_global <- tools::package_dependencies(pac,
-      db = available_packages(repos),
+      db = available,
       which = fields,
       recursive = recursive
     )[[1]]
-    v_base <- available_packages(repos)
+    v_base <- available
     pac_v <- v_base[pac, c("Version")]
   }
 
