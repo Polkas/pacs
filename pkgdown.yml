@@ -4,4 +4,7 @@ pkgdown_sha: ~
 articles:
   GettingStarted: GettingStarted.html
   tinyverse: tinyverse.html
-last_built: 2026-11-22T17:57Z
+last_built: 2026-11-22T19:10Z
+urls:
+  reference: https://polkas.github.io/pacs/reference
+  article: https://polkas.github.io/pacs/articles

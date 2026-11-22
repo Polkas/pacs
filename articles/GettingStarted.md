@@ -1,0 +1,620 @@
+# Walk-through \`pacs\`
+
+``` r
+
+library(pacs)
+library(withr)
+library(remotes)
+```
+
+pacs: A set of tools that make life easier for developers and
+maintainers of R packages.
+
+- Validating the library, packages and `renv` lock files.
+- Exploring the complexity of a specific package, like evaluating its
+  size in bytes with dependencies.
+- The shiny app complexity could be explored too.
+- Assessing the life duration of a specific package version.
+- Checking a CRAN package check page status for any errors and warnings.
+- Retrieving a DESCRIPTION or NAMESPACE file for any package version.
+- Comparing DESCRIPTION or NAMESPACE files between different package
+  versions.
+- Getting a list of all releases for a specific package.
+- The Bioconductor is partly supported.
+
+[**Functions
+Reference**](https://polkas.github.io/pacs/reference/index.html)
+
+## Hints
+
+**Hint0**: An Internet connection is required to take full advantage of
+most features.
+
+**Hint1**: Almost all calls that requiring an Internet connection are
+cached (for 30 minutes) by the `memoise` package, so the second
+invocation of the same command (and arguments) is immediate. Restart the
+R session if you want to clear cached data.
+
+**Hint2**: `Version` variable is mostly a minimal required
+i.e. max(version1, version2 , …).
+
+**Hint3**: When working with many packages, global functions are
+recommended, which retrieve data for many packages at once. An example
+will be the usage of
+[`pacs::checked_packages()`](https://polkas.github.io/pacs/reference/checked_packages.md)
+over
+[`pacs::pac_checkpage`](https://polkas.github.io/pacs/reference/pac_checkpage.md)
+(or
+[`pacs::pac_checkred`](https://polkas.github.io/pacs/reference/pac_checkred.md)).
+Another example will be the usage of
+[`utils::available.packages`](https://rdrr.io/r/utils/available.packages.html)
+over
+[`pacs::pac_last`](https://polkas.github.io/pacs/reference/pac_last.md).
+Finally, the most important one will be
+[`pacs::lib_validate`](https://polkas.github.io/pacs/reference/lib_validate.md)
+over
+[`pacs::pac_validate`](https://polkas.github.io/pacs/reference/pac_validate.md)
+and
+[`pacs::pac_checkred`](https://polkas.github.io/pacs/reference/pac_checkred.md)
+and others.
+
+**Hint4**: Character string “all” is shorthand for the
+`c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")` vector,
+character string “most” for the same vector without “Enhances”,
+character string “strong” (default setup) for the first three elements
+of that vector.
+
+**Hint5**: Use
+[`parallel::mclapply`](https://rdrr.io/r/parallel/mclapply.html) (Linux
+and Mac) or
+[`parallel::parLapply`](https://rdrr.io/r/parallel/clusterApply.html)
+(Windows, Linux and Mac) to speed up loop calculations. Nevertheless,
+under [`parallel::mclapply`](https://rdrr.io/r/parallel/mclapply.html),
+computation results are NOT cached with `memoise` package. Warning:
+Parallel computations might be unstable.
+
+**Hint6**: `withr` and `remotes` packages are a valuable addition.
+
+## Validate the library
+
+``` r
+
+pacs::lib_validate()
+```
+
+This procedure will be crucial for R developers, clearly showing the
+possible broken packages inside the local library.  
+We could assess which packages require versions to update.
+
+Default validation of the library with the
+[`pacs::lib_validate`](https://polkas.github.io/pacs/reference/lib_validate.md)
+function.  
+The `field` argument is equal to `c("Depends", "Imports", "LinkingTo")`
+by default as these are the dependencies installed when the
+`install.packages` function is used.
+
+The full library validation requires activation of two additional
+arguments, `lifeduration` and `checkred`. Additional arguments are by
+default turned off as they are time-consuming, for `lifeduration`
+assessment might take even a few minutes for bigger libraries.
+
+Assessment of status on CRAN check pages takes only a few additional
+seconds, even for all R CRAN packages.
+[`pacs::checked_packages()`](https://polkas.github.io/pacs/reference/checked_packages.md)
+is used to gather all package check statuses for all CRAN servers.
+
+``` r
+
+pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
+```
+
+When `lifeduration` is triggered then assessment might take even few
+minutes.
+
+``` r
+
+pacs::lib_validate(lifeduration = TRUE, 
+                   checkred = list(scope = c("ERROR", "FAIL")))
+```
+
+Not only `scope` field inside `checkred` list could be updated, to
+remind any of `c("ERROR", "FAIL", "WARN", "NOTE")`. We could specify
+`flavors` field inside the `checkred` list argument and narrow the
+tested machines. The full list of CRAN servers (flavors) might be get
+with `pacs::cran_flavors()$Flavor`.
+
+``` r
+
+flavs <- pacs::cran_flavors()$Flavor[1:2]
+pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL"), 
+                   flavors = flavs))
+```
+
+### Investigate by filtering
+
+Packages are not installed (and should be) or have too low version:
+
+``` r
+
+lib <- pacs::lib_validate(checkred = list(scope = c("ERROR", "FAIL")))
+# not installed (and should be) or too low version
+lib[(lib$version_status == -1), ]
+# not installed (and should be)
+lib[is.na(lib$Version.have), ]
+# too low version
+lib[(!is.na(lib$Version.have)) & (lib$version_status == -1), ]
+```
+
+Packages which have at least one CRAN server which ERROR or FAIL:
+
+``` r
+
+red <- lib[(!is.na(lib$checkred)) & (lib$checkred == TRUE), ]
+nrow(red)
+head(red)
+```
+
+Packages that are not a dependency (default
+`c("Depends", "Imports", "LinkingTo")`) of any other package:
+
+``` r
+
+lib[is.na(lib$Version.expected.min), ]
+```
+
+Non-CRAN packages:
+
+``` r
+
+lib[lib$cran == FALSE, ]
+```
+
+Not newest packages:
+
+``` r
+
+lib[(!is.na(lib$newest)) & (lib$newest == FALSE), ]
+```
+
+### Core idea behind lib_validate
+
+The core idea behind the function comes from proper processing of the
+`installed.packages` function result.
+
+``` r
+
+# aggregate function is needed as we could have different versions
+# installed under different `.libPaths()`.
+installed_packages_unique <- stats::aggregate(
+  installed.packages()[, c("Version", "Depends", "Imports", "LinkingTo")], 
+  list(Package = installed.packages()[, "Package"]), 
+  function(x) x[1]
+)
+# installed_descriptions function transforms direct dependencies DESCRIPTION file fields
+# installed_packages_unique[, c("Depends", "Imports", "LinkingTo")] 
+# to the two column data.frame with Package name 
+# and minimum required Version i.e. max(version1, version2 , ...).
+installed_descriptions <- pacs:::installed_descriptions(
+  lib.loc = .libPaths(), 
+  fields = c("Depends", "Imports", "LinkingTo")
+)
+
+merge(
+  installed_descriptions,
+  installed_packages_unique[, c("Package", "Version")],
+  by = "Package",
+  all = TRUE,
+  suffix = c(".expected.min", ".have")
+)
+```
+
+### renv library
+
+When a project is based on `renv` and all needed dependencies are
+installed in the `renv` directory, we mostly want to validate only the
+isolated `renv` library. In the new `renv` versions the
+[`.libPaths()`](https://rdrr.io/r/base/libPaths.html) contains the main
+library path too (`renv` library and the main library). Please remember
+to limit the library path when using
+[`pacs::lib_validate`](https://polkas.github.io/pacs/reference/lib_validate.md),
+to limit the validation to only `renv` library.
+
+``` r
+
+# renv::init()
+pacs::lib_validate(lib.loc = .libPaths()[1])
+```
+
+Warning, at least `rsconnect` (and its `packrat` connected dependencies)
+related packages could still not be in the `renv` library.
+
+### renv lock file
+
+There is a way to validate the `renv` lock file in the same way the
+local library or packages are validated.
+
+``` r
+
+# a path or url
+url <- "https://raw.githubusercontent.com/Polkas/pacs/master/tests/testthat/files/renv_test.lock"
+pacs::lock_validate(url)
+
+pacs::lock_validate(
+  url,
+  checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+)
+
+pacs::lock_validate(
+  url,
+  lifeduration = TRUE,
+  checkred = list(scope = c("ERROR", "FAIL"), flavors = NULL)
+)
+```
+
+### R CRAN packages check page statuses
+
+`checked_packages` was built to extend the `.packages` family functions,
+like
+[`utils::installed.packages()`](https://rdrr.io/r/utils/installed.packages.html)
+and
+[`utils::available.packages()`](https://rdrr.io/r/utils/available.packages.html).
+[`pacs::checked_packages`](https://polkas.github.io/pacs/reference/checked_packages.md)
+retrieves all current package checks from [CRAN
+webpage](https://cran.r-project.org/web/checks/check_summary_by_package.html).
+
+``` r
+
+pacs::checked_packages()
+```
+
+Use `pacs::pac_checkpage("dplyr")` to get the check page per package.
+However,
+[`pacs::checked_packages()`](https://polkas.github.io/pacs/reference/checked_packages.md)
+will be more efficient for many packages. Remember that
+[`pacs::checked_packages()`](https://polkas.github.io/pacs/reference/checked_packages.md)
+result is cached after the first invoke.
+
+### Package health and life duration
+
+We could determine if a specific package version lived more than 14 days
+(or other x limit days). If not then we might assume something needed to
+be fixed with it, as had to be quickly updated.
+
+e.g. `dplyr` under the “0.8.0” version seems to be a broken release, we
+could find out that it was published only for 1 day.
+
+``` r
+
+pacs::pac_lifeduration("dplyr", "0.8.0")
+```
+
+With a 14 day limit we get a proper health status. We are sure about
+this state as this is not the newest release. For the newest packages we
+are checking if there are any red messages on CRAN check pages too,
+specified with a `scope` argument.
+
+``` r
+
+pacs::pac_health("dplyr", version = "0.8.0", limit = 14)
+```
+
+For the newest package, we will check the CRAN check page too, the scope
+might be adjusted.
+
+``` r
+
+pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"))
+pacs::pac_health("dplyr", limit = 14, scope = c("ERROR", "FAIL", "WARN"), 
+                 flavors = pacs::cran_flavors()$Flavor[1])
+```
+
+### Simulate a package download with the `withr` package
+
+`withr` package is recommended for the isolated download process.  
+We could use a temporary library path
+([`withr::with_temp_libpaths`](https://withr.r-lib.org/reference/with_temp_libpaths.html))
+to check if the process is as expected.
+
+Checking what packages need to be installed/(optionally updated)
+parallel with a specific package, with `remotes` package. The full list
+even with packages which are already installed could be get with
+[`pacs::pac_deps_user`](https://polkas.github.io/pacs/reference/pac_deps_user.md).
+
+``` r
+
+remotes::package_deps("keras")
+pacs::pac_deps_user("pacs")
+```
+
+Isolated download of a package and the validation.
+
+``` r
+
+# restart of R session could be needed
+withr::with_temp_libpaths({install.packages("keras"); pacs::lib_validate()})
+```
+
+``` r
+
+# restart of R session could be needed
+withr::with_temp_libpaths({install.packages("keras"); pacs::pac_validate("keras")})
+```
+
+## Per package utils
+
+### Time Machine
+
+Using R CRAN website to get packages version/versions used at a specific
+Date or a Date interval.
+
+``` r
+
+pacs::pac_timemachine("dplyr")
+pacs::pac_timemachine("dplyr", version = "0.8.0")
+pacs::pac_timemachine("dplyr", at = as.Date("2017-02-02"))
+pacs::pac_timemachine("dplyr", from = as.Date("2017-02-02"), to = as.Date("2018-04-02"))
+pacs::pac_timemachine("dplyr", at = Sys.Date())
+pacs::pac_timemachine("tidyr", from = as.Date("2020-06-01"), to = Sys.Date())
+```
+
+### Package dependencies
+
+One of the main functionality is to get versions for all package
+dependencies. Versions might come from installed packages or DESCRIPTION
+files.
+
+`pac_deps` for an extremely fast retrieving of package dependencies,
+packages versions might come from installed ones or from DESCRIPTION
+files (required minimum). The default setup is to show dependencies
+recursively, `recursive = TRUE`.
+
+``` r
+
+# Providing more than tools::package_dependencies and packrat:::recursivePackageVersion
+# pacs::pac_deps is providing the min required version for each package
+# Use it to answer what we should have
+res <- pacs::pac_deps("shiny", description_v = TRUE)
+res
+attributes(res)
+```
+
+Packages dependencies with versions from DESCRIPTION files.
+
+``` r
+
+pacs::pac_deps("shiny", description_v = TRUE)
+```
+
+Remote (newest CRAN) package dependencies with versions.
+
+``` r
+
+pacs::pac_deps("shiny", local = FALSE)
+```
+
+Raw dependencies from DESCRIPTION file. The same which is needed by the
+the `install.packages` function. **Depends**/**Imports**/**LinkingTo**
+DESCRIPTION fields dependencies, recursively.
+[`pacs::pac_deps_user`](https://polkas.github.io/pacs/reference/pac_deps_user.md)
+could be used to check them.
+
+``` r
+
+pacs::pac_deps("memoise", description_v = TRUE, recursive = FALSE, local = FALSE)
+# or
+pacs::pac_deps_user("memoise")
+```
+
+The `field` argument is used to change the scope of exploration. The
+`field` argument is equal to `c("Depends", "Imports", "LinkingTo")` by
+default as these are the dependencies installed when the
+`install.packages` function is used. When the `field` argument is
+extended the number of dependencies will grow. Remember that we are
+looking for dependencies recursively by default. At the moment of
+writing it the first invoke returns 3 dependencies whereas the second
+over an one thousand. It should be clear that when extending the scope
+(and recursively) with the `"Suggests"` field then the number of
+dependencies is exploding.
+
+``` r
+
+nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo")))
+nrow(pacs::pac_deps("memoise", fields = c("Depends", "Imports", "LinkingTo", "Suggests")))
+```
+
+The developer dependencies are the ones needed when e.g. `R CMD check`
+is run. These are **Depends**/**Imports**/**LinkingTo**/**Suggests**
+DESCRIPTION fields dependencies, and for them
+**Depends**/**Imports**/**LinkingTo** recursively.
+[`pacs::pac_deps_dev`](https://polkas.github.io/pacs/reference/pac_deps_dev.md)
+could be used to check them. Obviously the list is much longer as the
+one for
+[`pacs::pac_deps_user`](https://polkas.github.io/pacs/reference/pac_deps_user.md).
+
+``` r
+
+pac_deps_dev("memoise")
+```
+
+For a certain version (archived), might take some time.
+
+``` r
+
+pacs::pac_deps_timemachine("dplyr", version = "0.8.1")
+```
+
+### Package DESCRIPTION file
+
+Reading raw `dcf` DESCRIPTION files scrapped from the github CRAN mirror
+or if not worked from the CRAN website.
+
+``` r
+
+pacs::pac_description("dplyr")
+pacs::pac_description("dplyr", version = "0.8.0")
+pacs::pac_description("dplyr", at = as.Date("2019-01-01"))
+```
+
+### Package NAMESPACE file
+
+Reading raw NAMESPACE files scrapped from the github CRAN mirror or if
+it did not work from the CRAN website.
+
+``` r
+
+pacs::pac_namespace("dplyr")
+pacs::pac_namespace("dplyr", version = "0.8.0")
+pacs::pac_namespace("dplyr", at = as.Date("2019-01-01"))
+```
+
+## Compare different package versions
+
+### Comparing DESCRIPTION files between different package versions
+
+Comparing DESCRIPTION file dependencies between local and the newest
+package. We will get duplicated columns if the local version is the
+newest one.
+
+``` r
+
+pacs::pac_compare_versions("shiny")
+```
+
+Comparing DESCRIPTION file dependencies between package versions.
+
+``` r
+
+pacs::pac_compare_versions("shiny", "1.4.0", "1.5.0")
+
+pacs::pac_compare_versions("shiny", "1.4.0", "1.6.0")
+# to newest release
+pacs::pac_compare_versions("shiny", "1.4.0")
+```
+
+### Comparing NAMESPACE files between different package versions
+
+Comparing NAMESPACE between local and the newest package.
+
+``` r
+
+pacs::pac_compare_namespace("shiny")
+```
+
+Comparing NAMESPACE between package versions.
+
+``` r
+
+pacs::pac_compare_namespace("shiny", "1.0.0", "1.5.0")
+# e.g. only exports 
+pacs::pac_compare_namespace("shiny", "1.0.0", "1.5.0")$exports
+
+# to newest release
+pacs::pac_compare_namespace("shiny", "1.0.0")
+```
+
+## Package size
+
+Take into account that packages sizes are appropriate for your local
+system ([`Sys.info()`](https://rdrr.io/r/base/Sys.info.html)).
+Installation with `install.packages` and some `devtools` functions might
+result in different packages sizes.
+
+If you do not want to install anything in your current library
+([`.libPaths()`](https://rdrr.io/r/base/libPaths.html)) and still
+inspect a package size, then a usage of the `withr` package is
+recommended.
+[`withr::with_temp_libpaths`](https://withr.r-lib.org/reference/with_temp_libpaths.html)
+is recommended to isolate the download process.
+
+``` r
+
+# restart of R session could be needed
+withr::with_temp_libpaths({install.packages("devtools"); cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")})
+```
+
+Installation in your main library.
+
+``` r
+
+# if not have
+install.packages("devtools")
+```
+
+Size of the `devtools` package:
+
+``` r
+
+cat(pacs::pac_size("devtools") / 10**6, "MB", "\n")
+```
+
+True size of the package as taking into account its dependencies. At the
+time of writing it, it is `113MB` for `devtools` without base packages
+(`Mac OS arm64`).
+
+``` r
+
+cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")
+```
+
+A reasonable assumption might be to count only dependencies which are
+not used by any other package. Then we could use `exclude_joint`
+argument to limit them. However hard to assume if your local
+installation is a reasonable proxy for an average user.
+
+``` r
+
+# exclude packages if at least one other package use it too
+cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
+```
+
+We could check out which of the direct dependencies are heaviest ones:
+
+``` r
+
+pac_deps_heavy("devtools")
+```
+
+## The shiny app utils
+
+The shiny app dependencies packages are checked. By default the
+`c("Depends", "Imports", "LinkingTo")` DESCRIPTION files fields are
+check recursively for each package recognized with the
+[`renv::dependencies`](https://rstudio.github.io/renv/reference/dependencies.html)
+function. The required dependencies have to be installed in the local
+repository.
+
+``` r
+
+pacs::app_deps(system.file("examples/04_mpg", package = "shiny"), description_v = TRUE)
+pacs::app_deps(system.file("examples/04_mpg", package = "shiny"), description_v = TRUE, local = FALSE)
+```
+
+When we want to check only direct dependencies, `recursive` argument has
+to be set to `FALSE`. Then you could use the
+[`renv::dependencies`](https://rstudio.github.io/renv/reference/dependencies.html)
+function directly.
+
+``` r
+
+pacs::app_deps(system.file("examples/04_mpg", package = "shiny"), recursive = FALSE)
+```
+
+The size of shiny app is a sum of dependencies and the app directory.
+The app dependencies (packages) are checked recursively.
+
+``` r
+
+cat(pacs::app_size(system.file("examples/04_mpg", package = "shiny")) / 10**6, "MB")
+```
+
+## Base packages
+
+Useful functions to get a list of base packages. You might want to
+exclude them from final results.
+
+``` r
+
+pacs::pacs_base()
+# start up loaded, base packages
+pacs::pacs_base(startup = TRUE)
+```

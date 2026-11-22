@@ -1,0 +1,389 @@
+# Changelog
+
+## pacs 0.6.0.9000
+
+- Read Bioconductor release dates and R-version mappings from its
+  official machine-readable configuration instead of scraping the
+  release-announcements page.
+  [`bio_releases()`](https://polkas.github.io/pacs/reference/bio_releases.md)
+  retains its existing columns, but `Software packages` is now `NA`
+  because the configuration does not provide historical counts. The R
+  version is `NA` for releases without a mapping, historical dates
+  follow the configuration, and scheduled future releases are excluded.
+- Fix
+  [`pac_health()`](https://polkas.github.io/pacs/reference/pac_health.md)
+  to check CRAN status for the effective latest version and return `NA`
+  when required check information is unavailable.
+- Count the app directory only once in
+  [`app_size()`](https://polkas.github.io/pacs/reference/app_size.md)
+  and consistently respect the requested local library in package,
+  dependency, and size operations.
+- Recognize starred CRAN statuses consistently, report unknown statuses
+  as unavailable, and match the first complete version number in NEWS
+  headings.
+- Preserve user-configured `pacs.crandb_*` options when the package
+  loads.
+- Find package versions in repository indexes even when the current R or
+  platform cannot install them; dependency resolution still respects
+  compatibility filters.
+- Add offline regression tests with local fixtures and a fixed test
+  clock, and update release-check workflows.
+- Keep CRAN-only tests independent of Bioconductor release availability
+  on R-devel.
+- Add
+  [`pac_system_requirements()`](https://polkas.github.io/pacs/reference/pac_system_requirements.md)
+  to report declared system requirements as a named list of character
+  vectors (one per package), with configurable developer-style
+  dependency traversal and efficient bulk repository metadata. Requested
+  by Ignacy Mościcki, thank you for the suggestion.
+
+## pacs 0.6.0
+
+CRAN release: 2024-09-27
+
+- fix `checked_packages` as there is a new DOM structure.
+- fix `pac_deps_timemachine` which not works in some cases.
+- fix a problem with `app_deps` on R 3.6.
+- add new functions: `pac_news` and `pac_compare_news`. Functions are
+  NEWS file related.
+- update the tinyverse vignette with new badge urls.
+- improve code base.
+
+## pacs 0.5.1
+
+CRAN release: 2023-08-18
+
+- due to instability issues with “crandb”, the lifeduration and
+  timemachine functions have been adjusted to fetch data directly from
+  CRAN by default.
+- protect against 400 results from crandb. Please use new options if
+  needed `options(pacs.crandb_ntry = 3)` and
+  `options(pacs.crandb_nsleep = 0.1)` to control crandb fetch. . Linked
+  with
+  <https://github.com/r-hub/pkgsearch/issues/117#issuecomment-1651081139>
+- add informative messages when a web call failed.
+- small improvements in the tinyverse vignette.
+
+## pacs 0.4.10
+
+CRAN release: 2023-02-27
+
+- remove the not needed testthat log file.
+
+## pacs 0.4.9
+
+- update all `*_validate` functions to treat the analyzed version as
+  newest one if is bigger or equal to the newest CRAN, not only equal as
+  before.
+- improved quality of vignettes.
+- add usage of the
+  [`pacs::checked_packages`](https://polkas.github.io/pacs/reference/checked_packages.md)
+  function in README.
+
+## pacs 0.4.8
+
+CRAN release: 2022-06-28
+
+- fix the “how-r-searches-and-finds-stuff” url.
+- a new `match_flavors` function to get CRAN server names matched to
+  local `OS`.
+- improving docs.
+
+## pacs 0.4.6
+
+- a new function `pac_deps_heavy`, the demand revealed during the `useR`
+  2022 Conference. The direct package dependencies and counts of
+  dependencies for each of them. Help to identify heavy packages.
+- small update of `tinyverse` vignette.
+- fix the documentation, `repos` argument in 2 functions get part of
+  `base` argument description.
+- rm some of `Suggests` packages.
+
+## pacs 0.4.5
+
+CRAN release: 2022-05-10
+
+- `pac_deps_dev` and `pac_deps_user` could be used for local packages
+  now.
+- a new optional `lib_validate` column inspired by Winston Chang, if the
+  packages have a proper `Built` version.
+- a poster vignette.
+
+## pacs 0.4.4
+
+CRAN release: 2022-04-04
+
+- `tinyverse` vignette.
+- fixed edge cases for
+  [`pacs::pac_deps`](https://polkas.github.io/pacs/reference/pac_deps.md).
+- fixed `lock_validate`, the condition for validating the maximum number
+  of packages was taken from the library size not the lock file size.
+- two new higher-level functions
+  [`pacs::pac_deps_user`](https://polkas.github.io/pacs/reference/pac_deps_user.md)
+  and
+  [`pacs::pac_deps_dev`](https://polkas.github.io/pacs/reference/pac_deps_dev.md).
+- `renv` transferred to `Suggests`, as used by only 2 functions.
+- improved documentation.
+- updated pkgdown website.
+
+## pacs 0.4.3
+
+CRAN release: 2022-03-03
+
+- added an additional source for getting all releases of packages, the
+  `metacran` db (new default).
+- added a new validation function, `lock_validate`. It helps to validate
+  a `renv` lock file.
+- more efficient check of the Internet connection with the `curl`
+  package.
+- more elegant separation of the code.
+- more `testthat` tests, `mockery`.
+
+## pacs 0.4.2
+
+CRAN release: 2022-02-20
+
+- fix one of the validation of the `lib_validate` function.
+- cache results with `memoise` for 30 minutes, not 1 hour.
+- small README update.
+
+## pacs 0.4.1
+
+- [`pacs::biocran_repos`](https://polkas.github.io/pacs/reference/biocran_repos.md)
+  not includes the `BioCbooks` field for `Bioc` versions smaller than
+  “3.12”.
+- improve `pac_deps`, NA versions for not installed packages.
+- updated `fields` argument of the`pac_deps` function, now has the same
+  shape as `which` argument in the
+  [`tools::package_dependencies`](https://rdrr.io/r/tools/package_dependencies.html)
+  function.
+- more tests, 90 percent coverage.
+- More clear distinction when working without Internet.
+
+## pacs 0.4.0
+
+- `pac_deps` fully depends on
+  [`tools::package_dependencies`](https://rdrr.io/r/tools/package_dependencies.html).
+- fix `pac_deps` problems when Suggests field is used, showed only
+  installed packages.
+- expose the `dir_size` function.
+- add new functions `app_size` and `app_deps`.
+- “getting started” vignette instead of the long README.
+- get back functions reference table in the README.
+- new Imports dependency, `renv`.
+
+## pacs 0.3.8
+
+- fix testthat tests.
+- skip an unstable test on CRAN, a new package could be installed on the
+  server during the check is running.
+- accepting `"Enhances"` field in all related functions.
+- improve the code for reading html tables.
+- updated README file.
+
+## pacs 0.3.7
+
+CRAN release: 2022-02-13
+
+- fixed a bug for `lib_validate` when a custom library path is used.
+- updated the default value of the `lib.loc` argument from `NULL` to
+  [`.libPaths()`](https://rdrr.io/r/base/libPaths.html), as it will be
+  more suited when using `withr` package.
+- updated README file.
+- accepting `"Enhances"` field when checking dependencies.
+
+## pacs 0.3.6
+
+- fix testthat tests to be more stable when dependency packages are
+  updated.
+
+## pacs 0.3.5
+
+CRAN release: 2021-09-13
+
+- Fixed `pac_timemachine` when from and to arguments are used and to is
+  bigger than last Archived Date.
+- `pac_timemachine` has a well ordered `rownames` now.
+- Fixed `pac_compare_namespace`, how S3methods are handled.
+- Fixed `pac_health` and related when the at argument is used and a
+  package is installed locally.
+
+## pacs 0.3.4
+
+CRAN release: 2021-09-06
+
+- `pac_deps` might show duplicated values if package was installed under
+  a few different `libPaths`, now it is fixed.
+- `lib_validate` will show packages which are required by DESCRIPTION
+  file and not exist in `installed.packages`. This might occur when
+  e.g. `install.packages` is corrupted. `pac_validate` already has such
+  functionality.
+- Update `roxygen2` of `pac_comapre_namespace` as the note field wrongly
+  suggested that it works only for exports.
+- remove “packages versions” section from README file.
+- `pac_validate` will return `data.frame` with additional column
+  “direct”, which will point the direct dependency from DESCRIPTION
+  file.
+- Improve testthat tests for `pac_validate`.
+- Improve README file for `lib_validate`.
+
+## pacs 0.3.3
+
+CRAN release: 2021-08-17
+
+- Partly support BioConductor.
+- Default repositories mainly now consists of not only CRAN as
+  BioConductor is considered too.
+- Fix `lib_validate` as it not take into account statuses for not fully
+  performed tests, it was case for less than 1% of all packages.
+- Add note that `checked_packages` could return duplicated observations
+  which is expected.
+- Improve merge in `lib_validate` to show non-CRAN packages too.
+- Rewrite some tests as some R CRAN servers might shut down.
+- Polishing code of `pac_lifeduration`.
+
+## pacs 0.3.2
+
+CRAN release: 2021-08-10
+
+- New CRAN release.
+- Added `\dontrun` to most of examples as
+  [`utils::installed.packages`](https://rdrr.io/r/utils/installed.packages.html)
+  consumes 30 seconds on win-builder.
+
+## pacs 0.3.1
+
+- Small docs improvements.
+- Additional tests, maintain coverage over 80%.
+- Additional input validation.
+- Added `xml2` to imports.
+- Update `README` file.
+
+## pacs 0.3.0
+
+- Added `pac_checkpage` and `cran_flavors`.
+- Added `flavors` argument to functions checking packages statuses so
+  only specific server might be considered.
+- New `checkred` argument definition for `validate` family functions.
+- Remove `dontrun` from `lib_validate`.
+- Improving docs and descriptions.
+
+## pacs 0.2.10
+
+- Using
+  `https://cran.r-project.org/web/checks/check_summary_by_package.html`
+  to efficiently check the CRAN check pages globally. As a result
+  `lib_validate` is hugely more efficient when `checkred` argument is
+  triggered.
+- Remove `mclapply` `README` examples, add notes that parallel
+  computations might be unstable.
+- Remove parallel computation from
+  [`pacs::lib_validate`](https://polkas.github.io/pacs/reference/lib_validate.md)
+  as might be unstable and is already optimized.
+- Added
+  [`checked_packages()`](https://polkas.github.io/pacs/reference/checked_packages.md)
+  to retrieve the html table from
+  `https://cran.r-project.org/web/checks/check_summary_by_package.html`,
+  all CRAN checks.
+- Removed `pac_comapre_exports` and replace with more general
+  `pac_comapre_namespace`.
+
+## pacs 0.2.9
+
+- Fixed `pac_lifeduration`, not work for old packages which do not have
+  UTC in published Date.
+- Added optional `FAIL` status when checking `CRAN` check pages.
+- `checkred` argument from `lib_validate` will expecting any values from
+  `c("ERROR", "FAIL", "WARN", "NOTE")` vector.
+- Default `scope` for `pac_checkred` will be `c("ERROR", "FAIL")`.
+- Improve `pac_compare_versions`, e.g. Default old version is the local
+  one and the new one is the last release.
+- Added `pac_comapre_exports` and `pac_namespace`.
+
+## pacs 0.2.8
+
+CRAN release: 2021-07-31
+
+- Added `pac_last` to check the most recent package version.
+- Added additional usage example
+  [`pacs::pac_compare_versions`](https://polkas.github.io/pacs/reference/pac_compare_versions.md)
+  in `README` file.
+- CRAN version 0.2.8 .
+
+## pacs 0.2.7
+
+- Removed all `pacs` functions, to give somebody the freedom of using
+  different loop functions.
+- Added a hint to use `mclapply` for non Windows users.
+- Use `vapply` over the
+  [`parallel::mclapply`](https://rdrr.io/r/parallel/mclapply.html) to be
+  sure about the result length.
+- Added additional `as.Date` so on older R versions binding is correct.
+
+## pacs 0.2.6
+
+- Replace `gregexec` with a `stringi` function, as not supported on
+  older R versions.
+- Improved performance of `lib_validate` function, under default
+  arguments and whole R CRAN library will consume 2 seconds.
+- Update `roxygen2` descriptions.
+- Added `lib.loc` and `repos` arguments to more functions.
+- `mclapply` under many functions.
+
+## pacs 0.2.5
+
+CRAN release: 2021-07-29
+
+- Cache results only for 1 hour, could be important when run on servers.
+- Add notice about caching results for 1 hour across all connected
+  functions.
+- Add additional description for validation function, result structure.
+- Change the order in `README` file.
+- Optional `lifeduration` and `checkred` for all validation functions.
+
+## pacs 0.2.4
+
+- Polish descriptions.
+- Deployment to R CRAN.
+- Update `NEWS` file.
+
+## pacs 0.2.3
+
+- Updated DESCRIPTION file description.
+- Updated `README` file.
+- Fixed `pac_true_size` with used `exclude_joint` argument, should not
+  count checked package dependencies.
+- Secured against duplicates in `pac_compare_versions`.
+- Removed the “Description” column from a `pac_timemachine` result.
+- Added the `reverse` argument for `pac_deps` which working for
+  description versions too.
+- Added the `repos` argument for `pac_deps`.
+- Remove `base` argument in `pac_true_size`, as not see any value added.
+- Add `checkred` variable for validation functions.
+- `pac_health` for newest release younger than x days, checking if
+  package is red labeled on CRAN checks pages.
+- Default 14 days as limit for valid version, and non red check for the
+  newest version.
+- Added new functions `pac_checkred`/`pacs_checkred`.
+
+## pacs 0.2.2
+
+- Fixed `pac_deps` when `description_v = TRUE`, minimal required
+  versions were taken from all local DESCRIPTION files. This will fix
+  `pac_validate`/`pacs_validate` too, which were to optimistic.
+
+## pacs 0.2.1
+
+- Added `https` for all URL.
+
+## pacs 0.2.0
+
+- Added a `NEWS.md` file to track changes to the package.
+- Added useful connected packages to Suggests.
+- Added `roxygen2` to all exported functions.
+- Achieved 80% of coverage.
+- Written a clear `README` file.
+- Removed all Imports from the `DESCRIPTION` file.
+- Added `memoise` dependency to reduce the number of web calls.
+- Created a decent basket of `pac`/`pacs` prefix functions.
+- Removed all `\dontrun` calls.

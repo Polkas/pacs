@@ -1,0 +1,375 @@
+# tinyverse
+
+## Introduction
+
+The R community [`tinyverse`](https://tinyverse.netlify.app/) movement
+is a tryout of creating new package development standards. The clue is
+the TINY part here. The last years of R package development were full of
+many dependencies temptations. `tinyverse` means as few dependencies as
+R package dependencies matter. Every dependency you add to your project
+is an invitation to break your project.
+
+More information is available on [`tinyverse`
+website](https://www.tinyverse.org/).
+
+## `tinyverse` badges
+
+The `tinyverse` advocates wants to help and motivate R developers. Thus
+they created a rest-API which generates a dependencies badge for each
+CRAN package. The badge contains 2 numbers; the first number is a direct
+dependency and the second one recursive ones. The R base packages are
+not counted. The `tinyverse` badge could have one of 4 colors: bright
+green, green, orange, or red. To get a green badge package have to have
+less than 5 packages (\<5) in the `Depends`/`Imports`/`LinkingTo` fields
+(check the Dependencies subsection for more description). To have a
+bright green a, zero dependencies are needed. The orange badge is from 5
+to 9 dependencies (\>=5 and \<=9). And the last one red when there are
+more than 9 dependencies (\>= 10). Of course, the base packages are not
+counted as a dependency,
+[`pacs::pacs_base()`](https://polkas.github.io/pacs/reference/pacs_base.md).
+
+Summing up, each badge constraint:
+
+- bright green: 0
+- green: \<5
+- orange (\>=5 and \<=9)
+- red (\>= 10)
+
+`https://tinyverse.netlify.app/`
+
+`https://tinyverse.netlify.app/badge/<package>`
+
+Examples:
+
+dplyr:  
+[![](https://tinyverse.netlify.app/badge/dplyr)](https://CRAN.R-project.org/package=dplyr)
+
+miceFast:  
+[![](https://tinyverse.netlify.app/badge/miceFast)](https://CRAN.R-project.org/package=miceFast)
+
+- badges are reevaluated daily.
+
+## tinyverse vs tidyverse
+
+The `tidyverse` is an opinionated collection of R packages designed for
+data science. All packages share an underlying design philosophy,
+grammar, and data structures. On the other hand, the `tinyvere` is only
+a R community movement that is trying to make a new programming
+standard. There is no `tinyverse` package collection; any package which
+has less than 5 direct dependencies (in the
+`Depends`/`Imports`/`LinkingTo` fields) are treated as a decent one. The
+best is to have zero dependencies. Even `tidyverse` looks to go toward
+`tinyverse` if we check their lower-level packages like `purrr`,
+`forcats`, `renv` or `rlang`.
+
+The core `tidyverse` packages:
+
+`ggplot2`:
+[![](https://tinyverse.netlify.app/badge/ggplot2)](https://CRAN.R-project.org/package=ggplot2)  
+`tibble`:
+[![](https://tinyverse.netlify.app/badge/tibble)](https://CRAN.R-project.org/package=tibble)  
+`tidyr`:
+[![](https://tinyverse.netlify.app/badge/tidyr)](https://CRAN.R-project.org/package=tidyr)  
+`readr`:
+[![](https://tinyverse.netlify.app/badge/readr)](https://CRAN.R-project.org/package=readr)  
+`purrr`:
+[![](https://tinyverse.netlify.app/badge/purrr)](https://CRAN.R-project.org/package=purrr)  
+`dplyr`:
+[![](https://tinyverse.netlify.app/badge/dplyr)](https://CRAN.R-project.org/package=dplyr)  
+`stringr`:
+[![](https://tinyverse.netlify.app/badge/stringr)](https://CRAN.R-project.org/package=stringr)  
+`forcats`:
+[![](https://tinyverse.netlify.app/badge/forcats)](https://CRAN.R-project.org/package=forcats)
+
+Examples of random `tinyverse` packages, bright green or green badges:
+
+`Rcpp`:
+[![](https://tinyverse.netlify.app/badge/Rcpp)](https://CRAN.R-project.org/package=Rcpp)  
+`rlang`:
+[![](https://tinyverse.netlify.app/badge/rlang)](https://CRAN.R-project.org/package=rlang)  
+`renv`:
+[![](https://tinyverse.netlify.app/badge/renv)](https://CRAN.R-project.org/package=renv)  
+`cat2cat`:
+[![](https://tinyverse.netlify.app/badge/cat2cat)](https://CRAN.R-project.org/package=cat2cat)  
+`runner`:
+[![](https://tinyverse.netlify.app/badge/runner)](https://CRAN.R-project.org/package=runner)
+
+## R package Dependencies
+
+TL;DR
+
+- END USER perspective: `install.packages` requires
+  **Depends**/**Imports**/**LinkingTo** DESCRIPTION fields dependencies,
+  recursively.
+  [`pacs::pac_deps_user`](https://polkas.github.io/pacs/reference/pac_deps_user.md)
+  could be used to get them.
+- DEVELOPER perspective: `R CMD check` requires
+  **Depends**/**Imports**/**LinkingTo**/**Suggests** DESCRIPTION fields
+  dependencies, and for them **Depends**/**Imports**/**LinkingTo**
+  fields recursively.
+  [`pacs::pac_deps_dev`](https://polkas.github.io/pacs/reference/pac_deps_dev.md)
+  could be used to get them.
+
+Now you might think of what preciously these R package dependencies
+mean. The R DESCRIPTION file is the place where we could explore the
+number and nature of dependencies; the 5 fields represent different
+types of dependencies:
+**Depends**/**Imports**/**LinkingTo**/**Suggests**/**Enhances**.
+
+DESCRIPTION file dependencies:
+
+    Package: NAME
+    ...
+    Depends: 
+      R (>= 3.6)
+    Imports:
+      dplyr
+      data.table
+    LinkingTo:
+      Rcpp
+    Suggests:
+      testthat
+      ca2cat
+    Enhances:
+      Hmisc
+    ...
+
+We could get any installed package description file with the
+`packageDescription` function. More than that, the
+[`pacs::pac_description`](https://polkas.github.io/pacs/reference/pac_description.md)
+could get any, even not installed package description file and for any
+version you want.
+
+`packageDescription("pacs")`
+
+When we run `install.packages` (and other install functions like
+[`remotes::install_github`](https://remotes.r-lib.org/reference/install_github.html))
+only 3 fields are installed **Depends**/**Imports**/**LinkingTo**. We
+could easily confirm that by checking its help page and the
+`dependencies` argument definition:
+
+    ?install.packages
+    ...
+    Dependencies: 
+     ...
+     The default, 'NA', 
+     means 'c("Depends", "Imports", "LinkingTo")'.
+
+**Depends** are packages `library` (attached), before the main package
+is `library` (attached). So when we
+[`library()`](https://rdrr.io/r/base/library.html) the main package
+**Depends** dependencies functions are available to the end user in the
+R console. This could be more convenient for the end user if the main
+package offers additional functionality over the dependency one.
+
+The **Imports** field lists packages whose namespaces are imported from
+(as specified in the NAMESPACE file or when sb is using `::`/`:::`
+inside the package) but which do not need to be attached (`library`).
+When we use the [`library()`](https://rdrr.io/r/base/library.html) call,
+**Imports** dependencies functions are unavailable to the user in the R
+console. Namespaces accessed by the `::` and `:::` operators
+(e.g. `ggplot2::ggplot`) must be listed in the **Imports** field, or in
+**Suggests** (when used only for tests or examples).
+
+A package that wishes to use header files in other packages to compile
+its C/C++ code needs to declare them as a comma-separated list in the
+field **LinkingTo**. Specifying a package in **LinkingTo** suffices if
+these are C/C++ headers containing source code or static linking is done
+at installation: the packages do not need to be (and usually should not
+be) listed in the **Depends** or **Imports** fields.
+
+So what about the rest? **Suggests** are installed when we need to run
+`R CMD CHECK` (or higher level like `devtools::check()`), they are used
+for tests (e.g. testthat) or for examples (`roxygen2` @examples).
+**Enhances** is used rarely as these are packages which could extent the
+usage and are NOT needed for running examples and tests. If your
+tests/examples use e.g. a dataset from another package, it should be in
+**Suggests** and not **Enhances**.
+
+So now we see that a **Imports** dependency is not equal to a
+**Suggests** dependency. From the end user’s perspective, we focus on
+**Depends**/**Imports**/**LinkingTo** dependencies which they will
+downlaod with `install.packages`.
+
+It’s common for packages to be listed in Imports in DESCRIPTION, but not
+in NAMESPACE. The DESCRIPTION file Imports field has nothing to do with
+functions imported into the namespace. The DESCRIPTION file Imports is
+mainly used by `install.packages`. On the other hand, NAMESPACE is a
+place where we defining what we need to build our package and what we
+want to expose to the end users (export). Nowadays the NAMESPACE file is
+even more mysterious as it is built automatically e.g. by `roxygen2`
+package. A package has to be listed in the **Imports** in DESCRIPTION
+file, but not in NAMESPACE if we will call the dependencies to function
+with `::` in the main package. These explicit calls to dependencies are
+preferred.
+
+If you are interested “How-R-Searches-And-Finds-Stuff” I recommend [a
+great blog
+post](https://blog.thatbuthow.com/how-r-searches-and-finds-stuff/) which
+has more than 10 years and still is one of the most valuable R sources.
+
+## `tinytest` vs `testthat`
+
+This subsection will be a subjective view on the difference between
+`tinytest` and `testthat` packages. A package could have many
+dependencies, nevertheless not exposed to the end user (these
+dependencies are not installed with `install.packages` call), as is in
+`Suggests` field of the DESCRIPTION file. `tinytest` was created to
+offer similar functionality to `testthat` package nevertheless,
+`tinytest` has zero dependencies. For me, `tinytest` is an interesting
+alternative compared to `testthat` nevertheless not so obvious
+replacement. I do not care how many dependencies have the `testthat`
+package as it is located in `Suggests` field of DESCRIPTION file.
+`testthat` will not be delayed loaded with `requireNampese` too. This
+means that the higher number of dependencies from the `testthat` package
+is only my problem (developer one, not the end user) when e.g. I am
+checking a package (e.g. with `R CMD check`). How many additional
+packages must be downloaded by **a developer** (e.g. for `R CMD check`)
+when comparing `tinytest` and `testthat`? In the case of `tinytest` it
+is zero packages and for `testthat` 80 packages now. Please use
+`pacs::pac_deps_dev("tinytest")` and `pacs::pac_deps_dev("testthat")` to
+confirm that. When `tinytest` and `testthat` are in the Suggests field
+of another package (e.g. `pacs`), then the end user needs additional 0
+packages for `tinytest` and 30 packages for `testthat`
+(`pacs::pac_deps_user("testthat")`). Remember that these dependencies
+might overlap with other packages and their dependencies.
+
+Dependencies from the end user perspective:
+
+`tinytest`:  
+[![](https://tinyverse.netlify.app/badge/tinytest)](https://CRAN.R-project.org/package=tinytest)
+
+`testthat`:  
+[![](https://tinyverse.netlify.app/badge/testthat)](https://CRAN.R-project.org/package=testthat)
+
+## How to reduce the number of dependencies
+
+- `yagni` (XP) - do not include unnecessary features
+- `modularization` - divide your package into a few smaller and more
+  specialized ones
+- delayed loading of packages
+
+### Delayed loading of packages
+
+One of the methods of reducing the number of dependencies (exposed to
+end users) is to transfer the package from Imports to Suggests and load
+it in a delayed manner or not include it at all. So we have to identify
+package functions that will be used optionally or rarely (are not a core
+of the package). Then we have to apply conditional execution if the
+package is installed (available), if not, then ask the user to install
+it. If a function with the delayed loaded package is used in examples or
+tests, then the package must be in the **Suggests** field.
+
+``` r
+
+func <- function() {
+  if (requireNamespace("PACKAGE", quietly = TRUE)) {
+    # regular code 
+  } else {
+    stop("Please install the PACKAGE to use the func function")
+  }
+}
+```
+
+`parsnip`:  
+[![](https://tinyverse.netlify.app/badge/parsnip)](https://CRAN.R-project.org/package=parsnip)
+
+`caret`:  
+[![](https://tinyverse.netlify.app/badge/testthat)](https://CRAN.R-project.org/package=testthat)
+
+`parsnip` and `caret` packages are examples that apply this strategy. It
+could be quickly confirmed by looking for `requireNamespace` phrase with
+github search, from each repo.
+
+[caret github](https://github.com/topepo/caret)
+
+[parsnip github](https://github.com/tidymodels/parsnip)
+
+## `pacs` package
+
+One functionality of the `pacs` package is to check a package
+complexity. We could check the number of dependencies (recursively or
+not) and even check how many MB are allocated for a package and all its
+dependencies.
+
+**Weight Case Study: `devtools`**
+
+Consider that package sizes are appropriate for your local system
+([`Sys.info()`](https://rdrr.io/r/base/Sys.info.html)). Installation
+with `install.packages` and some `devtools` functions might result in
+different packages sizes.
+
+If you do not want to install anything in your current library
+([`.libPaths()`](https://rdrr.io/r/base/libPaths.html)) and still
+inspect a package size, then using the `withr` package is recommended.
+[`withr::with_temp_libpaths`](https://withr.r-lib.org/reference/with_temp_libpaths.html)
+is recommended to isolate the download process.
+
+``` r
+
+# restart of R session could be needed
+withr::with_temp_libpaths({install.packages("devtools"); cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")})
+```
+
+Installation in your main library.
+
+``` r
+
+# if not have
+install.packages("devtools")
+```
+
+Size of the `devtools` package:
+
+``` r
+
+cat(pacs::pac_size("devtools") / 10**6, "MB", "\n")
+```
+
+The actual size of the `devtools` package is `113MB` for `devtools` with
+all dependencies and without base packages (`Mac OS arm64`).
+
+``` r
+
+cat(pacs::pac_true_size("devtools") / 10**6, "MB", "\n")
+```
+
+A reasonable assumption might be to count only dependencies not used by
+any other package. Then we could use `exclude_joint` argument to limit
+them. However hard to assume if your local installation is a reasonable
+proxy for an average user.
+
+``` r
+
+# exclude packages if at least one other package uses it too
+cat(pacs::pac_true_size("devtools", exclude_joint = 1L) / 10**6, "MB", "\n")
+```
+
+It is crucial to check the number of dependencies too:
+
+[![](https://tinyverse.netlify.app/badge/devtools)](https://CRAN.R-project.org/package=devtools)
+
+``` r
+
+# 70 recursive dependencies
+pacs::pac_deps("devtools", local = TRUE)$Package
+# 20 direct dependencies
+pacs::pac_deps("devtools", local = TRUE, recursive = FALSE)$Package
+```
+
+We could check out which of the direct dependencies are the heaviest
+ones:
+
+``` r
+
+pac_deps_heavy("devtools")
+```
+
+## References
+
+Please read in the order all of the 3 sources to become a R packages
+developer guru :=)
+
+- <https://r-pkgs.org/>
+- <https://blog.thatbuthow.com/how-r-searches-and-finds-stuff/>
+- <https://cran.r-project.org/doc/manuals/r-release/R-exts.html>

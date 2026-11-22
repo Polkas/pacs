@@ -1,0 +1,244 @@
+# pacs [![](reference/figures/pacs_logo.png)](https://github.com/polkas/pacs)
+
+[![R build
+status](https://github.com/polkas/pacs/workflows/R-CMD-check/badge.svg)](https://github.com/polkas/pacs/actions)
+[![CRAN](https://www.r-pkg.org/badges/version/pacs)](https://cran.r-project.org/package=pacs)
+[![codecov](https://codecov.io/gh/Polkas/pacs/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Polkas/pacs)
+
+[**For more information please visit the pacs
+website**](https://polkas.github.io/pacs/).
+
+[**Functions
+Reference**](https://polkas.github.io/pacs/reference/index.html)
+
+A set of tools that make life easier for developers and maintainers of R
+packages.
+
+- Validating the library, packages and `renv` lock files.
+- Exploring complexity of a certain package like evaluating its size in
+  bytes with dependencies.
+- The shiny app complexity could be explored too.
+- Assessing the life duration of a specific package version.
+- Checking a CRAN package check page status for any errors and warnings.
+- Retrieving a DESCRIPTION or NAMESPACE file for any package version.
+- Reporting declared system requirements for a package and its
+  dependencies.
+- Comparing DESCRIPTION or NAMESPACE files between different package
+  versions.
+- Getting a list of all releases for a specific package.
+- The Bioconductor is partly supported.
+
+**An Internet connection is required to take full advantage of most of
+the features.**
+
+Bioconductor release dates and R-version mappings come from its official
+configuration. Historical software-package counts are not provided by
+that source, so the `Software packages` column returned by
+[`bio_releases()`](https://polkas.github.io/pacs/reference/bio_releases.md)
+is `NA`.
+
+**Almost all calls which requiring an Internet connection are cached
+(for 30 minutes) by the `memoise` package, so the second invocation of
+the same command (and arguments) is immediate. Restart the R session if
+you want to clear cached data.**
+
+## Installation
+
+Development version:
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("polkas/pacs")
+```
+
+CRAN:
+
+``` r
+
+install.packages("pacs")
+```
+
+## Examples
+
+For more examples with descriptions please visit [**the walk-through
+vignette**](https://polkas.github.io/pacs/articles/GettingStarted.html).
+
+Validate the library:
+
+``` r
+
+pacs::lib_validate(
+  checkred = list(
+    scope = c("ERROR", "FAIL"),
+    # by default all flavors
+    flavors = NULL
+  )
+)
+```
+
+All package check statuses for all CRAN servers:
+
+``` r
+
+pacs::checked_packages()
+```
+
+All CRAN releases of a package:
+
+``` r
+
+pacs::pac_timemachine("dplyr")
+```
+
+Compare package DESCRIPTION file dependencies between versions:
+
+``` r
+
+pacs::pac_compare_versions("shiny", "1.0.0", "1.5.0")
+```
+
+Looking for heavy dependencies:
+
+``` r
+
+pacs::pac_deps_heavy("caret")
+```
+
+Report system requirements declared by an installed package and its
+dependencies:
+
+``` r
+
+sysreqs <- pacs::pac_system_requirements("dplyr")
+sysreqs |> unlist() |> unique()
+```
+
+# Package index
+
+## Dependencies of R Package
+
+- [`pac_deps()`](https://polkas.github.io/pacs/reference/pac_deps.md) :
+  Package dependencies
+- [`pac_deps_dev()`](https://polkas.github.io/pacs/reference/pac_deps_dev.md)
+  : Package dependencies - developer perspective
+- [`pac_deps_user()`](https://polkas.github.io/pacs/reference/pac_deps_user.md)
+  : Package dependencies - user perspective
+- [`pac_deps_heavy()`](https://polkas.github.io/pacs/reference/pac_deps_heavy.md)
+  : Package direct dependencies and number of dependencies for each of
+  them
+- [`pac_deps_timemachine()`](https://polkas.github.io/pacs/reference/pac_deps_timemachine.md)
+  : R CRAN package dependencies for a certain version or time point
+
+## System Requirements
+
+- [`pac_system_requirements()`](https://polkas.github.io/pacs/reference/pac_system_requirements.md)
+  : Package system requirements
+
+## Size of R Package
+
+- [`pac_size()`](https://polkas.github.io/pacs/reference/pac_size.md) :
+  Size of the package
+- [`pac_true_size()`](https://polkas.github.io/pacs/reference/pac_true_size.md)
+  : True size of the package
+
+## CRAN Package Releases
+
+- [`pac_timemachine()`](https://polkas.github.io/pacs/reference/pac_timemachine.md)
+  : Package metadata for all releases
+
+## NAMESPACE, NEWS and DESCRIPTION
+
+- [`pac_description()`](https://polkas.github.io/pacs/reference/pac_description.md)
+  : package DESCRIPTION file
+- [`pac_namespace()`](https://polkas.github.io/pacs/reference/pac_namespace.md)
+  : package NAMESPACE file
+- [`pac_news()`](https://polkas.github.io/pacs/reference/pac_news.md) :
+  Get NEWS for a package
+- [`pac_compare_namespace()`](https://polkas.github.io/pacs/reference/pac_compare_namespace.md)
+  : Compare NAMESPACE exports between specific CRAN packages versions
+- [`pac_compare_versions()`](https://polkas.github.io/pacs/reference/pac_compare_versions.md)
+  : Compare DESCRIPTION files dependencies between specific CRAN
+  packages versions
+- [`pac_compare_news()`](https://polkas.github.io/pacs/reference/pac_compare_news.md)
+  : Compare NEWS files between specific CRAN packages versions
+
+## Validation Functions
+
+- [`lib_validate()`](https://polkas.github.io/pacs/reference/lib_validate.md)
+  : Validate the local library
+- [`lock_validate()`](https://polkas.github.io/pacs/reference/lock_validate.md)
+  : Validate a specific renv lock file
+- [`pac_validate()`](https://polkas.github.io/pacs/reference/pac_validate.md)
+  : Validate a specific local package
+
+## Check State of R packages
+
+- [`checked_packages()`](https://polkas.github.io/pacs/reference/checked_packages.md)
+  : Retrieving all R CRAN packages check pages statuses.
+- [`pac_checkpage()`](https://polkas.github.io/pacs/reference/pac_checkpage.md)
+  : Retrieving the R CRAN package check page
+- [`pac_checkred()`](https://polkas.github.io/pacs/reference/pac_checkred.md)
+  : Checking the R CRAN package check page status
+- [`pac_health()`](https://polkas.github.io/pacs/reference/pac_health.md)
+  : CRAN package health state at a specific Date or for a specific
+  version
+- [`pac_lifeduration()`](https://polkas.github.io/pacs/reference/pac_lifeduration.md)
+  : Package version life duration at specific Date or for a specific
+  version
+- [`pacs_lifeduration()`](https://polkas.github.io/pacs/reference/pacs_lifeduration.md)
+  : Packages life duration for a specific version
+
+## Shiny App Dependencies and Size
+
+- [`app_deps()`](https://polkas.github.io/pacs/reference/app_deps.md) :
+  The shiny app dependencies
+- [`app_size()`](https://polkas.github.io/pacs/reference/app_size.md) :
+  Size of the shiny app
+
+## Base Packages
+
+- [`pacs_base()`](https://polkas.github.io/pacs/reference/pacs_base.md)
+  : Get base R packages
+
+## Utils Functions
+
+- [`compareVersionsMax()`](https://polkas.github.io/pacs/reference/compareVersionsMax.md)
+  : Maximum version across the vector
+
+- [`compareVersionsMin()`](https://polkas.github.io/pacs/reference/compareVersionsMin.md)
+  : Minimum version across the vector
+
+- [`pac_isin()`](https://polkas.github.io/pacs/reference/pac_isin.md) :
+  Checking if a package is in repositories
+
+- [`pac_islast()`](https://polkas.github.io/pacs/reference/pac_islast.md)
+  : Checking if a package version is the most recent one
+
+- [`pac_last()`](https://polkas.github.io/pacs/reference/pac_last.md) :
+  Getting the most recent package version
+
+- [`dir_size()`](https://polkas.github.io/pacs/reference/dir_size.md) :
+  Size of the package
+
+- [`cran_flavors()`](https://polkas.github.io/pacs/reference/cran_flavors.md)
+  : Retrieving all R CRAN servers flavors
+
+- [`match_flavors()`](https://polkas.github.io/pacs/reference/match_flavors.md)
+  :
+
+  Get all matched CRAN servers to the local `OS`
+
+- [`biocran_repos()`](https://polkas.github.io/pacs/reference/biocran_repos.md)
+  : CRAN and Bioconductor repositories
+
+- [`bio_releases()`](https://polkas.github.io/pacs/reference/bio_releases.md)
+  : Retrieving all Bioconductor releases
+
+# Articles
+
+### All vignettes
+
+- [Walk-through
+  \`pacs\`](https://polkas.github.io/pacs/articles/GettingStarted.md):
+- [tinyverse](https://polkas.github.io/pacs/articles/tinyverse.md):
