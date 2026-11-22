@@ -1,3 +1,7 @@
+url: https://polkas.github.io/pacs/
+template:
+  bootstrap: 5
+
 reference:
 - title: Dependencies of R Package
 - contents:
@@ -6,6 +10,9 @@ reference:
   - pac_deps_user
   - pac_deps_heavy
   - pac_deps_timemachine
+- title: System Requirements
+- contents:
+  - pac_system_requirements
 - title: Size of R Package
 - contents:
   - pac_size
