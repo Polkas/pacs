@@ -1,6 +1,6 @@
 # Changelog
 
-## pacs 0.6.0.9000
+## pacs 0.7.1
 
 - Read Bioconductor release dates and R-version mappings from its
   official machine-readable configuration instead of scraping the
